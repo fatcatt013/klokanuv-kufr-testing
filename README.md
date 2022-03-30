@@ -26,3 +26,17 @@ cd app
 yarn
 yarn start   # `yarn start --web` for local testing
 ```
+
+## English translations glossary (for uniform code, docs ... )
+- Záznamový arch --> Record sheet
+- Kategorie/arch --> Category
+- Podkategorie --> Subcategory
+- Úkol --> Task
+  - ID, číslo řádku --> Task ID
+  - Očekávaný věk --> Expected age (median age when 50% of children should succeed)
+  - Nezvládá --> Incapable
+  - Zvládá s dopomocí --> Capable, Assisted
+  - Zvládá samostatně --> Capable, Independently
+  - způsob splnění úkolu --> Assessment Type
+  - vyhodnocení úkolu --> Assessment
+  - vyhodnocení stavu třídy --> Class evaluation
