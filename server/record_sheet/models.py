@@ -16,12 +16,17 @@ class AssessmentType(models.Model):
 
 
 class Task(models.Model):
+    DIFFICULTY_CHOICES = (
+        ("easier", "-"),
+        ("same", "="),
+        ("harder", "+"), # TODO is this correct marking? or is it "lehci, stejne, tezsi"?
+    )
+
     parent_task = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)  # TODO discuss - how strict do we want to be here?
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True)  # and here
-    assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)  # and here
-    task_text = models.CharField(max_length=500)
-    difficulty = models.CharField(max_length=50, null=True)  # TODO enum solved by some testing / 
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
+    task_text = models.TextField()
+    difficulty = models.CharField(max_length=50, choices=DIFFICULTY_CHOICES, null=True)
     expected_age_from = models.DecimalField(decimal_places=2,max_digits=5)
     expected_age_to = models.DecimalField(decimal_places=2,max_digits=5)
 
@@ -35,3 +40,5 @@ class Assessment(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     option = models.ForeignKey(AssessmentTypeOption, on_delete=models.CASCADE)
     date_of_assessment = models.DateField()
+    note = models.TextField(null=True)
+    assessed_by = models.TextField(default='Dummy') # TODO change this to proper user once we've created them
