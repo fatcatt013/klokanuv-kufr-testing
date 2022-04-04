@@ -28,8 +28,8 @@ class Task(models.Model):
     assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
     task_text = models.TextField()
     difficulty = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in TaskDifficulty], null=True)
-    expected_age_from = models.DecimalField(decimal_places=2,max_digits=5)
-    expected_age_to = models.DecimalField(decimal_places=2,max_digits=5)
+    expected_age_from = models.DecimalField(decimal_places=2, max_digits=5)
+    expected_age_to = models.DecimalField(decimal_places=2, max_digits=5)
 
 
 class AssessmentTypeOption(models.Model):
