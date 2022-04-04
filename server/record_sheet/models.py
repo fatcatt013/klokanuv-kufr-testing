@@ -1,3 +1,4 @@
+from enum import Enum
 from django.db import models
 
 
@@ -15,18 +16,18 @@ class AssessmentType(models.Model):
     allows_note = models.BooleanField(default=0)
 
 
-class Task(models.Model):
-    DIFFICULTY_CHOICES = (
-        ("easier", "-"),
-        ("same", "="),
-        ("harder", "+"), # TODO is this correct marking? or is it "lehci, stejne, tezsi"?
-    )
+class TaskDifficulty(Enum):
+    EASIER = "-"
+    SAME = "="
+    HARDER = "+"
 
+
+class Task(models.Model):
     parent_task = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
     assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
     task_text = models.TextField()
-    difficulty = models.CharField(max_length=50, choices=DIFFICULTY_CHOICES, null=True)
+    difficulty = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in TaskDifficulty], null=True)
     expected_age_from = models.DecimalField(decimal_places=2,max_digits=5)
     expected_age_to = models.DecimalField(decimal_places=2,max_digits=5)
 
