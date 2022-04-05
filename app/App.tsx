@@ -1,18 +1,27 @@
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import CompletedTasksList from './screens/CompletedTasksList';
+import CompleteTask from './screens/CompleteTask';
+import ClassDetail from './screens/ClassDetail';
+import AvailableTasksList from './screens/AvailableTasksList';
+import DrawerContent from './components/DrawerContent';
+
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+        <NavigationContainer>
+            <Drawer.Navigator
+                useLegacyImplementation
+                drawerContent={(props) => <DrawerContent
+                    {...props} />}
+            >
+                <Drawer.Screen name="Detail třídy" component={ClassDetail}/>
+                <Drawer.Screen name="Dostupné úkoly" component={AvailableTasksList}/>
+                <Drawer.Screen name="Vyplnit úkol" component={CompleteTask}/>
+                <Drawer.Screen name="Dokončené úkoly" component={CompletedTasksList}/>
+            </Drawer.Navigator>
+        </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
