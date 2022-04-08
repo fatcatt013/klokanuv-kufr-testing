@@ -1,14 +1,20 @@
-from django.contrib.auth.models import User, Group
+from record_sheet.models import Subcategory, Task, Category
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class TaskSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'groups']
+        model = Task
+        fields = ['task_text', 'subcategory']
 
 
-class GroupSerializer(serializers.HyperlinkedModelSerializer):
+class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = Group
-        fields = ['url', 'name']
+        model = Subcategory
+        fields = ['label', 'parent_category']
+
+
+class CategorySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['label']
