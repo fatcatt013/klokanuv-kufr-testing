@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -18,36 +19,36 @@ const styles = StyleSheet.create({
 });
 
 function Children() {
-  return (<View style={styles.flexBoxWrap}>
-                <Button mode={'contained'} style={styles.redChild}>Pepa</Button>
-                <Button mode={'outlined'} style={styles.child}>Jarek</Button>
-                <Button mode={'contained'} style={styles.blueChild}>Franta</Button>
-                <Button mode={'outlined'} style={styles.child}>Lukas</Button>
-                <Button mode={'outlined'} style={styles.child}>Betka</Button>
-        </View>);
+  return (
+      // <div style={styles.flexBoxWrap}>
+      //           <Button mode={'contained'} style={styles.redChild}>Pepa</Button>
+      //           <Button mode={'outlined'} style={styles.child}>Jarek</Button>
+      //           <Button mode={'contained'} style={styles.blueChild}>Franta</Button>
+      //           <Button mode={'outlined'} style={styles.child}>Lukas</Button>
+      //           <Button mode={'outlined'} style={styles.child}>Betka</Button>
+      //   </div>
+      <Text>Statistika třídy</Text>
+  );
 }
 
 function Statistics() {
   return (
-        <View>
             <Text>Statistika třídy</Text>
-        </View>
   );
 }
 
 function Notes() {
   return (
-        <View>
             <Text>Poznámky</Text>
-        </View>
   );
 }
 
 export default function ClassDetail() {
   const Tab = createMaterialTopTabNavigator();
-  return (<View>
+  return (
         <Tab.Navigator
             initialRouteName="Detail třídy"
+            sceneAnimationEnabled={false}
             screenOptions={{
               tabBarActiveTintColor: '#e91e63',
               tabBarLabelStyle: { fontSize: 12 },
@@ -70,5 +71,5 @@ export default function ClassDetail() {
                 options={{ tabBarLabel: 'Poznámky' }}
             />
         </Tab.Navigator>
-    </View>);
+   );
 }

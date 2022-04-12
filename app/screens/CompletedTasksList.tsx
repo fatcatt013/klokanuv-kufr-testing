@@ -1,10 +1,11 @@
+import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Card, Headline } from 'react-native-paper';
 // Neco jako Recent activity, data kdy co udelalo dite za task
 
 const styles = StyleSheet.create({
   card: {
-    width: '100%', margin: '10px', padding: '10px',
+    flex: 1,
   },
   moreInfo: {
     alignSelf: 'flex-end',
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
 
 export default function CompletedTasksList() {
   return (
-        <View>
+        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
             <Card style={styles.card}>
                 <Headline>Název úkolu: Přiřadí barvu</Headline>
                 <Headline>Datum: 16.1.2022</Headline>
@@ -32,7 +33,6 @@ export default function CompletedTasksList() {
                 <Headline>Pedagog: Marie Vystrčilová</Headline>
                 <Button style={styles.moreInfo}>Více</Button>
             </Card>
-
         </View>
   );
 }

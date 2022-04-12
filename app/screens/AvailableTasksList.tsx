@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { Button, Card } from 'react-native-paper';
 
 import { createStackNavigator } from '@react-navigation/stack';
