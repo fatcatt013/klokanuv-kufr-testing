@@ -5,16 +5,15 @@ import { Button, Card, Headline } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
+    flex: 1, margin: 10, padding: 10,
   },
   moreInfo: {
     alignSelf: 'flex-end',
   },
 });
-
 export default function CompletedTasksList() {
   return (
-        <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
             <Card style={styles.card}>
                 <Headline>Název úkolu: Přiřadí barvu</Headline>
                 <Headline>Datum: 16.1.2022</Headline>
