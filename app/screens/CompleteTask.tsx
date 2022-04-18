@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Checkbox, Text } from 'react-native-paper';
 
@@ -16,6 +17,7 @@ export default function CompleteTask() {
             <Checkbox status={'unchecked'}>Petr</Checkbox>
             <Checkbox status={'unchecked'}>Tomas</Checkbox>
             <Checkbox status={'unchecked'}>Jana</Checkbox>
+            <Button>Vyplnit</Button>
             <Button>Vyplnit</Button>
         </View>
   );
