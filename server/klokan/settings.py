@@ -33,7 +33,7 @@ SECRET_KEY = 'yt@alzfdewo+=na*=z%(4-pcuon2a4l12uv00$i1go(#(%shbw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'klokan.zarybnicky.com']
 
 
 # Application definition
