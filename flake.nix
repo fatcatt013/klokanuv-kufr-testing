@@ -88,5 +88,57 @@
       klokan = klokan-package;
     };
     defaultPackage.x86_64-linux = klokan-package;
+
+    nixosModule = { config, lib, pkgs, ... }: let
+      pkgName = "klokan";
+      cfg = config.services.${pkgName};
+    in {
+      options.services.${pkgName} = {
+        enable = lib.mkEnableOption "${pkgName}";
+        domain = lib.mkOption {
+          type = lib.types.str;
+          description = "${pkgName} Nginx vhost domain";
+        };
+        port = lib.mkOption {
+          type = lib.types.int;
+          description = "${pkgName} internal port";
+        };
+        stateDir = lib.mkOption {
+          type = lib.types.str;
+        };
+      };
+      config = lib.mkIf cfg.enable {
+        users.extraUsers.klokan = {
+          isNormalUser = true;
+          home = cfg.stateDir;
+        };
+
+        services.nginx = {
+          virtualHosts.${cfg.domain} = {
+            enableACME = true;
+            forceSSL = true;
+            locations."/" = {
+              proxyPass = "http://127.0.0.1:${toString cfg.port}";
+            };
+          };
+        };
+
+        systemd.services.klokan = {
+          description = "Klokan Webserver";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network-online.target" ];
+          environment.DATABASE_URL = "db.sqlite3";
+          serviceConfig = {
+            User = "klokan";
+            Restart = "always";
+            WorkingDirectory = cfg.stateDir;
+            ExecStart = pkgs.writeShellScript "klokan-start" ''
+              set -euo pipefail
+              exec ${pkgs.klokan}/bin/klokan-uwsgi --http-socket 127.0.0.1:${toString cfg.port}
+            '';
+          };
+        };
+      };
+    };
   };
 }
