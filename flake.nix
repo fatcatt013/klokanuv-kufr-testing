@@ -25,7 +25,9 @@
     # Wrapper script that sets the right options for uWSGI
     klokan-uwsgi = pkgs.writeScriptBin "klokan-uwsgi" ''
       #! ${pkgs.runtimeShell}
+      rm -f db.sqlite3
       MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py migrate
+      MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py populate_db
 
       ${uwsgi-python}/bin/uwsgi "$@" \
         --plugins python3 \
