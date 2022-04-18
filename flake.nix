@@ -120,7 +120,7 @@
             locations."/" = {
               proxyPass = "http://127.0.0.1:${toString cfg.port}";
             };
-            locations."/static".root = "${pkgs.klokan}/static";
+            locations."/static/".root = "${pkgs.klokan}/static";
           };
         };
 
@@ -133,6 +133,7 @@
             User = "klokan";
             Restart = "always";
             WorkingDirectory = cfg.stateDir;
+            KillSignal = "SIGQUIT";
             ExecStart = pkgs.writeShellScript "klokan-start" ''
               set -euo pipefail
               exec ${pkgs.klokan}/bin/klokan-uwsgi --http-socket 127.0.0.1:${toString cfg.port}
