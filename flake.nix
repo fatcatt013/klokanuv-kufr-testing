@@ -120,7 +120,7 @@
             locations."/" = {
               proxyPass = "http://127.0.0.1:${toString cfg.port}";
             };
-            locations."/static/".root = "${pkgs.klokan}/static";
+            locations."/static".root = pkgs.klokan;
           };
         };
 
