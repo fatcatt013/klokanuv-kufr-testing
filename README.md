@@ -1,16 +1,12 @@
 # Klokanovy archy
 
-TODO:
-- Docker
-- EAS
-- Figma link
-- OpenAPI (generated in Django, used in TypeScript in React)
-- OAuth
-- Tenant system: https://blog.nicolasmesa.co/posts/2018/10/saas-like-isolation-in-django-rest-framework/
+## Prototype
+1. Install Expo Go: <https://expo.dev/client>
+2. Open this link in the app: <https://expo.dev/@luzanky/klokanuv-kufr?serviceType=classic&distribution=expo-go>
 
-## Server
-Django, Poetry
+## Developing
 
+### Running a local server
 ```
 cd server
 poetry install
@@ -18,14 +14,17 @@ poetry run python manage.py migrate
 poetry run python manage.py runserver
 ```
 
-## App
-Expo, React Native, Paper
-
+### Running the app locally
 ```
 cd app
 yarn
-yarn start   # `yarn start --web` for local testing
+yarn start  # `yarn start --web` for local testing
 ```
+
+TODO:
+- Figma link
+- OpenAPI (generated in Django, used in TypeScript in React)
+- Tenant system: https://blog.nicolasmesa.co/posts/2018/10/saas-like-isolation-in-django-rest-framework/
 
 ## English translations glossary (for uniform code, docs ... )
 - Záznamový arch --> Record sheet

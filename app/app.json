@@ -1,0 +1,18 @@
+{
+  "expo": {
+    "owner": "luzanky",
+    "name": "Klokanův kufr",
+    "slug": "klokanuv-kufr",
+    "android": {
+      "package": "com.luzanky.klokanuv_kufr"
+    },
+    "ios": {
+      "bundleIdentifier": "com.luzanky.klokanuv-kufr"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "eefa1613-de77-4686-a577-14f7e72da4cd"
+      }
+    }
+  }
+}
