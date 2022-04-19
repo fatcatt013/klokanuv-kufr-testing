@@ -11,7 +11,7 @@ import { nameValidator, emailValidator, passwordValidator } from '../utils';
 import { NavigationProp } from '@react-navigation/native';
 
 type Props = {
-  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; LoginScreen: {}; }>;
+  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; }>;
 };
 
 const RegisterScreen = ({ navigation }: Props) => {
@@ -40,10 +40,10 @@ const RegisterScreen = ({ navigation }: Props) => {
 
       <Logo />
 
-      <Header>Create Account</Header>
+      <Header>Aktivovat účet</Header>
 
       <TextInput
-        label="Name"
+        label="Aktivační kód"
         returnKeyType="next"
         value={name.value}
         onChangeText={text => setName({ value: text, error: '' })}
@@ -53,7 +53,7 @@ const RegisterScreen = ({ navigation }: Props) => {
       />
 
       <TextInput
-        label="Email"
+        label="E-mail"
         returnKeyType="next"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -66,7 +66,7 @@ const RegisterScreen = ({ navigation }: Props) => {
       />
 
       <TextInput
-        label="Password"
+        label="Heslo"
         returnKeyType="done"
         value={password.value}
         onChangeText={text => setPassword({ value: text, error: '' })}
@@ -77,13 +77,13 @@ const RegisterScreen = ({ navigation }: Props) => {
       />
 
       <Button mode="contained" onPress={_onSignUpPressed} style={styles.button}>
-        Sign Up
+        Aktivovat
       </Button>
 
       <View style={styles.row}>
-        <Text style={styles.label}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
-          <Text style={styles.link}>Login</Text>
+        <Text>Už máte účet? </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+          <Text style={styles.link}>Přihlásit se</Text>
         </TouchableOpacity>
       </View>
     </Background>
@@ -91,9 +91,6 @@ const RegisterScreen = ({ navigation }: Props) => {
 };
 
 const styles = StyleSheet.create({
-  label: {
-    color: theme.colors.secondary,
-  },
   button: {
     marginTop: 24,
   },

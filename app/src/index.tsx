@@ -3,20 +3,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import Dashboard from './screens/Dashboard';
+import ClassSelectScreen from './screens/ClassSelectScreen';
 
 const Stack = createStackNavigator();
 
 function RootStack() {
   return (
-    <Stack.Navigator initialRouteName="Home" headerMode="none">
+    <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
+      <Stack.Screen name="ClassSelectScreen" component={ClassSelectScreen} />
       <Stack.Screen name="Dashboard" component={Dashboard} />
     </Stack.Navigator>
   );

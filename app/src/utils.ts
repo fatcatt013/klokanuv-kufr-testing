@@ -1,9 +1,18 @@
 import axios from 'axios';
+import { QueryClient } from 'react-query'
 
 export const fetcher = axios.create({
   baseURL: 'https://klokan.zarybnicky.com/',
   timeout: 1000,
   // headers: {'X-Custom-Header': 'foobar'}
+});
+
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
 });
 
 export const emailValidator = (email: string) => {

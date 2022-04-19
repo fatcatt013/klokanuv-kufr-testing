@@ -14,8 +14,8 @@ export const theme = {
   colors: {
     ...DefaultTheme.colors,
     ...colors,
-    primary: colors.blue,
-    secondary: colors.orange,
+    primary: colors.orange,
+    secondary: colors.blue,
     error: colors.red,
   },
 };

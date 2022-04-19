@@ -1,41 +1,46 @@
 import React, { memo } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { QueryErrorResetBoundary } from 'react-query';
+import { ErrorBoundary } from 'react-error-boundary';
+import { NavigationProp } from '@react-navigation/native';
+import { View, Text } from 'react-native';
+import Button from '../components/Button';
+import Background from '../components/Background';
 
 import CompletedTasksList from './CompletedTasksList';
 import CompleteTask from './CompleteTask';
 import ClassDetail from './ClassDetail';
 import AvailableTasksList from './AvailableTasksList';
 
-import Background from '../components/Background';
-import Logo from '../components/Logo';
-import Header from '../components/Header';
-import Paragraph from '../components/Paragraph';
-import Button from '../components/Button';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { NavigationProp } from '@react-navigation/native';
-
 const Drawer = createDrawerNavigator();
 
 const Dashboard = ({ navigation }: { navigation: NavigationProp<{}> }) => (
-  <Drawer.Navigator initialRouteName={'Detail třídy'}>
-    <Drawer.Screen name="Detail třídy" component={ClassDetail} />
-    <Drawer.Screen name="Dostupné úkoly" component={AvailableTasksList} />
-    <Drawer.Screen name="Vyplnit úkol" component={CompleteTask} />
-    <Drawer.Screen name="Dokončené úkoly" component={CompletedTasksList} />
-  </Drawer.Navigator>
+  <Boundary>
+    <Drawer.Navigator initialRouteName={'Detail třídy'}>
+      <Drawer.Screen name="Detail třídy" component={ClassDetail} />
+      <Drawer.Screen name="Dostupné úkoly" component={AvailableTasksList} />
+      <Drawer.Screen name="Vyplnit úkol" component={CompleteTask} />
+      <Drawer.Screen name="Dokončené úkoly" component={CompletedTasksList} />
+    </Drawer.Navigator>
+  </Boundary>
 );
 
-/* <Background>
-    <Logo />
-    <Header>Let’s start</Header>
-    <Paragraph>
-    Your amazing app starts here. Open you favourite code editor and start
-    editing this project.
-    </Paragraph>
-    <Button mode="outlined" onPress={() => navigation.navigate('HomeScreen')}>
-    Logout
-    </Button>
-    </Background>
-    ); */
+const Boundary: React.FC = ({ children }) => (
+  <QueryErrorResetBoundary>
+    {({ reset }) => (
+      <ErrorBoundary
+        onReset={reset}
+        fallbackRender={({ resetErrorBoundary }) => (
+          <Background>
+            <Text>Nastala chyba!</Text>
+            <Button mode='contained' onPress={() => resetErrorBoundary()}>Zkusit znovu</Button>
+          </Background>
+        )}
+      >
+        {children}
+      </ErrorBoundary>
+    )}
+  </QueryErrorResetBoundary>
+);
 
 export default memo(Dashboard);

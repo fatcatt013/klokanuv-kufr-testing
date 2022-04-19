@@ -11,7 +11,7 @@ import Button from '../components/Button';
 import { NavigationProp } from '@react-navigation/native';
 
 type Props = {
-  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; LoginScreen: {}; }>;
+  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; }>;
 };
 
 const ForgotPasswordScreen = ({ navigation }: Props) => {
@@ -25,19 +25,19 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('LoginScreen');
+    navigation.navigate('HomeScreen');
   };
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('LoginScreen')} />
+      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
 
       <Logo />
 
-      <Header>Restore Password</Header>
+      <Header>Zapomněli jste heslo?</Header>
 
       <TextInput
-        label="E-mail address"
+        label="E-mail"
         returnKeyType="done"
         value={email.value}
         onChangeText={text => setEmail({ value: text, error: '' })}
@@ -50,14 +50,14 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
       />
 
       <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
-        Send Reset Instructions
+        Obnovit heslo
       </Button>
 
       <TouchableOpacity
         style={styles.back}
-        onPress={() => navigation.navigate('LoginScreen')}
+        onPress={() => navigation.navigate('HomeScreen')}
       >
-        <Text style={styles.label}>← Back to login</Text>
+        <Text style={styles.label}>← Zpět na přihlášení</Text>
       </TouchableOpacity>
     </Background>
   );
@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
   },
   label: {
-    color: theme.colors.secondary,
     width: '100%',
   },
 });
