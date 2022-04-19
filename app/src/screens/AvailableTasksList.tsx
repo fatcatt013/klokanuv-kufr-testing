@@ -61,7 +61,7 @@ export default function AvailableTasksList() {
 
   return (
     <React.Suspense fallback={<LoadingScreen />}>
-      {JSON.stringify(data, null, 2)}
+      <pre>{JSON.stringify(data, null, 2)}</pre>
     </React.Suspense>
   );
 

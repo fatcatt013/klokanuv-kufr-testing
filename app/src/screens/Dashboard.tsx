@@ -15,14 +15,12 @@ import AvailableTasksList from './AvailableTasksList';
 const Drawer = createDrawerNavigator();
 
 const Dashboard = ({ navigation }: { navigation: NavigationProp<{}> }) => (
-  <Boundary>
-    <Drawer.Navigator initialRouteName={'Detail třídy'}>
-      <Drawer.Screen name="Detail třídy" component={ClassDetail} />
-      <Drawer.Screen name="Dostupné úkoly" component={AvailableTasksList} />
-      <Drawer.Screen name="Vyplnit úkol" component={CompleteTask} />
-      <Drawer.Screen name="Dokončené úkoly" component={CompletedTasksList} />
-    </Drawer.Navigator>
-  </Boundary>
+  <Drawer.Navigator initialRouteName={'Detail třídy'}>
+    <Drawer.Screen name="Detail třídy" component={ClassDetail} />
+    <Drawer.Screen name="Dostupné úkoly" component={AvailableTasksList} />
+    <Drawer.Screen name="Vyplnit úkol" component={CompleteTask} />
+    <Drawer.Screen name="Dokončené úkoly" component={CompletedTasksList} />
+  </Drawer.Navigator>
 );
 
 const Boundary: React.FC = ({ children }) => (
