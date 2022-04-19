@@ -6,6 +6,9 @@
 
 ## Developing
 
+### Test server
+<https://klokan.zarybnicky.com/>
+
 ### Running a local server
 ```
 cd server
