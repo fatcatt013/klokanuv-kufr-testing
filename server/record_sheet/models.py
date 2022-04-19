@@ -11,25 +11,27 @@ class Subcategory(models.Model):
     parent_category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
-class AssessmentType(models.Model):
-    label = models.CharField(max_length=100)
-    allows_note = models.BooleanField(default=0)
-
-
 class TaskDifficulty(Enum):
     EASIER = "-"
     SAME = "="
     HARDER = "+"
 
 
+class AssessmentType(models.Model):
+    label = models.CharField(max_length=100)
+    allows_note = models.BooleanField(default=0)
+
+
 class Task(models.Model):
+    id = models.IntegerField(primary_key=True)
     parent_task = models.ForeignKey("self", on_delete=models.CASCADE, null=True)
-    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+    subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, null=True)
+    codename = models.CharField(max_length=20, null=True)
     assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
-    task_text = models.TextField()
+    task_description = models.TextField()
     difficulty = models.CharField(max_length=50, choices=[(tag, tag.value) for tag in TaskDifficulty], null=True)
-    expected_age_from = models.DecimalField(decimal_places=2, max_digits=5)
-    expected_age_to = models.DecimalField(decimal_places=2, max_digits=5)
+    expected_age_from = models.DecimalField(decimal_places=2, max_digits=5, null=True)
+    expected_age_to = models.DecimalField(decimal_places=2, max_digits=5, null=True)
 
 
 class AssessmentTypeOption(models.Model):

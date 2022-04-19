@@ -1,4 +1,4 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from record_sheet.models import Category, Subcategory, AssessmentType, Task
 import os
 import csv
@@ -15,6 +15,7 @@ def base_list_sheet1():
     with open(csv_filepath, 'r', encoding='utf-8') as file:
         data_reader = list(csv.DictReader(file, delimiter='|'))
         return data_reader
+
 
 # take base data and extract Category label from them
 def populate_categories(base_data):
@@ -43,7 +44,7 @@ def populate_subcategories(base_data):
         if row['subcategory'] not in subcats_already_added:
             subcategory_pairs.append(
                 {'subcategory': row['subcategory'],
-                'category': row['category']}
+                 'category': row['category']}
             )
             subcats_already_added.append(row['subcategory'])
 
@@ -58,36 +59,77 @@ def populate_subcategories(base_data):
     Subcategory.objects.bulk_create(subcategory_model_instances)
 
 
+# take base data and extract assessment_type labels from them
+def populate_assessment_types(base_data):
+    assessment_types = []
+
+    # iterate base_data and keep unique assessment_type entries
+    for row in base_data:
+        if row['assessment_type'] not in assessment_types:
+            assessment_types.append(row['assessment_type'])
+
+    assessment_type_model_instances = []
+    for ass_type_name in assessment_types:
+        ass_model_inst = AssessmentType(label=ass_type_name)
+        assessment_type_model_instances.append(ass_model_inst)
+
+    AssessmentType.objects.bulk_create(assessment_type_model_instances)
+
+
 # take base data and using already existing models, create tasks
 def populate_tasks(base_data):
 
-    # TODO since we don't have assessment_type data yet, we need to create this dummy to proceed with other code
-    dummy_assessment_type = AssessmentType(label="Dummy")
-    dummy_assessment_type.save()
-
     task_model_instances = []
 
-    # separately extract subcat and cat, now parent category at 0th and subcategory at 1st index
     for task_match in base_data:
-        # retrieve existing Category object to be able to pass it as parent_category
+        # retrieve existing Subcategory object and Assessment_type object to be able to pass it as object instances
         subcategory = Subcategory.objects.get(label=task_match['subcategory'])
+        assessment_type = AssessmentType.objects.get(label=task_match['assessment_type'])
+        # determine difficulty as one of "+/-/=", if applicable
+        if task_match['difficulty'] == 'same':
+            difficulty = '='
+        elif task_match['difficulty'] == 'harder':
+            difficulty = '+'
+        elif task_match['difficulty'] == 'easier':
+            difficulty = '-'
+        else:
+            difficulty = None
 
+        # retrieve stuff from csv module's datatypes
+        expected_age_from = task_match['age_from'],
+        expected_age_to = task_match['age_to'],
+        expected_age_from = float(expected_age_from[0] or 0)
+        expected_age_to = float(expected_age_to[0] or 8)
+        
         # create final Task object instance and add it to a list
         task_model_inst = Task(
-            task_text=task_match['task'],
+            id=task_match['temporary_task_id'],
+            task_description=task_match['task_description'],
+            codename=task_match['task_code'],
             subcategory=subcategory,
-            expected_age_from=9, # TODO adjust once data is complete
-            expected_age_to=9, # TODO adjust once data is complete
-            assessment_type=dummy_assessment_type, # TODO adjust once data is complete
+            assessment_type=assessment_type,
+            difficulty=difficulty,
+            expected_age_from=expected_age_from,
+            expected_age_to=expected_age_to,
         )
 
         task_model_instances.append(task_model_inst)
 
     Task.objects.bulk_create(task_model_instances)
 
+    # now we update relevant records with their parent_task
+    # (have to do this next in sequence, since it's the same class and not all objects are created yet)
+    for task_match in base_data:
+        if not task_match['parent_temporary_id']:
+            continue
+        else:
+            task_instance = Task.objects.get(id=task_match['temporary_task_id'])
+            task_instance.parent_task = Task.objects.get(id=task_match['parent_temporary_id'])
+            task_instance.save()
+
+
 class Command(BaseCommand):
     help = 'Populates database with prepaired data.'
-
 
     # TODO maybe add some args w.r.t. automatic data truncation...?
     def handle(self, *args, **options):
@@ -95,6 +137,7 @@ class Command(BaseCommand):
 
         populate_categories(base_data)
         populate_subcategories(base_data)
+        populate_assessment_types(base_data)
         populate_tasks(base_data)
 
         self.stdout.write(self.style.SUCCESS('Successfully populated database tables'))
