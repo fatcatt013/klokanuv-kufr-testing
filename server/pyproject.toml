@@ -8,6 +8,7 @@ authors = ["Jakub Zárybnický <jakub@zarybnicky.com>"]
 python = "^3.9"
 Django = "^4.0.3"
 djangorestframework = "^3.13.1"
+django-cors-headers = "^3.11.0"
 
 [tool.poetry.dev-dependencies]
 
