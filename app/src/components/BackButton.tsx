@@ -1,13 +1,13 @@
 import React, { memo } from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { useSafeArea } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
   goBack: () => void;
 };
 
 const BackButton = ({ goBack }: Props) => {
-  const insets = useSafeArea();
+  const insets = useSafeAreaInsets();
 
   const styles = StyleSheet.create({
     container: {
@@ -25,10 +25,10 @@ const BackButton = ({ goBack }: Props) => {
     <TouchableOpacity onPress={goBack} style={styles.container}>
       <Image
         style={styles.image}
-        source={require('../assets/arrow_back.png')}      
+        source={require('../../assets/arrow_back.png')}
       />
     </TouchableOpacity>
   );
-};  
+};
 
 export default memo(BackButton);
