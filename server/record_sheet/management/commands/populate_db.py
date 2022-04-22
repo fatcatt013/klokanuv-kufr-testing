@@ -3,6 +3,10 @@ from record_sheet.models import Category, Subcategory, AssessmentType, Task
 import os
 import csv
 
+# TODO :
+# add agrs (-t) to truncate data before populating them - in django way using models
+# add assessment_type_option values
+
 
 # sheet1 csv file containing categories, tasks, subcategories
 def base_list_sheet1():
@@ -25,7 +29,7 @@ def populate_categories(base_data):
     for row in base_data:
         if row['category'] not in category_names:
             category_names.append(row['category'])
-    
+
     category_model_instances = []
     for cat_name in category_names:
         cat_model_inst = Category(label=cat_name)
