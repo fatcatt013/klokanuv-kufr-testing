@@ -9,6 +9,14 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
   },
+    roundButton: {
+      fontSize: 30,
+      borderRadius: 25,
+        width: 50,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center"
+      },
 });
 
 storiesOf('Button', module)
@@ -17,6 +25,9 @@ storiesOf('Button', module)
       <View>
         <Button mode={'outlined'} style={styles.button}>Outlined</Button>
         <Button mode={'contained'} style={styles.button}>Filled/contained</Button>
-        <Button mode={'text'} style={styles.button}>Text</Button>
+        <Button mode={'text'} style={styles.button}>Plain text button</Button>
+        <Button mode={'contained'} icon='camera' style={styles.button}>With icon</Button>
+        <Button mode={'contained'} loading='true' style={styles.button}>With loading</Button>
+
       </View>
   ));
