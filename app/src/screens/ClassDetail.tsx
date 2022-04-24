@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {
-  FlatList, SafeAreaView, StyleSheet, Image, View,
+  FlatList, Image, SafeAreaView, StyleSheet, View,
 } from 'react-native';
-import { Text } from 'react-native-paper';
+import { FAB, Text } from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Button from '../components/Button';
 import { theme } from '../theme';
@@ -25,6 +25,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: theme.colors.secondary,
+  },
 });
 
 type ChildProps = {
@@ -32,7 +39,10 @@ type ChildProps = {
 };
 
 type ChildrenProps = {
-  data: [{ id: string, name: string }]
+  // childItems: [{ id: string, name: string }?]
+  route: {
+    params: [{ id: string, name: string }]
+  }
 };
 
 const Child = (props: ChildProps) => (
@@ -43,41 +53,41 @@ const Child = (props: ChildProps) => (
 
 function Children(props: ChildrenProps) {
   const renderItem = ({ item }) => (
-      <Child name={item.name} />
+    <Child name={item.name}/>
   );
 
   return (
-      <SafeAreaView style={[styles.center]}>
-        <Text style={{ fontSize: 30 }}>Seznam dětí</Text>
-          <FlatList
-              data={props.data}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-              numColumns={2}
-              style={{ alignSelf: 'center', minWidth: 300 }}
-          />
-      </SafeAreaView>
+    <SafeAreaView style={[styles.center]}>
+      <Text style={{ fontSize: 30 }}>Seznam dětí</Text>
+      <FlatList
+        data={Object.values(props.route.params)}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+        numColumns={2}
+        style={{ alignSelf: 'center', minWidth: 300 }}
+      />
+    </SafeAreaView>
   );
 }
 
 function Statistics() {
   return (
-      <SafeAreaView style={[styles.center]}>
-        <Text style={{ fontSize: 30 }}>Statistika třídy</Text>
-        <Image
-            source={require('../../assets/pavouk.png')}
-            style={styles.spiderGraph}
-        />
-      </SafeAreaView>
+    <SafeAreaView style={[styles.center]}>
+      <Text style={{ fontSize: 30 }}>Statistika třídy</Text>
+      <Image
+        source={require('../../assets/pavouk.png')}
+        style={styles.spiderGraph}
+      />
+    </SafeAreaView>
 
   );
 }
 
 function Notes() {
   return (
-    <View>
-
+    <View style={{ flex: 1 }}>
       <RecentActivityCard props={MockDataRecentActivityCard}/>
+      <FAB style={styles.fab} icon="plus"/>
     </View>
   );
 }
@@ -109,6 +119,6 @@ export default function ClassDetail() {
         component={Notes}
         options={{ tabBarLabel: 'Poznámky' }}
       />
-    </Tab.Navigator >
+    </Tab.Navigator>
   );
 }
