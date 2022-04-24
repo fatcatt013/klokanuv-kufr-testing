@@ -11,7 +11,7 @@ import { MockDataClassDetailChildren, MockDataRecentActivityCard } from '../mock
 import Notes from "../components/Notes";
 
 const styles = StyleSheet.create({
-  child: {
+  task: {
     margin: 10,
     borderRadius: 10,
   },
@@ -48,7 +48,7 @@ type ChildrenProps = {
 
 const Child = (props: ChildProps) => (
   <SafeAreaView style={{ flex: 1, margin: 10 }}>
-    <Button mode='contained' style={[styles.child, styles.blueChild]}>{props.name}</Button>
+    <Button mode='contained' style={[styles.task, styles.blueChild]}>{props.name}</Button>
   </SafeAreaView>
 );
 

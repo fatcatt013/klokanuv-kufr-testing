@@ -10,13 +10,10 @@ import { MockDataChildDetailTasks } from '../mockDatas';
 import Notes from '../components/Notes';
 
 const styles = StyleSheet.create({
-  child: {
+  task: {
     margin: 10,
     borderRadius: 10,
     fontSize: 30,
-  },
-  blueChild: {
-    backgroundColor: theme.colors.light_blue,
   },
   spiderGraph: {
     width: 300,
@@ -48,7 +45,7 @@ type TasksProps = {
 
 const Task = (props: TaskProps) => (
   <SafeAreaView style={{ flex: 1, margin: 10 }}>
-    <Button mode='contained' style={styles.child} labelStyle={{ fontSize: 20 } } icon='briefcase' >{props.name}</Button>
+    <Button mode='contained' style={styles.task} labelStyle={{ fontSize: 16 } } icon='briefcase' >{props.name}</Button>
   </SafeAreaView>
 );
 
@@ -86,7 +83,7 @@ function Statistics() {
   );
 }
 
-export default function ClassDetail() {
+export default function ChildDetail() {
   const Tab = createMaterialTopTabNavigator();
   return (
     <Tab.Navigator

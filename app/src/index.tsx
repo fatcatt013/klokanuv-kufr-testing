@@ -8,6 +8,7 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import Dashboard from './screens/Dashboard';
 import ClassSelectScreen from './screens/ClassSelectScreen';
 import ChildDetail from './screens/ChildDetail';
+import ClassDetail from "./screens/ClassDetail";
 
 const Stack = createStackNavigator();
 

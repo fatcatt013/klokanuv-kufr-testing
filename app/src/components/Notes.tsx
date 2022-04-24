@@ -6,7 +6,7 @@ import RecentActivityCard from './RecentActivityCard';
 import { MockDataRecentActivityCard } from '../mockDatas';
 
 const styles = StyleSheet.create({
-  child: {
+  task: {
     margin: 10,
     borderRadius: 10,
   },
