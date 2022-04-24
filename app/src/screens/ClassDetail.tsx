@@ -1,45 +1,84 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import {
+  FlatList, SafeAreaView, StyleSheet, Image, View,
+} from 'react-native';
 import { Text } from 'react-native-paper';
-import Button from '../components/Button';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import Button from '../components/Button';
 import { theme } from '../theme';
+import RecentActivityCard from '../components/RecentActivityCard';
+import { MockDataClassDetailChildren, MockDataRecentActivityCard } from '../mockDatas';
 
 const styles = StyleSheet.create({
   child: {
     margin: 10,
-  },
-  redChild: {
-    margin: 10,
-    backgroundColor: theme.colors.red,
+    borderRadius: 10,
   },
   blueChild: {
-    margin: 10,
-    backgroundColor: theme.colors.blue,
+    backgroundColor: theme.colors.light_blue,
+  },
+  spiderGraph: {
+    width: 300,
+    height: 300,
+  },
+  center: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
-function Children() {
+type ChildProps = {
+  name: string
+};
+
+type ChildrenProps = {
+  data: [{ id: string, name: string }]
+};
+
+const Child = (props: ChildProps) => (
+  <SafeAreaView style={{ flex: 1, margin: 10 }}>
+    <Button mode='contained' style={[styles.child, styles.blueChild]}>{props.name}</Button>
+  </SafeAreaView>
+);
+
+function Children(props: ChildrenProps) {
+  const renderItem = ({ item }) => (
+      <Child name={item.name} />
+  );
+
   return (
-    <View style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-      <Button mode='contained' style={styles.redChild}>Pepa</Button>
-      <Button mode='outlined' style={styles.child}>Jarek</Button>
-      <Button mode='contained' style={styles.blueChild}>Franta</Button>
-      <Button mode='outlined' style={styles.child}>Lukas</Button>
-      <Button mode='outlined' style={styles.child}>Betka</Button>
-    </View>
+      <SafeAreaView style={[styles.center]}>
+        <Text style={{ fontSize: 30 }}>Seznam dětí</Text>
+          <FlatList
+              data={props.data}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.id}
+              numColumns={2}
+              style={{ alignSelf: 'center', minWidth: 300 }}
+          />
+      </SafeAreaView>
   );
 }
 
 function Statistics() {
   return (
-    <Text>Statistika třídy</Text>
+      <SafeAreaView style={[styles.center]}>
+        <Text style={{ fontSize: 30 }}>Statistika třídy</Text>
+        <Image
+            source={require('../../assets/pavouk.png')}
+            style={styles.spiderGraph}
+        />
+      </SafeAreaView>
+
   );
 }
 
 function Notes() {
   return (
-    <Text>Poznámky</Text>
+    <View>
+
+      <RecentActivityCard props={MockDataRecentActivityCard}/>
+    </View>
   );
 }
 
@@ -58,6 +97,7 @@ export default function ClassDetail() {
         name="Děti"
         component={Children}
         options={{ tabBarLabel: 'Děti' }}
+        initialParams={MockDataClassDetailChildren}
       />
       <Tab.Screen
         name="Statistiky"

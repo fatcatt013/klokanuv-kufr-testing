@@ -1,23 +1,56 @@
-import { Button, Card, Headline } from 'react-native-paper';
+import {
+  Button, Card, Divider, Headline, Paragraph, Text,
+} from 'react-native-paper';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { theme } from '../theme';
 
 const styles = StyleSheet.create({
   card: {
-    flex: 1,
+    padding: 12,
+    borderRadius: 15,
+    minWidth: 300,
+    minHeight: 160,
   },
   moreInfo: {
+    borderRadius: 10,
     alignSelf: 'flex-end',
+  },
+  pedagog: {
+    justifyContent: 'center',
+  },
+  taskName: {
+    fontWeight: 'bold',
   },
 });
 
-export default function RecentActivityCard() {
+type RecentActivityCardProps = {
+  taskName: string,
+  date: string,
+  pedagog: string,
+  note: string
+};
+
+const RecentActivityCard = ({props}) => {
   return (
+      <SafeAreaView style={{ padding: 20, flex: 1 }}>
         <Card style={styles.card}>
-            <Headline>Název úkolu: Přiřadí barvu</Headline>
-            <Headline>Datum: 16.1.2022</Headline>
-            <Headline>Pedagog: Anežka Dobrá</Headline>
+            <Headline style={styles.taskName}>{props.taskName}</Headline>
+            <Divider/>
+            <View style={{ flexDirection: 'row' }}>
+                <View>
+                    <Headline>{props.date}</Headline>
+                </View>
+                <View style={{ flex: 1 }}/>
+                <View style={styles.pedagog} >
+                    <Text style={{ color: theme.colors.grey }}>Pedagog: {props.pedagog}</Text>
+                </View>
+            </View>
+            <Paragraph>{props.note}</Paragraph>
             <Button mode={'outlined'} style={styles.moreInfo}>Více</Button>
         </Card>
+      </SafeAreaView>
   );
-}
+};
+
+export default RecentActivityCard;
