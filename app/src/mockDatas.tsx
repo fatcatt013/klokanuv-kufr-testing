@@ -15,3 +15,13 @@ export const MockDataClassDetailChildren = [
   { id: 6, name: 'Janka' },
   { id: 7, name: 'Petr' },
 ];
+
+export const MockDataChildDetailTasks = [
+  { id: 1, name: 'Barvy' },
+  { id: 2, name: 'Šepot' },
+  { id: 3, name: 'Rýmovačky' },
+  { id: 4, name: 'Ptáci' },
+  { id: 5, name: 'Tkaničky' },
+  { id: 6, name: 'Knoflíky' },
+  { id: 7, name: 'Pozdravy' },
+];
