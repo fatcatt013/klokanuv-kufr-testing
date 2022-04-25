@@ -1,4 +1,4 @@
-# Klokanovy archy
+# Klokanuv kufr
 
 TODO:
 - Docker
