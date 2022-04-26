@@ -26,10 +26,25 @@
       "web"
     ],
     "android": {
-      "package": "com.luzanky.klokanuv_kufr"
+      "package": "com.luzanky.klokanuv_kufr",
+      "googleServicesFile": "./google-services.json"
     },
     "ios": {
-      "bundleIdentifier": "com.luzanky.klokanuv-kufr"
+      "bundleIdentifier": "com.luzanky.klokanuv-kufr",
+      "googleServicesFile": "./GoogleService-Info.plist"
+    },
+    "web": {
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyA6K8XOjKfISgzQrd3Z-tcRiIECKBYKytQ",
+          "authDomain": "klokanovy-archy.firebaseapp.com",
+          "projectId": "klokanovy-archy",
+          "storageBucket": "klokanovy-archy.appspot.com",
+          "messagingSenderId": "331608352230",
+          "appId": "1:331608352230:web:4b720276d8a45d1f03a227",
+          "measurementId": "G-93MJQJWEDC"
+        }
+      }
     },
     "extra": {
       "eas": {

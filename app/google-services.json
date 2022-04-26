@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "331608352230",
+    "project_id": "klokanovy-archy",
+    "storage_bucket": "klokanovy-archy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331608352230:android:363524375b142f5103a227",
+        "android_client_info": {
+          "package_name": "com.luzanky.klokanuv_kufr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "331608352230-4a4d73ea7tc79lh8vku1qa8hg1p5odbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFidbLmoaFwEhVU7yGk64K8srs75wrStI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "331608352230-4a4d73ea7tc79lh8vku1qa8hg1p5odbr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "331608352230-mijf55fqe16lhbtrcco02qhg5kf4fl7c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.luzanky.klokanuv-kufr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

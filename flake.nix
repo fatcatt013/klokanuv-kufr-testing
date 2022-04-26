@@ -86,10 +86,11 @@
     overlay = final: prev: {
       klokan = klokan-package;
     };
+
+    defaultPackage.x86_64-linux = klokan-package;
     packages.x86_64-linux = {
       klokan = klokan-package;
     };
-    defaultPackage.x86_64-linux = klokan-package;
 
     nixosModule = { config, lib, pkgs, ... }: let
       pkgName = "klokan";
