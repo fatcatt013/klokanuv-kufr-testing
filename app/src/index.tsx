@@ -15,7 +15,6 @@ const Stack = createStackNavigator();
 function RootStack() {
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="TestWorker" component={ChildDetail}/>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />

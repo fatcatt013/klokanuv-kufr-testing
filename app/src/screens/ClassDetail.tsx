@@ -1,14 +1,12 @@
 import * as React from 'react';
-import {
-  FlatList, Image, SafeAreaView, StyleSheet, View,
-} from 'react-native';
-import { FAB, Text } from 'react-native-paper';
+import { FlatList, Image, SafeAreaView, StyleSheet } from 'react-native';
+import { Text } from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Button from '../components/Button';
 import { theme } from '../theme';
-import RecentActivityCard from '../components/RecentActivityCard';
-import { MockDataClassDetailChildren, MockDataRecentActivityCard } from '../mockDatas';
+import { MockDataClassDetailChildren } from '../mockDatas';
 import Notes from "../components/Notes";
+import { NavigationProp } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   task: {
@@ -35,34 +33,29 @@ const styles = StyleSheet.create({
   },
 });
 
-type ChildProps = {
-  name: string
-};
-
 type ChildrenProps = {
-  // childItems: [{ id: string, name: string }?]
-  route: {
-    params: [{ id: string, name: string }]
-  }
+  navigation: NavigationProp<{ Child: {}; HomeScreen: {}; }>;
 };
 
-const Child = (props: ChildProps) => (
-  <SafeAreaView style={{ flex: 1, margin: 10 }}>
-    <Button mode='contained' style={[styles.task, styles.blueChild]}>{props.name}</Button>
-  </SafeAreaView>
-);
+// <Stack.Screen name="TestWorker" component={ChildDetail} />
 
-function Children(props: ChildrenProps) {
-  const renderItem = ({ item }) => (
-    <Child name={item.name}/>
-  );
-
+function Children({ navigation }: ChildrenProps) {
+  const children = MockDataClassDetailChildren;
   return (
     <SafeAreaView style={[styles.center]}>
       <Text style={{ fontSize: 30 }}>Seznam dětí</Text>
       <FlatList
-        data={Object.values(props.route.params)}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <SafeAreaView style={{ flex: 1, margin: 10 }}>
+            <Button
+              mode='contained' style={[styles.task, styles.blueChild]}
+              onPress={() => }
+            >
+              {item.name}
+            </Button>
+          </SafeAreaView>
+        )}
+        data={children}
         keyExtractor={(item) => item.id}
         numColumns={2}
         style={{ alignSelf: 'center', minWidth: 300 }}
@@ -84,33 +77,17 @@ function Statistics() {
   );
 }
 
+const Tab = createMaterialTopTabNavigator();
+
 export default function ClassDetail() {
-  const Tab = createMaterialTopTabNavigator();
   return (
     <Tab.Navigator
       initialRouteName="Detail třídy"
-      screenOptions={{
-        tabBarActiveTintColor: theme.colors.orange,
-        // tabBarLabelStyle: { fontSize: 12 },
-        // tabBarStyle: { backgroundColor: 'powderblue' },
-      }}
+      screenOptions={{ tabBarActiveTintColor: theme.colors.orange }}
     >
-      <Tab.Screen
-        name="Děti"
-        component={Children}
-        options={{ tabBarLabel: 'Děti' }}
-        initialParams={MockDataClassDetailChildren}
-      />
-      <Tab.Screen
-        name="Statistiky"
-        component={Statistics}
-        options={{ tabBarLabel: 'Statistiky' }}
-      />
-      <Tab.Screen
-        name="Poznámky"
-        component={Notes}
-        options={{ tabBarLabel: 'Poznámky' }}
-      />
+      <Tab.Screen name="Děti" component={Children} />
+      <Tab.Screen name="Statistiky" component={Statistics} />
+      <Tab.Screen name="Poznámky" component={Notes} />
     </Tab.Navigator>
   );
 }

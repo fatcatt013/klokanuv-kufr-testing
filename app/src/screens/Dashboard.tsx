@@ -1,11 +1,6 @@
 import React, { memo } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { QueryErrorResetBoundary } from 'react-query';
-import { ErrorBoundary } from 'react-error-boundary';
 import { NavigationProp } from '@react-navigation/native';
-import { View, Text } from 'react-native';
-import Button from '../components/Button';
-import Background from '../components/Background';
 
 import CompletedTasksList from './CompletedTasksList';
 import CompleteTask from './CompleteTask';
@@ -21,24 +16,6 @@ const Dashboard = ({ navigation }: { navigation: NavigationProp<{}> }) => (
     <Drawer.Screen name="Vyplnit úkol" component={CompleteTask} />
     <Drawer.Screen name="Dokončené úkoly" component={CompletedTasksList} />
   </Drawer.Navigator>
-);
-
-const Boundary: React.FC = ({ children }) => (
-  <QueryErrorResetBoundary>
-    {({ reset }) => (
-      <ErrorBoundary
-        onReset={reset}
-        fallbackRender={({ resetErrorBoundary }) => (
-          <Background>
-            <Text>Nastala chyba!</Text>
-            <Button mode='contained' onPress={() => resetErrorBoundary()}>Zkusit znovu</Button>
-          </Background>
-        )}
-      >
-        {children}
-      </ErrorBoundary>
-    )}
-  </QueryErrorResetBoundary>
 );
 
 export default memo(Dashboard);
