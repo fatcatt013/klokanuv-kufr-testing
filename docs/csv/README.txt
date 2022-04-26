@@ -1,0 +1,1 @@
+Na tuto zlozku sa odkazuje command 'populate_db'. Pokial sa zmeni cesta k nej alebo nazov CSV suboru, potom command musi byt adekvatne upraveny

@@ -1,4 +1,4 @@
-# Klokanovy archy
+# Klokanuv kufr
 
 ## Prototype
 1. Install Expo Go: <https://expo.dev/client>

@@ -1,100 +1,129 @@
-from django.core.management.base import BaseCommand, CommandError
-from record_sheet.models import Category, Subcategory, AssessmentType, Task
+from django.core.management.base import BaseCommand
+from record_sheet.models import AssessmentTypeOption, Category, Subcategory, AssessmentType, Task, Assessment
 import os
 import csv
 
 
-# sheet1 csv file containing categories, tasks, subcategories
+# read csv file and put it's contents into list of dictionaries
+# serves as a baseline for information extraction
 def base_list_sheet1():
     current_filepath = os.path.dirname(os.path.abspath(__file__))
 
-    csv_filepath = "%s/csv/diagnostika_sheet1.csv" % current_filepath
+    csv_filepath = "%s/../../../../docs/csv/diagnostika_sheet1.csv" % current_filepath
 
-    # read csv file and put it's contents into list of dictionaries
-    # serves as a baseline for information extraction
     with open(csv_filepath, 'r', encoding='utf-8') as file:
         data_reader = list(csv.DictReader(file, delimiter='|'))
         return data_reader
 
-# take base data and extract Category label from them
+
+# extract data about Category from base_data, save newly created instances
 def populate_categories(base_data):
-    category_names = []
-
-    # iterate base_data and keep unique category entries
+    cats_already_added = []
     for row in base_data:
-        if row['category'] not in category_names:
-            category_names.append(row['category'])
-    
-    category_model_instances = []
-    for cat_name in category_names:
-        cat_model_inst = Category(label=cat_name)
-        category_model_instances.append(cat_model_inst)
-
-    Category.objects.bulk_create(category_model_instances)
+        if row['category'] not in cats_already_added and row['category']:
+            cats_already_added.append(row['category'])
+            Category(label=row['category']).save()
 
 
-# transform subcategory names and their parent's model instances into subcategory instances
+# extract data about Subcategory from base_data, retrieve FK objects, save newly created instances
 def populate_subcategories(base_data):
-    subcategory_pairs = []
     subcats_already_added = []
 
-    # this way we get all pairs of subcategory + category
+    # get all and unique pairs of subcategory + category
     for row in base_data:
-        if row['subcategory'] not in subcats_already_added:
-            subcategory_pairs.append(
-                {'subcategory': row['subcategory'],
-                'category': row['category']}
-            )
+        if row['subcategory'] not in subcats_already_added and row['subcategory']:
+            parent_category = Category.objects.get(label=row['category'])
+            Subcategory(label=row['subcategory'], parent_category=parent_category).save()
             subcats_already_added.append(row['subcategory'])
 
-    subcategory_model_instances = []
 
-    for subcat_pair in subcategory_pairs:
-        # retrieve existing Category object to be able to pass it as parent_category
-        parent_category = Category.objects.get(label=subcat_pair['category'])
-        subcat_model_inst = Subcategory(label=subcat_pair['subcategory'], parent_category=parent_category)
-        subcategory_model_instances.append(subcat_model_inst)
+# extract data about AssessmentType from base_data, save newly created instances
+def populate_assessment_types(base_data):
+    assessment_types_already_added = []
 
-    Subcategory.objects.bulk_create(subcategory_model_instances)
+    for row in base_data:
+        # ensure uniqueness
+        if row['assessment_type'] not in assessment_types_already_added:
+            AssessmentType(label=row['assessment_type']).save()
+            assessment_types_already_added.append(row['assessment_type'])
 
 
-# take base data and using already existing models, create tasks
+# take existing instances of AssessmentType, extract AssessmentTypeOption labels from them, save new instances
+def populate_assessment_type_options():
+    for ass_type in AssessmentType.objects.all():
+        labels_split = ass_type.label.split(' / ')
+        for label in labels_split:
+            AssessmentTypeOption(parent_assessment_type=ass_type, label=label).save()
+
+
+# extract data about Task from base_data, retrieve FK objects, save newly created instances
 def populate_tasks(base_data):
 
-    # TODO since we don't have assessment_type data yet, we need to create this dummy to proceed with other code
-    dummy_assessment_type = AssessmentType(label="Dummy")
-    dummy_assessment_type.save()
-
-    task_model_instances = []
-
-    # separately extract subcat and cat, now parent category at 0th and subcategory at 1st index
     for task_match in base_data:
-        # retrieve existing Category object to be able to pass it as parent_category
+        # retrieve existing Subcategory object and Assessment_type objects to pass it as object instances
         subcategory = Subcategory.objects.get(label=task_match['subcategory'])
+        assessment_type = AssessmentType.objects.get(label=task_match['assessment_type'])
+        # determine difficulty as one of "+/-/=", if applicable
+        if task_match['difficulty'] == 'same':
+            difficulty = '='
+        elif task_match['difficulty'] == 'harder':
+            difficulty = '+'
+        elif task_match['difficulty'] == 'easier':
+            difficulty = '-'
+        else:
+            difficulty = None
 
-        # create final Task object instance and add it to a list
-        task_model_inst = Task(
-            task_text=task_match['task'],
+        Task(
+            id=task_match['temporary_task_id'],
+            task_description=task_match['task_description'],
+            codename=task_match['task_code'],
             subcategory=subcategory,
-            expected_age_from=9, # TODO adjust once data is complete
-            expected_age_to=9, # TODO adjust once data is complete
-            assessment_type=dummy_assessment_type, # TODO adjust once data is complete
-        )
+            assessment_type=assessment_type,
+            difficulty=difficulty,
+            expected_age_from=float(task_match['age_from'] or 0),
+            expected_age_to=float(task_match['age_to'] or 8),
+        ).save()
 
-        task_model_instances.append(task_model_inst)
+    # now we update records with their parent_task, if there is one
+    # have to do this next in sequence, since it's the same class and not all objects are created yet
+    for task_match in base_data:
+        if not task_match['parent_temporary_id']:
+            continue
+        else:
+            task_instance = Task.objects.get(id=task_match['temporary_task_id'])
+            task_instance.parent_task = Task.objects.get(id=task_match['parent_temporary_id'])
+            task_instance.save()
 
-    Task.objects.bulk_create(task_model_instances)
+
+# truncate everything before we start populating database (only runs if '--truncate' or '-t' is provided)
+def truncate_existing_data():
+    Assessment.objects.all().delete()
+    Task.objects.all().delete()
+    Subcategory.objects.all().delete()
+    Category.objects.all().delete()
+    AssessmentTypeOption.objects.all().delete()
+    AssessmentType.objects.all().delete()
+
 
 class Command(BaseCommand):
-    help = 'Populates database with prepaired data.'
+    help = 'Populates database with prepaired data. Use "--truncate" or "-t" to first delete all existing records.'
 
+    def add_arguments(self, parser):
+        # optional argument
+        parser.add_argument(
+            "--truncate", "-t",
+            action='store_true',
+            help='Truncate all records for task, category, subcategory, assessment_type, assessment_type_option',
+        )
 
-    # TODO maybe add some args w.r.t. automatic data truncation...?
-    def handle(self, *args, **options):
+    def handle(self, **options):
         base_data = base_list_sheet1()
-
+        if options['truncate']:
+            truncate_existing_data()
         populate_categories(base_data)
         populate_subcategories(base_data)
+        populate_assessment_types(base_data)
+        populate_assessment_type_options()
         populate_tasks(base_data)
 
         self.stdout.write(self.style.SUCCESS('Successfully populated database tables'))
