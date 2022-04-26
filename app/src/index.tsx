@@ -7,12 +7,15 @@ import RegisterScreen from './screens/RegisterScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import Dashboard from './screens/Dashboard';
 import ClassSelectScreen from './screens/ClassSelectScreen';
+import ChildDetail from './screens/ChildDetail';
+import ClassDetail from "./screens/ClassDetail";
 
 const Stack = createStackNavigator();
 
 function RootStack() {
   return (
     <Stack.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="TestWorker" component={ChildDetail}/>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
       <Stack.Screen name="ForgotPasswordScreen" component={ForgotPasswordScreen} />
@@ -28,4 +31,4 @@ export default function App() {
       <RootStack />
     </NavigationContainer>
   );
-};
+}

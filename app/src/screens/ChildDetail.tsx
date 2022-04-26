@@ -2,21 +2,18 @@ import * as React from 'react';
 import {
   FlatList, Image, SafeAreaView, StyleSheet, View,
 } from 'react-native';
-import { FAB, Text } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Button from '../components/Button';
 import { theme } from '../theme';
-import RecentActivityCard from '../components/RecentActivityCard';
-import { MockDataClassDetailChildren, MockDataRecentActivityCard } from '../mockDatas';
-import Notes from "../components/Notes";
+import { MockDataChildDetailTasks } from '../mockDatas';
+import Notes from '../components/Notes';
 
 const styles = StyleSheet.create({
   task: {
     margin: 10,
     borderRadius: 10,
-  },
-  blueChild: {
-    backgroundColor: theme.colors.light_blue,
+    fontSize: 30,
   },
   spiderGraph: {
     width: 300,
@@ -35,38 +32,40 @@ const styles = StyleSheet.create({
   },
 });
 
-type ChildProps = {
+type TaskProps = {
   name: string
 };
 
-type ChildrenProps = {
+type TasksProps = {
   // childItems: [{ id: string, name: string }?]
   route: {
     params: [{ id: string, name: string }]
   }
 };
 
-const Child = (props: ChildProps) => (
+const Task = (props: TaskProps) => (
   <SafeAreaView style={{ flex: 1, margin: 10 }}>
-    <Button mode='contained' style={[styles.task, styles.blueChild]}>{props.name}</Button>
+    <Button mode='contained' style={styles.task} labelStyle={{ fontSize: 16 } } icon='briefcase' >{props.name}</Button>
   </SafeAreaView>
 );
 
-function Children(props: ChildrenProps) {
+function Tasks(props: TasksProps) {
   const renderItem = ({ item }) => (
-    <Child name={item.name}/>
+    <Task name={item.name}/>
   );
 
   return (
-    <SafeAreaView style={[styles.center]}>
-      <Text style={{ fontSize: 30 }}>Seznam dětí</Text>
+    <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
+      <Text style={{ fontSize: 30 }}>Seznam kufrů?</Text>
+      <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center' }}>
       <FlatList
         data={Object.values(props.route.params)}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
-        style={{ alignSelf: 'center', minWidth: 300 }}
+        style={{ minWidth: 300, marginRight: 20 }}
       />
+      </View>
     </SafeAreaView>
   );
 }
@@ -74,7 +73,7 @@ function Children(props: ChildrenProps) {
 function Statistics() {
   return (
     <SafeAreaView style={[styles.center]}>
-      <Text style={{ fontSize: 30 }}>Statistika třídy</Text>
+      <Text style={{ fontSize: 30 }}>Statistika žáka</Text>
       <Image
         source={require('../../assets/pavouk.png')}
         style={styles.spiderGraph}
@@ -84,11 +83,11 @@ function Statistics() {
   );
 }
 
-export default function ClassDetail() {
+export default function ChildDetail() {
   const Tab = createMaterialTopTabNavigator();
   return (
     <Tab.Navigator
-      initialRouteName="Detail třídy"
+      initialRouteName="Detail žáka"
       screenOptions={{
         tabBarActiveTintColor: theme.colors.orange,
         // tabBarLabelStyle: { fontSize: 12 },
@@ -96,10 +95,10 @@ export default function ClassDetail() {
       }}
     >
       <Tab.Screen
-        name="Děti"
-        component={Children}
-        options={{ tabBarLabel: 'Děti' }}
-        initialParams={MockDataClassDetailChildren}
+        name="Kufry?"
+        component={Tasks}
+        options={{ tabBarLabel: 'Kufry?' }}
+        initialParams={MockDataChildDetailTasks}
       />
       <Tab.Screen
         name="Statistiky"
