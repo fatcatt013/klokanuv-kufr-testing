@@ -1,20 +1,36 @@
-from record_sheet.models import Subcategory, Task, Category
+from record_sheet import models
 from rest_framework import serializers
 
 
-class TaskSerializer(serializers.HyperlinkedModelSerializer):
+class AssessmentTypeOptionSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Task
-        fields = ['task_text', 'subcategory']
+        model = models.AssessmentTypeOption
+        fields = ['id', 'label']
+
+
+class AssessmentTypeSerializer(serializers.ModelSerializer):
+    options = AssessmentTypeOptionSerializer(source='assessmenttypeoption_set', many=True, read_only=True)
+    class Meta:
+        model = models.AssessmentType
+        fields = ['label', 'allows_note', 'options']
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Category
+        fields = ['label']
 
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
+    parent_category = CategorySerializer(read_only=True)
     class Meta:
-        model = Subcategory
+        model = models.Subcategory
         fields = ['label', 'parent_category']
 
 
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
+class TaskSerializer(serializers.HyperlinkedModelSerializer):
+    assessment_type = AssessmentTypeSerializer(read_only=True)
+    subcategory = SubcategorySerializer(read_only=True)
     class Meta:
-        model = Category
-        fields = ['label']
+        model = models.Task
+        fields = '__all__'

@@ -22,6 +22,8 @@ router = routers.DefaultRouter()
 router.register(r'tasks', views.TaskViewSet)
 router.register(r'subcategories', views.SubcategoryViewSet)
 router.register(r'categories', views.CategoryViewSet)
+router.register(r'assessment-type', views.AssessmentTypeViewSet)
+router.register(r'assessment-type-option', views.AssessmentTypeOptionViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

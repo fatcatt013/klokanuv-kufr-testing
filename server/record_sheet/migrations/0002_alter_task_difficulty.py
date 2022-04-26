@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='task',
             name='difficulty',
-            field=models.CharField(choices=[(record_sheet.models.TaskDifficulty['EASIER'], '-'), (record_sheet.models.TaskDifficulty['SAME'], '='), (record_sheet.models.TaskDifficulty['HARDER'], '+')], max_length=50, null=True),
+            field=models.CharField(choices=[('easier', '-'), ('same', '='), ('harder', '+')], max_length=50, null=True),
         ),
     ]
