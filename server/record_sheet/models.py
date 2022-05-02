@@ -19,6 +19,9 @@ class AssessmentTypeOption(models.Model):
     parent_assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
     label = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.label
+
 
 def get_task_diff_choices():
     return [
@@ -38,6 +41,9 @@ class Task(models.Model):
     difficulty = models.CharField(max_length=50, choices=get_task_diff_choices(), null=True)
     expected_age_from = models.DecimalField(decimal_places=2, max_digits=5, null=True)
     expected_age_to = models.DecimalField(decimal_places=2, max_digits=5, null=True)
+
+    def __str__(self):
+        return self.task_description
 
 
 class Assessment(models.Model):

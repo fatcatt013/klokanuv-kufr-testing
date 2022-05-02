@@ -2,16 +2,17 @@ from record_sheet import models
 from rest_framework import serializers
 
 
-class AssessmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Assessment
-        fields = ['id', 'task', 'option', 'date_of_assessment', 'note', 'assessed_by']
-
-
 class AssessmentTypeOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AssessmentTypeOption
         fields = ['id', 'label']
+
+
+class AssessmentSerializer(serializers.ModelSerializer):
+    option = serializers.PrimaryKeyRelatedField(queryset=models.AssessmentTypeOption.objects.all())
+    class Meta:
+        model = models.Assessment
+        fields = ['id', 'task', 'option', 'date_of_assessment', 'note', 'assessed_by']
 
 
 class AssessmentTypeSerializer(serializers.ModelSerializer):
