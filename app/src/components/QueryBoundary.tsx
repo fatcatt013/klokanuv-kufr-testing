@@ -2,8 +2,8 @@ import React from 'react';
 import { QueryErrorResetBoundary } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Text } from 'react-native';
-import Button from './Button';
-import Background from './Background';
+import { Button } from './Button';
+import { Background } from './Background';
 
 export const QueryBoundary: React.FC = ({ children }) => (
   <QueryErrorResetBoundary>

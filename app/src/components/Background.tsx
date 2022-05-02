@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Background = ({ children }: Props) => (
+export const Background = memo(({ children }: Props) => (
   <ImageBackground
     source={require('../../assets/background_dot.png')}
     resizeMode="repeat"
@@ -15,7 +15,7 @@ const Background = ({ children }: Props) => (
       {children}
     </KeyboardAvoidingView>
   </ImageBackground>
-);
+));
 
 const styles = StyleSheet.create({
   background: {
@@ -33,5 +33,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default memo(Background);

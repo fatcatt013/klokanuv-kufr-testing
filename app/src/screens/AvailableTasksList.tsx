@@ -1,59 +1,7 @@
 import * as React from 'react';
-import { Text } from 'react-native-paper';
-
-import { createStackNavigator } from '@react-navigation/stack';
-import { View } from 'react-native';
+import { useQuery } from 'react-query';
 import { LoadingScreen } from '../components/LoadingScreen';
 import { fetcher } from '../utils';
-import { useQuery } from 'react-query';
-
-// 3 urovne/kategorie tasku
-
-// NOT DONE YET ... TODO ... BROKEN
-
-// const Cat2Stack = createStackNavigator();
-// const Cat1Stack = createStackNavigator();
-// const TasksStack = createStackNavigator();
-
-// function Task() {
-//   return (
-//       <Card>
-//           <Button mode={'outlined'}>Ukol dane kategorie</Button>
-//       </Card>
-//
-//   );
-// }
-// function Tasks() {
-//   return (
-//         <TasksStack.Navigator>
-//             <TasksStack.Screen name={'Ukol 1'} component={Task}/>
-//             <TasksStack.Screen name={'Ukol 2'} component={Task}/>
-//             <TasksStack.Screen name={'Ukol 3'} component={Task}/>
-//         </TasksStack.Navigator>
-//
-//   );
-// }
-// function Category2() {
-//   return (
-//         <Cat2Stack.Navigator>
-//             <Cat2Stack.Screen name={'Kategorie úroveň 2'} component={Tasks}/>
-//         </Cat2Stack.Navigator>
-//
-//   );
-// }
-//
-// function Category1() {
-//   return (
-//         <Cat1Stack.Navigator>
-//             <Cat1Stack.Screen name={'Kategorie úroveň 1'} component={Category2}/>
-//         </Cat1Stack.Navigator>
-//
-//   );
-// }
-
-function Placeholder() {
-  return <Text>Not implemented yet.</Text>;
-}
 
 export default function AvailableTasksList() {
   const { data } = useQuery('tasks', () => fetcher.get('/tasks'));
@@ -64,18 +12,13 @@ export default function AvailableTasksList() {
       <pre>{JSON.stringify(data, null, 2)}</pre>
     </React.Suspense>
   );
-
-  // <Stack.Navigator>
-  //     <Stack.Screen name="Úkoly" component={Placeholder} />
-  // </Stack.Navigator>
 }
 
-// 
 // import React from 'react';
 // import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';
 // import { StackNavigationProp } from '@react-navigation/stack';
 // import { useTheme } from 'react-native-paper';
-// 
+
 // import { useInfiniteMovies } from '@app/screens/hooks/useInfiniteMovies';
 // import { Divider } from '@app/components/Divider';
 // import type { MainStack } from '@app/navigation/types';

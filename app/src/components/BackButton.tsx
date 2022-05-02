@@ -6,7 +6,7 @@ type Props = {
   goBack: () => void;
 };
 
-const BackButton = ({ goBack }: Props) => {
+export const BackButton = memo(({ goBack }: Props) => {
   const insets = useSafeAreaInsets();
 
   const styles = StyleSheet.create({
@@ -29,6 +29,4 @@ const BackButton = ({ goBack }: Props) => {
       />
     </TouchableOpacity>
   );
-};
-
-export default memo(BackButton);
+});

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Card, Headline } from 'react-native-paper';
-// Neco jako Recent activity, data kdy co udelalo dite za task
 
 const styles = StyleSheet.create({
   card: {
@@ -11,6 +10,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
 });
+
 export default function CompletedTasksList() {
   return (
     <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>

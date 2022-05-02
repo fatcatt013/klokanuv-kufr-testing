@@ -3,7 +3,7 @@
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^6.4.1",
-    "@react-navigation/material-top-tabs": "^6.2.1",
+    "@react-navigation/material-bottom-tabs": "^6.2.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.2.1",
     "axios": "^0.26.1",
@@ -27,16 +27,15 @@
     "react-navigation": "^4.4.4",
     "react-query": "^3.35.0"
   },
+  "resolutions": {
+    "@types/react": "17.0.2",
+    "@types/react-dom": "17.0.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.16.11",
     "@emotion/core": "^10.0.27",
     "@expo/webpack-config": "~0.16.2",
-    "@storybook/addon-actions": "~6.3",
-    "@storybook/addon-knobs": "~6.3",
-    "@storybook/addon-links": "~6.3",
-    "@storybook/addon-ondevice-actions": "6.0.1-beta.5",
-    "@storybook/addon-ondevice-knobs": "6.0.0-alpha.0",
     "@storybook/addons": "~6.3",
     "@storybook/api": "~6.3",
     "@storybook/components": "~6.3",
@@ -44,7 +43,7 @@
     "@storybook/react-native": "6.0.1-beta.5",
     "@storybook/react-native-server": "6.0.0-alpha.0",
     "@storybook/theming": "~6.3",
-    "@types/react": "~17.0.21",
+    "@types/react": "^17.0.41",
     "@types/react-native": "~0.64.12",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",

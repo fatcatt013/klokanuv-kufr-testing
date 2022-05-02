@@ -2,8 +2,7 @@ import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { theme } from '../theme';
-import RecentActivityCard from './RecentActivityCard';
-import { MockDataRecentActivityCard } from '../mockDatas';
+import { RecentActivityCard } from './RecentActivityCard';
 
 const styles = StyleSheet.create({
   task: {
@@ -30,11 +29,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Notes() {
+export const MockDataRecentActivityCard = {
+  taskName: 'Přiřadí barvu',
+  date: '16.1.2022',
+  pedagog: 'Anežka Dobrá',
+  note: 'Toto je popis k vypněnému úkolu, možná se to nebude vyplňovat často a tak by bylo dobré zavést nějaký obecný'
+    + ' placeholder nebo nějak naznačit, že zde není žádný popis naschvál a ne omylem.',
+};
+
+export const Notes = () => {
   return (
     <View style={{ flex: 1 }}>
-      <RecentActivityCard props={MockDataRecentActivityCard}/>
-      <FAB style={styles.fab} icon="plus"/>
+      <RecentActivityCard {...MockDataRecentActivityCard} />
+      <FAB style={styles.fab} icon="plus" />
     </View>
   );
 }

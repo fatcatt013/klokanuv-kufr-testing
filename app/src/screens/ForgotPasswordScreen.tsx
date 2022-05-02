@@ -1,17 +1,16 @@
 import React, { memo, useState } from 'react';
 import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { emailValidator } from '../utils';
-import Background from '../components/Background';
-import BackButton from '../components/BackButton';
-import Logo from '../components/Logo';
-import Header from '../components/Header';
-import TextInput from '../components/TextInput';
-import { theme } from '../theme';
-import Button from '../components/Button';
-import { NavigationProp } from '@react-navigation/native';
+import { Background } from '../components/Background';
+import { BackButton } from '../components/BackButton';
+import { Logo } from '../components/Logo';
+import { Header } from '../components/Header';
+import { TextInput } from '../components/TextInput';
+import { Button } from '../components/Button';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
-  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; }>;
+  navigation: StackNavigationProp<{ LoginScreen: {}; }>;
 };
 
 const ForgotPasswordScreen = ({ navigation }: Props) => {
@@ -25,12 +24,12 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('HomeScreen');
+    navigation.pop();
   };
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
+      <BackButton goBack={navigation.pop} />
 
       <Logo />
 
@@ -55,7 +54,7 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
 
       <TouchableOpacity
         style={styles.back}
-        onPress={() => navigation.navigate('HomeScreen')}
+        onPress={() => navigation.pop()}
       >
         <Text style={styles.label}>← Zpět na přihlášení</Text>
       </TouchableOpacity>

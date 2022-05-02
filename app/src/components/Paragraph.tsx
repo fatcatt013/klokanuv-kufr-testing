@@ -5,9 +5,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Paragraph = ({ children }: Props) => (
+export const Paragraph = memo(({ children }: Props) => (
   <Text style={styles.text}>{children}</Text>
-);
+));
 
 const styles = StyleSheet.create({
   text: {
@@ -17,5 +17,3 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
 });
-
-export default memo(Paragraph);

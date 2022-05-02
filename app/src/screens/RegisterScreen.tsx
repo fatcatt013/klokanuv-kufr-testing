@@ -1,17 +1,17 @@
 import React, { memo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Background from '../components/Background';
-import Logo from '../components/Logo';
-import Header from '../components/Header';
-import Button from '../components/Button';
-import TextInput from '../components/TextInput';
-import BackButton from '../components/BackButton';
+import { Background } from '../components/Background';
+import { Logo } from '../components/Logo';
+import { Header } from '../components/Header';
+import { Button } from '../components/Button';
+import { TextInput } from '../components/TextInput';
+import { BackButton } from '../components/BackButton';
 import { theme } from '../theme';
 import { nameValidator, emailValidator, passwordValidator } from '../utils';
-import { NavigationProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
-  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; }>;
+  navigation: StackNavigationProp<{ "Výběr třídy": {}; LoginScreen: {}; }>;
 };
 
 const RegisterScreen = ({ navigation }: Props) => {
@@ -31,12 +31,12 @@ const RegisterScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('Dashboard');
+    navigation.push('Výběr třídy');
   };
 
   return (
     <Background>
-      <BackButton goBack={() => navigation.navigate('HomeScreen')} />
+      <BackButton goBack={navigation.pop} />
 
       <Logo />
 
@@ -82,7 +82,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
       <View style={styles.row}>
         <Text>Už máte účet? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
+        <TouchableOpacity onPress={() => navigation.pop()}>
           <Text style={styles.link}>Přihlásit se</Text>
         </TouchableOpacity>
       </View>

@@ -1,23 +1,16 @@
 import * as React from 'react';
-import {
-  FlatList, Image, SafeAreaView, StyleSheet, View,
-} from 'react-native';
-import { Text } from 'react-native-paper';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Button from '../components/Button';
+import { FlatList, Image, SafeAreaView, StyleSheet } from 'react-native';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Button } from '../components/Button';
+import { Notes } from '../components/Notes';
 import { theme } from '../theme';
-import { MockDataChildDetailTasks } from '../mockDatas';
-import Notes from '../components/Notes';
+import { Header } from '../components/Header';
 
 const styles = StyleSheet.create({
   task: {
     margin: 10,
     borderRadius: 10,
     fontSize: 30,
-  },
-  spiderGraph: {
-    width: 300,
-    height: 300,
   },
   center: {
     justifyContent: 'center',
@@ -32,40 +25,35 @@ const styles = StyleSheet.create({
   },
 });
 
-type TaskProps = {
-  name: string
-};
-
-type TasksProps = {
-  // childItems: [{ id: string, name: string }?]
-  route: {
-    params: [{ id: string, name: string }]
-  }
-};
-
-const Task = (props: TaskProps) => (
+const Task = ({ name }: { name: string; }) => (
   <SafeAreaView style={{ flex: 1, margin: 10 }}>
-    <Button mode='contained' style={styles.task} labelStyle={{ fontSize: 16 } } icon='briefcase' >{props.name}</Button>
+    <Button mode='contained' style={styles.task} labelStyle={{ fontSize: 16 }} icon='briefcase'>{name}</Button>
   </SafeAreaView>
 );
 
-function Tasks(props: TasksProps) {
-  const renderItem = ({ item }) => (
-    <Task name={item.name}/>
-  );
+export const MockDataChildDetailTasks = [
+  { id: 1, name: 'Barvy' },
+  { id: 2, name: 'Šepot' },
+  { id: 3, name: 'Rýmovačky' },
+  { id: 4, name: 'Ptáci' },
+  { id: 5, name: 'Tkaničky' },
+  { id: 6, name: 'Knoflíky' },
+  { id: 7, name: 'Pozdravy' },
+];
+
+function Tasks() {
+  const renderItem = ({ item }) => <Task name={item.name} />;
 
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
-      <Text style={{ fontSize: 30 }}>Seznam kufrů?</Text>
-      <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'center' }}>
+      <Header>Seznam kufrů?</Header>
       <FlatList
-        data={Object.values(props.route.params)}
+        data={MockDataChildDetailTasks}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         numColumns={2}
         style={{ minWidth: 300, marginRight: 20 }}
       />
-      </View>
     </SafeAreaView>
   );
 }
@@ -73,43 +61,23 @@ function Tasks(props: TasksProps) {
 function Statistics() {
   return (
     <SafeAreaView style={[styles.center]}>
-      <Text style={{ fontSize: 30 }}>Statistika žáka</Text>
+      <Header>Statistika třídy</Header>
       <Image
         source={require('../../assets/pavouk.png')}
-        style={styles.spiderGraph}
+        style={{ width: 300, height: 300 }}
       />
     </SafeAreaView>
-
   );
 }
 
+const Tab = createMaterialBottomTabNavigator();
+
 export default function ChildDetail() {
-  const Tab = createMaterialTopTabNavigator();
   return (
-    <Tab.Navigator
-      initialRouteName="Detail žáka"
-      screenOptions={{
-        tabBarActiveTintColor: theme.colors.orange,
-        // tabBarLabelStyle: { fontSize: 12 },
-        // tabBarStyle: { backgroundColor: 'powderblue' },
-      }}
-    >
-      <Tab.Screen
-        name="Kufry?"
-        component={Tasks}
-        options={{ tabBarLabel: 'Kufry?' }}
-        initialParams={MockDataChildDetailTasks}
-      />
-      <Tab.Screen
-        name="Statistiky"
-        component={Statistics}
-        options={{ tabBarLabel: 'Statistiky' }}
-      />
-      <Tab.Screen
-        name="Poznámky"
-        component={Notes}
-        options={{ tabBarLabel: 'Poznámky' }}
-      />
+    <Tab.Navigator shifting={true} sceneAnimationEnabled={false}>
+      <Tab.Screen name="Přehled" component={Tasks} />
+      <Tab.Screen name="Statistiky" component={Statistics} />
+      <Tab.Screen name="Poznámky" component={Notes} />
     </Tab.Navigator>
   );
 }

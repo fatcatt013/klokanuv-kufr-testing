@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-const Logo = () => (
+export const Logo = memo(() => (
   <Image source={require('../../assets/kufr-logo.png')} style={styles.image} />
-);
+));
 
 const styles = StyleSheet.create({
   image: {
@@ -12,5 +12,3 @@ const styles = StyleSheet.create({
     marginBottom: 36,
   },
 });
-
-export default memo(Logo);

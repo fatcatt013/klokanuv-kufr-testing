@@ -1,10 +1,10 @@
-import { NavigationProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import * as React from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
-import Header from '../components/Header';
-import Background from '../components/Background';
-import Button from '../components/Button';
+import { Header } from '../components/Header';
+import { Background } from '../components/Background';
+import { Button } from '../components/Button';
 
 const styles = StyleSheet.create({
   card: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  navigation: NavigationProp<{ Dashboard: {}; HomeScreen: {}; }>;
+  navigation: StackNavigationProp<{ "Třída": {}; }>;
 };
 
 export default function ClassSelectScreen({ navigation }: Props) {
@@ -26,11 +26,11 @@ export default function ClassSelectScreen({ navigation }: Props) {
     <Background>
       <Header>Vyberte třídu</Header>
       <View style={{ width: 400, display: 'flex' }}>
-        <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+        <TouchableOpacity onPress={() => navigation.push("Třída")}>
           <Card style={styles.card}>
             <Header>Žabičky</Header>
             <Text>Pedagog: Marie Vystrčilová</Text>
-            <Button mode="contained" style={styles.moreInfo} onPress={() => navigation.navigate('Dashboard')}>Vybrat</Button>
+            <Button mode="contained" style={styles.moreInfo} onPress={() => navigation.push("Třída")}>Vybrat</Button>
           </Card>
         </TouchableOpacity>
       </View>

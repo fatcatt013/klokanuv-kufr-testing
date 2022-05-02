@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { FlatList, Image, SafeAreaView, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Button from '../components/Button';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Button } from '../components/Button';
 import { theme } from '../theme';
-import { MockDataClassDetailChildren } from '../mockDatas';
-import Notes from "../components/Notes";
-import { NavigationProp } from '@react-navigation/native';
+import { Notes } from "../components/Notes";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { Header } from '../components/Header';
 
 const styles = StyleSheet.create({
   task: {
@@ -24,39 +23,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-    backgroundColor: theme.colors.secondary,
-  },
 });
 
 type ChildrenProps = {
-  navigation: NavigationProp<{ Child: {}; HomeScreen: {}; }>;
+  navigation: StackNavigationProp<{ Child: {}; HomeScreen: {}; }>;
 };
 
-// <Stack.Screen name="TestWorker" component={ChildDetail} />
+export const MockDataClassDetailChildren = [
+  { id: 1, name: 'Pepa' },
+  { id: 2, name: 'Franta' },
+  { id: 3, name: 'Monika' },
+  { id: 4, name: 'Marie' },
+  { id: 5, name: 'Honza' },
+  { id: 6, name: 'Janka' },
+  { id: 7, name: 'Petr' },
+];
 
 function Children({ navigation }: ChildrenProps) {
   const children = MockDataClassDetailChildren;
   return (
-    <SafeAreaView style={[styles.center]}>
-      <Text style={{ fontSize: 30 }}>Seznam dětí</Text>
+    <SafeAreaView style={styles.center}>
+      <Header>Seznam dětí</Header>
       <FlatList
         renderItem={({ item }) => (
           <SafeAreaView style={{ flex: 1, margin: 10 }}>
-            <Button
-              mode='contained' style={[styles.task, styles.blueChild]}
-              onPress={() => }
-            >
+            <Button mode='contained' style={[styles.task, styles.blueChild]}>
               {item.name}
             </Button>
           </SafeAreaView>
         )}
         data={children}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         numColumns={2}
         style={{ alignSelf: 'center', minWidth: 300 }}
       />
@@ -67,27 +64,23 @@ function Children({ navigation }: ChildrenProps) {
 function Statistics() {
   return (
     <SafeAreaView style={[styles.center]}>
-      <Text style={{ fontSize: 30 }}>Statistika třídy</Text>
+      <Header>Statistika třídy</Header>
       <Image
         source={require('../../assets/pavouk.png')}
         style={styles.spiderGraph}
       />
     </SafeAreaView>
-
   );
 }
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 export default function ClassDetail() {
   return (
-    <Tab.Navigator
-      initialRouteName="Detail třídy"
-      screenOptions={{ tabBarActiveTintColor: theme.colors.orange }}
-    >
+    <Tab.Navigator shifting={true} sceneAnimationEnabled={false}>
+      <Tab.Screen name="Přehled" component={Statistics} />
+      <Tab.Screen name="Úkoly" component={Notes} />
       <Tab.Screen name="Děti" component={Children} />
-      <Tab.Screen name="Statistiky" component={Statistics} />
-      <Tab.Screen name="Poznámky" component={Notes} />
     </Tab.Navigator>
   );
 }

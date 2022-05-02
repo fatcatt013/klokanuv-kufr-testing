@@ -5,7 +5,7 @@ import { theme } from '../theme';
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 
-const TextInput = ({ errorText, ...props }: Props) => (
+export const TextInput = memo(({ errorText, ...props }: Props) => (
   <View style={styles.container}>
     <Input
       style={styles.input}
@@ -16,7 +16,7 @@ const TextInput = ({ errorText, ...props }: Props) => (
     />
     {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
   </View>
-);
+));
 
 const styles = StyleSheet.create({
   container: {
@@ -33,5 +33,3 @@ const styles = StyleSheet.create({
     paddingTop: 4,
   },
 });
-
-export default memo(TextInput);

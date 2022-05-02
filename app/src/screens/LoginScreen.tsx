@@ -1,18 +1,18 @@
 import React, { memo, useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
-import Background from '../components/Background';
-import Logo from '../components/Logo';
-import Button from '../components/Button';
-import TextInput from '../components/TextInput';
+import { Background } from '../components/Background';
+import { Logo } from '../components/Logo';
+import { Button } from '../components/Button';
+import { TextInput } from '../components/TextInput';
 import { theme } from '../theme';
 import { emailValidator, passwordValidator } from '../utils';
-import { NavigationProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 type Props = {
-  navigation: NavigationProp<{ Dashboard: {}; RegisterScreen: {}; ForgotPasswordScreen: {}; HomeScreen: {}; }>;
+  navigation: StackNavigationProp<{ "Výběr třídy": {}; RegisterScreen: {}; ForgotPasswordScreen: {}; HomeScreen: {}; }>;
 };
 
-const HomeScreen = ({ navigation }: Props) => {
+const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
 
@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.navigate('ClassSelectScreen');
+    navigation.push("Výběr třídy");
   };
 
   return <Background>
@@ -58,9 +58,9 @@ const HomeScreen = ({ navigation }: Props) => {
 
     <View style={styles.forgotPassword}>
       <TouchableOpacity
-        onPress={() => navigation.navigate('ForgotPasswordScreen')}
+        onPress={() => navigation.push('ForgotPasswordScreen')}
       >
-        <Text style={styles.label}>Zapomněli jste heslo?</Text>
+        <Text style={styles.link}>Zapomněli jste heslo?</Text>
       </TouchableOpacity>
     </View>
 
@@ -69,8 +69,8 @@ const HomeScreen = ({ navigation }: Props) => {
     </Button>
 
     <View style={styles.row}>
-      <Text style={styles.label}>Nemáte účet? </Text>
-      <TouchableOpacity onPress={() => navigation.navigate('RegisterScreen')}>
+      <Text>Nemáte účet?</Text>
+      <TouchableOpacity onPress={() => navigation.push('RegisterScreen')}>
         <Text style={styles.link}>Aktivujte si ho</Text>
       </TouchableOpacity>
     </View>
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(HomeScreen);
+export default memo(LoginScreen);

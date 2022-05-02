@@ -6,9 +6,9 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Header = ({ children }: Props) => (
+export const Header = memo(({ children }: Props) => (
   <Text style={styles.header}>{children}</Text>
-);
+));
 
 const styles = StyleSheet.create({
   header: {
@@ -18,5 +18,3 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
   },
 });
-
-export default memo(Header);
