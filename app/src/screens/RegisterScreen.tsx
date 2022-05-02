@@ -8,11 +8,10 @@ import { TextInput } from '../components/TextInput';
 import { BackButton } from '../components/BackButton';
 import { theme } from '../theme';
 import { nameValidator, emailValidator, passwordValidator } from '../utils';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../lib/navigation';
 
-type Props = {
-  navigation: StackNavigationProp<{ "Výběr třídy": {}; LoginScreen: {}; }>;
-};
+type Props = StackScreenProps<RootStackParamList, 'Register'>;
 
 const RegisterScreen = ({ navigation }: Props) => {
   const [name, setName] = useState({ value: '', error: '' });
@@ -31,7 +30,7 @@ const RegisterScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.push('Výběr třídy');
+    navigation.push('ClassSelect');
   };
 
   return (

@@ -6,11 +6,10 @@ import { Button } from '../components/Button';
 import { TextInput } from '../components/TextInput';
 import { theme } from '../theme';
 import { emailValidator, passwordValidator } from '../utils';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../lib/navigation';
 
-type Props = {
-  navigation: StackNavigationProp<{ "Výběr třídy": {}; RegisterScreen: {}; ForgotPasswordScreen: {}; HomeScreen: {}; }>;
-};
+type Props = StackScreenProps<RootStackParamList, 'Login'>;
 
 const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState({ value: '', error: '' });
@@ -26,7 +25,7 @@ const LoginScreen = ({ navigation }: Props) => {
       return;
     }
 
-    navigation.push("Výběr třídy");
+    navigation.push("ClassSelect");
   };
 
   return <Background>
@@ -58,7 +57,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
     <View style={styles.forgotPassword}>
       <TouchableOpacity
-        onPress={() => navigation.push('ForgotPasswordScreen')}
+        onPress={() => navigation.push('ForgotPassword')}
       >
         <Text style={styles.link}>Zapomněli jste heslo?</Text>
       </TouchableOpacity>
@@ -70,7 +69,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
     <View style={styles.row}>
       <Text>Nemáte účet?</Text>
-      <TouchableOpacity onPress={() => navigation.push('RegisterScreen')}>
+      <TouchableOpacity onPress={() => navigation.push('Register')}>
         <Text style={styles.link}>Aktivujte si ho</Text>
       </TouchableOpacity>
     </View>

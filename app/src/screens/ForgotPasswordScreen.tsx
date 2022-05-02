@@ -7,11 +7,10 @@ import { Logo } from '../components/Logo';
 import { Header } from '../components/Header';
 import { TextInput } from '../components/TextInput';
 import { Button } from '../components/Button';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../lib/navigation';
 
-type Props = {
-  navigation: StackNavigationProp<{ LoginScreen: {}; }>;
-};
+type Props = StackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
 const ForgotPasswordScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState({ value: '', error: '' });

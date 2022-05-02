@@ -10,15 +10,15 @@ const styles = StyleSheet.create({
 
 export default function CompleteTask() {
   return (
-        <View style={styles.container}>
-            <Text>Název úkolu</Text>
-            <Text>Třída</Text>
-            <Checkbox status={'unchecked'}>Anicka</Checkbox>
-            <Checkbox status={'unchecked'}>Petr</Checkbox>
-            <Checkbox status={'unchecked'}>Tomas</Checkbox>
-            <Checkbox status={'unchecked'}>Jana</Checkbox>
-            <Button>Vyplnit</Button>
-            <Button>Vyplnit</Button>
-        </View>
+    <View style={styles.container}>
+      <Text>Název úkolu</Text>
+      <Text>Třída</Text>
+      <Checkbox status={'unchecked'}>Anicka</Checkbox>
+      <Checkbox status={'unchecked'}>Petr</Checkbox>
+      <Checkbox status={'unchecked'}>Tomas</Checkbox>
+      <Checkbox status={'unchecked'}>Jana</Checkbox>
+      <Button>Vyplnit</Button>
+      <Button>Vyplnit</Button>
+    </View>
   );
 }

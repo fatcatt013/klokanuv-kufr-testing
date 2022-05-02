@@ -4,8 +4,8 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { Button } from '../components/Button';
 import { theme } from '../theme';
 import { Notes } from "../components/Notes";
-import { StackNavigationProp } from '@react-navigation/stack';
-import { Header } from '../components/Header';
+import CompletedTasksList from './CompletedTasksList';
+import { FAB, Portal } from 'react-native-paper';
 
 const styles = StyleSheet.create({
   task: {
@@ -25,10 +25,6 @@ const styles = StyleSheet.create({
   },
 });
 
-type ChildrenProps = {
-  navigation: StackNavigationProp<{ Child: {}; HomeScreen: {}; }>;
-};
-
 export const MockDataClassDetailChildren = [
   { id: 1, name: 'Pepa' },
   { id: 2, name: 'Franta' },
@@ -39,11 +35,14 @@ export const MockDataClassDetailChildren = [
   { id: 7, name: 'Petr' },
 ];
 
-function Children({ navigation }: ChildrenProps) {
+function Overview() {
   const children = MockDataClassDetailChildren;
   return (
-    <SafeAreaView style={styles.center}>
-      <Header>Seznam dětí</Header>
+    <SafeAreaView style={[styles.center]}>
+      <Image
+        source={require('../../assets/pavouk.png')}
+        style={styles.spiderGraph}
+      />
       <FlatList
         renderItem={({ item }) => (
           <SafeAreaView style={{ flex: 1, margin: 10 }}>
@@ -61,26 +60,24 @@ function Children({ navigation }: ChildrenProps) {
   );
 }
 
-function Statistics() {
-  return (
-    <SafeAreaView style={[styles.center]}>
-      <Header>Statistika třídy</Header>
-      <Image
-        source={require('../../assets/pavouk.png')}
-        style={styles.spiderGraph}
-      />
-    </SafeAreaView>
-  );
-}
-
 const Tab = createMaterialBottomTabNavigator();
 
 export default function ClassDetail() {
-  return (
+  return <>
     <Tab.Navigator shifting={true} sceneAnimationEnabled={false}>
-      <Tab.Screen name="Přehled" component={Statistics} />
-      <Tab.Screen name="Úkoly" component={Notes} />
-      <Tab.Screen name="Děti" component={Children} />
+      <Tab.Screen name="Přehled" component={Overview} />
+      <Tab.Screen name="Úkoly" component={CompletedTasksList} />
+      <Tab.Screen name="Poznámky" component={Notes} />
     </Tab.Navigator>
-  );
+    <Portal>
+      <FAB
+        icon="plus"
+        style={{
+          position: 'absolute',
+          bottom: 100,
+          right: 16,
+        }}
+      />
+    </Portal>
+  </>;
 }
