@@ -24,10 +24,8 @@ router.register(r'subcategories', views.SubcategoryViewSet)
 router.register(r'categories', views.CategoryViewSet)
 router.register(r'assessment-type', views.AssessmentTypeViewSet)
 router.register(r'assessment-type-option', views.AssessmentTypeOptionViewSet)
+router.register(r'assessment', views.AssessmentViewSet)
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-]
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

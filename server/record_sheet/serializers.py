@@ -8,6 +8,13 @@ class AssessmentTypeOptionSerializer(serializers.ModelSerializer):
         fields = ['id', 'label']
 
 
+class AssessmentSerializer(serializers.ModelSerializer):
+    option = serializers.PrimaryKeyRelatedField(queryset=models.AssessmentTypeOption.objects.all())
+    class Meta:
+        model = models.Assessment
+        fields = ['id', 'task', 'option', 'date_of_assessment', 'note', 'assessed_by']
+
+
 class AssessmentTypeSerializer(serializers.ModelSerializer):
     options = AssessmentTypeOptionSerializer(source='assessmenttypeoption_set', many=True, read_only=True)
     class Meta:
