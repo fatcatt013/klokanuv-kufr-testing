@@ -45,4 +45,4 @@ class Assessment(models.Model):
     option = models.ForeignKey(AssessmentTypeOption, on_delete=models.CASCADE)
     date_of_assessment = models.DateField()
     note = models.TextField(null=True)
-    assessed_by = models.TextField(default='Dummy') # TODO change this to proper user once we've created them
+    assessed_by = models.TextField(default='Dummy')  # TODO change this to proper user once we've created them
