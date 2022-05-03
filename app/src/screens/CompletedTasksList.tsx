@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { FlatList, SafeAreaView, StyleSheet, View } from 'react-native';
-import { Button, Card, Headline } from 'react-native-paper';
+import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
+import { Button, Card, Headline, Text } from 'react-native-paper';
 import { Header } from '../components/Header';
 
 const styles = StyleSheet.create({
@@ -9,36 +9,30 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 30,
   },
-  card: {
-    flex: 1, margin: 10, padding: 10,
-  },
   moreInfo: {
     alignSelf: 'flex-end',
   },
 });
 
+const CompletedTasks = [
+  { name: "Přiřadí barvu", date: "16. 1. 2022", teacher: 'Anežka Dobrá' },
+  { name: "Odliší jiný obrázek v řadě", date: "11. 1. 2022", teacher: 'Marie Vystrčilová' },
+  { name: "Určí, zda se dvě slova rýmují", date: "20. 12. 2021", teacher: 'Anežka Dobrá' },
+]
+
 export default function CompletedTasksList() {
   return (
-    <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-      <Card style={styles.card}>
-        <Headline>Název úkolu: Přiřadí barvu</Headline>
-        <Headline>Datum: 16.1.2022</Headline>
-        <Headline>Pedagog: Anežka Dobrá</Headline>
-        <Button style={styles.moreInfo}>Více</Button>
-      </Card>
-      <Card style={styles.card}>
-        <Headline>Název úkolu: Odliší jiný obrázek v řadě</Headline>
-        <Headline>Datum: 11.1.2022</Headline>
-        <Headline>Pedagog: Marie Vystrčilová</Headline>
-        <Button style={styles.moreInfo}>Více</Button>
-      </Card>
-      <Card style={styles.card}>
-        <Headline>Název úkolu: Určí, zda se dvě slova rýmují</Headline>
-        <Headline>Datum: 20.12.2021</Headline>
-        <Headline>Pedagog: Marie Vystrčilová</Headline>
-        <Button style={styles.moreInfo}>Více</Button>
-      </Card>
-    </View>
+    <FlatList
+      data={CompletedTasks}
+      keyExtractor={(item) => item.name}
+      renderItem={({ item }) => (
+        <Card style={{ margin: 5, padding: 10 }}>
+          <Headline>{item.name}</Headline>
+          <Text>Hodnotil(a): {item.teacher}</Text>
+          <Text>{item.date}</Text>
+        </Card>
+      )}
+    />
   );
 }
 
@@ -58,7 +52,7 @@ const Task = ({ name }: { name: string; }) => (
   </SafeAreaView>
 );
 
-function Tasks() {
+export function Tasks() {
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
       <Header>Seznam kufrů?</Header>

@@ -28,14 +28,7 @@ export default function ChildDetail() {
       <Tab.Screen name="Poznámky" component={Notes} />
     </Tab.Navigator>
     <Portal>
-      <FAB
-        icon="plus"
-        style={{
-          position: 'absolute',
-          bottom: 100,
-          right: 16,
-        }}
-      />
+      <FAB icon="plus" style={{ position: 'absolute', bottom: 100, right: 16 }} />
     </Portal>
   </>;
 }

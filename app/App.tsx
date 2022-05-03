@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ActivityIndicator, Linking, Platform } from 'react-native';
+import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
@@ -9,18 +9,28 @@ import { QueryClientProvider } from 'react-query'
 import { theme } from './src/theme';
 import { queryClient } from './src/utils';
 import { App } from './src';
+import AppLoading from 'expo-app-loading';
+import { useFonts } from 'expo-font';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
-const Main = () => {
+export default () => {
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
+
+  const [fontsLoaded] = useFonts({
+    'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
+    'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
+    'Poppins-Light': require('./assets/fonts/Poppins-Light.ttf'),
+    'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
+    'Luzanky-Display': require('./assets/fonts/Luzanky-Display.ttf'),
+  });
 
   React.useEffect(() => {
     const restoreState = async () => {
       try {
         const initialUrl = await Linking.getInitialURL();
-        if (Platform.OS !== 'web' && initialUrl == null) {
+        if (Platform.OS === 'web' || initialUrl == null) {
           const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
           const state = savedStateString ? JSON.parse(savedStateString) : undefined;
           if (state !== undefined) {
@@ -37,8 +47,8 @@ const Main = () => {
     }
   }, [isReady]);
 
-  if (!isReady) {
-    return <ActivityIndicator />;
+  if (!isReady || !fontsLoaded) {
+    return <AppLoading />;
   }
 
   return <Provider theme={theme}>
@@ -54,7 +64,5 @@ const Main = () => {
     </NavigationContainer>
   </Provider>
 };
-
-export default Main;
 
 //export {default} from './storybook';

@@ -12,8 +12,7 @@ def base_list_sheet1():
     csv_filepath = "%s/../../../../docs/csv/diagnostika_sheet1.csv" % current_filepath
 
     with open(csv_filepath, 'r', encoding='utf-8') as file:
-        data_reader = list(csv.DictReader(file, delimiter='|'))
-        return data_reader
+        return list(csv.DictReader(file, delimiter='|'))
 
 
 # extract data about Category from base_data, save newly created instances
@@ -51,8 +50,7 @@ def populate_assessment_types(base_data):
 # take existing instances of AssessmentType, extract AssessmentTypeOption labels from them, save new instances
 def populate_assessment_type_options():
     for ass_type in AssessmentType.objects.all():
-        labels_split = ass_type.label.split(' / ')
-        for label in labels_split:
+        for label in ass_type.label.split(' / '):
             AssessmentTypeOption(parent_assessment_type=ass_type, label=label).save()
 
 
@@ -87,9 +85,7 @@ def populate_tasks(base_data):
     # now we update records with their parent_task, if there is one
     # have to do this next in sequence, since it's the same class and not all objects are created yet
     for task_match in base_data:
-        if not task_match['parent_temporary_id']:
-            continue
-        else:
+        if task_match['parent_temporary_id']:
             task_instance = Task.objects.get(id=task_match['temporary_task_id'])
             task_instance.parent_task = Task.objects.get(id=task_match['parent_temporary_id'])
             task_instance.save()

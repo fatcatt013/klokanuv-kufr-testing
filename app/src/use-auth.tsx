@@ -19,5 +19,6 @@ export function useAuth() {
   return {
     isSignedIn: true,
     classId: 1,
+    userId: 1,
   }
 }

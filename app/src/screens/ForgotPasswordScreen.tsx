@@ -28,7 +28,7 @@ const ForgotPasswordScreen = ({ navigation }: Props) => {
 
   return (
     <Background>
-      <BackButton goBack={navigation.pop} />
+      <BackButton goBack={() => navigation.pop()} />
 
       <Logo />
 

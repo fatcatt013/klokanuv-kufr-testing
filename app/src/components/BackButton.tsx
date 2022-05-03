@@ -12,8 +12,8 @@ export const BackButton = memo(({ goBack }: Props) => {
   const styles = StyleSheet.create({
     container: {
       position: 'absolute',
-      top: insets.top,
-      left: 10,
+      top: insets.top + 10,
+      left: insets.left + 10,
     },
     image: {
       width: 24,

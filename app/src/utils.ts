@@ -1,5 +1,8 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { QueryClient } from 'react-query'
+import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
+import { createAsyncStoragePersistor } from 'react-query/createAsyncStoragePersistor-experimental'
 
 export const fetcher = axios.create({
   baseURL: 'https://klokan.zarybnicky.com/',
@@ -14,6 +17,13 @@ export const queryClient = new QueryClient({
     },
   },
 });
+
+persistQueryClient({
+  queryClient,
+  persistor: createAsyncStoragePersistor({
+    storage: AsyncStorage
+  }),
+})
 
 export const emailValidator = (email: string) => {
   const re = /\S+@\S+\.\S+/;

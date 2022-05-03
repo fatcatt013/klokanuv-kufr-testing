@@ -20,6 +20,7 @@ export function App() {
     <RootStack.Navigator
       initialRouteName={isSignedIn ? "Login" : "ClassSelect"}
       screenOptions={{
+        animationEnabled: true,
         headerStyle: { backgroundColor: theme.colors.primary },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: 'bold' },
