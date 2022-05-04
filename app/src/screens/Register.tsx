@@ -1,8 +1,7 @@
-import React, { memo, useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Background } from '../components/Background';
 import { Logo } from '../components/Logo';
-import { Header } from '../components/Header';
 import { Button } from '../components/Button';
 import { TextInput } from '../components/TextInput';
 import { BackButton } from '../components/BackButton';
@@ -10,13 +9,14 @@ import { theme } from '../theme';
 import { nameValidator, emailValidator, passwordValidator } from '../utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
+import { Headline } from 'react-native-paper';
 
 type Props = StackScreenProps<RootStackParamList, 'Register'>;
 
-const RegisterScreen = ({ navigation }: Props) => {
-  const [name, setName] = useState({ value: '', error: '' });
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+export const RegisterScreen = React.memo(({ navigation }: Props) => {
+  const [name, setName] = React.useState({ value: '', error: '' });
+  const [email, setEmail] = React.useState({ value: '', error: '' });
+  const [password, setPassword] = React.useState({ value: '', error: '' });
 
   const _onSignUpPressed = () => {
     const nameError = nameValidator(name.value);
@@ -39,7 +39,7 @@ const RegisterScreen = ({ navigation }: Props) => {
 
       <Logo />
 
-      <Header>Aktivovat účet</Header>
+      <Headline>Aktivovat účet</Headline>
 
       <TextInput
         label="Aktivační kód"
@@ -87,7 +87,7 @@ const RegisterScreen = ({ navigation }: Props) => {
       </View>
     </Background>
   );
-};
+});
 
 const styles = StyleSheet.create({
   button: {
@@ -102,5 +102,3 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
 });
-
-export default memo(RegisterScreen);

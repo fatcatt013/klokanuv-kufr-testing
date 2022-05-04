@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -6,7 +6,7 @@ type Props = {
   goBack: () => void;
 };
 
-export const BackButton = memo(({ goBack }: Props) => {
+export const BackButton = React.memo(({ goBack }: Props) => {
   const insets = useSafeAreaInsets();
 
   const styles = StyleSheet.create({

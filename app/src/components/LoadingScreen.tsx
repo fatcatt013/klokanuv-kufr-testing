@@ -6,7 +6,7 @@ export function LoadingScreen() {
   const theme = useTheme();
 
   return (
-    <Background>
+    <Background center>
       <ActivityIndicator size="large" color={theme.colors.primary} />
     </Background>
   );

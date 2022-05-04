@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FAB } from 'react-native-paper';
 import { theme } from '../theme';
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   blueChild: {
-    backgroundColor: theme.colors.light_blue,
+    backgroundColor: theme.colors.lightBlue,
   },
   spiderGraph: {
     width: 300,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    backgroundColor: theme.colors.secondary,
+    backgroundColor: theme.colors.blue,
   },
 });
 

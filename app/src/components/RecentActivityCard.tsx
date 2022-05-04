@@ -1,7 +1,6 @@
-import { Button, Card, Divider, Headline, Paragraph, Text } from 'react-native-paper';
-import * as React from 'react';
+import React from 'react';
+import { Button, Card, Divider, Headline, Paragraph, Text, useTheme } from 'react-native-paper';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { theme } from '../theme';
 
 const styles = StyleSheet.create({
   card: {
@@ -29,8 +28,10 @@ type RecentActivityCardProps = {
   note: string
 };
 
-export const RecentActivityCard = React.memo((props: RecentActivityCardProps) => (
-  <SafeAreaView style={{ padding: 20, flex: 1 }}>
+export const RecentActivityCard = React.memo((props: RecentActivityCardProps) => {
+  const theme = useTheme();
+
+  return <SafeAreaView style={{ padding: 20, flex: 1 }}>
     <Card style={styles.card}>
       <Headline style={styles.taskName}>{props.taskName}</Headline>
       <Divider />
@@ -47,4 +48,4 @@ export const RecentActivityCard = React.memo((props: RecentActivityCardProps) =>
       <Button mode={'outlined'} style={styles.moreInfo}>Více</Button>
     </Card>
   </SafeAreaView>
-));
+});

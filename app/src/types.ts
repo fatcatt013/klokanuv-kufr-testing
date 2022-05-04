@@ -48,3 +48,15 @@ export interface Assessment {
   note: string;
   assessed_by: string;
 }
+
+export interface Class {
+  id: number;
+  name: string;
+}
+
+export interface Child {
+  id: number;
+  classId: number;
+  name: string;
+  yearOfBirth: number;
+}

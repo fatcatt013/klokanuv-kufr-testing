@@ -11,7 +11,7 @@ export const QueryBoundary: React.FC = ({ children }) => (
       <ErrorBoundary
         onReset={reset}
         fallbackRender={({ resetErrorBoundary }) => (
-          <Background>
+          <Background center>
             <Text>Nastala chyba!</Text>
             <Button mode='contained' onPress={() => resetErrorBoundary()}>Zkusit znovu</Button>
           </Background>

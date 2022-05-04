@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 
-export const Logo = memo(() => (
+export const Logo = React.memo(() => (
   <Image source={require('../../assets/kufr-logo.png')} style={styles.image} />
 ));
 

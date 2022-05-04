@@ -1,18 +1,4 @@
-import * as React from 'react';
-import { useQuery } from 'react-query';
-import { LoadingScreen } from '../components/LoadingScreen';
-import { fetcher } from '../utils';
-
-export default function AvailableTasksList() {
-  const { data } = useQuery('tasks', () => fetcher.get('/tasks'));
-  console.log(data);
-
-  return (
-    <React.Suspense fallback={<LoadingScreen />}>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </React.Suspense>
-  );
-}
+export { }
 
 // import React from 'react';
 // import { View, StyleSheet, FlatList, RefreshControl } from 'react-native';

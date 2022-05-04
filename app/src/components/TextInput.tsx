@@ -1,11 +1,11 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { TextInput as Input } from 'react-native-paper';
 import { theme } from '../theme';
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 
-export const TextInput = memo(({ errorText, ...props }: Props) => (
+export const TextInput = React.memo(({ errorText, ...props }: Props) => (
   <View style={styles.container}>
     <Input
       style={styles.input}

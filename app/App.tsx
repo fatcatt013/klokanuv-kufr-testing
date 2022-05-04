@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Linking, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import { queryClient } from './src/utils';
 import { App } from './src';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
+import { RecoilRoot } from 'recoil';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
@@ -52,17 +53,21 @@ export default () => {
   }
 
   return <Provider theme={theme}>
-    <NavigationContainer
-      initialState={initialState}
-      onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
-    >
+    <RecoilRoot>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <App />
+          <NavigationContainer
+            initialState={initialState}
+            onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
+          >
+            <React.Suspense fallback={<AppLoading />}>
+              <App />
+            </React.Suspense>
+          </NavigationContainer>
         </QueryClientProvider>
       </SafeAreaProvider>
-    </NavigationContainer>
-  </Provider>
+    </RecoilRoot >
+  </Provider >
 };
 
 //export {default} from './storybook';

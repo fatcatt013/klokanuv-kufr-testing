@@ -1,7 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import { FlatList, SafeAreaView, StyleSheet } from 'react-native';
 import { Button, Card, Headline, Text } from 'react-native-paper';
-import { Header } from '../components/Header';
 
 const styles = StyleSheet.create({
   task: {
@@ -14,16 +13,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const CompletedTasks = [
+const Assessments = [
   { name: "Přiřadí barvu", date: "16. 1. 2022", teacher: 'Anežka Dobrá' },
   { name: "Odliší jiný obrázek v řadě", date: "11. 1. 2022", teacher: 'Marie Vystrčilová' },
   { name: "Určí, zda se dvě slova rýmují", date: "20. 12. 2021", teacher: 'Anežka Dobrá' },
 ]
 
-export default function CompletedTasksList() {
+export function AssessmentList() {
   return (
     <FlatList
-      data={CompletedTasks}
+      data={Assessments}
       keyExtractor={(item) => item.name}
       renderItem={({ item }) => (
         <Card style={{ margin: 5, padding: 10 }}>
@@ -55,7 +54,7 @@ const Task = ({ name }: { name: string; }) => (
 export function Tasks() {
   return (
     <SafeAreaView style={{ flexDirection: 'column', flex: 1, alignItems: 'center' }}>
-      <Header>Seznam kufrů?</Header>
+      <Headline>Seznam kufrů?</Headline>
       <FlatList
         data={MockDataChildDetailTasks}
         renderItem={({ item }) => <Task name={item.name} />}

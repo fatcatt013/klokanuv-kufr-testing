@@ -1,11 +1,11 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 type Props = {
   children: React.ReactNode;
 };
 
-export const Paragraph = memo(({ children }: Props) => (
+export const Paragraph = React.memo(({ children }: Props) => (
   <Text style={styles.text}>{children}</Text>
 ));
 

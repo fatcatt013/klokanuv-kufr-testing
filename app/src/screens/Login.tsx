@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react';
+import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 import { Background } from '../components/Background';
 import { Logo } from '../components/Logo';
@@ -11,9 +11,9 @@ import { RootStackParamList } from '../lib/navigation';
 
 type Props = StackScreenProps<RootStackParamList, 'Login'>;
 
-const LoginScreen = ({ navigation }: Props) => {
-  const [email, setEmail] = useState({ value: '', error: '' });
-  const [password, setPassword] = useState({ value: '', error: '' });
+export const LoginScreen = React.memo(({ navigation }: Props) => {
+  const [email, setEmail] = React.useState({ value: '', error: '' });
+  const [password, setPassword] = React.useState({ value: '', error: '' });
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }: Props) => {
     navigation.push("ClassSelect");
   };
 
-  return <Background>
+  return <Background center>
     <Logo />
 
     <TextInput
@@ -74,7 +74,7 @@ const LoginScreen = ({ navigation }: Props) => {
       </TouchableOpacity>
     </View>
   </Background>
-};
+});
 
 const styles = StyleSheet.create({
   forgotPassword: {
@@ -91,5 +91,3 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
   },
 });
-
-export default memo(LoginScreen);

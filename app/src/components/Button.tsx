@@ -1,11 +1,11 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button as PaperButton } from 'react-native-paper';
 import { theme } from '../theme';
 
 type Props = React.ComponentProps<typeof PaperButton>;
 
-export const Button = memo(({ mode, style, children, ...props }: Props) => (
+export const Button = React.memo(({ mode, style, children, ...props }: Props) => (
   <PaperButton
     style={[
       styles.button,
