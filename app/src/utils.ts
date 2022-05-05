@@ -6,7 +6,7 @@ import { createAsyncStoragePersistor } from 'react-query/createAsyncStoragePersi
 
 export const fetcher = axios.create({
   baseURL: 'https://klokan.zarybnicky.com/',
-  timeout: 1000,
+  timeout: 10000,
   // headers: {'X-Custom-Header': 'foobar'}
 });
 

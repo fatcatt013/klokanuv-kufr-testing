@@ -11,8 +11,10 @@ type Props = StackScreenProps<RootStackParamList, 'Task'>;
 export const TaskScreen = React.memo(function TaskScreen({ route }: Props) {
   const task = useRecoilValue(taskState(route.params.taskId));
 
-  return <SafeAreaView style={{}}>
+  return <SafeAreaView style={{ margin: 5 }}>
     <Headline>{task?.task_description}</Headline>
-    {task?.assessment_type.options.map(x => <Text>{'\u2B24'} {x.label}</Text>)}
+    {task?.assessment_type.options.map((x, i) =>
+      <Text key={i} style={{ paddingLeft: 10, margin: 3 }}>{'\u2B24'} {x.label}</Text>
+    )}
   </SafeAreaView>
 })

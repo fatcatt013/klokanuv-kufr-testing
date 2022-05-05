@@ -18,7 +18,7 @@ export const Header = React.memo(function Header({ back, options, navigation }: 
   return (
     <Appbar.Header>
       {back ? <Appbar.BackAction color="white" onPress={navigation.goBack} size={20} /> : null}
-      <Appbar.Content title={title} titleStyle={{ fontSize: 18 }} />
+      <Appbar.Content title={title} titleStyle={{ fontSize: 18, color: 'white' }} />
 
       <IconButton color="white" icon="briefcase-search-outline" onPress={() => navigation.push('TaskList')} />
       <Menu

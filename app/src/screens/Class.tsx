@@ -8,6 +8,7 @@ import { ClassOverview } from '../components/ClassOverview';
 import { AssessmentList } from '../components/AssessmentList';
 import { Background } from '../components/Background';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ClassIDContext } from '../lib/contexts';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 const Tab = createMaterialBottomTabNavigator();
@@ -15,35 +16,33 @@ const Tab = createMaterialBottomTabNavigator();
 export const ClassScreen = React.memo(function ClassScreen({ navigation, route }: Props) {
   const insets = useSafeAreaInsets();
   const theme = useTheme();
-  const initialParams = { classId: route.params.classId };
   const [open, setOpen] = React.useState(false);
 
   return <Background>
-    <Tab.Navigator
-      sceneAnimationEnabled={false}
-      barStyle={{ backgroundColor: theme.colors.primary }}
-      activeColor="white"
-      inactiveColor="rgba(255, 255, 255, 0.5)"
-    >
-      <Tab.Screen
-        name="Přehled"
-        component={ClassOverview}
-        options={{ tabBarIcon: "account-multiple" }}
-        initialParams={initialParams}
-      />
-      <Tab.Screen
-        name="Úkoly"
-        component={AssessmentList}
-        options={{ tabBarIcon: "order-bool-descending-variant" }}
-        initialParams={initialParams}
-      />
-      <Tab.Screen
-        name="Poznámky"
-        component={Notes}
-        options={{ tabBarIcon: "note-multiple-outline" }}
-        initialParams={initialParams}
-      />
-    </Tab.Navigator>
+    <ClassIDContext.Provider value={route.params.classId}>
+      <Tab.Navigator
+        sceneAnimationEnabled={false}
+        barStyle={{ backgroundColor: theme.colors.primary }}
+        activeColor="white"
+        inactiveColor="rgba(255, 255, 255, 0.5)"
+      >
+        <Tab.Screen
+          name="Přehled"
+          component={ClassOverview}
+          options={{ tabBarIcon: "account-multiple" }}
+        />
+        <Tab.Screen
+          name="Úkoly"
+          component={AssessmentList}
+          options={{ tabBarIcon: "order-bool-descending-variant" }}
+        />
+        <Tab.Screen
+          name="Poznámky"
+          component={Notes}
+          options={{ tabBarIcon: "note-multiple-outline" }}
+        />
+      </Tab.Navigator>
+    </ClassIDContext.Provider>
 
     <Portal>
       <FAB.Group
@@ -52,7 +51,7 @@ export const ClassScreen = React.memo(function ClassScreen({ navigation, route }
         icon={open ? 'close' : 'plus'}
         color="white"
         style={{ position: 'absolute', paddingBottom: insets.bottom + 54, paddingRight: insets.right }}
-        fabStyle={{ backgroundColor: theme.colors.primary }}
+        fabStyle={{ backgroundColor: theme.colors.blue }}
         actions={[
           {
             icon: 'note-plus',

@@ -22,5 +22,5 @@ export const icons: { [k: string]: (p: SvgProps) => JSX.Element } = {
   "Základní matematické představy": ZakladniMatematickePredstavy,
   "Zrakové vnímání a paměť": ZrakoveVnimaniAPamet,
 
-  "Soustředění na hru": Hra,
+  "Soustředení na hru": Hra,
 };

@@ -30,11 +30,6 @@ export function App() {
           header: (props) => <Header {...props} />,
         }}>
           <RootStack.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{ title: 'Profil' }}
-          />
-          <RootStack.Screen
             name="ClassSelect"
             component={ClassSelectScreen}
             options={{ title: 'Výběr třídy' }}
@@ -83,6 +78,12 @@ export function App() {
             name="Assessment"
             component={AssessmentScreen}
             options={{ title: 'Hodnocení' }}
+          />
+
+          <RootStack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ title: 'Profil' }}
           />
         </RootStack.Group>
       ) : (

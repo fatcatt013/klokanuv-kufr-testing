@@ -1,14 +1,14 @@
 import React from 'react';
 import { Image, SafeAreaView } from 'react-native';
-import { Headline } from 'react-native-paper';
+import { ChildIDContext } from '../lib/contexts';
 
-export function ChildOverview({ childId }: { childId: number; }) {
+export function ChildOverview() {
+  const childId = React.useContext(ChildIDContext);
   return (
     <SafeAreaView>
-      <Headline>Statistika dítěte</Headline>
       <Image
         source={require('../../assets/pavouk.png')}
-        style={{ width: 300, height: 300 }}
+        style={{ width: 300, height: 300, alignSelf: 'center', margin: 5 }}
       />
     </SafeAreaView>
   );

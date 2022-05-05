@@ -2,16 +2,15 @@ import React from 'react';
 import { FlatList } from "react-native";
 import { Card, Headline, Text } from "react-native-paper";
 import { useRecoilValue } from "recoil";
+import { ChildIDContext, ClassIDContext } from '../lib/contexts';
 import { childAssessmentState, classAssessmentState } from "../store";
 
-type AssessmentListProps = {
-  classId?: number;
-  childId?: number;
-};
+export function AssessmentList() {
+  const classId = React.useContext(ClassIDContext);
+  const childId = React.useContext(ChildIDContext);
 
-export function AssessmentList(props: AssessmentListProps) {
-  const childAssessments = useRecoilValue(childAssessmentState(props?.childId));
-  const classAssessments = useRecoilValue(classAssessmentState(props?.classId));
+  const childAssessments = useRecoilValue(childAssessmentState(childId));
+  const classAssessments = useRecoilValue(classAssessmentState(classId));
   const assessments = childAssessments.concat(classAssessments);
 
   return (

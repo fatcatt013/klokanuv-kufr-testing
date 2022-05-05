@@ -11,14 +11,26 @@ interface CategorySelectProps {
 
 export const CategorySelect = ({ selectCategory }: CategorySelectProps) => {
   const categories = useRecoilValue(categoriesState);
+  console.log(categories.map(cat => ([cat.label, icons[cat.label]])));
 
-  return <SafeAreaView style={{}}>
+  return <SafeAreaView style={{
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+  }}>
     {categories.map(cat => (
-      <TouchableOpacity onPress={() => selectCategory(cat.id)} style={{}}>
+      <TouchableOpacity key={cat.id} onPress={() => selectCategory(cat.id)} style={{
+        flexBasis: '33%',
+        flexGrow: 1,
+        alignItems: 'flex-start',
+        alignContent: 'center',
+        padding: 5
+      }}>
         {React.createElement(icons[cat.label], {
-          style: { width: 75, height: 75 },
+          style: { width: 75, height: 75, marginHorizontal: 'auto' },
         })}
-        <Caption>{cat.label}</Caption>
+        <Caption style={{ alignSelf: 'stretch', textAlign: 'center' }}>{cat.label}</Caption>
       </TouchableOpacity>
     ))}
   </SafeAreaView>
