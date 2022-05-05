@@ -17,19 +17,18 @@ import { TaskListScreen } from './screens/TaskListScreen';
 import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
+import { CreateNoteScreen } from './screens/CreateNoteScreen';
 
 export function App() {
   const theme = useTheme();
   const { isSignedIn } = useAuth();
-  console.log(isSignedIn);
+
   return (
     <RootStack.Navigator initialRouteName={isSignedIn ? "Login" : "ClassSelect"}>
       {isSignedIn ? (
         <RootStack.Group screenOptions={{
           animationEnabled: true,
           header: (props) => <Header {...props} />,
-          headerStyle: { backgroundColor: theme.colors.primary },
-          headerTintColor: '#fff',
         }}>
           <RootStack.Screen
             name="Profile"
@@ -94,6 +93,13 @@ export function App() {
           <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         </RootStack.Group>
       )}
+
+      <RootStack.Group screenOptions={{
+        presentation: 'transparentModal',
+        headerShown: false,
+      }}>
+        <RootStack.Screen name="CreateNote" component={CreateNoteScreen} />
+      </RootStack.Group>
     </RootStack.Navigator>
   );
 }

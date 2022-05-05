@@ -4,8 +4,8 @@ import { RootStackParamList } from '../lib/navigation';
 
 type Props = StackScreenProps<RootStackParamList, 'Profile'>;
 
-export function ProfileScreen({ }: Props) {
+export const ProfileScreen = React.memo(function ProfileScreen({ }: Props) {
   return <>
 
   </>;
-}
+})

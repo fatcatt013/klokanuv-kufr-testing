@@ -13,6 +13,7 @@ export type RootStackParamList = {
   Task: { taskId: number; };
 
   CreateAssessment: undefined;
+  CreateNote: undefined;
   Assessment: { assessmentId: number; };
 
   Login: undefined;

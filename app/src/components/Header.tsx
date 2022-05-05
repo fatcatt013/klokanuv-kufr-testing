@@ -1,18 +1,7 @@
 import { StackHeaderProps } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Appbar, IconButton, Menu } from 'react-native-paper';
-import { theme } from '../theme';
+import { Appbar, IconButton, Menu, useTheme } from 'react-native-paper';
 import { useAuth } from '../use-auth';
-
-const styles = StyleSheet.create({
-  header: {
-    fontSize: 26,
-    color: theme.colors.primary,
-    fontWeight: 'bold',
-    paddingVertical: 14,
-  },
-});
 
 export const Header = React.memo(function Header({ back, options, navigation }: StackHeaderProps) {
   const { signOut } = useAuth();

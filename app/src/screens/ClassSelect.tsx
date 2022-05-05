@@ -9,22 +9,20 @@ import { groupsState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'ClassSelect'>;
 
-export const ClassSelectScreen = React.memo(({ navigation }: Props) => {
+export const ClassSelectScreen = React.memo(function ClassSelectScreen({ navigation }: Props) {
   const groups = useRecoilValue(groupsState);
 
-  return (
-    <Background>
-      <FlatList
-        data={groups}
-        keyExtractor={x => x.id.toString()}
-        renderItem={({ item }) => (
-          <Card elevation={2} style={{ marginBottom: 8 }} onPress={() => navigation.replace('Class', { classId: item.id })}>
-            <Card.Content>
-              <Title>{item.name}</Title>
-            </Card.Content>
-          </Card>
-        )}
-      />
-    </Background>
-  );
+  return <Background>
+    <FlatList
+      data={groups}
+      keyExtractor={x => x.id.toString()}
+      renderItem={({ item }) => (
+        <Card elevation={2} style={{ marginBottom: 8 }} onPress={() => navigation.replace('Class', { classId: item.id })}>
+          <Card.Content>
+            <Title>{item.name}</Title>
+          </Card.Content>
+        </Card>
+      )}
+    />
+  </Background>;
 })

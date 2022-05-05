@@ -6,14 +6,15 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { ChildOverview } from '../components/ChildOverview';
 import { AssessmentList } from '../components/AssessmentList';
+import { Background } from '../components/Background';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 const Tab = createMaterialBottomTabNavigator();
 
-export function ChildScreen({ route }: Props) {
+export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
   const initialParams = { classId: route.params.childId };
 
-  return <>
+  return <Background>
     <Tab.Navigator shifting={true} sceneAnimationEnabled={false}>
       <Tab.Screen name="Přehled" component={ChildOverview} initialParams={initialParams} />
       <Tab.Screen name="Hodnocení" component={AssessmentList} initialParams={initialParams} />
@@ -22,5 +23,5 @@ export function ChildScreen({ route }: Props) {
     <Portal>
       <FAB icon="plus" style={{ position: 'absolute', bottom: 100, right: 16 }} />
     </Portal>
-  </>;
-}
+  </Background>;
+});

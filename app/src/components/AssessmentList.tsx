@@ -1,3 +1,4 @@
+import React from 'react';
 import { FlatList } from "react-native";
 import { Card, Headline, Text } from "react-native-paper";
 import { useRecoilValue } from "recoil";

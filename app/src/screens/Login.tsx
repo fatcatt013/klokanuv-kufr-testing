@@ -12,7 +12,7 @@ import { useAuth } from '../use-auth';
 
 type Props = StackScreenProps<RootStackParamList, 'Login'>;
 
-export const LoginScreen = React.memo(({ navigation }: Props) => {
+export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
   const { signIn } = useAuth();

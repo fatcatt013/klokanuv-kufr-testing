@@ -13,7 +13,7 @@ import { Headline } from 'react-native-paper';
 
 type Props = StackScreenProps<RootStackParamList, 'Register'>;
 
-export const RegisterScreen = React.memo(({ navigation }: Props) => {
+export const RegisterScreen = React.memo(function RegisterScreen({ navigation }: Props) {
   const [name, setName] = React.useState({ value: '', error: '' });
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
@@ -85,7 +85,7 @@ export const RegisterScreen = React.memo(({ navigation }: Props) => {
           <Text style={styles.link}>Přihlásit se</Text>
         </TouchableOpacity>
       </View>
-    </Background>
+    </Background >
   );
 });
 

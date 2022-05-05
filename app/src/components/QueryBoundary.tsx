@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryErrorResetBoundary } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Text } from 'react-native';
+import { Text } from 'react-native-paper';
 import { Button } from './Button';
 import { Background } from './Background';
 

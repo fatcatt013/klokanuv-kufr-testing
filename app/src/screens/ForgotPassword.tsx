@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { emailValidator } from '../utils';
 import { Background } from '../components/Background';
 import { BackButton } from '../components/BackButton';
@@ -8,11 +8,11 @@ import { TextInput } from '../components/TextInput';
 import { Button } from '../components/Button';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
-import { Headline } from 'react-native-paper';
+import { Text, Headline } from 'react-native-paper';
 
 type Props = StackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
-export const ForgotPasswordScreen = React.memo(({ navigation }: Props) => {
+export const ForgotPasswordScreen = React.memo(function ForgotPasswordScreen({ navigation }: Props) {
   const [email, setEmail] = React.useState({ value: '', error: '' });
 
   const _onSendPressed = () => {

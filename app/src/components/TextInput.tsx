@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { TextInput as Input } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { TextInput as Input, Text } from 'react-native-paper';
 import { theme } from '../theme';
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
@@ -21,7 +21,7 @@ export const TextInput = React.memo(({ errorText, ...props }: Props) => (
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    marginVertical: 12,
+    marginVertical: 4,
   },
   input: {
     backgroundColor: theme.colors.surface,
