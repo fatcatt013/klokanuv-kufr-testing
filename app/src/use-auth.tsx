@@ -1,24 +1,14 @@
-import React from 'react';
-import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import { useRecoilState } from 'recoil';
+import { authState } from './store';
 
 export function useAuth() {
-  const [value, setValue] = React.useState({});
-  const { getItem, setItem } = useAsyncStorage('@storage_key');
-
-  React.useEffect(() => {
-    (async () => {
-      setValue(JSON.parse(await getItem() || '{}'));
-    })();
-  }, []);
-
-  const writeItemToStorage = async (newValue) => {
-    await setItem(JSON.stringify(newValue));
-    setValue(newValue);
-  };
+  const [auth, setAuth] = useRecoilState(authState);
 
   return {
-    isSignedIn: true,
+    isSignedIn: auth.signedIn,
     classId: 1,
     userId: 1,
+    signIn: () => setAuth({ ...auth, signedIn: true }),
+    signOut: () => setAuth({ ...auth, signedIn: false }),
   }
 }

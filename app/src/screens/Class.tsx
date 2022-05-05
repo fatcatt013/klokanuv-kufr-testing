@@ -5,12 +5,12 @@ import { FAB, Portal } from 'react-native-paper';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { ClassOverview } from '../components/ClassOverview';
-import { AssessmentList } from './AssessmentList';
+import { AssessmentList } from '../components/AssessmentList';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 const Tab = createMaterialBottomTabNavigator();
 
-export default function ClassDetail({ route }: Props) {
+export function ClassScreen({ route }: Props) {
   const initialParams = { classId: route.params.classId };
   return <>
     <Tab.Navigator shifting={true} sceneAnimationEnabled={false}>

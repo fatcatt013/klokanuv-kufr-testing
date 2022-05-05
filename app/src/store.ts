@@ -1,4 +1,4 @@
-import { Assessment, Category, Child, Class } from "./types";
+import { Assessment, Category, Child, Class, Subcategory, Task } from "./types";
 import { fetcher } from "./utils";
 import { atom, AtomEffect, DefaultValue, selectorFamily } from 'recoil'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -18,6 +18,12 @@ const persistAtom: AtomEffect<any> = ({ node, setSelf, onSet }) => {
     }
   })
 };
+
+export const authState = atom<{ signedIn: boolean }>({
+  key: 'auth',
+  effects_UNSTABLE: [persistAtom],
+  default: { signedIn: false },
+});
 
 export const groupsState = atom<Class[]>({
   key: 'groups',
@@ -74,12 +80,54 @@ export const categoriesState = atom<Category[]>({
   })(),
 });
 
+export const categoryState = selectorFamily({
+  key: 'category',
+  get: (catId) => ({ get }) => get(categoriesState).find(x => x.id === catId),
+});
+
+export const subcategoryState = selectorFamily({
+  key: 'subcategory',
+  get: (subcatId) => ({ get }) => {
+    let result: Subcategory | undefined;
+    get(categoriesState).forEach(cat => {
+      result = result || cat.subcategories.find(x => x.id === subcatId);
+    })
+    return result;
+  },
+});
+
+export const taskState = selectorFamily({
+  key: 'task',
+  get: (taskId) => ({ get }) => {
+    let result: Task | undefined;
+    get(categoriesState).forEach(cat => {
+      cat.subcategories.forEach(subcat => {
+        result = result || subcat.tasks.find(x => x.id === taskId);
+      })
+    })
+    return result;
+  },
+});
+
 export const assessmentsState = atom<Assessment[]>({
-  key: '',
+  key: 'assessments',
   effects_UNSTABLE: [persistAtom],
   default: [
-    { id: 1, task: 3, option: 1, date_of_assessment: "2022-05-03", note: '', assessed_by: '' },
-    { id: 2, task: 3, option: 2, date_of_assessment: "2022-05-02", note: '', assessed_by: '' },
-    { id: 3, task: 8, option: 3, date_of_assessment: "2022-05-01", note: '', assessed_by: '' },
+    { id: 1, childId: 1, task: 3, option: 1, date_of_assessment: "2022-05-03", note: '' },
+    { id: 2, childId: 2, task: 3, option: 2, date_of_assessment: "2022-05-02", note: '' },
+    { id: 3, childId: 1, task: 8, option: 3, date_of_assessment: "2022-05-01", note: '' },
   ],
+});
+
+export const childAssessmentState = selectorFamily({
+  key: 'childAssessment',
+  get: (childId) => ({ get }) => get(assessmentsState).filter(x => x.childId === childId)
+});
+
+export const classAssessmentState = selectorFamily({
+  key: 'classAssessment',
+  get: (classId) => ({ get }) => {
+    const childIds = get(childrenState).filter(x => x.classId === classId).map(x => x.id);
+    return get(assessmentsState).filter(x => childIds.includes(x.childId))
+  },
 });

@@ -1,6 +1,5 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 type Props = {
   center?: boolean;
@@ -8,11 +7,10 @@ type Props = {
 };
 
 export const Background = React.memo(({ center, children }: Props) => {
-  const theme = useTheme()
   return <ImageBackground
     source={require('../../assets/background_dot.png')}
     resizeMode="repeat"
-    style={[styles.background, { backgroundColor: theme.colors.background }]}
+    style={styles.background}
   >
     <KeyboardAvoidingView style={[styles.container, center && styles.center]} behavior="padding">
       {children}

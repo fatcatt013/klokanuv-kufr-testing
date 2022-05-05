@@ -2,23 +2,26 @@ import React from 'react';
 import { useAuth } from './use-auth';
 import { RootStack } from './lib/navigation';
 
-import Login from './screens/Login';
-import Register from './screens/Register';
-import ForgotPassword from './screens/ForgotPassword';
-import ClassSelect from './screens/ClassSelect';
-import ChildDetail from './screens/Child';
-import ClassDetail from "./screens/Class";
-import CompleteTask from './screens/CompleteTask';
-import { AssessmentList } from './screens/AssessmentList';
+import { LoginScreen } from './screens/Login';
+import { RegisterScreen } from './screens/Register';
+import { ForgotPasswordScreen } from './screens/ForgotPassword';
+import { ClassSelectScreen } from './screens/ClassSelect';
+import { ChildScreen } from './screens/Child';
+import { ClassScreen } from "./screens/Class";
 import { useTheme } from 'react-native-paper';
 import { ChildSelect } from './components/ChildSelect';
 import { Header } from './components/Header';
 import { GroupSelect } from './components/ClassSelect';
+import { TaskScreen } from './screens/TaskScreen';
+import { TaskListScreen } from './screens/TaskListScreen';
+import { ProfileScreen } from './screens/Profile';
+import { CreateAssessmentScreen } from './screens/CreateAssessment';
+import { AssessmentScreen } from './screens/Assessment';
 
 export function App() {
   const theme = useTheme();
   const { isSignedIn } = useAuth();
-
+  console.log(isSignedIn);
   return (
     <RootStack.Navigator initialRouteName={isSignedIn ? "Login" : "ClassSelect"}>
       {isSignedIn ? (
@@ -29,13 +32,18 @@ export function App() {
           headerTintColor: '#fff',
         }}>
           <RootStack.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{ title: 'Profil' }}
+          />
+          <RootStack.Screen
             name="ClassSelect"
-            component={ClassSelect}
+            component={ClassSelectScreen}
             options={{ title: 'Výběr třídy' }}
           />
           <RootStack.Screen
             name="Class"
-            component={ClassDetail}
+            component={ClassScreen}
             options={({ route, navigation }) => ({
               headerTitle: (props) => <GroupSelect
                 selected={route.params.classId}
@@ -44,9 +52,10 @@ export function App() {
               />
             })}
           />
+
           <RootStack.Screen
             name="Child"
-            component={ChildDetail}
+            component={ChildScreen}
             options={({ route, navigation }) => ({
               headerTitle: (props) => <ChildSelect
                 selected={route.params.childId}
@@ -55,22 +64,34 @@ export function App() {
               />
             })}
           />
-          {/* <RootStack.Screen
-              name="CategoryList"
-              component={CategoryList}
-              options={{ title: 'Kategorie úkolů' }}
-              />
-              <RootStack.Screen
-              name="TaskList"
-              component={TaskList}
-              options={{ title: 'Úkoly' }}
-              /> */}
+
+          <RootStack.Screen
+            name="TaskList"
+            component={TaskListScreen}
+            options={{ title: 'Úkoly' }}
+          />
+          <RootStack.Screen
+            name="Task"
+            component={TaskScreen}
+            options={{ title: 'Úkol' }}
+          />
+
+          <RootStack.Screen
+            name="CreateAssessment"
+            component={CreateAssessmentScreen}
+            options={{ title: 'Hodnotit dítě' }}
+          />
+          <RootStack.Screen
+            name="Assessment"
+            component={AssessmentScreen}
+            options={{ title: 'Hodnocení' }}
+          />
         </RootStack.Group>
       ) : (
         <RootStack.Group screenOptions={{ headerShown: false }}>
-          <RootStack.Screen name="Login" component={Login} />
-          <RootStack.Screen name="Register" component={Register} />
-          <RootStack.Screen name="ForgotPassword" component={ForgotPassword} />
+          <RootStack.Screen name="Login" component={LoginScreen} />
+          <RootStack.Screen name="Register" component={RegisterScreen} />
+          <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         </RootStack.Group>
       )}
     </RootStack.Navigator>

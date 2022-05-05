@@ -2,7 +2,6 @@ import React from 'react';
 import { FlatList, Image, SafeAreaView } from 'react-native';
 import { Button } from '../components/Button';
 import { theme } from '../theme';
-import Zrak from '../components/icons/Zrak';
 import { childrenByGroupState } from '../store';
 import { useRecoilValue } from 'recoil';
 
@@ -24,7 +23,6 @@ export function ClassOverview({ classId }: { classId: number }) {
           </SafeAreaView>
         )}
       />
-      <Zrak style={{ width: 75, height: 75 }} />
     </SafeAreaView>
   );
 }

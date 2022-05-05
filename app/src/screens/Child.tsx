@@ -5,12 +5,12 @@ import { FAB, Portal } from 'react-native-paper';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { ChildOverview } from '../components/ChildOverview';
-import { AssessmentList } from './AssessmentList';
+import { AssessmentList } from '../components/AssessmentList';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 const Tab = createMaterialBottomTabNavigator();
 
-export default function ChildScreen({ route }: Props) {
+export function ChildScreen({ route }: Props) {
   const initialParams = { classId: route.params.childId };
 
   return <>

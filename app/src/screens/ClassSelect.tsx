@@ -9,7 +9,7 @@ import { groupsState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'ClassSelect'>;
 
-export default function ClassSelectScreen({ navigation }: Props) {
+export const ClassSelectScreen = React.memo(({ navigation }: Props) => {
   const groups = useRecoilValue(groupsState);
 
   return (
@@ -27,4 +27,4 @@ export default function ClassSelectScreen({ navigation }: Props) {
       />
     </Background>
   );
-}
+})

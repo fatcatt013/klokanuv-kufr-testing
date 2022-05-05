@@ -12,7 +12,7 @@ export interface Subcategory {
 
 export interface Task {
   id: number;
-  assessment_type: AssessmentType[];
+  assessment_type: AssessmentType;
   codename: string;
   task_description: string;
   difficulty: TaskDifficulty;
@@ -41,12 +41,12 @@ export interface AssessmentTypeOption {
 }
 
 export interface Assessment {
-  id?: number;
+  id: number;
+  childId: number;
   task: number;
   option: number;
   date_of_assessment: string;
   note: string;
-  assessed_by: string;
 }
 
 export interface Class {

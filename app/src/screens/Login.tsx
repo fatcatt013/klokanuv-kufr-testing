@@ -8,12 +8,14 @@ import { theme } from '../theme';
 import { emailValidator, passwordValidator } from '../utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
+import { useAuth } from '../use-auth';
 
 type Props = StackScreenProps<RootStackParamList, 'Login'>;
 
 export const LoginScreen = React.memo(({ navigation }: Props) => {
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
+  const { signIn } = useAuth();
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -25,7 +27,7 @@ export const LoginScreen = React.memo(({ navigation }: Props) => {
       return;
     }
 
-    navigation.push("ClassSelect");
+    signIn()
   };
 
   return <Background center>
@@ -68,7 +70,7 @@ export const LoginScreen = React.memo(({ navigation }: Props) => {
     </Button>
 
     <View style={styles.row}>
-      <Text>Nemáte účet?</Text>
+      <Text>Nemáte účet? </Text>
       <TouchableOpacity onPress={() => navigation.push('Register')}>
         <Text style={styles.link}>Aktivujte si ho</Text>
       </TouchableOpacity>
