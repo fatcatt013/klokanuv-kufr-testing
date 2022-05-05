@@ -1,12 +1,11 @@
 import { StackHeaderProps } from '@react-navigation/stack';
 import React from 'react';
-import { Appbar, IconButton, Menu, useTheme } from 'react-native-paper';
+import { Appbar, IconButton, Menu } from 'react-native-paper';
 import { useAuth } from '../use-auth';
 
 export const Header = React.memo(function Header({ back, options, navigation }: StackHeaderProps) {
   const { signOut } = useAuth();
   const [visible, setVisible] = React.useState(false);
-  const color = options.headerTintColor;
 
   const title
     = typeof options.headerTitle === 'string' ? options.headerTitle
@@ -18,10 +17,10 @@ export const Header = React.memo(function Header({ back, options, navigation }: 
 
   return (
     <Appbar.Header>
-      {back ? <Appbar.BackAction color={color} onPress={navigation.goBack} size={20} /> : null}
-      <Appbar.Content title={title} color={color} titleStyle={{ fontSize: 18 }} />
+      {back ? <Appbar.BackAction color="white" onPress={navigation.goBack} size={20} /> : null}
+      <Appbar.Content title={title} titleStyle={{ fontSize: 18 }} />
 
-      <IconButton color={color} icon="briefcase-search-outline" onPress={() => navigation.push('CategoryList')} />
+      <IconButton color="white" icon="briefcase-search-outline" onPress={() => navigation.push('TaskList')} />
       <Menu
         visible={visible}
         onDismiss={() => setVisible(false)}

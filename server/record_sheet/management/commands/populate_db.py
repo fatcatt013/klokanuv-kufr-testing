@@ -9,7 +9,7 @@ import csv
 def base_list_sheet1():
     current_filepath = os.path.dirname(os.path.abspath(__file__))
 
-    csv_filepath = "%s/../../../../docs/csv/diagnostika_sheet1.csv" % current_filepath
+    csv_filepath = "%s/diagnostika_sheet1.csv" % current_filepath
 
     with open(csv_filepath, 'r', encoding='utf-8') as file:
         return list(csv.DictReader(file, delimiter='|'))

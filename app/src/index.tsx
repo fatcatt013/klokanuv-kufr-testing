@@ -20,7 +20,6 @@ import { AssessmentScreen } from './screens/Assessment';
 import { CreateNoteScreen } from './screens/CreateNoteScreen';
 
 export function App() {
-  const theme = useTheme();
   const { isSignedIn } = useAuth();
 
   return (
