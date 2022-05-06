@@ -8,7 +8,6 @@ import { ForgotPasswordScreen } from './screens/ForgotPassword';
 import { ClassSelectScreen } from './screens/ClassSelect';
 import { ChildScreen } from './screens/Child';
 import { ClassScreen } from "./screens/Class";
-import { useTheme } from 'react-native-paper';
 import { ChildSelect } from './components/ChildSelect';
 import { Header } from './components/Header';
 import { GroupSelect } from './components/ClassSelect';
