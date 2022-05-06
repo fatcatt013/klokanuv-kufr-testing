@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from record_sheet.models import AssessmentTypeOption, Category, Subcategory, AssessmentType, Task, Assessment
+from record_sheet.models import AssessmentTypeOption, Category, School, Subcategory, AssessmentType, Task, Assessment
 import os
 import csv
 
@@ -95,6 +95,12 @@ def populate_tasks(base_data):
             task_instance.save()
 
 
+# add base school, mainly for being able to create superuser
+# TODO: if I dont need this, delete
+def add_base_school():
+    School(name='Base School', address='').save()
+
+
 # truncate everything before we start populating database (only runs if '--truncate' or '-t' is provided)
 def truncate_existing_data():
     Assessment.objects.all().delete()
@@ -125,5 +131,6 @@ class Command(BaseCommand):
         populate_assessment_types(base_data)
         populate_assessment_type_options()
         populate_tasks(base_data)
+        add_base_school()
 
         self.stdout.write(self.style.SUCCESS('Successfully populated database tables'))
