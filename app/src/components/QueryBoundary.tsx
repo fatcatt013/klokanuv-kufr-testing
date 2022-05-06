@@ -1,9 +1,9 @@
 import React from 'react';
 import { QueryErrorResetBoundary } from 'react-query';
 import { ErrorBoundary } from 'react-error-boundary';
-import { Text } from 'react-native';
-import Button from './Button';
-import Background from './Background';
+import { Text } from 'react-native-paper';
+import { Button } from './Button';
+import { Background } from './Background';
 
 export const QueryBoundary: React.FC = ({ children }) => (
   <QueryErrorResetBoundary>
@@ -11,7 +11,7 @@ export const QueryBoundary: React.FC = ({ children }) => (
       <ErrorBoundary
         onReset={reset}
         fallbackRender={({ resetErrorBoundary }) => (
-          <Background>
+          <Background center>
             <Text>Nastala chyba!</Text>
             <Button mode='contained' onPress={() => resetErrorBoundary()}>Zkusit znovu</Button>
           </Background>

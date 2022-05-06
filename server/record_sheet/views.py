@@ -44,3 +44,12 @@ class AssessmentTypeOptionViewSet(viewsets.ModelViewSet):
     queryset = models.AssessmentTypeOption.objects.all()
     serializer_class = serializers.AssessmentTypeOptionSerializer
     # permission_classes = [permissions.IsAuthenticated]
+
+
+class AssessmentViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows subcategories to be viewed or edited.
+    """
+    queryset = models.Assessment.objects.all()
+    serializer_class = serializers.AssessmentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
