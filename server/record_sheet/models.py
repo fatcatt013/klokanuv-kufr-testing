@@ -1,4 +1,6 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.contrib.auth.base_user import BaseUserManager
 
 
 class Category(models.Model):
@@ -52,3 +54,86 @@ class Assessment(models.Model):
     date_of_assessment = models.DateField()
     note = models.TextField(null=True)
     assessed_by = models.TextField(default='Dummy')  # TODO change this to proper user once we've created them
+
+
+class School(models.Model):
+    name = models.CharField('name', max_length=100)
+    address = models.CharField('address', max_length=250, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+# extending BaseUserManager to use email instead of username
+class CustomUserManager(BaseUserManager):
+    """
+    Custom user model manager where email is the unique identifiers
+    for authentication instead of usernames.
+    """
+    def create_user(self, email, password, **extra_fields):
+        """
+        Create and save a User with the given email and password.
+        """
+        if not email:
+            raise ValueError('The Email must be set')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        """
+        Create and save a SuperUser with the given email and password.
+        """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        return self.create_user(email, password, **extra_fields)
+
+
+class User(AbstractUser):
+    # email instead of username
+    username = None
+    email = models.EmailField(('email address'), unique=True)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+    objects = CustomUserManager()
+
+    # can't have users without school assigned
+    school = models.ForeignKey(School, related_name='%(class)s',
+                               on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+
+    def __str__(self):
+        return self.email
+
+
+class Classroom(models.Model):
+    label = models.TextField()
+
+
+class TeacherClassroom(models.Model):
+    teacher = models.ForeignKey(User, related_name='%(class)s', on_delete=models.CASCADE)
+    classroom = models.ForeignKey(Classroom, related_name='%(class)s', on_delete=models.CASCADE)
+
+
+class Child(models.Model):
+    first_name = models.TextField()
+    last_name = models.TextField()
+    birthdate = models.DateField()
+    classroom = models.ForeignKey(Classroom, related_name='%(class)s', on_delete=models.CASCADE)
+
+
+class ChildNote(models.Model):
+    child = models.ForeignKey(Child, related_name='%(class)s', on_delete=models.CASCADE)
+    note = models.TextField()
+
+
+class ClassroomNote(models.Model):
+    classroom = models.ForeignKey(Classroom, related_name='%(class)s', on_delete=models.CASCADE)
+    note = models.TextField()

@@ -11,14 +11,15 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-
 from django.core.exceptions import ImproperlyConfigured
+
 
 def get_env_default(variable, default=None):
     try:
-      	return os.environ[variable]
+        return os.environ[variable]
     except KeyError:
         return default
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -50,6 +51,8 @@ INSTALLED_APPS = [
     'record_sheet',
     'rest_framework',
 ]
+
+AUTH_USER_MODEL = 'record_sheet.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
