@@ -1,0 +1,1258 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /tasks/:
+    get:
+      operationId: listTasks
+      description: API endpoint that allows tasks to be viewed or edited.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Task'
+          description: ''
+      tags:
+      - tasks
+    post:
+      operationId: createTask
+      description: API endpoint that allows tasks to be viewed or edited.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+      tags:
+      - tasks
+  /tasks/{id}/:
+    get:
+      operationId: retrieveTask
+      description: API endpoint that allows tasks to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique value identifying this task.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+      tags:
+      - tasks
+    put:
+      operationId: updateTask
+      description: API endpoint that allows tasks to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique value identifying this task.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+      tags:
+      - tasks
+    patch:
+      operationId: partialUpdateTask
+      description: API endpoint that allows tasks to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique value identifying this task.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+      tags:
+      - tasks
+    delete:
+      operationId: destroyTask
+      description: API endpoint that allows tasks to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique value identifying this task.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - tasks
+  /subcategories/:
+    get:
+      operationId: listSubcategorys
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Subcategory'
+          description: ''
+      tags:
+      - subcategories
+    post:
+      operationId: createSubcategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subcategory'
+          description: ''
+      tags:
+      - subcategories
+  /subcategories/{id}/:
+    get:
+      operationId: retrieveSubcategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this subcategory.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subcategory'
+          description: ''
+      tags:
+      - subcategories
+    put:
+      operationId: updateSubcategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this subcategory.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subcategory'
+          description: ''
+      tags:
+      - subcategories
+    patch:
+      operationId: partialUpdateSubcategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this subcategory.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subcategory'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subcategory'
+          description: ''
+      tags:
+      - subcategories
+    delete:
+      operationId: destroySubcategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this subcategory.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - subcategories
+  /categories/:
+    get:
+      operationId: listCategorys
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+          description: ''
+      tags:
+      - categories
+    post:
+      operationId: createCategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+      tags:
+      - categories
+  /categories/{id}/:
+    get:
+      operationId: retrieveCategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this category.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+      tags:
+      - categories
+    put:
+      operationId: updateCategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this category.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+      tags:
+      - categories
+    patch:
+      operationId: partialUpdateCategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this category.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Category'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+      tags:
+      - categories
+    delete:
+      operationId: destroyCategory
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this category.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - categories
+  /assessment-type/:
+    get:
+      operationId: listAssessmentTypes
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AssessmentType'
+          description: ''
+      tags:
+      - assessment-type
+    post:
+      operationId: createAssessmentType
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentType'
+          description: ''
+      tags:
+      - assessment-type
+  /assessment-type/{id}/:
+    get:
+      operationId: retrieveAssessmentType
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentType'
+          description: ''
+      tags:
+      - assessment-type
+    put:
+      operationId: updateAssessmentType
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentType'
+          description: ''
+      tags:
+      - assessment-type
+    patch:
+      operationId: partialUpdateAssessmentType
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssessmentType'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentType'
+          description: ''
+      tags:
+      - assessment-type
+    delete:
+      operationId: destroyAssessmentType
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - assessment-type
+  /assessment-type-option/:
+    get:
+      operationId: listAssessmentTypeOptions
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AssessmentTypeOption'
+          description: ''
+      tags:
+      - assessment-type-option
+    post:
+      operationId: createAssessmentTypeOption
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentTypeOption'
+          description: ''
+      tags:
+      - assessment-type-option
+  /assessment-type-option/{id}/:
+    get:
+      operationId: retrieveAssessmentTypeOption
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type option.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentTypeOption'
+          description: ''
+      tags:
+      - assessment-type-option
+    put:
+      operationId: updateAssessmentTypeOption
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type option.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentTypeOption'
+          description: ''
+      tags:
+      - assessment-type-option
+    patch:
+      operationId: partialUpdateAssessmentTypeOption
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type option.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssessmentTypeOption'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssessmentTypeOption'
+          description: ''
+      tags:
+      - assessment-type-option
+    delete:
+      operationId: destroyAssessmentTypeOption
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment type option.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - assessment-type-option
+  /assessments/:
+    get:
+      operationId: listAssessments
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Assessment'
+          description: ''
+      tags:
+      - assessments
+    post:
+      operationId: createAssessment
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+          description: ''
+      tags:
+      - assessments
+  /assessments/{id}/:
+    get:
+      operationId: retrieveAssessment
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+          description: ''
+      tags:
+      - assessments
+    put:
+      operationId: updateAssessment
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+          description: ''
+      tags:
+      - assessments
+    patch:
+      operationId: partialUpdateAssessment
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+          description: ''
+      tags:
+      - assessments
+    delete:
+      operationId: destroyAssessment
+      description: API endpoint that allows subcategories to be viewed or edited.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this assessment.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - assessments
+components:
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        assessment_type:
+          type: object
+          properties:
+            id:
+              type: integer
+              readOnly: true
+            label:
+              type: string
+              maxLength: 100
+            allows_note:
+              type: boolean
+            options:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  label:
+                    type: string
+                    maxLength: 100
+                required:
+                - label
+              readOnly: true
+          required:
+          - label
+          readOnly: true
+        codename:
+          type: string
+          nullable: true
+          maxLength: 20
+        task_description:
+          type: string
+        difficulty:
+          enum:
+          - EASIER
+          - SAME
+          - HARDER
+          type: string
+          nullable: true
+        expected_age_from:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000
+          minimum: -1000
+          nullable: true
+        expected_age_to:
+          type: string
+          format: decimal
+          multipleOf: 0.01
+          maximum: 1000
+          minimum: -1000
+          nullable: true
+        parent_task:
+          type: string
+          nullable: true
+        subcategory:
+          type: integer
+          nullable: true
+      required:
+      - id
+      - task_description
+    Subcategory:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          maxLength: 100
+        tasks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              assessment_type:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  label:
+                    type: string
+                    maxLength: 100
+                  allows_note:
+                    type: boolean
+                  options:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          readOnly: true
+                        label:
+                          type: string
+                          maxLength: 100
+                      required:
+                      - label
+                    readOnly: true
+                required:
+                - label
+                readOnly: true
+              codename:
+                type: string
+                nullable: true
+                maxLength: 20
+              task_description:
+                type: string
+              difficulty:
+                enum:
+                - EASIER
+                - SAME
+                - HARDER
+                type: string
+                nullable: true
+              expected_age_from:
+                type: string
+                format: decimal
+                multipleOf: 0.01
+                maximum: 1000
+                minimum: -1000
+                nullable: true
+              expected_age_to:
+                type: string
+                format: decimal
+                multipleOf: 0.01
+                maximum: 1000
+                minimum: -1000
+                nullable: true
+              parent_task:
+                type: string
+                nullable: true
+              subcategory:
+                type: integer
+                nullable: true
+            required:
+            - id
+            - task_description
+          readOnly: true
+      required:
+      - label
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          maxLength: 100
+        subcategories:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              label:
+                type: string
+                maxLength: 100
+              tasks:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    assessment_type:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          readOnly: true
+                        label:
+                          type: string
+                          maxLength: 100
+                        allows_note:
+                          type: boolean
+                        options:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                                readOnly: true
+                              label:
+                                type: string
+                                maxLength: 100
+                            required:
+                            - label
+                          readOnly: true
+                      required:
+                      - label
+                      readOnly: true
+                    codename:
+                      type: string
+                      nullable: true
+                      maxLength: 20
+                    task_description:
+                      type: string
+                    difficulty:
+                      enum:
+                      - EASIER
+                      - SAME
+                      - HARDER
+                      type: string
+                      nullable: true
+                    expected_age_from:
+                      type: string
+                      format: decimal
+                      multipleOf: 0.01
+                      maximum: 1000
+                      minimum: -1000
+                      nullable: true
+                    expected_age_to:
+                      type: string
+                      format: decimal
+                      multipleOf: 0.01
+                      maximum: 1000
+                      minimum: -1000
+                      nullable: true
+                    parent_task:
+                      type: string
+                      nullable: true
+                    subcategory:
+                      type: integer
+                      nullable: true
+                  required:
+                  - id
+                  - task_description
+                readOnly: true
+            required:
+            - label
+          readOnly: true
+      required:
+      - label
+    AssessmentType:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          maxLength: 100
+        allows_note:
+          type: boolean
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              label:
+                type: string
+                maxLength: 100
+            required:
+            - label
+          readOnly: true
+      required:
+      - label
+    AssessmentTypeOption:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        label:
+          type: string
+          maxLength: 100
+      required:
+      - label
+    Assessment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        task:
+          type: string
+        option:
+          type: integer
+        date_of_assessment:
+          type: string
+          format: date
+        note:
+          type: string
+          nullable: true
+        assessed_by:
+          type: string
+      required:
+      - task
+      - option
+      - date_of_assessment

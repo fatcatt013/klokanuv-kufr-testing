@@ -17,20 +17,30 @@ from django.urls import include, path
 from rest_framework import routers
 from record_sheet import views
 from django.contrib import admin
+from rest_framework.schemas import get_schema_view
 
 router = routers.DefaultRouter()
-router.register(r'tasks', views.TaskViewSet)
-router.register(r'subcategories', views.SubcategoryViewSet)
-router.register(r'categories', views.CategoryViewSet)
-router.register(r'assessment-type', views.AssessmentTypeViewSet)
-router.register(r'assessment-type-option', views.AssessmentTypeOptionViewSet)
-router.register(r'assessments', views.AssessmentViewSet)
+router.register(r"tasks", views.TaskViewSet)
+router.register(r"subcategories", views.SubcategoryViewSet)
+router.register(r"categories", views.CategoryViewSet)
+router.register(r"assessment-type", views.AssessmentTypeViewSet)
+router.register(r"assessment-type-option", views.AssessmentTypeOptionViewSet)
+router.register(r"assessments", views.AssessmentViewSet)
 
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('admin/', admin.site.urls),
+    path("", include(router.urls)),
+    path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
+    path("admin/", admin.site.urls),
+    path(
+        "openapi",
+        get_schema_view(
+            title="Klokanuv-kufr",
+            description="OpenAPI of Klokanuv-kufr",
+            version="1.0.0",
+        ),
+        name="openapi-schema",
+    ),
 ]
