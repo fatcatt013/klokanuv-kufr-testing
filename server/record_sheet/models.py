@@ -107,7 +107,7 @@ class User(AbstractUser):
 
     # can't have users without school assigned
     school = models.ForeignKey(School, related_name='%(class)s',
-                               on_delete=models.CASCADE, default=1)  # TODO default=1 je tu preto, aby sme mohli vytvorit superusera
+                               on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     def __str__(self):
         return self.email
