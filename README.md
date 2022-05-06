@@ -18,6 +18,13 @@ poetry run python manage.py populate_db
 poetry run python manage.py runserver
 ```
 
+For quick local setup - this also loads the CSV, and creates a superuser with
+email and password "superuser".
+
+```
+poetry run python manage.py migrate && poetry run python manage.py populate_db -t --create-superuser && poetry run python manage.py runserver
+```
+
 ### Running the app locally
 ```
 cd app

@@ -1,7 +1,11 @@
-from django.core.management.base import BaseCommand
-from record_sheet.models import AssessmentTypeOption, Category, School, Subcategory, AssessmentType, Task, Assessment
 import os
 import csv
+
+from django.core.management.base import BaseCommand
+from django.contrib.auth import get_user_model
+from django.db.utils import IntegrityError
+
+from record_sheet.models import AssessmentTypeOption, Category, School, Subcategory, AssessmentType, Task, Assessment
 
 
 # read csv file and put it's contents into list of dictionaries
@@ -96,6 +100,11 @@ def populate_tasks(base_data):
 def add_base_school():
     School(name='Base School', address='').save()
 
+def create_superuser():
+    try:
+        get_user_model().objects.create_superuser(email="superadmin", password="superadmin", is_active=True, is_staff=True)
+    except IntegrityError:
+        pass
 
 # truncate everything before we start populating database (only runs if '--truncate' or '-t' is provided)
 def truncate_existing_data():
@@ -118,6 +127,12 @@ class Command(BaseCommand):
             help='Truncate all records for task, category, subcategory, assessment_type, assessment_type_option',
         )
 
+        parser.add_argument(
+            "--create-superuser",
+            action='store_true',
+            help='Create a superuser with username and password "superadmin"',
+        )
+
     def handle(self, **options):
         base_data = base_list_sheet1()
         if options['truncate']:
@@ -128,5 +143,7 @@ class Command(BaseCommand):
         populate_assessment_type_options()
         populate_tasks(base_data)
         add_base_school()
+        if options['create_superuser']:
+            create_superuser()
 
         self.stdout.write(self.style.SUCCESS('Successfully populated database tables'))
