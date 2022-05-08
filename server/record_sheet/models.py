@@ -54,6 +54,8 @@ class Assessment(models.Model):
     date_of_assessment = models.DateField()
     note = models.TextField(null=True)
     assessed_by = models.TextField(default='Dummy')  # TODO change this to proper user once we've created them
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class School(models.Model):
@@ -115,6 +117,8 @@ class User(AbstractUser):
 
 class Classroom(models.Model):
     label = models.TextField()
+    school = models.ForeignKey(School, related_name='%(class)s',
+                               on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
 
 class TeacherClassroom(models.Model):
@@ -127,13 +131,21 @@ class Child(models.Model):
     last_name = models.TextField()
     birthdate = models.DateField()
     classroom = models.ForeignKey(Classroom, related_name='%(class)s', on_delete=models.CASCADE)
+    school = models.ForeignKey(School, related_name='%(class)s',
+                               on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
 
 class ChildNote(models.Model):
     child = models.ForeignKey(Child, related_name='%(class)s', on_delete=models.CASCADE)
     note = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(User, related_name='updated_by_user', on_delete=models.PROTECT)
+    created_by = models.ForeignKey(User, related_name='created_by_user', on_delete=models.PROTECT)
 
 
 class ClassroomNote(models.Model):
     classroom = models.ForeignKey(Classroom, related_name='%(class)s', on_delete=models.CASCADE)
     note = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
