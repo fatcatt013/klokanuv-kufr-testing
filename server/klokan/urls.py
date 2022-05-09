@@ -23,10 +23,14 @@ router = routers.DefaultRouter()
 router.register(r"tasks", views.TaskViewSet)
 router.register(r"subcategories", views.SubcategoryViewSet)
 router.register(r"categories", views.CategoryViewSet)
-router.register(r"assessment-type", views.AssessmentTypeViewSet)
-router.register(r"assessment-type-option", views.AssessmentTypeOptionViewSet)
+router.register(r"assessment-types", views.AssessmentTypeViewSet)
+router.register(r"assessment-type-options", views.AssessmentTypeOptionViewSet)
 router.register(r"assessments", views.AssessmentViewSet)
-
+router.register(r"classrooms", views.ClassroomViewSet)
+router.register(r"classroom-teachers", views.ClassroomTeacherViewSet)
+router.register(r"children", views.ChildViewSet)
+router.register(r"children-notes", views.ChildNoteViewSet)
+router.register(r"classrooms-notes", views.ClassroomNoteViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.

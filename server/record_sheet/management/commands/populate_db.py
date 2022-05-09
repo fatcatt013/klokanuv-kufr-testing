@@ -100,11 +100,13 @@ def populate_tasks(base_data):
 def add_base_school():
     School(name='Base School', address='').save()
 
+
 def create_superuser():
     try:
         get_user_model().objects.create_superuser(email="superadmin", password="superadmin", is_active=True, is_staff=True)
     except IntegrityError:
         pass
+
 
 # truncate everything before we start populating database (only runs if '--truncate' or '-t' is provided)
 def truncate_existing_data():
