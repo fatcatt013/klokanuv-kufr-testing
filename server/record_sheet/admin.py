@@ -6,7 +6,7 @@ from . import models
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
     model = models.User
-    list_display = ('email', 'display_group', 'is_superuser', 'is_staff', 'is_active',)
+    list_display = ('email', 'display_group', 'is_superuser', 'is_staff', 'is_active')
     list_filter = ('email', 'groups__name', 'is_superuser', 'is_staff', 'is_active')
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
