@@ -58,12 +58,12 @@ class ClassroomViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ClassroomSerializer
 
 
-class TeacherClassroomViewSet(viewsets.ModelViewSet):
+class ClassroomTeacherViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows subcategories to be viewed or edited.
     """
-    queryset = models.TeacherClassroom.objects.all()
-    serializer_class = serializers.TeacherClassroomSerializer
+    queryset = models.ClassroomTeacher.objects.all()
+    serializer_class = serializers.ClassroomTeacherSerializer
 
 
 class ChildViewSet(viewsets.ModelViewSet):

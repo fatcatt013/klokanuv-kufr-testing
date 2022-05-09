@@ -6,15 +6,24 @@ from django.contrib.auth.base_user import BaseUserManager
 class Category(models.Model):
     label = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.label
+
 
 class Subcategory(models.Model):
     label = models.CharField(max_length=100)
     parent_category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.label
+
 
 class AssessmentType(models.Model):
     label = models.CharField(max_length=100)
     allows_note = models.BooleanField(default=0)
+
+    def __str__(self):
+        return self.label
 
 
 class AssessmentTypeOption(models.Model):
@@ -120,10 +129,16 @@ class Classroom(models.Model):
     school = models.ForeignKey(School, related_name='%(class)s',
                                on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
+    def __str__(self):
+        return self.label
 
-class TeacherClassroom(models.Model):
-    teacher = models.ForeignKey(User, related_name='%(class)s', on_delete=models.CASCADE)
+
+class ClassroomTeacher(models.Model):
     classroom = models.ForeignKey(Classroom, related_name='%(class)s', on_delete=models.CASCADE)
+    teacher = models.ForeignKey(User, related_name='%(class)s', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "%s %s" % (self.classroom, self.teacher)
 
 
 class Child(models.Model):
@@ -134,14 +149,23 @@ class Child(models.Model):
     school = models.ForeignKey(School, related_name='%(class)s',
                                on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
+    class Meta:
+        verbose_name_plural = "children"
+
+    def __str__(self):
+        return "%s %s, %s" % (self.first_name, self.last_name, self.classroom)
+
 
 class ChildNote(models.Model):
     child = models.ForeignKey(Child, related_name='%(class)s', on_delete=models.CASCADE)
     note = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    updated_by = models.ForeignKey(User, related_name='updated_by_user', on_delete=models.PROTECT)
-    created_by = models.ForeignKey(User, related_name='created_by_user', on_delete=models.PROTECT)
+    updated_by = models.ForeignKey(User, related_name='child_note_updated_by', on_delete=models.PROTECT, editable=False)
+    created_by = models.ForeignKey(User, related_name='child_note_created_by', on_delete=models.PROTECT, editable=False)
+
+    def __str__(self):
+        return "Note for: %s" % self.child
 
 
 class ClassroomNote(models.Model):
@@ -149,3 +173,8 @@ class ClassroomNote(models.Model):
     note = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    updated_by = models.ForeignKey(User, related_name='clsrm_note_updated_by', on_delete=models.PROTECT, editable=False)
+    created_by = models.ForeignKey(User, related_name='clsrm_note_created_by', on_delete=models.PROTECT, editable=False)
+
+    def __str__(self):
+        return "Note for: %s" % self.classroom

@@ -54,9 +54,9 @@ class ClassroomSerializer(serializers.ModelSerializer):
         fields = ['id', 'label']
 
 
-class TeacherClassroomSerializer(serializers.ModelSerializer):
+class ClassroomTeacherSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.TeacherClassroom
+        model = models.ClassroomTeacher
         fields = ['id', 'teacher', 'classroom']
 
 
