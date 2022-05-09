@@ -120,6 +120,13 @@ class User(AbstractUser):
     school = models.ForeignKey(School, related_name='%(class)s',
                                on_delete=models.CASCADE, default=1)  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
+    # currently, we suppose that all users should be able to make some changes in admin module
+    is_staff = models.BooleanField(
+        ("staff status"),
+        default=True,
+        help_text=("Designates whether the user can log into this admin site. Please leave this on unless really necessary."),
+    )
+
     def __str__(self):
         return self.email
 
