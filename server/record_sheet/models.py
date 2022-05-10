@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 
+from invitations.models import Invitation as Default_invitation
+
 
 class Category(models.Model):
     label = models.CharField(max_length=100)
@@ -156,6 +158,9 @@ class Child(models.Model):
     classroom = models.ForeignKey(
         Classroom, related_name="%(class)s", on_delete=models.CASCADE
     )
+    school = models.ForeignKey(
+        School, related_name="%(class)s", on_delete=models.CASCADE, default=1
+    )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     class Meta:
         verbose_name_plural = "children"
@@ -219,3 +224,7 @@ class ClassroomNote(models.Model):
 
     def __str__(self):
         return "Note for: %s" % self.classroom
+
+
+class Invitation(Default_invitation):
+    pass
