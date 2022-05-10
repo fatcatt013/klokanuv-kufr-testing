@@ -46,15 +46,30 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "invitations",
     "corsheaders",
     # custom apps start here
     "record_sheet",
     "rest_framework",
 ]
 
+SITE_ID = 1
+
+ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
+
 AUTH_USER_MODEL = "record_sheet.User"
 
 INVITATIONS_INVITATION_MODEL = "record_sheet.Invitation"
+
+# INVITATIONS_ADMIN_ADD_FORM = "record_sheet.admin.InvitationAdminAddForm"
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+
+INVITATIONS_INVITATION_ONLY = True
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -88,6 +103,13 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
 WSGI_APPLICATION = "klokan.wsgi.application"

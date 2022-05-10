@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
 
-from invitations.models import Invitation as Default_invitation
+from invitations.models import Invitation as DefaultInvitation
 
 
 class Category(models.Model):
@@ -226,5 +226,7 @@ class ClassroomNote(models.Model):
         return "Note for: %s" % self.classroom
 
 
-class Invitation(Default_invitation):
-    pass
+class Invitation(DefaultInvitation):
+    school = models.ForeignKey(
+        School, related_name="%(class)s", on_delete=models.CASCADE
+    )
