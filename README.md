@@ -22,8 +22,17 @@ For quick local setup - this also loads the CSV, and creates a superuser with
 email and password "superuser".
 
 ```
-poetry run python manage.py migrate && poetry run python manage.py populate_db -t --create-superuser && poetry run python manage.py runserver
+poetry run python manage.py migrate && poetry run python manage.py create_test_users && poetry run python manage.py populate_db -t --create-superuser && poetry run python manage.py runserver
 ```
+
+### Documentation of commands ###
+``` create_test_users ``` - creates 6 teachers, 2 headmasters, 2 schools, 5 classrooms, assigns classrooms to teachers & headmasters. Users created this way have follow naming scheme:
+email: `teacherX@mail.com` (X is a number from 1 to 6)
+password: `password` (constant for all)
+
+in addition to that email for the two headmasters is:
+email: `headmasterX@mail.com` (X is a number 1 or 2)
+password: `password`
 
 ### Running the app locally
 ```
