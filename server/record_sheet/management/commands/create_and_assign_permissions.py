@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 
 # zatial command, pojde do migrations
 class Command(BaseCommand):
-    help = ''
+    help = 'Creates user groups - Headmasters, Teachers - and assigns them correct permissions'
 
     def handle(self, **options):
 
