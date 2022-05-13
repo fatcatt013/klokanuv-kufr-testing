@@ -1,4 +1,3 @@
-from tkinter import CASCADE
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
@@ -113,7 +112,7 @@ class User(AbstractUser):
     # can't have users without school assigned
     school = models.ForeignKey(
         School, related_name="%(class)s", on_delete=models.CASCADE, default=1
-    )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+    )  # TODO: default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     # currently, we suppose that all users should be able to make some changes in admin module
     is_staff = models.BooleanField(
@@ -132,7 +131,7 @@ class Classroom(models.Model):
     label = models.TextField()
     school = models.ForeignKey(
         School, related_name="%(class)s", on_delete=models.CASCADE, default=1
-    )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+    )  # TODO: default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     def __str__(self):
         return self.label

@@ -4,7 +4,7 @@ from faker import Faker
 from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password as mkpwd
 
-fake = Faker()  # TODO delete once this command is not needed
+fake = Faker()  # TODO: delete once this command is not needed
 
 
 # truncate everything before we start populating database

@@ -5,7 +5,7 @@ from rest_framework import serializers
 class AssessmentTypeOptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.AssessmentTypeOption
-        fields = ["id", "label"]
+        fields = ["id", "label", "url"]
 
 
 class AssessmentSerializer(serializers.ModelSerializer):
@@ -15,7 +15,15 @@ class AssessmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Assessment
-        fields = ["id", "task", "option", "date_of_assessment", "note", "assessed_by"]
+        fields = [
+            "id",
+            "task",
+            "child",
+            "option",
+            "date_of_assessment",
+            "note",
+            "assessed_by",
+        ]
 
 
 class AssessmentTypeSerializer(serializers.ModelSerializer):
@@ -25,7 +33,7 @@ class AssessmentTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.AssessmentType
-        fields = ["id", "label", "allows_note", "options"]
+        fields = ["id", "label", "allows_note", "options", "url"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -33,7 +41,7 @@ class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Task
-        fields = "__all__"
+        fields = "__all__"  # TODO: ADD URL
 
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
@@ -41,7 +49,7 @@ class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = models.Subcategory
-        fields = ["id", "label", "tasks"]
+        fields = ["id", "label", "tasks", "url"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -51,19 +59,19 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Category
-        fields = ["id", "label", "subcategories"]
+        fields = ["id", "label", "subcategories", "url"]
 
 
 class ClassroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Classroom
-        fields = ["id", "label"]
+        fields = ["id", "label", "url"]
 
 
 class ClassroomTeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ClassroomTeacher
-        fields = ["id", "teacher", "classroom"]
+        fields = ["id", "teacher", "classroom", "url"]
 
 
 class ChildSerializer(serializers.ModelSerializer):
@@ -75,10 +83,10 @@ class ChildSerializer(serializers.ModelSerializer):
 class ChildNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ChildNote
-        fields = ["id", "child", "note"]
+        fields = ["id", "child", "note", "url"]
 
 
 class ClassroomNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Classroom
-        fields = ["id", "classroom", "note"]
+        fields = ["id", "classroom", "note", "url"]
