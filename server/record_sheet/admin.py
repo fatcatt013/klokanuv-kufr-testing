@@ -3,22 +3,14 @@ from django.contrib.auth.admin import UserAdmin
 from . import models
 
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
-from invitations.forms import InvitationAdminAddForm as DefaultInvitationAdminAddForm
+from .forms import InvitationAdminAddForm
 from invitations.utils import get_invitation_admin_change_form
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
     model = models.User
-    list_display = (
-        "email",
-        "is_staff",
-        "is_active",
-    )
-    list_filter = (
-        "email",
-        "is_staff",
-        "is_active",
-    )
+    list_display = ("email", "display_group", "is_superuser", "is_staff", "is_active")
+    list_filter = ("email", "groups__name", "is_superuser", "is_staff", "is_active")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (
@@ -71,24 +63,6 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         obj.updated_by = request.user
         super().save_model(request, obj, form, change)
-
-
-class InvitationAdminAddForm(DefaultInvitationAdminAddForm):
-    def save(self, *args, **kwargs):
-        cleaned_data = super(DefaultInvitationAdminAddForm, self).clean()
-        email = cleaned_data.get("email")
-        params = {"email": email}
-        if cleaned_data.get("inviter"):
-            params["inviter"] = cleaned_data.get("inviter")
-        params["school"] = cleaned_data.get("school")
-        instance = models.Invitation.create(**params)
-        instance.send_invitation(self.request)
-        super(DefaultInvitationAdminAddForm, self).save(*args, **kwargs)
-        return instance
-
-    class Meta:
-        model = models.Invitation
-        fields = ("email", "inviter", "school")
 
 
 class InvitationAdmin(admin.ModelAdmin):

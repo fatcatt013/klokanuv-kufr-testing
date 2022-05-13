@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
+    "allauth.socialaccount",
     "invitations",
     "corsheaders",
     # custom apps start here
@@ -58,18 +59,38 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+INVITATIONS_INVITATION_MODEL = "record_sheet.Invitation"
+INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
+INVITATIONS_INVITATION_ONLY = True
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = "/admin"
+LOGOUT_REDIRECT_URL = "/accounts/login"
 
 AUTH_USER_MODEL = "record_sheet.User"
 
-INVITATIONS_INVITATION_MODEL = "record_sheet.Invitation"
+ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 
-# INVITATIONS_ADMIN_ADD_FORM = "record_sheet.admin.InvitationAdminAddForm"
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-
-INVITATIONS_INVITATION_ONLY = True
+ACCOUNT_FORMS = {
+    "login": "allauth.account.forms.LoginForm",
+    # custom signup form
+    "signup": "record_sheet.forms.CustomSignupForm",
+    "add_email": "allauth.account.forms.AddEmailForm",
+    "change_password": "allauth.account.forms.ChangePasswordForm",
+    "set_password": "allauth.account.forms.SetPasswordForm",
+    "reset_password": "allauth.account.forms.ResetPasswordForm",
+    "reset_password_from_key": "allauth.account.forms.ResetPasswordKeyForm",
+    "disconnect": "allauth.socialaccount.forms.DisconnectForm",
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
