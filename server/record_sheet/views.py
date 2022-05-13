@@ -18,8 +18,6 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
     API endpoint that allows subcategories to be viewed or edited.
     """
 
-    permission_classes = (permissions.IsAuthenticated, CustomDjangoModelPermission)
-
     queryset = models.Subcategory.objects.all()
     serializer_class = serializers.SubcategorySerializer
 
@@ -61,27 +59,41 @@ class AssessmentViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AssessmentSerializer
 
 
+class SchoolViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows subcategories to be viewed or edited.
+    """
+
+    queryset = models.School.objects.all()
+    serializer_class = serializers.SchoolSerializer
+
+
 class ClassroomViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows classrooms to be viewed or edited.
     """
 
-    # TODO: vzdy volame ClassroomTeacherSerializer, tym padom ClassroomSerializer moze ist do pice, je to k?
-    serializer_class = serializers.ClassroomTeacherSerializer
-
-    def get_queryset(self):
-        # TODO: sem pojde if na headmasters / managers, ktory odstrani ten filter na konci, where applicable - uvidi tak vsetko
-        queryset = models.ClassroomTeacher.objects.filter(teacher=self.request.user)
-        return queryset
+    queryset = models.Classroom.objects.all()
+    serializer_class = serializers.ClassroomSerializer
 
 
 class ClassroomTeacherViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows classrooms to be viewed or edited.
     """
 
-    queryset = models.ClassroomTeacher.objects.all()
     serializer_class = serializers.ClassroomTeacherSerializer
+
+    #  TODO: PRIDAT FILTER NA SKOLU PRE HEADMASTEROV
+    def get_queryset(self):
+        if self.request.user.groups.filter(name="Teachers").exists():
+            queryset = models.ClassroomTeacher.objects.filter(teacher=self.request.user)
+        elif self.request.user.groups.filter(name="Headmasters").exists():
+            queryset = models.ClassroomTeacher.objects.all()
+        else:
+            queryset = models.ClassroomTeacher.objects.all()
+
+        return queryset
 
 
 class ChildViewSet(viewsets.ModelViewSet):
@@ -109,3 +121,12 @@ class ClassroomNoteViewSet(viewsets.ModelViewSet):
 
     queryset = models.ClassroomNote.objects.all()
     serializer_class = serializers.ClassroomNoteSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows subcategories to be viewed or edited.
+    """
+
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializer

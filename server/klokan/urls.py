@@ -26,19 +26,17 @@ router.register(r"categories", views.CategoryViewSet)
 router.register(r"assessment-types", views.AssessmentTypeViewSet)
 router.register(r"assessment-type-options", views.AssessmentTypeOptionViewSet)
 router.register(r"assessments", views.AssessmentViewSet)
-router.register(r"classrooms", views.ClassroomViewSet, basename="Classroom")
-router.register(r"classroom-teachers", views.ClassroomTeacherViewSet)
+router.register(r"classrooms", views.ClassroomViewSet)
+router.register(
+    r"classroom-teachers",
+    views.ClassroomTeacherViewSet,
+    basename="Classroomteacher",
+)
 router.register(r"children", views.ChildViewSet)
 router.register(r"children-notes", views.ChildNoteViewSet)
 router.register(r"classrooms-notes", views.ClassroomNoteViewSet)
-
-# urlpatterns = [
-#     path(
-#         "subcategories",
-#         views.SubcategoryViewSet.as_view(),
-#         name=views.SubcategoryViewSet.name,
-#     ),
-# ]
+router.register(r"user", views.UserViewSet)
+router.register(r"school", views.SchoolViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
