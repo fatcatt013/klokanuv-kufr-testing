@@ -1,9 +1,9 @@
-from django.core.managemengt.base import BaseCommand
+from django.core.management.base import BaseCommand
 from record_sheet.models import School, Classroom, Child, User
 from faker import Faker
 from django.contrib.auth.models import Group
 from django.contrib.auth.hashers import make_password as mkpwd
-from random import random
+import random
 
 
 def truncate_existing_data():
@@ -35,6 +35,7 @@ class Command(BaseCommand):
                     first_name="Jméno %s" % suffix,
                     last_name="Příjmení",
                     birthdate=fake.date_between(start_date="-6y", end_date="-3y"),
+                    school=classroom.school,
                 )
 
         pwd = mkpwd("password")
