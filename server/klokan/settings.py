@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "allauth",
     "allauth.account",
-    "allauth.socialaccount",
     "invitations",
     "corsheaders",
     # custom apps start here
