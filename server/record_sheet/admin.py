@@ -65,7 +65,6 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
 admin.site.register(models.User, CustomUserAdmin)
 admin.site.register(models.School)
 admin.site.register(models.Classroom)
-admin.site.register(models.ClassroomTeacher)
 admin.site.register(models.Child)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)

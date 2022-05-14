@@ -8,14 +8,11 @@ class Command(BaseCommand):
 
     def handle(self, **options):
 
-        headmasters_group = Group.objects.create(name="Headmasters")
-        teacher_group = Group.objects.create(name="Teachers")
+        (headmasters_group, _) = Group.objects.get_or_create(name="Headmasters")
+        (teacher_group, _) = Group.objects.get_or_create(name="Teachers")
 
         # ASK - ucitelom view na vsetko?
         teacher_permissions = [
-            "add_assessment",
-            "change_assessment",
-            "delete_assessment",
             "view_assessment",
             "view_assessmenttype",
             "view_category",
@@ -24,13 +21,18 @@ class Command(BaseCommand):
             "view_classroom",
             "view_school",
             "view_task",
-            "view_classroomteacher",
-            "view_classroomnote",  # ASK - mb crud?
             "view_assessmenttypeoption",
             "view_childnote",
+            "view_user",
+            "add_assessment",
+            "change_assessment",
+            "delete_assessment",
             "add_childnote",
             "change_childnote",
             "delete_childnote",
+            "add_classroomnote",
+            "change_classroomnote",
+            "delete_classroomnote",
         ]
         for permission in teacher_permissions:
             teacher_group.permissions.add(Permission.objects.get(codename=permission))
@@ -88,10 +90,6 @@ class Command(BaseCommand):
             "change_task",
             "delete_task",
             "view_task",
-            "add_classroomteacher",
-            "change_classroomteacher",
-            "delete_classroomteacher",
-            "view_classroomteacher",
             "add_classroomnote",
             "change_classroomnote",
             "delete_classroomnote",
