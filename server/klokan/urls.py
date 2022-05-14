@@ -47,4 +47,6 @@ urlpatterns = [
         ),
         name="openapi-schema",
     ),
+    path("accounts/", include("allauth.urls")),
+    path("invitations/", include("invitations.urls", namespace="invitations")),
 ]

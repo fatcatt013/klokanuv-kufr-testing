@@ -10,6 +10,8 @@ Django = "^4.0.3"
 djangorestframework = "^3.13.1"
 django-cors-headers = "^3.11.0"
 Faker = "^13.11.0"
+django-allauth = "^0.50.0"
+django-invitations = { git = "https://github.com/jazzband/django-invitations.git", rev = "045dc4d5" }
 
 [tool.poetry.dev-dependencies]
 black = {version = "^22.3.0", allow-prereleases = true}

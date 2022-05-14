@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from . import models
 
+from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
+from .forms import InvitationAdminAddForm
+from invitations.utils import get_invitation_admin_change_form
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
@@ -62,9 +65,24 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class InvitationAdmin(admin.ModelAdmin):
+    list_display = ("email", "sent", "accepted")
+
+    def get_form(self, request, obj=None, **kwargs):
+        if obj:
+            kwargs["form"] = get_invitation_admin_change_form()
+        else:
+            kwargs["form"] = InvitationAdminAddForm
+            kwargs["form"].user = request.user
+            kwargs["form"].request = request
+        return super(InvitationAdmin, self).get_form(request, obj, **kwargs)
+
+
 admin.site.register(models.User, CustomUserAdmin)
 admin.site.register(models.School)
 admin.site.register(models.Classroom)
 admin.site.register(models.Child)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
+admin.site.unregister(models.Invitation)
+admin.site.register(models.Invitation, InvitationAdmin)
