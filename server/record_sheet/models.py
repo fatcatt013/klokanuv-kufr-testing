@@ -12,7 +12,9 @@ class Category(models.Model):
 
 class Subcategory(models.Model):
     label = models.CharField(max_length=100)
-    parent_category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    parent_category = models.ForeignKey(
+        Category, related_name="subcategories", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         return self.label
@@ -27,7 +29,9 @@ class AssessmentType(models.Model):
 
 
 class AssessmentTypeOption(models.Model):
-    parent_assessment_type = models.ForeignKey(AssessmentType, on_delete=models.CASCADE)
+    parent_assessment_type = models.ForeignKey(
+        AssessmentType, related_name="options", on_delete=models.CASCADE
+    )
     label = models.CharField(max_length=100)
 
     def __str__(self):
@@ -111,12 +115,12 @@ class User(AbstractUser):
 
     # can't have users without school assigned
     school = models.ForeignKey(
-        School, related_name="%(class)s", on_delete=models.CASCADE, default=1
-    )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+        School, related_name="users", on_delete=models.CASCADE, default=1
+    )  # TODO: default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     # currently, we suppose that all users should be able to make some changes in admin module
     is_staff = models.BooleanField(
-        ("staff status"),
+        "staff status",
         default=True,
         help_text=(
             "Designates whether the user can log into this admin site. Please leave this on unless really necessary."
@@ -130,23 +134,12 @@ class User(AbstractUser):
 class Classroom(models.Model):
     label = models.TextField()
     school = models.ForeignKey(
-        School, related_name="%(class)s", on_delete=models.CASCADE, default=1
-    )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+        School, related_name="classrooms", on_delete=models.CASCADE
+    )
+    teachers = models.ManyToManyField(User, related_name="classrooms")
 
     def __str__(self):
         return self.label
-
-
-class ClassroomTeacher(models.Model):
-    classroom = models.ForeignKey(
-        Classroom, related_name="%(class)s", on_delete=models.CASCADE
-    )
-    teacher = models.ForeignKey(
-        User, related_name="%(class)s", on_delete=models.CASCADE
-    )
-
-    def __str__(self):
-        return "%s %s" % (self.classroom, self.teacher)
 
 
 class Child(models.Model):
@@ -154,7 +147,7 @@ class Child(models.Model):
     last_name = models.TextField()
     birthdate = models.DateField()
     classroom = models.ForeignKey(
-        Classroom, related_name="%(class)s", on_delete=models.CASCADE
+        Classroom, related_name="children", on_delete=models.CASCADE
     )
 
     class Meta:
@@ -176,7 +169,7 @@ class Assessment(models.Model):
 
 
 class ChildNote(models.Model):
-    child = models.ForeignKey(Child, related_name="%(class)s", on_delete=models.CASCADE)
+    child = models.ForeignKey(Child, related_name="notes", on_delete=models.CASCADE)
     note = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -199,7 +192,7 @@ class ChildNote(models.Model):
 
 class ClassroomNote(models.Model):
     classroom = models.ForeignKey(
-        Classroom, related_name="%(class)s", on_delete=models.CASCADE
+        Classroom, related_name="notes", on_delete=models.CASCADE
     )
     note = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
