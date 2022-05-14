@@ -15,61 +15,58 @@ class AssessmentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Assessment
-        fields = ["id", "task", "option", "date_of_assessment", "note", "assessed_by"]
+        fields = [
+            "id",
+            "task",
+            "child",
+            "option",
+            "date_of_assessment",
+            "note",
+            "assessed_by",
+        ]
 
 
 class AssessmentTypeSerializer(serializers.ModelSerializer):
-    options = AssessmentTypeOptionSerializer(
-        source="assessmenttypeoption_set", many=True, read_only=True
-    )
+    options = AssessmentTypeOptionSerializer(many=True, read_only=True)
 
     class Meta:
         model = models.AssessmentType
-        fields = ["id", "label", "allows_note", "options"]
+        fields = ["id", "label", "allows_note", "options", "url"]
+
+
+class SchoolSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.School
+        fields = ["id", "name", "address", "url"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
-    assessment_type = AssessmentTypeSerializer(read_only=True)
-
     class Meta:
         model = models.Task
-        fields = "__all__"
+        fields = [
+            "id",
+            "parent_task",
+            "subcategory",
+            "codename",
+            "assessment_type",
+            "task_description",
+            "difficulty",
+            "expected_age_from",
+            "expected_age_to",
+            "url",
+        ]
 
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
-    tasks = TaskSerializer(source="task_set", many=True, read_only=True)
-
     class Meta:
         model = models.Subcategory
-        fields = ["id", "label", "tasks"]
+        fields = ["id", "label", "url"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    subcategories = SubcategorySerializer(
-        source="subcategory_set", many=True, read_only=True
-    )
-
     class Meta:
         model = models.Category
-        fields = ["id", "label", "subcategories"]
-
-
-class ClassroomSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Classroom
-        fields = ["id", "label"]
-
-
-class ClassroomTeacherSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.ClassroomTeacher
-        fields = ["id", "teacher", "classroom"]
-
-
-class ChildSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Child
-        fields = "__all__"
+        fields = ["id", "label", "subcategories", "url"]
 
 
 class ChildNoteSerializer(serializers.ModelSerializer):
@@ -80,5 +77,27 @@ class ChildNoteSerializer(serializers.ModelSerializer):
 
 class ClassroomNoteSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Classroom
+        model = models.ClassroomNote
         fields = ["id", "classroom", "note"]
+
+
+class ClassroomSerializer(serializers.ModelSerializer):
+    notes = ClassroomNoteSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Classroom
+        fields = ["id", "label", "school", "children", "notes", "url"]
+
+
+class ChildSerializer(serializers.ModelSerializer):
+    notes = ChildNoteSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Child
+        fields = ["id", "first_name", "last_name", "birthdate", "notes", "url"]
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.User
+        fields = "__all__"
