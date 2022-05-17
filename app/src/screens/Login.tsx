@@ -15,7 +15,7 @@ type Props = StackScreenProps<RootStackParamList, 'Login'>;
 export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
-  const { signIn } = useAuth();
+  const { signIn, signInDemo } = useAuth();
 
   const _onLoginPressed = () => {
     const emailError = emailValidator(email.value);
@@ -28,6 +28,10 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
     }
 
     signIn()
+  };
+
+  const _onDemoPressed = () => {
+    signInDemo();
   };
 
   return <Background center>
@@ -75,6 +79,10 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
         <Text style={styles.link}>Aktivujte si ho</Text>
       </TouchableOpacity>
     </View>
+
+    <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={_onDemoPressed}>
+      Přihlásit do demo verze
+    </Button>
   </Background>
 });
 
@@ -87,6 +95,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginTop: 4,
+    marginBottom: 36,
   },
   link: {
     fontWeight: 'bold',

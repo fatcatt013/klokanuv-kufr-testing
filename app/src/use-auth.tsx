@@ -9,6 +9,7 @@ export function useAuth() {
     classId: 1,
     userId: 1,
     signIn: () => setAuth({ ...auth, signedIn: true }),
+    signInDemo: () => setAuth({ ...auth, signedIn: true }),
     signOut: () => setAuth({ ...auth, signedIn: false }),
   }
 }
