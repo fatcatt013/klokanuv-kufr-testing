@@ -1,29 +1,12 @@
 {
   "nodes": {
-    "invitations": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1651064904,
-        "narHash": "sha256-E/w7lVhERACvaEZtMK9Lyi/PJfmknZI/ZJcNrxB4omw=",
-        "owner": "jazzband",
-        "repo": "django-invitations",
-        "rev": "045dc4d55369be33e9c8711dd1c9d0bc793d64cb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "jazzband",
-        "ref": "master",
-        "repo": "django-invitations",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1652794215,
-        "narHash": "sha256-erVj41IcCPDWdt8CwT60ygD+SY/uhqip3RXwiESOCVk=",
+        "lastModified": 1652819037,
+        "narHash": "sha256-6t8vHPRVbz6hUkcm5Utn32doCsmsdKXnZSZmjWm47Xs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "242efdc5a5aff8222c1152c0e4b9262bd02915b6",
+        "rev": "ae758a85d7a0e3f1c37c6434cfe81f41f9575992",
         "type": "github"
       },
       "original": {
@@ -35,7 +18,6 @@
     },
     "root": {
       "inputs": {
-        "invitations": "invitations",
         "nixpkgs": "nixpkgs"
       }
     }

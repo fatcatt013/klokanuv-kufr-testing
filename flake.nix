@@ -1,10 +1,7 @@
 {
-  inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/master;
-    invitations = { url = github:jazzband/django-invitations/master; flake = false; };
-  };
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/master;
 
-  outputs = { self, nixpkgs, invitations }: let
+  outputs = { self, nixpkgs }: let
     inherit (pkgs.nix-gitignore) gitignoreSourcePure;
     pkgs = import nixpkgs {
       system = "x86_64-linux";
@@ -16,13 +13,6 @@
       overrides = pkgs.poetry2nix.overrides.withDefaults (
         self: super: {
           uwsgi = {};
-          django-invitations = self.buildPythonPackage rec {
-            buildInputs = [ self.poetry self.django ];
-            pname = "django-invitations";
-            version = "1.9.3";
-            format = "pyproject";
-            src = invitations;
-          };
         }
       );
     };
