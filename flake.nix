@@ -1,4 +1,6 @@
 {
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/master;
+
   outputs = { self, nixpkgs }: let
     inherit (pkgs.nix-gitignore) gitignoreSourcePure;
     pkgs = import nixpkgs {
@@ -11,6 +13,11 @@
       overrides = pkgs.poetry2nix.overrides.withDefaults (
         self: super: {
           uwsgi = {};
+          django-invitations = super.django-invitations.overridePythonAttrs (
+            old: {
+              buildInputs = (old.buildInputs or [ ]) ++ [ self.poetry ];
+            }
+          );
         }
       );
     };
