@@ -1,5 +1,28 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import * as Keychain from 'react-native-keychain';
+
+let storage = {
+  get: Keychain.getGenericPassword as () => Promise<false | Keychain.UserCredentials>,
+  set: Keychain.setGenericPassword as (u: string, p: string) => Promise<false>,
+  reset: Keychain.resetGenericPassword as () => Promise<false>
+}
+if (Platform.OS === 'web') {
+  storage = {
+    async get() {
+      const tokens = localStorage.getItem('tokens');
+      return tokens ? { username: 'token', password: tokens, service: '', storage: '' } : false;
+    },
+    async set(user, tokens) {
+      localStorage.setItem('tokens', tokens);
+      return false
+    },
+    async reset() {
+      localStorage.removeItem('tokens');
+      return false;
+    }
+  }
+}
 
 interface AuthContextState {
   initializing: boolean;
@@ -36,8 +59,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     (async () => {
       try {
-        const value = await Keychain.getGenericPassword();
-        const jwt = JSON.parse(value ? value.password : '{}');
+        const value = await storage.get();
+        const jwt = JSON.parse(value ? value.password : '');
 
         setAuthState({
           access: jwt.access || null,
@@ -61,10 +84,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     ...authState,
     async logIn(tokens) {
       setAuthState({ ...tokens, authenticated: true, initializing: false });
-      await Keychain.setGenericPassword('token', JSON.stringify(tokens));
+      await storage.set('token', JSON.stringify(tokens));
     },
     async logOut() {
-      await Keychain.resetGenericPassword();
+      await storage.reset();
       setAuthState({
         access: null,
         refresh: null,
@@ -74,13 +97,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     },
     async updateAccessToken(access: string) {
       setAuthState({ ...authState, access });
-      await Keychain.setGenericPassword(
-        'token',
-        JSON.stringify({
-          access,
-          refresh: authState.refresh,
-        }),
-      );
+      await storage.set('token', JSON.stringify({
+        access,
+        refresh: authState.refresh,
+      }));
     },
     getAccessToken() {
       return authState.access;
