@@ -69,7 +69,7 @@
       '';
       installPhase = ''
         mkdir $out
-        cp -r klokan record_sheet manage.py $out/
+        cp -r klokan record_sheet invitations manage.py $out/
         cp -r static $out/static
       '';
     };
