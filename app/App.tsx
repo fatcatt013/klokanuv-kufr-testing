@@ -5,20 +5,24 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
 import { Provider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import { QueryClientProvider } from 'react-query'
-import { theme } from './src/theme';
-import { queryClient } from './src/utils';
-import { App } from './src';
+import { QueryClientProvider } from 'react-query';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import { RecoilRoot } from 'recoil';
+import { useNetInfo } from '@react-native-community/netinfo';
+import { queryClient } from './src/utils';
+import { theme } from './src/theme';
+import { App } from './src';
+import OfflineStatusBar from './src/components/OfflineStatusBar';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
 export default () => {
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
+  const { isConnected } = useNetInfo();
 
+  /* eslint-disable global-require */
   const [fontsLoaded] = useFonts({
     'Poppins-Regular': require('./assets/fonts/Poppins-Regular.ttf'),
     'Poppins-Medium': require('./assets/fonts/Poppins-Medium.ttf'),
@@ -26,6 +30,7 @@ export default () => {
     'Poppins-Thin': require('./assets/fonts/Poppins-Thin.ttf'),
     'Luzanky-Display': require('./assets/fonts/Luzanky-Display.ttf'),
   });
+  /* eslint-enable global-require */
 
   React.useEffect(() => {
     const restoreState = async () => {
@@ -58,16 +63,15 @@ export default () => {
         <QueryClientProvider client={queryClient}>
           <NavigationContainer
             initialState={initialState}
-            onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
+            onStateChange={(state) => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
           >
             <React.Suspense fallback={<AppLoading />}>
+              <OfflineStatusBar show={!isConnected} />
               <App />
             </React.Suspense>
           </NavigationContainer>
         </QueryClientProvider>
       </SafeAreaProvider>
     </RecoilRoot >
-  </Provider >
+  </Provider >;
 };
-
-//export {default} from './storybook';
