@@ -1,29 +1,41 @@
 import React from 'react';
-import axios, { AxiosInstance } from 'axios';
 import { useAuth } from './use-auth';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
+import OpenAPIClientAxios from 'openapi-client-axios';
+import { Client } from './server';
+import definition from '../openapi-schema.json';
 
-interface FetchContextType {
-  publicApi: AxiosInstance,
-  authApi: AxiosInstance,
+interface ApiContextType {
+  publicClient: Client,
+  authClient: Client,
 }
 
-const FetchContext = React.createContext<FetchContextType | null>(null);
+const ApiContext = React.createContext<ApiContextType | null>(null);
 
-export const FetchProvider: React.FC = ({ children }) => {
-  const { getAccessToken, refreshToken, logOut, updateAccessToken } = useAuth();
+export const useApi = (): ApiContextType => {
+  const context = React.useContext(ApiContext);
+  if (context === null) {
+    throw new Error("You cannot use `useApi` outside of an AuthContext");
+  }
+  return context;
+};
 
-  const publicApi = axios.create({
-    baseURL: 'https://klokan.zarybnicky.com/',
-    timeout: 10000,
+export const ApiProvider: React.FC = ({ children }) => {
+  const { getAccessToken, refresh, logOut, updateAccessToken } = useAuth();
+
+  const publicApi = new OpenAPIClientAxios({
+    definition: definition as any,
+    withServer: { url: 'https://klokan.zarybnicky.com/' },
   });
+  const publicClient = publicApi.initSync<Client>();
 
-  const authApi = axios.create({
-    baseURL: 'https://klokan.zarybnicky.com/',
-    timeout: 10000,
+  const authApi = new OpenAPIClientAxios({
+    definition: definition as any,
+    withServer: { url: 'https://klokan.zarybnicky.com/' },
   });
+  const authClient = authApi.initSync<Client>();
 
-  authApi.interceptors.request.use((config) => {
+  authClient.interceptors.request.use((config) => {
     if (config.headers && !config.headers?.Authorization) {
       config.headers.Authorization = `Bearer ${getAccessToken()}`;
     }
@@ -32,21 +44,16 @@ export const FetchProvider: React.FC = ({ children }) => {
     return Promise.reject(error);
   });
 
-  createAuthRefreshInterceptor(authApi, async (failedRequest: any) => {
+  createAuthRefreshInterceptor(authClient, async (failedRequest: any) => {
     try {
-      const tokenRefreshResponse = await axios({
-        method: 'POST',
-        data: { refreshToken },
-        url: 'http://localhost:3000/api/refreshToken',
-      })
-      const accessToken = tokenRefreshResponse.data.accessToken;
-      await updateAccessToken(accessToken);
-      failedRequest.response.config.headers.Authorization = `Bearer ${accessToken}`;
+      const response = await publicClient.createTokenRefresh(null, { refresh: refresh as string });
+      await updateAccessToken(response.data.access!!);
+      failedRequest.response.config.headers.Authorization = `Bearer ${response.data.access}`;
     } catch (e) {
       logOut();
     }
   });
 
-  const context = { authApi, publicApi };
-  return <FetchContext.Provider value={context}>{children}</FetchContext.Provider>;
+  const context = { authClient, publicClient };
+  return <ApiContext.Provider value={context}>{children}</ApiContext.Provider>;
 };

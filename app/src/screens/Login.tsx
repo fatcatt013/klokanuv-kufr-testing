@@ -9,15 +9,17 @@ import { emailValidator, passwordValidator } from '../utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { useAuth } from '../use-auth';
+import { useApi } from '../use-fetch';
 
 type Props = StackScreenProps<RootStackParamList, 'Login'>;
 
 export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
-  const { signIn, signInDemo } = useAuth();
+  const { logIn } = useAuth();
+  const { publicClient } = useApi();
 
-  const _onLoginPressed = () => {
+  const _onLoginPressed = React.useCallback(async () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
 
@@ -27,8 +29,12 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
       return;
     }
 
-    signIn()
-  };
+    const response = await publicClient.createTokenObtainPair(null, {
+      email: email.value,
+      password: password.value,
+    });
+    logIn(response.data as unknown as { access: string, refresh: string });
+  }, [logIn, publicClient]);
 
   const _onDemoPressed = () => {
     signInDemo();

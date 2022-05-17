@@ -4,15 +4,15 @@ import * as Keychain from 'react-native-keychain';
 interface AuthContextState {
   initializing: boolean;
   authenticated: boolean | null;
-  accessToken: string | null;
-  refreshToken: string | null;
+  access: string | null;
+  refresh: string | null;
 }
 
 export interface AuthContextType extends AuthContextState {
-  logIn: (args: { accessToken: string; refreshToken: string; }) => Promise<void>;
+  logIn: (args: { access: string; refresh: string; }) => Promise<void>;
   logOut: () => Promise<void>;
   getAccessToken: () => string | null;
-  updateAccessToken: (refreshToken: string) => Promise<void>;
+  updateAccessToken: (refresh: string) => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextType | null>(null);
@@ -27,8 +27,8 @@ export const useAuth = (): AuthContextType => {
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [authState, setAuthState] = React.useState<AuthContextState>({
-    accessToken: null,
-    refreshToken: null,
+    access: null,
+    refresh: null,
     authenticated: null,
     initializing: true,
   });
@@ -40,16 +40,16 @@ export const AuthProvider: React.FC = ({ children }) => {
         const jwt = JSON.parse(value ? value.password : '{}');
 
         setAuthState({
-          accessToken: jwt.accessToken || null,
-          refreshToken: jwt.refreshToken || null,
-          authenticated: jwt.accessToken !== null,
+          access: jwt.access || null,
+          refresh: jwt.refresh || null,
+          authenticated: jwt.access !== null,
           initializing: false,
         });
       } catch (error) {
         console.log(`Keychain Error: ${error.message}`);
         setAuthState({
-          accessToken: null,
-          refreshToken: null,
+          access: null,
+          refresh: null,
           authenticated: false,
           initializing: false,
         });
@@ -66,24 +66,24 @@ export const AuthProvider: React.FC = ({ children }) => {
     async logOut() {
       await Keychain.resetGenericPassword();
       setAuthState({
-        accessToken: null,
-        refreshToken: null,
+        access: null,
+        refresh: null,
         authenticated: false,
         initializing: false,
       });
     },
-    async updateAccessToken(accessToken: string) {
-      setAuthState({ ...authState, accessToken });
+    async updateAccessToken(access: string) {
+      setAuthState({ ...authState, access });
       await Keychain.setGenericPassword(
         'token',
         JSON.stringify({
-          accessToken,
-          refreshToken: authState.refreshToken,
+          access,
+          refresh: authState.refresh,
         }),
       );
     },
     getAccessToken() {
-      return authState.accessToken;
+      return authState.access;
     }
   };
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
