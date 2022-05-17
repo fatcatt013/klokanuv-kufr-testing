@@ -17,13 +17,18 @@ import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
 import { CreateNoteScreen } from './screens/CreateNoteScreen';
+import { Spinner } from './components/Spinner';
 
 export function App() {
-  const { isSignedIn } = useAuth();
+  const { initializing, authenticated } = useAuth();
+
+  if (initializing) {
+    return <Spinner />
+  }
 
   return (
-    <RootStack.Navigator initialRouteName={isSignedIn ? "Login" : "ClassSelect"}>
-      {isSignedIn ? (
+    <RootStack.Navigator initialRouteName={authenticated ? "Login" : "ClassSelect"}>
+      {authenticated ? (
         <RootStack.Group screenOptions={{
           animationEnabled: true,
           header: (props) => <Header {...props} />,
