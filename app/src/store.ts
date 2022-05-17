@@ -1,5 +1,4 @@
 import { Assessment, Category, Child, Class, Subcategory, Task } from "./types";
-import { fetcher } from "./utils";
 import { atom, AtomEffect, DefaultValue, selectorFamily } from 'recoil'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -74,10 +73,10 @@ export const childrenByGroupState = selectorFamily({
 export const categoriesState = atom<Category[]>({
   key: "categories",
   effects_UNSTABLE: [persistAtom],
-  default: (async () => {
-    const response = await fetcher.get<Category[]>('/categories/')
-    return response.data;
-  })(),
+  // default: (async () => {
+  //   const response = await fetcher.get<Category[]>('/categories/')
+  //   return response.data;
+  // })(),
 });
 
 export const categoryState = selectorFamily({

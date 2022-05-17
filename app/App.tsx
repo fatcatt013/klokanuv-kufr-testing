@@ -14,6 +14,8 @@ import { queryClient } from './src/utils';
 import { theme } from './src/theme';
 import { App } from './src';
 import OfflineStatusBar from './src/components/OfflineStatusBar';
+import { AuthProvider } from './src/use-auth';
+import { ApiProvider } from './src/use-fetch';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
@@ -61,17 +63,21 @@ export default () => {
     <RecoilRoot>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <NavigationContainer
-            initialState={initialState}
-            onStateChange={(state) => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
-          >
-            <React.Suspense fallback={<AppLoading />}>
-              <OfflineStatusBar show={!isConnected} />
-              <App />
-            </React.Suspense>
-          </NavigationContainer>
+          <AuthProvider>
+            <ApiProvider>
+              <NavigationContainer
+                initialState={initialState}
+                onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
+              >
+                <React.Suspense fallback={<AppLoading />}>
+                  <OfflineStatusBar show={!isConnected} />
+                  <App />
+                </React.Suspense>
+              </NavigationContainer>
+            </ApiProvider>
+          </AuthProvider>
         </QueryClientProvider>
       </SafeAreaProvider>
     </RecoilRoot >
-  </Provider >;
+  </Provider>;
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Alert, Platform } from 'react-native';
 import { Background } from '../components/Background';
 import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
@@ -20,24 +20,32 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
   const { publicClient } = useApi();
 
   const _onLoginPressed = React.useCallback(async () => {
-    const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
-
+    const emailError = !email.value || email.value.length <= 0 ? 'Zadejte e-mail' : '';
+    const passwordError = !password.value || password.value.length <= 0 ? 'Zadejte heslo' : '';
     if (emailError || passwordError) {
       setEmail({ ...email, error: emailError });
       setPassword({ ...password, error: passwordError });
       return;
     }
 
-    const response = await publicClient.createTokenObtainPair(null, {
-      email: email.value,
-      password: password.value,
-    });
-    logIn(response.data as unknown as { access: string, refresh: string });
-  }, [logIn, publicClient]);
+    try {
+      const response = await publicClient.createTokenObtainPair(null, {
+        email: email.value,
+        password: password.value,
+      });
+      logIn(response.data as unknown as { access: string, refresh: string });
+    } catch (e) {
+      const alertText = e instanceof Error ? e.message : String(e);
+      if (Platform.OS === 'web') {
+        alert(alertText)
+      } else {
+        Alert.alert('Chyba', alertText)
+      }
+    }
+  }, [email, password, logIn, publicClient]);
 
   const _onDemoPressed = () => {
-    signInDemo();
+    //signInDemo();
   };
 
   return <Background center>
