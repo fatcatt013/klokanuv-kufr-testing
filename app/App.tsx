@@ -9,7 +9,7 @@ import { QueryClientProvider } from 'react-query';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import { RecoilRoot } from 'recoil';
-import NetInfo from '@react-native-community/netinfo';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { queryClient } from './src/utils';
 import { theme } from './src/theme';
 import { App } from './src';
@@ -20,7 +20,7 @@ const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 export default () => {
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
-  const [offline, setOffline] = React.useState(false);
+  const { isConnected } = useNetInfo();
 
   /* eslint-disable global-require */
   const [fontsLoaded] = useFonts({
@@ -56,12 +56,6 @@ export default () => {
   if (!isReady || !fontsLoaded) {
     return <AppLoading />;
   }
-  // If you call the function returned from addEventListener(), you execute unsubscribe.
-  NetInfo.addEventListener((state) => {
-    if (!state.isConnected !== offline) {
-      setOffline(!state.isConnected);
-    }
-  });
 
   return <Provider theme={theme}>
     <RecoilRoot>
@@ -72,7 +66,7 @@ export default () => {
             onStateChange={(state) => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
           >
             <React.Suspense fallback={<AppLoading />}>
-              <OfflineStatusBar show={offline}/>
+              <OfflineStatusBar show={!isConnected} />
               <App />
             </React.Suspense>
           </NavigationContainer>
