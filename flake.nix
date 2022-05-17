@@ -34,8 +34,9 @@
       #! ${pkgs.runtimeShell}
       rm -f db.sqlite3
       MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py migrate
-      MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py create_test_users
+      MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py create_and_assign_permissions
       MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py populate_db -t
+      MANAGE_PY=1 ${klokan-env}/bin/python ${klokan}/manage.py create_test_users
 
       ${uwsgi-python}/bin/uwsgi "$@" \
         --plugins python3 \
