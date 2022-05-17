@@ -8,7 +8,6 @@ from django.db.utils import IntegrityError
 from record_sheet.models import (
     AssessmentTypeOption,
     Category,
-    School,
     Subcategory,
     AssessmentType,
     Task,
@@ -109,23 +108,6 @@ def populate_tasks(base_data):
             task_instance.save()
 
 
-# add base school, mainly for being able to create superuser
-# TODO: if I dont need this, delete
-def add_base_school():
-    School.objects.get_or_create(id=1, name="Base School", address="")
-
-
-def create_superuser():
-    user, created = get_user_model().objects.get_or_create(
-        email="superadmin",
-        is_active=True,
-        is_staff=True,
-        is_superuser=True,
-    )
-    user.set_password("superadmin")
-    user.save()
-
-
 # truncate everything before we start populating database (only runs if '--truncate' or '-t' is provided)
 def truncate_existing_data():
     Assessment.objects.all().delete()
@@ -148,23 +130,15 @@ class Command(BaseCommand):
             help="Truncate all records for task, category, subcategory, assessment_type, assessment_type_option",
         )
 
-        parser.add_argument(
-            "--create-superuser",
-            action="store_true",
-            help='Create a superuser with username and password "superadmin"',
-        )
-
     def handle(self, **options):
         base_data = base_list_sheet1()
         if options["truncate"]:
             truncate_existing_data()
+
         populate_categories(base_data)
         populate_subcategories(base_data)
         populate_assessment_types(base_data)
         populate_assessment_type_options()
         populate_tasks(base_data)
-        add_base_school()
-        if options["create_superuser"]:
-            create_superuser()
 
         self.stdout.write(self.style.SUCCESS("Successfully populated database tables"))
