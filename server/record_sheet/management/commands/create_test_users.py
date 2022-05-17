@@ -20,6 +20,7 @@ class Command(BaseCommand):
         truncate_existing_data()
         fake = Faker()
 
+        school0 = School.objects.create(id=1, name="SVČ Lužánky", address="")
         school1 = School.objects.create(name="Test School 1", address="Test School 1")
         school2 = School.objects.create(name="Test School 2", address="Test School 2")
 
@@ -39,6 +40,14 @@ class Command(BaseCommand):
                 )
 
         pwd = mkpwd("password")
+
+        manager = school0.users.create(
+            email="superadmin",
+            is_active=True,
+            is_staff=True,
+            is_superuser=True,
+            password=mkpwd("superadmin"),
+        )
 
         teacher1 = school1.users.create(email="teacher1@mail.com", password=pwd)
         teacher2 = school1.users.create(email="teacher2@mail.com", password=pwd)

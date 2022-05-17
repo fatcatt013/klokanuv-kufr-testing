@@ -9,15 +9,17 @@ import { emailValidator, passwordValidator } from '../utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { useAuth } from '../use-auth';
+import { useApi } from '../use-fetch';
 
 type Props = StackScreenProps<RootStackParamList, 'Login'>;
 
 export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props) {
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
-  const { signIn } = useAuth();
+  const { logIn } = useAuth();
+  const { publicClient } = useApi();
 
-  const _onLoginPressed = () => {
+  const _onLoginPressed = React.useCallback(async () => {
     const emailError = emailValidator(email.value);
     const passwordError = passwordValidator(password.value);
 
@@ -27,7 +29,15 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
       return;
     }
 
-    signIn()
+    const response = await publicClient.createTokenObtainPair(null, {
+      email: email.value,
+      password: password.value,
+    });
+    logIn(response.data as unknown as { access: string, refresh: string });
+  }, [logIn, publicClient]);
+
+  const _onDemoPressed = () => {
+    signInDemo();
   };
 
   return <Background center>
@@ -75,6 +85,10 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
         <Text style={styles.link}>Aktivujte si ho</Text>
       </TouchableOpacity>
     </View>
+
+    <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={_onDemoPressed}>
+      Přihlásit do demo verze
+    </Button>
   </Background>
 });
 
@@ -87,6 +101,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginTop: 4,
+    marginBottom: 36,
   },
   link: {
     fontWeight: 'bold',

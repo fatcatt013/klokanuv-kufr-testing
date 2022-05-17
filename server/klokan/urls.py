@@ -18,6 +18,7 @@ from rest_framework import routers
 from record_sheet import views
 from django.contrib import admin
 from rest_framework.schemas import get_schema_view
+from rest_framework_simplejwt import views as jwt
 
 router = routers.DefaultRouter()
 router.register(r"tasks", views.TaskViewSet)
@@ -36,6 +37,8 @@ router.register(r"school", views.SchoolViewSet, basename="school")
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("", include(router.urls)),
+    path("api/token/", jwt.TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("api/token/refresh/", jwt.TokenRefreshView.as_view(), name="token_refresh"),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
     path("admin/", admin.site.urls),
     path(
