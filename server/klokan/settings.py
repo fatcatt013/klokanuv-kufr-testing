@@ -61,7 +61,6 @@ SITE_ID = 1
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-INVITATIONS_INVITATION_MODEL = "record_sheet.Invitation"
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 INVITATIONS_INVITATION_ONLY = True
 

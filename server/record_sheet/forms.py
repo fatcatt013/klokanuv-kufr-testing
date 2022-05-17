@@ -1,5 +1,4 @@
 from django import forms
-from invitations.forms import InvitationAdminAddForm as DefaultInvitationAdminAddForm
 from allauth.account.forms import SignupForm
 
 from django.utils.translation import gettext, gettext_lazy as _, pgettext
@@ -17,21 +16,3 @@ class CustomSignupForm(SignupForm):
         user.last_name = self.cleaned_data["last_name"]
         user.save()
         return user
-
-
-class InvitationAdminAddForm(DefaultInvitationAdminAddForm):
-    def save(self, *args, **kwargs):
-        cleaned_data = super(DefaultInvitationAdminAddForm, self).clean()
-        email = cleaned_data.get("email")
-        params = {"email": email}
-        if cleaned_data.get("inviter"):
-            params["inviter"] = cleaned_data.get("inviter")
-        params["school"] = cleaned_data.get("school")
-        instance = models.Invitation.create(**params)
-        instance.send_invitation(self.request)
-        super(DefaultInvitationAdminAddForm, self).save(*args, **kwargs)
-        return instance
-
-    class Meta:
-        model = models.Invitation
-        fields = ("email", "inviter", "school")

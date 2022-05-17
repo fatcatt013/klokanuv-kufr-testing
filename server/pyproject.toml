@@ -11,7 +11,6 @@ djangorestframework = "^3.13.1"
 django-cors-headers = "^3.11.0"
 Faker = "^13.11.0"
 django-allauth = "^0.50.0"
-django-invitations = { git = "https://github.com/jazzband/django-invitations.git", branch = "master" }
 djangorestframework-simplejwt = "^5.1.0"
 PyYAML = "^6.0"
 uritemplate = "^4.1.1"
