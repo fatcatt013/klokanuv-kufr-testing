@@ -12,10 +12,7 @@ class AssessmentSerializer(serializers.ModelSerializer):
     option = serializers.PrimaryKeyRelatedField(
         queryset=models.AssessmentTypeOption.objects.all()
     )
-    created_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
-    updated_by = serializers.StringRelatedField(
+    assessed_by = serializers.StringRelatedField(
         default=serializers.CurrentUserDefault(), read_only=True
     )
 
@@ -85,7 +82,7 @@ class ChildNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ChildNote
-        fields = ["id", "child", "note"]
+        fields = ["id", "child", "note", "created_by", "updated_by"]
 
 
 class ClassroomNoteSerializer(serializers.ModelSerializer):
@@ -98,17 +95,11 @@ class ClassroomNoteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.ClassroomNote
-        fields = ["id", "classroom", "note"]
+        fields = ["id", "classroom", "note", "created_by", "updated_by"]
 
 
 class ClassroomSerializer(serializers.ModelSerializer):
     notes = ClassroomNoteSerializer(many=True, read_only=True)
-    created_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
-    updated_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
 
     class Meta:
         model = models.Classroom
@@ -117,12 +108,6 @@ class ClassroomSerializer(serializers.ModelSerializer):
 
 class ChildSerializer(serializers.ModelSerializer):
     notes = ChildNoteSerializer(many=True, read_only=True)
-    created_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
-    updated_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
 
     class Meta:
         model = models.Child
