@@ -12,7 +12,7 @@ class AssessmentSerializer(serializers.ModelSerializer):
     option = serializers.PrimaryKeyRelatedField(
         queryset=models.AssessmentTypeOption.objects.all()
     )
-    assessed_by = serializers.StringRelatedField(read_only=True)
+    assessed_by = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def create(self, validated_data):
         return models.Assessment.objects.create(
@@ -77,8 +77,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ChildNoteSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(read_only=True)
-    updated_by = serializers.StringRelatedField(read_only=True)
+    created_by = serializers.PrimaryKeyRelatedField(read_only=True)
+    updated_by = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def create(self, validated_data):
         return models.ChildNote.objects.create(
@@ -93,8 +93,8 @@ class ChildNoteSerializer(serializers.ModelSerializer):
 
 
 class ClassroomNoteSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(read_only=True)
-    updated_by = serializers.StringRelatedField(read_only=True)
+    created_by = serializers.PrimaryKeyRelatedField(read_only=True)
+    updated_by = serializers.PrimaryKeyRelatedField(read_only=True)
 
     def create(self, validated_data):
         return models.ClassroomNote.objects.create(
@@ -109,16 +109,12 @@ class ClassroomNoteSerializer(serializers.ModelSerializer):
 
 
 class ClassroomSerializer(serializers.ModelSerializer):
-    notes = ClassroomNoteSerializer(many=True, read_only=True)
-
     class Meta:
         model = models.Classroom
         fields = ["id", "label", "school", "children", "notes", "url"]
 
 
 class ChildSerializer(serializers.ModelSerializer):
-    notes = ChildNoteSerializer(many=True, read_only=True)
-
     class Meta:
         model = models.Child
         fields = ["id", "first_name", "last_name", "birthdate", "notes", "url"]
