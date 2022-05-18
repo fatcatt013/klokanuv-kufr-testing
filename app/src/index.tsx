@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAuth } from './use-auth';
 import { RootStack } from './lib/navigation';
-
 import { LoginScreen } from './screens/Login';
 import { RegisterScreen } from './screens/Register';
 import { ForgotPasswordScreen } from './screens/ForgotPassword';
@@ -16,8 +15,12 @@ import { TaskListScreen } from './screens/TaskListScreen';
 import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
-import { CreateNoteScreen } from './screens/CreateNoteScreen';
+import { CreateNoteChildScreen } from './screens/CreateNoteChildScreen';
+import { CreateNoteClassScreen } from './screens/CreateNoteClassScreen';
 import AppLoading from 'expo-app-loading';
+import { ProvideCoreData } from './use-core-data';
+import { ProvideSchoolData } from './use-school-data';
+import { ProvideAssessmentData } from './use-assessment-data';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
@@ -39,75 +42,82 @@ export function App() {
   }
 
   return (
-    <RootStack.Navigator initialRouteName="ClassSelect">
-      <RootStack.Group screenOptions={{
-        animationEnabled: true,
-        header: (props) => <Header {...props} />,
-      }}>
-        <RootStack.Screen
-          name="ClassSelect"
-          component={ClassSelectScreen}
-          options={{ title: 'Výběr třídy' }}
-        />
-        <RootStack.Screen
-          name="Class"
-          component={ClassScreen}
-          options={({ route, navigation }) => ({
-            headerTitle: (props) => <GroupSelect
-              selected={route.params.classId}
-              selectGroup={classId => navigation.setParams({ classId })}
-              {...props}
-            />
-          })}
-        />
+    <ProvideCoreData>
+      <ProvideSchoolData>
+        <ProvideAssessmentData>
+          <RootStack.Navigator initialRouteName="ClassSelect">
+            <RootStack.Group screenOptions={{
+              animationEnabled: true,
+              header: (props) => <Header {...props} />,
+            }}>
+              <RootStack.Screen
+                name="ClassSelect"
+                component={ClassSelectScreen}
+                options={{ title: 'Výběr třídy' }}
+              />
+              <RootStack.Screen
+                name="Class"
+                component={ClassScreen}
+                options={({ route, navigation }) => ({
+                  headerTitle: (props) => <GroupSelect
+                    selected={route.params.classId}
+                    selectGroup={classId => navigation.setParams({ classId })}
+                    {...props}
+                  />
+                })}
+              />
 
-        <RootStack.Screen
-          name="Child"
-          component={ChildScreen}
-          options={({ route, navigation }) => ({
-            headerTitle: (props) => <ChildSelect
-              selected={route.params.childId}
-              selectChild={childId => navigation.setParams({ childId })}
-              {...props}
-            />
-          })}
-        />
+              <RootStack.Screen
+                name="Child"
+                component={ChildScreen}
+                options={({ route, navigation }) => ({
+                  headerTitle: (props) => <ChildSelect
+                    selected={route.params.childId}
+                    selectChild={childId => navigation.setParams({ childId })}
+                    {...props}
+                  />
+                })}
+              />
 
-        <RootStack.Screen
-          name="TaskList"
-          component={TaskListScreen}
-          options={{ title: 'Úkoly' }}
-        />
-        <RootStack.Screen
-          name="Task"
-          component={TaskScreen}
-          options={{ title: 'Úkol' }}
-        />
+              <RootStack.Screen
+                name="TaskList"
+                component={TaskListScreen}
+                options={{ title: 'Úkoly' }}
+              />
+              <RootStack.Screen
+                name="Task"
+                component={TaskScreen}
+                options={{ title: 'Úkol' }}
+              />
 
-        <RootStack.Screen
-          name="CreateAssessment"
-          component={CreateAssessmentScreen}
-          options={{ title: 'Hodnotit dítě' }}
-        />
-        <RootStack.Screen
-          name="Assessment"
-          component={AssessmentScreen}
-          options={{ title: 'Hodnocení' }}
-        />
+              <RootStack.Screen
+                name="CreateAssessment"
+                component={CreateAssessmentScreen}
+                options={{ title: 'Hodnotit dítě' }}
+              />
+              <RootStack.Screen
+                name="Assessment"
+                component={AssessmentScreen}
+                options={{ title: 'Hodnocení' }}
+              />
 
-        <RootStack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{ title: 'Profil' }}
-        />
-      </RootStack.Group>
+              <RootStack.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{ title: 'Profil' }}
+              />
+            </RootStack.Group>
 
-      <RootStack.Group screenOptions={{
-        presentation: 'transparentModal',
-        headerShown: false,
-      }}>
-        <RootStack.Screen name="CreateNote" component={CreateNoteScreen} />
-      </RootStack.Group>
-    </RootStack.Navigator>
+            <RootStack.Group screenOptions={{
+              presentation: 'transparentModal',
+              headerShown: false,
+            }}>
+              <RootStack.Screen name="CreateNoteChild" component={CreateNoteChildScreen} />
+              <RootStack.Screen name="CreateNoteClass" component={CreateNoteClassScreen} />
+            </RootStack.Group>
+          </RootStack.Navigator>
+        </ProvideAssessmentData>
+      </ProvideSchoolData>
+    </ProvideCoreData>
   );
 }
