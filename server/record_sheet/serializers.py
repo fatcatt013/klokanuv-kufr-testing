@@ -15,7 +15,7 @@ class AssessmentSerializer(serializers.ModelSerializer):
     assessed_by = serializers.StringRelatedField(read_only=True)
 
     def create(self, validated_data):
-        return models.ClassroomNote.objects.create(
+        return models.Assessment.objects.create(
             assessed_by=self.context["request"].user,
             **validated_data,
         )
@@ -81,7 +81,7 @@ class ChildNoteSerializer(serializers.ModelSerializer):
     updated_by = serializers.StringRelatedField(read_only=True)
 
     def create(self, validated_data):
-        return models.ClassroomNote.objects.create(
+        return models.ChildNote.objects.create(
             created_by=self.context["request"].user,
             updated_by=self.context["request"].user,
             **validated_data,
