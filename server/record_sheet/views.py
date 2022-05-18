@@ -1,7 +1,6 @@
 from rest_framework import viewsets, permissions
 from record_sheet import models, serializers
-from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
-from record_sheet.permissions import CustomDjangoModelPermission
+from django.contrib.auth.models import AnonymousUser
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -9,8 +8,15 @@ class TaskViewSet(viewsets.ModelViewSet):
     API endpoint that allows tasks to be viewed or edited.
     """
 
-    queryset = models.Task.objects.all()
     serializer_class = serializers.TaskSerializer
+    # TODO: temporary. permission class for demo purposes
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+            return models.Task.objects.filter(is_in_demo=True)
+        else:
+            return models.Task.objects.all()
 
 
 class SubcategoryViewSet(viewsets.ModelViewSet):
@@ -18,8 +24,15 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
     API endpoint that allows subcategories to be viewed or edited.
     """
 
-    queryset = models.Subcategory.objects.all()
     serializer_class = serializers.SubcategorySerializer
+    # TODO: temporary. permission class for demo purposes
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+            return models.Subcategory.objects.filter(is_in_demo=True)
+        else:
+            return models.Subcategory.objects.all()
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -27,8 +40,16 @@ class CategoryViewSet(viewsets.ModelViewSet):
     API endpoint that allows subcategories to be viewed or edited.
     """
 
-    queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
+    # TODO: temporary. permission class for demo purposes
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+
+            return models.Category.objects.filter(is_in_demo=True)
+        else:
+            return models.Category.objects.all()
 
 
 class AssessmentTypeViewSet(viewsets.ModelViewSet):
@@ -36,8 +57,16 @@ class AssessmentTypeViewSet(viewsets.ModelViewSet):
     API endpoint that allows subcategories to be viewed or edited.
     """
 
-    queryset = models.AssessmentType.objects.all()
     serializer_class = serializers.AssessmentTypeSerializer
+    # TODO: temporary. permission class for demo purposes
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+
+            return models.AssessmentType.objects.filter(is_in_demo=True)
+        else:
+            return models.AssessmentType.objects.all()
 
 
 class AssessmentViewSet(viewsets.ModelViewSet):

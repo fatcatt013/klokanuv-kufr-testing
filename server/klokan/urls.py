@@ -21,10 +21,12 @@ from rest_framework.schemas import get_schema_view
 from rest_framework_simplejwt import views as jwt
 
 router = routers.DefaultRouter()
-router.register(r"tasks", views.TaskViewSet)
-router.register(r"subcategories", views.SubcategoryViewSet)
-router.register(r"categories", views.CategoryViewSet)
-router.register(r"assessment-types", views.AssessmentTypeViewSet)
+router.register(r"tasks", views.TaskViewSet, basename="task")
+router.register(r"subcategories", views.SubcategoryViewSet, basename="subcategory")
+router.register(r"categories", views.CategoryViewSet, basename="category")
+router.register(
+    r"assessment-types", views.AssessmentTypeViewSet, basename="assessment-type"
+)
 router.register(r"assessments", views.AssessmentViewSet, basename="assessment")
 router.register(r"child-notes", views.ChildNoteViewSet, basename="child-note")
 router.register(r"class-notes", views.ClassroomNoteViewSet, basename="class-note")

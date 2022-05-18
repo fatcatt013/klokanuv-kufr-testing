@@ -32,7 +32,10 @@ def populate_categories(base_data):
     for row in base_data:
         if row["category"] not in cats_already_added and row["category"]:
             cats_already_added.append(row["category"])
-            Category(label=row["category"]).save()
+            is_in_demo = False
+            if row["is_in_demo"] == "1":
+                is_in_demo = True
+            Category(label=row["category"], is_in_demo=is_in_demo).save()
 
 
 # extract data about Subcategory from base_data, retrieve FK objects, save newly created instances
@@ -43,10 +46,15 @@ def populate_subcategories(base_data):
     for row in base_data:
         if row["subcategory"] not in subcats_already_added and row["subcategory"]:
             parent_category = Category.objects.get(label=row["category"])
-            Subcategory(
-                label=row["subcategory"], parent_category=parent_category
-            ).save()
             subcats_already_added.append(row["subcategory"])
+            is_in_demo = False
+            if row["is_in_demo"] == "1":
+                is_in_demo = True
+            Subcategory(
+                label=row["subcategory"],
+                parent_category=parent_category,
+                is_in_demo=is_in_demo,
+            ).save()
 
 
 # extract data about AssessmentType from base_data, save newly created instances
@@ -56,8 +64,14 @@ def populate_assessment_types(base_data):
     for row in base_data:
         # ensure uniqueness
         if row["assessment_type"] not in assessment_types_already_added:
-            AssessmentType(label=row["assessment_type"]).save()
             assessment_types_already_added.append(row["assessment_type"])
+            is_in_demo = False
+            if row["is_in_demo"] == "1":
+                is_in_demo = True
+            AssessmentType(
+                label=row["assessment_type"],
+                is_in_demo=is_in_demo,
+            ).save()
 
 
 # take existing instances of AssessmentType, extract AssessmentTypeOption labels from them, save new instances
@@ -86,6 +100,10 @@ def populate_tasks(base_data):
         else:
             difficulty = None
 
+        is_in_demo = False
+        if task_match["is_in_demo"] == "1":
+            is_in_demo = True
+
         Task(
             id=task_match["temporary_task_id"],
             task_description=task_match["task_description"],
@@ -95,6 +113,7 @@ def populate_tasks(base_data):
             difficulty=difficulty,
             expected_age_from=float(task_match["age_from"] or 0),
             expected_age_to=float(task_match["age_to"] or 8),
+            is_in_demo=is_in_demo,
         ).save()
 
     # now we update records with their parent_task, if there is one

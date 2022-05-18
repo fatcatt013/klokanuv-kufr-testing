@@ -5,6 +5,7 @@ from django.contrib.auth.base_user import BaseUserManager
 
 class Category(models.Model):
     label = models.CharField(max_length=100)
+    is_in_demo = models.BooleanField(null=True)
 
     def __str__(self):
         return self.label
@@ -15,6 +16,7 @@ class Subcategory(models.Model):
     parent_category = models.ForeignKey(
         Category, related_name="subcategories", on_delete=models.CASCADE
     )
+    is_in_demo = models.BooleanField(null=True)
 
     def __str__(self):
         return self.label
@@ -23,6 +25,7 @@ class Subcategory(models.Model):
 class AssessmentType(models.Model):
     label = models.CharField(max_length=100)
     allows_note = models.BooleanField(default=0)
+    is_in_demo = models.BooleanField(null=True)
 
     def __str__(self):
         return self.label
@@ -33,6 +36,7 @@ class AssessmentTypeOption(models.Model):
         AssessmentType, related_name="options", on_delete=models.CASCADE
     )
     label = models.CharField(max_length=100)
+    is_in_demo = models.BooleanField(null=True)
 
     def __str__(self):
         return self.label
@@ -58,6 +62,7 @@ class Task(models.Model):
     )
     expected_age_from = models.DecimalField(decimal_places=2, max_digits=5, null=True)
     expected_age_to = models.DecimalField(decimal_places=2, max_digits=5, null=True)
+    is_in_demo = models.BooleanField(null=True)
 
     def __str__(self):
         return self.task_description
@@ -131,6 +136,7 @@ class User(AbstractUser):
         return self.email
 
 
+# TODO: - ask: /classes/ in browser doesn't look good
 class Classroom(models.Model):
     label = models.TextField()
     school = models.ForeignKey(
