@@ -28,14 +28,15 @@ export const ProvideCoreData: React.FC = React.memo(
     const { authClient } = useApi();
     const result = useQuery('core', async () => {
       const data = {
-        categories: authClient.listCategorys().then(x => x.data.results || []),
-        subcategories: authClient.listSubcategorys().then(x => x.data.results || []),
-        tasks: authClient.listTasks().then(x => x.data.results || []),
-        assessmentTypes: authClient.listAssessmentTypes().then(x => x.data.results || []),
+        categories: authClient.listCategorys().then(x => x.data as any),
+        subcategories: authClient.listSubcategorys().then(x => x.data as any),
+        tasks: authClient.listTasks().then(x => x.data as any),
+        assessmentTypes: authClient.listAssessmentTypes().then(x => x.data as any),
       };
       return combinePromises(data);
     }, {
-      staleTime: Infinity
+      staleTime: Infinity,
+      cacheTime: Infinity,
     });
     return <CoreDataContext.Provider value={result}>{children}</CoreDataContext.Provider>;
   }

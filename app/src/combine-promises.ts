@@ -11,19 +11,6 @@ type Result<Obj extends Input> = {
 export function combinePromises<Obj extends Input>(
   obj: Obj
 ): Promise<Result<Obj>> {
-  if (obj === null) {
-    return Promise.reject(
-      new Error('combinePromises does not handle null argument')
-    );
-  }
-  if (typeof obj !== 'object') {
-    return Promise.reject(
-      new Error(
-        `combinePromises does not handle argument of type ${typeof obj}`
-      )
-    );
-  }
-
   const keys = Object.keys(obj);
 
   // not using async/await on purpose, otherwise lib outputs large _asyncToGenerator code in dist

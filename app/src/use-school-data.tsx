@@ -18,14 +18,15 @@ export const ProvideSchoolData: React.FC = React.memo(
     const { authClient } = useApi();
     const result = useQuery('school', async () => {
       const data = {
-        school: authClient.listSchools().then(x => x.data.results),
-        users: authClient.listUsers().then(x => x.data.results),
-        classes: authClient.listClassrooms().then(x => x.data.results),
-        children: authClient.listChilds().then(x => x.data.results),
+        school: authClient.listSchools().then(x => x.data as any),
+        users: authClient.listUsers().then(x => x.data as any),
+        classes: authClient.listClassrooms().then(x => x.data as any),
+        children: authClient.listChilds().then(x => x.data as any),
       };
       return combinePromises(data);
     }, {
-      staleTime: Infinity
+      staleTime: Infinity,
+      cacheTime: Infinity,
     });
     return <SchoolDataContext.Provider value={result}>{children}</SchoolDataContext.Provider>;
   }

@@ -19,16 +19,19 @@ export const ProvideAssessmentData: React.FC = React.memo(
       authClient.listAssessments().then(x => x.data.results || [])
     ), {
       staleTime: 60 * 60 * 1000,
+      cacheTime: Infinity,
     });
     const classNotes = useQuery('classNotes', () => (
       authClient.listClassroomNotes().then(x => x.data.results || [])
     ), {
       staleTime: 60 * 60 * 1000,
+      cacheTime: Infinity,
     });
     const childNotes = useQuery('childNotes', () => (
       authClient.listChildNotes().then(x => x.data.results || [])
     ), {
       staleTime: 60 * 60 * 1000,
+      cacheTime: Infinity,
     });
     return <AssessmentDataContext.Provider value={{
       assessments, classNotes, childNotes
