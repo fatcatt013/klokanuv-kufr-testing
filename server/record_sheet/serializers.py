@@ -12,9 +12,13 @@ class AssessmentSerializer(serializers.ModelSerializer):
     option = serializers.PrimaryKeyRelatedField(
         queryset=models.AssessmentTypeOption.objects.all()
     )
-    assessed_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
+    assessed_by = serializers.StringRelatedField(read_only=True)
+
+    def create(self, validated_data):
+        return models.ClassroomNote.objects.create(
+            assessed_by=self.context["request"].user,
+            **validated_data,
+        )
 
     class Meta:
         model = models.Assessment
@@ -73,12 +77,15 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ChildNoteSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
-    updated_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
+    created_by = serializers.StringRelatedField(read_only=True)
+    updated_by = serializers.StringRelatedField(read_only=True)
+
+    def create(self, validated_data):
+        return models.ClassroomNote.objects.create(
+            created_by=self.context["request"].user,
+            updated_by=self.context["request"].user,
+            **validated_data,
+        )
 
     class Meta:
         model = models.ChildNote
@@ -86,12 +93,15 @@ class ChildNoteSerializer(serializers.ModelSerializer):
 
 
 class ClassroomNoteSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
-    updated_by = serializers.StringRelatedField(
-        default=serializers.CurrentUserDefault(), read_only=True
-    )
+    created_by = serializers.StringRelatedField(read_only=True)
+    updated_by = serializers.StringRelatedField(read_only=True)
+
+    def create(self, validated_data):
+        return models.ClassroomNote.objects.create(
+            created_by=self.context["request"].user,
+            updated_by=self.context["request"].user,
+            **validated_data,
+        )
 
     class Meta:
         model = models.ClassroomNote
