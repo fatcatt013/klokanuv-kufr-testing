@@ -24,6 +24,10 @@ class AssessmentSerializer(serializers.ModelSerializer):
             "note",
             "assessed_by",
         ]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class AssessmentTypeSerializer(serializers.ModelSerializer):
@@ -55,30 +59,50 @@ class TaskSerializer(serializers.ModelSerializer):
             "expected_age_to",
             "url",
         ]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class SubcategorySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = models.Subcategory
         fields = ["id", "label", "url"]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Category
         fields = ["id", "label", "subcategories", "url"]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class ChildNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ChildNote
         fields = ["id", "child", "note"]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class ClassroomNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ClassroomNote
         fields = ["id", "classroom", "note"]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class ClassroomSerializer(serializers.ModelSerializer):
@@ -87,6 +111,10 @@ class ClassroomSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Classroom
         fields = ["id", "label", "school", "children", "notes", "url"]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class ChildSerializer(serializers.ModelSerializer):
@@ -95,6 +123,10 @@ class ChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Child
         fields = ["id", "first_name", "last_name", "birthdate", "notes", "url"]
+        extra_kwargs = {
+            "created_by": {"default": serializers.CurrentUserDefault()},
+            "updated_by": {"default": serializers.CurrentUserDefault()},
+        }
 
 
 class UserSerializer(serializers.ModelSerializer):
