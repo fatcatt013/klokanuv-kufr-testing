@@ -395,9 +395,6 @@ temporary_task_id|parent_temporary_id|task_code|task_description|age_from|age_to
 394||30|Akceptuje pravidla soutěživých her|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
 395||31|Daří se mu vyrovnat s prohrou|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
 396||32|Při hrách uplatňuje iniciativu|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
-397||33|Soustředení na hru|3|4||1|Soustředení na hru|Soustředení na hru|nezvládá / zvládá s dopomocí / zvládá samostatně
-398|397||Soustředení na hru|4|5||1|Soustředení na hru|Soustředení na hru|nezvládá / zvládá s dopomocí / zvládá samostatně
-399|397||Soustředení na hru|5|6||1|Soustředení na hru|Soustředení na hru|nezvládá / zvládá s dopomocí / zvládá samostatně
 400||1|Musí být upozorněno|2.5|3|||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
 401||2|Aktivně hlásí potřebu|3||||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
 402||3|Jde samo na WC (stáhne, natáhne si kalhotky, kalhoty)|4||||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
