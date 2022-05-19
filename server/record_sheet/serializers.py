@@ -117,7 +117,15 @@ class ClassroomSerializer(serializers.ModelSerializer):
 class ChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Child
-        fields = ["id", "first_name", "last_name", "birthdate", "notes", "url"]
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "birthdate",
+            "gender",
+            "notes",
+            "url",
+        ]
 
 
 class UserSerializer(serializers.ModelSerializer):
