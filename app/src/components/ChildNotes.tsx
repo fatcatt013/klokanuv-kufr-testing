@@ -1,44 +1,93 @@
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { FAB, Portal, useTheme } from 'react-native-paper';
+import { FlatList, View } from 'react-native';
+import { Button, Caption, Card, Dialog, FAB, Headline, Portal, Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ChildIDContext } from '../lib/contexts';
 import { RootStackParamList } from '../lib/navigation';
-import { useChildNotes } from '../use-assessment-data';
-import { RecentActivityCard } from './RecentActivityCard';
-
-export const MockDataRecentActivityCard = {
-  taskName: 'Přiřadí barvu',
-  date: '16.1.2022',
-  pedagog: 'Anežka Dobrá',
-  note: 'Toto je popis k vypněnému úkolu, možná se to nebude vyplňovat často a tak by bylo dobré zavést nějaký obecný'
-    + ' placeholder nebo nějak naznačit, že zde není žádný popis naschvál a ne omylem.',
-};
+import { useChildNoteOps, useChildNotes } from '../use-assessment-data';
+import { useChild } from '../use-school-data';
+import { TextInput } from './TextInput';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 
-export const ChildNotes = ({ navigation }: Props) => {
+export const ChildNotes = ({ }: Props) => {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const childId = React.useContext(ChildIDContext);
-  const [notes, addNote] = useChildNotes(childId);
+  const child = useChild(childId);
+  const notes = useChildNotes(childId);
+  const ops = useChildNoteOps();
 
-  React.useEffect(() => {
-    addNote('Test');
-  }, []);
+  const [noteId, setNoteId] = React.useState<number | null>(null);
+  const [note, setNote] = React.useState<string>('');
+  const [open, setOpen] = React.useState(false);
 
   return <>
-    <RecentActivityCard {...MockDataRecentActivityCard} />
+    <FlatList
+      data={notes}
+      keyExtractor={(item) => item.id!.toString()}
+      renderItem={({ item }) => (
+        <Card
+          style={{ margin: 5, padding: 10 }}
+          onPress={() => {
+            setNoteId(item.id!);
+            setNote(item.note);
+            setOpen(true);
+          }}
+        >
+          <Text>{item.note}</Text>
+        </Card>
+      )}
+    />
+
     <Portal>
       <FAB
         visible={isFocused}
         icon="note-plus-outline"
         color="white"
-        style={{ backgroundColor: theme.colors.blue, position: 'absolute', paddingBottom: insets.bottom + 54, paddingRight: insets.right }}
-        onPress={() => navigation.push('CreateNoteChild', { childId })}
+        style={{
+          backgroundColor: theme.colors.blue,
+          position: 'absolute',
+          bottom: insets.bottom + 54 + 16,
+          right: insets.right + 16
+        }}
+        onPress={() => { setNoteId(null); setNote(''); setOpen(true) }}
       />
+
+      <Dialog visible={open} onDismiss={() => setOpen(false)}>
+        <Dialog.Content>
+          <Headline>{child?.first_name} {child?.last_name}</Headline>
+          <Caption>19. 5. 2022</Caption>
+          <TextInput
+            returnKeyType="done"
+            value={note}
+            onChangeText={text => setNote(text)}
+            autoComplete="none"
+            multiline={true}
+            numberOfLines={4}
+          />
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Button onPress={async () => {
+              if (noteId) {
+                await ops.editChildNote(noteId, childId, note);
+              } else {
+                await ops.addChildNote(childId, note);
+              }
+              setOpen(false);
+            }}>Uložit</Button>
+
+            {noteId && <Button onPress={async () => {
+              await ops.deleteChildNote(noteId);
+              setOpen(false);
+            }}>Odstranit</Button>}
+          </View>
+        </Dialog.Content>
+      </Dialog>
+
     </Portal>
   </>;
 }

@@ -7,20 +7,16 @@ import { ForgotPasswordScreen } from './screens/ForgotPassword';
 import { ClassSelectScreen } from './screens/ClassSelect';
 import { ChildScreen } from './screens/Child';
 import { ClassScreen } from "./screens/Class";
-import { ChildSelect } from './components/ChildSelect';
+import { ChildHeader } from './components/ChildHeader';
 import { Header } from './components/Header';
-import { GroupSelect } from './components/ClassSelect';
-import { TaskScreen } from './screens/TaskScreen';
-import { TaskListScreen } from './screens/TaskListScreen';
+import { ClassSelect } from './components/ClassSelect';
+import { TaskScreen } from './screens/Task';
+import { SubcategoryScreen } from './screens/Subcategory';
 import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
-import { CreateNoteChildScreen } from './screens/CreateNoteChildScreen';
-import { CreateNoteClassScreen } from './screens/CreateNoteClassScreen';
 import AppLoading from 'expo-app-loading';
-import { ProvideCoreData } from './use-core-data';
-import { ProvideSchoolData } from './use-school-data';
-import { ProvideAssessmentData } from './use-assessment-data';
+import { CategoryScreen } from './screens/Category';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
@@ -42,82 +38,69 @@ export function App() {
   }
 
   return (
-    <ProvideCoreData>
-      <ProvideSchoolData>
-        <ProvideAssessmentData>
-          <RootStack.Navigator initialRouteName="ClassSelect">
-            <RootStack.Group screenOptions={{
-              animationEnabled: true,
-              header: (props) => <Header {...props} />,
-            }}>
-              <RootStack.Screen
-                name="ClassSelect"
-                component={ClassSelectScreen}
-                options={{ title: 'Výběr třídy' }}
-              />
-              <RootStack.Screen
-                name="Class"
-                component={ClassScreen}
-                options={({ route, navigation }) => ({
-                  headerTitle: (props) => <GroupSelect
-                    selected={route.params.classId}
-                    selectGroup={classId => navigation.setParams({ classId })}
-                    {...props}
-                  />
-                })}
-              />
+    <RootStack.Navigator initialRouteName="ClassSelect">
+      <RootStack.Group screenOptions={{
+        animationEnabled: true,
+        header: (props) => <Header {...props} />,
+      }}>
+        <RootStack.Screen
+          name="ClassSelect"
+          component={ClassSelectScreen}
+          options={{ title: 'Výběr třídy' }}
+        />
+        <RootStack.Screen
+          name="Class"
+          component={ClassScreen}
+          options={({ route, navigation }) => ({
+            headerTitle: (props) => <ClassSelect
+              selected={route.params.classId}
+              selectClass={classId => navigation.setParams({ classId })}
+              {...props}
+            />
+          })}
+        />
 
-              <RootStack.Screen
-                name="Child"
-                component={ChildScreen}
-                options={({ route, navigation }) => ({
-                  headerTitle: (props) => <ChildSelect
-                    selected={route.params.childId}
-                    selectChild={childId => navigation.setParams({ childId })}
-                    {...props}
-                  />
-                })}
-              />
+        <RootStack.Screen
+          name="Child"
+          component={ChildScreen}
+          options={({ route }) => ({
+            headerTitle: (props) => <ChildHeader childId={route.params.childId} {...props} />
+          })}
+        />
 
-              <RootStack.Screen
-                name="TaskList"
-                component={TaskListScreen}
-                options={{ title: 'Úkoly' }}
-              />
-              <RootStack.Screen
-                name="Task"
-                component={TaskScreen}
-                options={{ title: 'Úkol' }}
-              />
+        <RootStack.Screen
+          name="Category"
+          component={CategoryScreen}
+          options={{ title: 'Úkoly' }}
+        />
+        <RootStack.Screen
+          name="Subcategory"
+          component={SubcategoryScreen}
+          options={{ title: 'Úkoly' }}
+        />
+        <RootStack.Screen
+          name="Task"
+          component={TaskScreen}
+          options={{ title: 'Úkol' }}
+        />
 
-              <RootStack.Screen
-                name="CreateAssessment"
-                component={CreateAssessmentScreen}
-                options={{ title: 'Hodnotit dítě' }}
-              />
-              <RootStack.Screen
-                name="Assessment"
-                component={AssessmentScreen}
-                options={{ title: 'Hodnocení' }}
-              />
+        <RootStack.Screen
+          name="CreateAssessment"
+          component={CreateAssessmentScreen}
+          options={{ title: 'Hodnotit dítě' }}
+        />
+        <RootStack.Screen
+          name="Assessment"
+          component={AssessmentScreen}
+          options={{ title: 'Hodnocení' }}
+        />
 
-              <RootStack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{ title: 'Profil' }}
-              />
-            </RootStack.Group>
-
-            <RootStack.Group screenOptions={{
-              presentation: 'transparentModal',
-              headerShown: false,
-            }}>
-              <RootStack.Screen name="CreateNoteChild" component={CreateNoteChildScreen} />
-              <RootStack.Screen name="CreateNoteClass" component={CreateNoteClassScreen} />
-            </RootStack.Group>
-          </RootStack.Navigator>
-        </ProvideAssessmentData>
-      </ProvideSchoolData>
-    </ProvideCoreData>
+        <RootStack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ title: 'Profil' }}
+        />
+      </RootStack.Group>
+    </RootStack.Navigator>
   );
 }

@@ -17,7 +17,7 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
   const { logIn } = useAuth();
-  const { publicClient } = useApi();
+  const { publicAxios } = useApi();
 
   const _onLoginPressed = React.useCallback(async () => {
     const emailError = !email.value || email.value.length <= 0 ? 'Zadejte e-mail' : '';
@@ -29,7 +29,7 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
     }
 
     try {
-      const response = await publicClient.createTokenObtainPair(null, {
+      const response = await publicAxios.post('/api/token/', {
         email: email.value,
         password: password.value,
       });
@@ -42,7 +42,7 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
         Alert.alert('Chyba', alertText)
       }
     }
-  }, [email, password, logIn, publicClient]);
+  }, [email, password, logIn, publicAxios]);
 
   const _onDemoPressed = () => {
     //signInDemo();

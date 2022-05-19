@@ -4,17 +4,25 @@ import { ChildNotes } from '../components/ChildNotes';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { ChildOverview } from '../components/ChildOverview';
-import { AssessmentList } from '../components/AssessmentList';
+import { ChildAssessmentList } from '../components/ChildAssessmentList';
 import { Background } from '../components/Background';
 import { ChildIDContext } from '../lib/contexts';
+import { useTheme } from 'react-native-paper';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 const Tab = createMaterialBottomTabNavigator();
 
 export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
+  const theme = useTheme();
+
   return <Background>
     <ChildIDContext.Provider value={route.params.childId}>
-      <Tab.Navigator sceneAnimationEnabled={false}>
+      <Tab.Navigator
+        sceneAnimationEnabled={false}
+        barStyle={{ backgroundColor: theme.colors.blue }}
+        activeColor="white"
+        inactiveColor="rgba(255, 255, 255, 0.5)"
+      >
         <Tab.Screen
           name="Přehled"
           component={ChildOverview}
@@ -22,7 +30,7 @@ export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
         />
         <Tab.Screen
           name="Hodnocení"
-          component={AssessmentList}
+          component={ChildAssessmentList}
           options={{ tabBarIcon: "order-bool-descending-variant" }}
         />
         <Tab.Screen

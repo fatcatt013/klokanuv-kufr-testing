@@ -8,7 +8,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { QueryClientProvider } from 'react-query';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
-import { RecoilRoot } from 'recoil';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { queryClient } from './src/utils';
 import { theme } from './src/theme';
@@ -16,6 +15,9 @@ import { App } from './src';
 import OfflineStatusBar from './src/components/OfflineStatusBar';
 import { AuthProvider } from './src/use-auth';
 import { ApiProvider } from './src/use-fetch';
+import { ProvideCoreData } from './src/use-core-data';
+import { ProvideSchoolData } from './src/use-school-data';
+import { ProvideAssessmentData } from './src/use-assessment-data';
 
 const PERSISTENCE_KEY = 'NAVIGATION_STATE';
 
@@ -59,25 +61,29 @@ export default () => {
     return <AppLoading />;
   }
 
-  return <Provider theme={theme}>
-    <RecoilRoot>
-      <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <ApiProvider>
-              <NavigationContainer
-                initialState={initialState}
-                onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
-              >
-                <React.Suspense fallback={<AppLoading />}>
-                  <OfflineStatusBar show={!isConnected} />
-                  <App />
-                </React.Suspense>
-              </NavigationContainer>
-            </ApiProvider>
-          </AuthProvider>
-        </QueryClientProvider>
-      </SafeAreaProvider>
-    </RecoilRoot >
-  </Provider>;
+  return <SafeAreaProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ApiProvider>
+          <ProvideCoreData>
+            <ProvideSchoolData>
+              <ProvideAssessmentData>
+                <Provider theme={theme}>
+                  <NavigationContainer
+                    initialState={initialState}
+                    onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
+                  >
+                    <React.Suspense fallback={<AppLoading />}>
+                      <OfflineStatusBar show={!isConnected} />
+                      <App />
+                    </React.Suspense>
+                  </NavigationContainer>
+                </Provider>
+              </ProvideAssessmentData>
+            </ProvideSchoolData>
+          </ProvideCoreData>
+        </ApiProvider>
+      </AuthProvider>
+    </QueryClientProvider>
+  </SafeAreaProvider>;
 };

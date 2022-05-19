@@ -25,18 +25,19 @@ const CoreDataContext = React.createContext<UseQueryResult<CoreData>>(null as an
 
 export const ProvideCoreData: React.FC = React.memo(
   function ProvideCoreData({ children }) {
-    const { authClient } = useApi();
+    const { authAxios, authEnabled } = useApi();
     const result = useQuery('core', async () => {
       const data = {
-        categories: authClient.listCategorys().then(x => x.data as any),
-        subcategories: authClient.listSubcategorys().then(x => x.data as any),
-        tasks: authClient.listTasks().then(x => x.data as any),
-        assessmentTypes: authClient.listAssessmentTypes().then(x => x.data as any),
+        categories: authAxios.get('/categories/').then(x => x.data as any),
+        subcategories: authAxios.get('/subcategories/').then(x => x.data as any),
+        tasks: authAxios.get('/tasks/').then(x => x.data as any),
+        assessmentTypes: authAxios.get('/assessment-types/').then(x => x.data as any),
       };
       return combinePromises(data);
     }, {
       staleTime: Infinity,
       cacheTime: Infinity,
+      enabled: authEnabled,
     });
     return <CoreDataContext.Provider value={result}>{children}</CoreDataContext.Provider>;
   }
@@ -81,4 +82,13 @@ export const useTask = (id: number): Task | null => {
     return null;
   }
   return task;
+}
+
+export const useAssessmentType = (id: number): Components.Schemas.AssessmentType | null => {
+  const { data } = useCoreData();
+  const assessmentType = data?.assessmentTypes?.find(x => x.id === id);
+  if (!assessmentType) {
+    return null;
+  }
+  return assessmentType;
 }

@@ -1,16 +1,15 @@
 import React from "react";
 import { Button, Menu } from "react-native-paper";
-import { useRecoilValue } from "recoil";
-import { groupsState, groupState } from "../store";
+import { useClassroom, useClassrooms } from "../use-school-data";
 
-interface GroupSelectProps {
+interface ClassSelectProps {
   selected: number;
-  selectGroup: (groupId: number) => void;
+  selectClass: (classId: number) => void;
 }
 
-export const GroupSelect = React.memo(function GroupSelect(props: GroupSelectProps) {
-  const group = useRecoilValue(groupState(props.selected));
-  const groups = useRecoilValue(groupsState);
+export const ClassSelect = React.memo(function ClassSelect(props: ClassSelectProps) {
+  const classData = useClassroom(props.selected);
+  const classrooms = useClassrooms()
   const [visible, setVisible] = React.useState(false);
 
   return <Menu
@@ -23,12 +22,12 @@ export const GroupSelect = React.memo(function GroupSelect(props: GroupSelectPro
         onPress={() => setVisible(true)}
         contentStyle={{ flexDirection: 'row-reverse' }}
       >
-        {group?.name}
+        {classData?.label}
       </Button>
     }
   >
-    {groups.map(x => (
-      <Menu.Item key={x.id} title={x.name} onPress={() => props.selectGroup(x.id)} />
+    {classrooms.map(x => (
+      <Menu.Item key={x.id} title={x.label} onPress={() => props.selectClass(x.id!!)} />
     ))}
   </Menu>
 });

@@ -12,7 +12,7 @@ export const Background = React.memo(({ center, children }: Props) => {
     resizeMode="repeat"
     style={styles.background}
   >
-    <KeyboardAvoidingView style={[styles.container, center && styles.center]} behavior="padding">
+    <KeyboardAvoidingView style={[styles.container, center && styles.center]} behavior="height">
       {children}
     </KeyboardAvoidingView>
   </ImageBackground>

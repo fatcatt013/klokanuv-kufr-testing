@@ -4,8 +4,8 @@ import { ClassNotes } from "../components/ClassNotes";
 import { useTheme } from 'react-native-paper';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
-import { ClassOverview } from '../components/ClassOverview';
-import { AssessmentList } from '../components/AssessmentList';
+import { ChildList } from '../components/ChildList';
+import { ClassAssessmentList } from '../components/ClassAssessmentList';
 import { Background } from '../components/Background';
 import { ClassIDContext } from '../lib/contexts';
 
@@ -19,18 +19,18 @@ export const ClassScreen = React.memo(function ClassScreen({ route }: Props) {
     <ClassIDContext.Provider value={route.params.classId}>
       <Tab.Navigator
         sceneAnimationEnabled={false}
-        barStyle={{ backgroundColor: theme.colors.primary }}
+        barStyle={{ backgroundColor: theme.colors.blue }}
         activeColor="white"
         inactiveColor="rgba(255, 255, 255, 0.5)"
       >
         <Tab.Screen
           name="Přehled"
-          component={ClassOverview}
+          component={ChildList}
           options={{ tabBarIcon: "account-multiple" }}
         />
         <Tab.Screen
           name="Úkoly"
-          component={AssessmentList}
+          component={ClassAssessmentList}
           options={{ tabBarIcon: "order-bool-descending-variant" }}
         />
         <Tab.Screen

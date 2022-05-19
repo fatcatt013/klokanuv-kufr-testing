@@ -7,7 +7,7 @@ export const Logo = React.memo(() => (
 
 const styles = StyleSheet.create({
   image: {
-    width: 380,
+    width: 313,
     height: 100,
     marginBottom: 36,
   },

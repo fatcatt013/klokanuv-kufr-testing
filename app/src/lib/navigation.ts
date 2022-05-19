@@ -9,10 +9,11 @@ export type RootStackParamList = {
 
   Child: { childId: number; };
 
-  TaskList: { categoryId: number; };
+  Category: { categoryId: number; };
+  Subcategory: { subcategoryId: number; };
   Task: { taskId: number; };
 
-  CreateAssessment: undefined;
+  CreateAssessment: { children: number[]; tasks: number[]; };
   CreateNoteChild: { childId: number; };
   CreateNoteClass: { classId: number; };
   Assessment: { assessmentId: number; };
