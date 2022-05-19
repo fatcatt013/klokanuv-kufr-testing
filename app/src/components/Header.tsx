@@ -4,7 +4,7 @@ import { Appbar, IconButton, Menu } from 'react-native-paper';
 import { useAuth } from '../use-auth';
 
 export const Header = React.memo(function Header({ back, options, navigation }: StackHeaderProps) {
-  const { signOut } = useAuth();
+  const { logOut } = useAuth();
   const [visible, setVisible] = React.useState(false);
 
   const title
@@ -26,7 +26,7 @@ export const Header = React.memo(function Header({ back, options, navigation }: 
         onDismiss={() => setVisible(false)}
         anchor={<Appbar.Action icon="menu" color="white" onPress={() => setVisible(true)} />}
       >
-        <Menu.Item onPress={() => signOut()} title="Odhlásit se" />
+        <Menu.Item onPress={() => logOut()} title="Odhlásit se" />
       </Menu>
     </Appbar.Header>
   )

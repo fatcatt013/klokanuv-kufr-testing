@@ -18,7 +18,8 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         truncate_existing_data()
-        fake = Faker()
+        fake = Faker(["cs_CZ"])
+        Faker.seed(0)
 
         school0 = School.objects.create(id=1, name="SVČ Lužánky", address="")
         school1 = School.objects.create(name="Test School 1", address="Test School 1")
@@ -31,12 +32,21 @@ class Command(BaseCommand):
         classroom5 = school2.classrooms.create(label="Třída 5")
 
         for classroom in [classroom1, classroom2, classroom3, classroom4, classroom5]:
-            for suffix in range(1, random.randrange(18, 28)):
+            for suffix in range(1, random.randrange(9, 14)):
                 classroom.children.create(
-                    first_name="Jméno %s" % suffix,
-                    last_name="Příjmení",
+                    first_name=fake.first_name_female(),
+                    last_name=fake.last_name_female(),
                     birthdate=fake.date_between(start_date="-6y", end_date="-3y"),
                     school=classroom.school,
+                    gender="F",
+                )
+            for suffix in range(1, random.randrange(9, 14)):
+                classroom.children.create(
+                    first_name=fake.first_name_male(),
+                    last_name=fake.last_name_male(),
+                    birthdate=fake.date_between(start_date="-6y", end_date="-3y"),
+                    school=classroom.school,
+                    gender="M",
                 )
 
         pwd = mkpwd("password")

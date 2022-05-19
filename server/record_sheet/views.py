@@ -37,7 +37,7 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows categories to be viewed or edited.
     """
 
     serializer_class = serializers.CategorySerializer
@@ -54,7 +54,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class AssessmentTypeViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows assessment types to be viewed or edited.
     """
 
     serializer_class = serializers.AssessmentTypeSerializer
@@ -71,7 +71,7 @@ class AssessmentTypeViewSet(viewsets.ModelViewSet):
 
 class AssessmentViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows assessments to be viewed or edited.
     """
 
     serializer_class = serializers.AssessmentSerializer
@@ -84,7 +84,7 @@ class AssessmentViewSet(viewsets.ModelViewSet):
 
 class SchoolViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows schools to be viewed or edited.
     """
 
     serializer_class = serializers.SchoolSerializer
@@ -106,7 +106,7 @@ class ClassroomViewSet(viewsets.ModelViewSet):
 
 class ChildViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows children to be viewed or edited.
     """
 
     serializer_class = serializers.ChildSerializer
@@ -117,7 +117,7 @@ class ChildViewSet(viewsets.ModelViewSet):
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows users to be viewed or edited.
     """
 
     serializer_class = serializers.UserSerializer
@@ -128,7 +128,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class ChildNoteViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows children notes to be viewed or edited.
     """
 
     serializer_class = serializers.ChildNoteSerializer
@@ -141,7 +141,7 @@ class ChildNoteViewSet(viewsets.ModelViewSet):
 
 class ClassroomNoteViewSet(viewsets.ModelViewSet):
     """
-    API endpoint that allows subcategories to be viewed or edited.
+    API endpoint that allows classroom notes to be viewed or edited.
     """
 
     serializer_class = serializers.ClassroomNoteSerializer

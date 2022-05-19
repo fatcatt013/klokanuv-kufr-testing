@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 temporary_task_id|parent_temporary_id|task_code|task_description|age_from|age_to|difficulty|allows_note|subcategory|category|assessment_type|is_in_demo
 1||1|Přiřadí barvu (základní barvy)|3||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně|1
 2||2|Na pokyn ukáže požadovanou barvu|3.5||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně|1
@@ -449,3 +450,453 @@ temporary_task_id|parent_temporary_id|task_code|task_description|age_from|age_to
 448||49|Běžně používá příbor|6||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně|0
 449||50|Samostatně si namaže chleba|6||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně|0
 450||51|Samostatně si nalije polévku|6||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně|0
+=======
+temporary_task_id|parent_temporary_id|task_code|task_description|age_from|age_to|difficulty|allows_note|subcategory|category|assessment_type
+1||1|Přiřadí barvu (základní barvy)|3||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+2||2|Na pokyn ukáže požadovanou barvu|3.5||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+3||3|Pojmenuje barvu (základní)|4||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+4||4 Z4,5|Přiřadí odstíny barev|5||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+5||5 Z4,5|Pojmenuje odstíny barev|6||||Barva|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+6||6 Z6,7|Vyhledá známý předmět na obrázku|3||||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+7||7 Z6,7|Vyhledá objekt na obrázku dle předlohy|3.5||||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+8|7||Vyhledá objekt na obrázku dle předlohy|||harder||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+9||8 Z8|Vyhledá známý objekt na pozadí|4|5|||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+10|9||Vyhledá známý objekt na pozadí|||harder||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+11||9 Z9|Odliší dva překrývající se obrázky|4|5|||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+12|11||Odliší dva překrývající se obrázky|||easier||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+13|11||Odliší dva překrývající se obrázky|||same||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+14|11||Odliší dva překrývající se obrázky|||harder||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+15||10 Z10|Sleduje linii mezi ostatními|5.5||||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+16|15||Sleduje linii mezi ostatními|||easier||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+17|15||Sleduje linii mezi ostatními|||harder||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+18||11 Z11|Vyhledá tvar na pozadí|6||||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+19|18||Vyhledá tvar na pozadí|||easier||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+20|18||Vyhledá tvar na pozadí|||harder||Figura a pozadí|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+21||12 Z12|Odliší výrazně jiný obrázek v řadě|3.5||||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+22|21||Odliší výrazně jiný obrázek v řadě|||easier||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+23|21||Odliší výrazně jiný obrázek v řadě|||harder||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+24||13 Z13|Odliší obrázek v jiné velikosti|3.5||||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+25||14 Z14|Odliší jiný obrázek v řadě|4.5||||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+26|25||Odliší jiný obrázek v řadě|||easier||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+27|25||Odliší jiný obrázek v řadě|||harder||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+28||15 Z15|Odliší obrázek v řadě lišící se horizontální polohou|4.5|5|||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+29|28||Odliší obrázek v řadě lišící se horizontální polohou|||easier||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+30|28||Odliší obrázek v řadě lišící se horizontální polohou|||same||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+31||16 Z16|Odliší obrázek v řadě lišící se detaily|5||||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+32|31||Odliší obrázek v řadě lišící se detaily|||same||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+33||17 Z17|Odliší shodné a neshodné dvojice lišící se detailem|5||||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+34||18 Z18|Odliší obrázek v řadě lišící se vertikální polohou|5.5|6|||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+35|34||Odliší obrázek v řadě lišící se vertikální polohou|||easier||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+36|34||Odliší obrázek v řadě lišící se vertikální polohou|||harder||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+37||19 Z19|Vyhledá dva shodné obrázky v řadě|5.5|6|||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+38||20 Z20|Odliší shodné a neshodné dvojice lišící se vertikální polohou|5.5|6|||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+39|38||Odliší shodné a neshodné dvojice lišící se vertikální polohou|||harder||Zrakové rozlišování (Zraková diferenciace)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+40||21 Z21|Poskládá obrázek ze dvou částí|3|3.5|||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+41|40||Poskládá obrázek ze dvou částí|||same||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+42||22 Z22|Poskládá obrázek ze čtyř částí|3.5|4|||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+43|42||Poskládá obrázek ze čtyř částí|||same||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+44||23 Z23|Poskládá obrázek z několika částí|4||||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+45|44||Poskládá obrázek z několika částí|||harder||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+46||24 Z24,25|Složí tvar z několika částí na předlohu|5||||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+47||25 Z24,25|Složí tvar  z několika částí podle předlohy|5.5||||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+48||26 Z26|Doplní chybějící části v obrázku|5.5|6|||Část a celek (Zraková analýza a syntéza)|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+49||27|Pamatuje si tři předměty, pozná, který chybí|4||||Zraková paměť|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+50||28 Z28,29|Pamatuje si tři obrázky, pozná, který chybí|4.5||||Zraková paměť|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+51||29 Z28,29|Ze šesti obrázků si tři pamatuje|5||||Zraková paměť|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+52||30 Z30|Pozná viděné obrázky|5|6|||Zraková paměť|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+53||31 Z31|Umístí obrázky na místo|6||||Zraková paměť|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+54||32 Z32|Jmenuje objekty zleva doprava|5||||Pohyby očí po řádku|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+55||33 Z33|Vyhledá daný první objekt ve kupině zleva doprava|5.5|6|||Pohyby očí po řádku|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+56|55||Vyhledá daný první objekt ve kupině zleva doprava|||same||Pohyby očí po řádku|Zrakové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+57||1|Lokalizuje zvuk (ukáže směr)|3||||Naslouchání|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+58||2|Pozná předměty podle zvuku|3|4|||Naslouchání|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+59||3|Poznává písně podle melodie|4||||Naslouchání|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+60||4|Naslouchá krátkému příběhu, pohádce|4||||Naslouchání|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+61||5 S5|Rozliší slova s vizuálním podnětem (změna hlásky)  hodiny-holínky bota-nota tráva-kráva|4||||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+62||6 Z6,7|Rozliší slova: bez vizuálního podnětu (změna hlásky) most-kost kniha-kniha udice-ulice hrady-brady vločka-vločka konec-kopec|5||||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+63||7 S7|Rozliší slova s vizuálním podnětem (změna samohlásky)  kapr-kopr perník-parník|4||||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+64||8|Rozliší slova bez vizuálního podnětu (změna samohlásky)  plot-plat drak-drak kus-kos sud-sad slavit-slevit les-les|4.5|5|||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+65||9 S9|Rozliší slova s vizuálním podnětem (znělé a neznělé hlásky, sykavky) kos-koš kosa-koza pije-bije pupen-buben|4.5|5|||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+66||10|Rozliší slova bez vizuálního podnětu (znělé a neznělé hlásky, sykavky) hrad-hrad zem-sem ples-pleš tělo-dělo myš-myš noc-nos vozy-vosy|5||||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+67||11 S11|Rozliší slova s vizuálním podnětem (změna délky) lyže-líže páni-paní|5||||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+68||12|Rozliší slova: bez vizuálního podnětu (změna dělky) dráha-drahá kára-kárá žila-žíla lak-lák síla-síla pára-párá vila-víla|5|5.5|||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+69||13 S13|Rozliší slova s vizuálním podnětem (změna měkčení) nemá-němá hrozny-hrozní|5.5||||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+70||14|Rozliší slova bez vizuálního podnětu (změna měkčení) čistí-čistý dýky-díky mladý-mladý lety-letí hrady-hradí psaní-psaní tyká-tiká|5.5|6|||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+71||15|Rozliší slabiky: tam-dam dlo-plo tam-tam čil-žil don-don fal-val hal-chal bro-bro dyn-din zni-zny tyl-tyl kni-kny díl-dýl pny-pny del-děl těk-tek|6|6.5|||Sluchové rozlišování (sluchová diferenciace)|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí, ukáže obrázek / zvládá samostatně
+72||16|Zopakuje větu ze tří slov|3||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+73||17|Zopakuje tři nesouvisející slova|4||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+74||18|Zopakuje větu ze čtyř slov|4||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+75||19|Zopakuje čtyři nesouvisející slova|5||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+76||20|Zopakuje větu z pěti slov|5||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+77||21|Zopakuje větu z více slov|6||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+78||22|Zopakuje pět nesouvisejících slov|6||||Sluchová paměť|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+79||23|Roztleská slovo na slabiky|4||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+80||24|Zvládá rozpočítadla|4||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+81||25 S26,27|Z trojice slov najde rýmující se dvojici|4.5|5|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+82||26 S26,27|Určí, zda se dvě slova rýmují|4.5|5|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+83||27 S26,27|Vyhledá rýmující se dvojice drak-mrak míč-klíč pes-les metr-svetr tužka-hruška|5||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+84|83||Vyhledá rýmující se dvojice liška-šiška opice-slepice židle-vidle rak-prak obr-bobr|||same||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+85||28|Určí počet slabik|5||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+86|85||Určí počet slabik slon, vůz, luk, had, čert, mísa, kočka, koza, koláč, hřeben, cibule, jahoda, bačkory, krokodýl, formule, čokoláda, kukuřice, muchomůrka, rukavice, lokomotiva|||easier||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+87||29|Určí počáteční hlásku slova|5||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+88|87||Určí počáteční hlásku slova Sýr, stůl, slunce, saně, mašle, maliny, mamut, motyka, plot, panna, palička, pilník, ještěrka, jitrnice, jazyk, jablko, list, lavička, lopata, loutka|||easier||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+89||30|Určí slova začínající danou hláskou|5|5.5|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+90|89||Určí slova začínající danou hláskou koza, kůň, květina, koruna, klíč, tužka, trubka, terč, tučňák, tygr, růže, rádio, rohlík, ruka, rybník, zebra, zámek, zvon, zmije, zmrzlina|||easier||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+91||31|Určí poslední souhlásku ve slově (les)|5.5|6|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+92|91||Určí poslední souhlásku ve slově (les) Pes, kos, cirkus, bič, meč, malíř, talíř, drak, šíp, zip|||easier||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+93||32|Slovní kopaná|6|7|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+94||33|Určí poslední samohlásku ve slově|6|7|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+95||34|Určí, zda slovo obsahuje danou hlásku|6|7|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+96||35 S35|Z hlásek složí slovo (uzavřenou slabiku p-e-s) pes, pán, míč, dům, myš, hůl|6|7|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+97|96||Z hlásek složí slovo (uzavřenou slabiku p-e-s) les, cop, čáp, loď, koš, mák|||same||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+98|96||Z hlásek složí slovo (uzavřenou slabiku p-e-s) kuře, vana, ruže, zuby, boty, váha|||harder||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+99||36|Jednoslabičné slovo analyzuje na hlásky (myš)|6|7|||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+100||37|Z hlásek složí dvouslabičné slovo (k-o-l-o)|7||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+101||38|Dvouslabičné slovo analyzuje na hlásky (voda)|7||||Sluchová analýza, syntéza|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+102||39|Určí, zda dvě krátké rytmické struktury jsou shodné|4||||Vnímání rytmu|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+103||40|Určí, zda dvě delší rytmické struktury jsou shodné|5||||Vnímání rytmu|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+104||41|Napodobí rytmus (2-4 tóny, více)|5|6|||Vnímání rytmu|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+105||42|Zvládá záznam krátké rytmické struktury|5.5|6|||Vnímání rytmu|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+106||43|Zvládá záznam delší rytmické struktury|6||||Vnímání rytmu|Sluchové vnímání a paměť|nezvládá / zvládá s dopomocí / zvládá samostatně
+107||1|Skok sounož|3||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+108||2|Přeskočí nízkou překážku|3||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+109||3|Chůze po schodech nahoru-střídá nohy|3||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+110||4|Stoj se zavřenýma očima|3.5||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+111||5|Přeskok přes čáru|3.5|4|||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+112||6|Chůze po schodech dolů-střídá nohy|4||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+113||7|Přejde po čáře|4|5|||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+114||8|Stoj na špičkách s otevřenýma očima|4|5|||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+115||9|Poskoky na jedné noze|4|5|||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+116||10|Chůze po mírně zvýšené ploše|4|5|||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+117||11|Přejde přes kladinu|5||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+118||12|Přeskočí snožmo nízkou překážku|6||||Hrubá motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+119||13|Manipulace s drobnými předměty|3|4|||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+120|119||Zasouvání kolíčků do desky 1, žluté kolíčky 2. bezbarevné kolíčky 3. modré kolíčky|||||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+121|119||Navlékání korálků|||||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+122|119||Provlékání|||||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+123||14|Stříhání|4||||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+124||15|Otevírání dlaně postupně po jednom prstu|4||||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+125||16|Dotkne se prstem každého prstu na ruce bříška palce|5||||Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+126||17|Další činnosti|0|||1|Jemná motorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+127||18|Pozná hmatem výrazně odlišné hračky|4||||Hmatové vnímání (Taktilní percepce)|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+128||19|Pozná hmatem zvířátka (velikosti cca 10cm)|4|5|||Hmatové vnímání (Taktilní percepce)|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+129||20|Rozliší různé povrchy, materiály|5||||Hmatové vnímání (Taktilní percepce)|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+130||21|Pozná hmatem geometrické tvary|5|6|||Hmatové vnímání (Taktilní percepce)|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+131||22|Kreslení nevyhledáva|0||||Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+132||23|Čáranice|2||||Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+133||24|Pojmenování čáranice|2.5|3.5|||Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+134||25|Hlavonožec|3|4|||Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+135||26|Postava (hlava, trup, končetiny)|4|5|||Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+136||27|Přibývajíci detaily|5|6|||Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+137||28|Různorodost námětú, nejčastěji kreslí:|0|||1|Spontánní kresba|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+138||29|Čára svislá|3||||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+139||30|Čára vodorovná|3||||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+140||31|Kruh|3|3.5|||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+141||32|Spirála|4|4.5|||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+142||33|Vlnovka|4|5|||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+143||34|Šikmá čára|4|5|||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+144||35|Zuby|5.5||||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+145||36|Horní smyčka|5.5||||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+146||37|Spodní smyčka|5.5|6|||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+147||38|Horní oblouk s vratným tahem|6||||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+148||39|Spodní oblouk s vratným tahem|6||||Grafomotorické prvky|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+149||40|Držení tužky|0|||1|Návyky při kreslení|Hrubá motorika, grafomotorika a kresba|slovné hodnocení
+150||41|Postavení ruky|0|||1|Návyky při kreslení|Hrubá motorika, grafomotorika a kresba|slovné hodnocení
+151||42|Uvolnění ruky, tlak na podložku|0|||1|Návyky při kreslení|Hrubá motorika, grafomotorika a kresba|slovné hodnocení
+152||43|Plynulost tahů|0|||1|Návyky při kreslení|Hrubá motorika, grafomotorika a kresba|slovné hodnocení
+153||44|Čára mezi dvěma liniemi (dráhy)|4||||Vizuomotorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+154||45|Jedna linie / rozcvičovací cviky|4.5|5|||Vizuomotorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+155||46|Překreslí obrázek dle předlohy|6||||Vizuomotorika|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+156||47|Navlékání korálků|0||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+157||48|Zasouvání kostek do otvorů|1||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+158||49|Skládání mozaiky z korálků, či hříbečků|2||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+159||50|Roztáčení káči|3||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+160||51|Zvonění zvonečkem|4||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+161||52|Gumování|5||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+162||53|Hod míčem|6||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+163||54|Kutálení míče, trefování kuželek|7||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+164||55|Šroubování uzávěrů lahví|8||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+165||56|Šroubování matičky|9||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+166||57|Zatloukání kladívkem|10||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+167||58|Hra s pískem-používání lopatky|11||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+168||59|Zvedání kbelíčku s pískem|12||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+169||60|Střihání|13||||Lateralita ruky|Hrubá motorika, grafomotorika a kresba|pravá ruka / levá ruka / ruce střídá
+170||61|Dívání se do kukátka, krasohledu|14||||Lateralita oka|Hrubá motorika, grafomotorika a kresba|pravé oko / levé oko / oči střídá
+171||62|Dívání se do lahvičky|15||||Lateralita oka|Hrubá motorika, grafomotorika a kresba|pravé oko / levé oko / oči střídá
+172||63|Dívání se do klíčové dírky|16||||Lateralita oka|Hrubá motorika, grafomotorika a kresba|pravé oko / levé oko / oči střídá
+173||64|Ruky|17||||Lateralita|Hrubá motorika, grafomotorika a kresba|nevyhraněná / vyhraněná, praváctví, leváctví
+174||65|Oka|18||||Lateralita|Hrubá motorika, grafomotorika a kresba|nezvládá / zvládá s dopomocí / zvládá samostatně
+175||1 Ř1|Pojmenuje běžné věci na obrázku|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+176||2 Ř2|Ukáže obrázek podle použití|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+177|176||Ukáže obrázek podle použití|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+178||3 Ř3|Ukáže na obrázku činnost|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+179|178||Ukáže na obrázku činnost|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+180|178||Ukáže na obrázku činnost|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+181||4|"Chápe pojmy ""já a moje"""|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+182||5|Správně používá slova ,,ano, ne”|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+183||6|"Odpovídá na otáky ""Co děláš?"", ""Kde?"""|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+184||7|Má zájem o obrázkové knížky, příběhy|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+185||8 Ř8|Ukáže obrázek podle podstatného znaku|3|3.5|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+186||9|"Klade otázky ""Proč?"" ""Kdy?"""|3|3.5|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+187||10 Ř10|Řekne, co je na obrázku|3|3.5|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+188||11|Reprodukuje jednoduchou říkanku|3|3.5|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+189||12 Ř12|Chápe jednoduché protiklady|3.5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+190|189||Chápe jednoduché protiklady|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+191||13 Ř13|Identifikuje věci podle společných podstatných znaků|3.5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+192||14 Ř14|Zařazuje různé obrázky pod nadřazené pojmy|4||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+193|192||Zařazuje různé obrázky pod nadřazené pojmy|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+194||15 Ř15|Ukáže obrázek podle aktuální situace|4||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+195|194||Ukáže obrázek podle aktuální situace|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+196||16|Vysvětlí na co máme oči, knihy, auta…|4||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+197||17|Poslouchá pohádky, chápe děj|4||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+198||18 Ř18|Spontánně vypráví podle obrázku|4||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+199||19 Ř19|Doplní protiklady s názorem|4||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+200|199||Doplní protiklady s názorem|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+201||20|Definuje význam pojmů|5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+202||21|Chápe jednoduché vtipy a hádanky|5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+203||22 Ř22|Sestaví dějovou posloupnost a popíše ji|5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+204||23|Pojmenuje, co dělá určitá profese|5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+205||24 Ř24|Přiřadí, co k sobě patří a vysvětlí to|5||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+206|205||Přiřadí, co k sobě patří a vysvětlí to|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+207||25|Umí zpaměti kratší texty|5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+208||26  Ř26|Tvoří nadřazené pojmy|5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+209||27|Tvoří protiklady (antonyma)|5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+210||28 Ř28|Tvoří slova podobného významu (synonyma)|5.5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+211|210||Tvoří slova podobného významu (synonyma)|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+212||29 Ř29|Pozná a vymyslí slova stejného zvuku, ale různého významu (homonyma)|5.5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+213||30 Ř30|Pozná a pojmenuje nesmysl na obrázku|5.5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+214|213||Pozná a pojmenuje nesmysl na obrázku|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+215||31|Správně posoudí pravdivost či nepravdivost tvrzení|5.5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+216||32|Interpretuje pohádky, příběhy bez obrázkového doprovodu|5.5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+217||33|Chápe a ve správném pořadí realizuje i poměrně dlouhé a komplikovanější pokyny|5.5|6|||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+218||34|Mluví ve větách, k podstatným jménům a slovesům postupně přidává přídavná jména, zájmena atd.|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+219||35 Ř35|Rozlišuje mezi jednotným a množným číslem|3||||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+220|219||Rozlišuje mezi jednotným a množným číslem|||same||Lexikálně-sémantická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+221||36|Skloňuje|3||||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+222||37|Tvoří souvětí souřadná|3||||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+223||38|Tvoří souvětí podřadná|3.5|4|||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+224||39|Užívá čas minulý, přítomný, budoucí|4|5|||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+225||40|Užívá všechny druhy slov|4|5|||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+226||41|Mluví gramaticky správně|4|5|||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+227||42|Pozná nesprávně utvořenou větu|5|6|||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+228||43 Ř43|Do příběhu doplní slovo ve správném tvaru|5|6|||Morfologicko-syntaktická r.|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+229||44|Uřednostňuje verbální formu komunikace, pomocí řeči dosahuje cíle|3||||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+230||45|Řekne své jméno, jména sourozenců, kamarádů|3|3.5|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+231||46|Mluví nenuceně, pokouší se o krátkou konverzaci|3.5|4|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+232||47|Spontánně informuje o zážitcích, pocitech, přáních|4||||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+233||48|Předá krátký vzkaz|4||||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+234||49|Řečový projev po obsahové i formální stránce odpovídá kritériím běžné konverzace|5|6|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+235||50|Aktivně a spontánně navazuje řečový kontakt s dětmi i dospělými|5|6|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+236||51|Dodržuje pravidla konverzace a společenského kontaktu|5|6|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+237||52|Dokáže zformulovat otázku, adekvátně odpovědět na otázku (samostatně a smysluplně)|5|6|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+238||53|Smysluplně vyjádří myšlenku, nápad, mínění, popíše situaci, událost, vyjádří svoje pocity, prožitky…|5|6|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+239||54|Řekne svoje jméno a příjmení, jména rodičů, sourozenců, kamarádů, učitelek, svoji adresu|5|6|||Pragmatická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+240||55|Oční kontakt|3|4|||Prvky neverbální komunikace|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+241|240||Oční kontakt|4|5|||Prvky neverbální komunikace|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+242|240||Oční kontakt|5|6|||Prvky neverbální komunikace|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+243||56|Výslovnost|3|4|||Foneticko-fonologická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+244|243||Výslovnost|4|5|||Foneticko-fonologická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+245|243||Výslovnost|5|6|||Foneticko-fonologická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+246||57|Artikulační obratnost|3|4|||Foneticko-fonologická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+247|246||Artikulační obratnost|4|5|||Foneticko-fonologická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+248|246||Artikulační obratnost|5|6|||Foneticko-fonologická rovina|Řeč|nezvládá / zvládá s dopomocí / zvládá samostatně
+249||1 P1,2,3|Nahoře, dole|3||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+250||2 P1,2,3|Předložkové vazby na, do, v|3|4|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+251||3 P1,2,3|Níže, výše|3.5|4|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+252||4 P4,5|Vpředu, vzadu|4||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+253||5 P4,5|Předložkové vazby před za, nad, pod, vedle, mezi|4|5|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+254||6|Daleko, blízko|4|5|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+255||7 P7,8,10|První, poslední|4.5||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+256|255||První, poslední|||same||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+257|255||První, poslední|||harder||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+258||8 P7,8,10|Uprostřed, prostřední, předposlední|5||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+259|258||Uprostřed, prostřední, předposlední|||same||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+260|258||Uprostřed, prostřední, předposlední|||harder||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+261||9|Orientace v okolí-dítě ví, jak se jde do obchodu, do školky.…|4|5|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+262||10 P7,8,10|Hned před, hned za|5||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+263||11|Vpravo, vlevo, na vlastním těle|5||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+264||12 P12,13|Vpravo, vlevo-umístění předmětu|5|5.5|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+265||13 P12,13|Vpravo nahoře-dvě kritéria|6||||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+266|265||Vpravo nahoře-dvě kritéria|||harder||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+267||14|Vpravo, vlevo na druhé osobě|7.5|8|||Vnímání prostoru, pojmy|Vnímání prostoru|nezvládá / ukáže v prostoru, na sobě / ukáže na formátu / pojmenuje
+268||1 Č1-5|Přiřadí činnosti obvyklé pro ráno|4|5|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+269||2 Č1-5|Přiřadí činnosti obvyklé pro poledne|4|5|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+270||3 Č1-5|Přiřadí činnosti obvyklé pro večer|4|5|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+271||4 Č1-5|Přiřadí činnosti obvyklé pro dopoledne|4.5|5|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+272||5 Č1-5|Přiřadí činnosti obvyklé pro odpoledne|4.5|5|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+273||6 Č6,7|Rozliší dříve, později (seřadí dva obrázky)|4.5||||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+274|273||Rozliší dříve, později (seřadí dva obrázky)|||same||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+275||7 Č6,7|Seřadí obrázky podle posloupnosti děje, jmenuje, co se stalo nejdříve, později, naposled|5||||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+276|275||Seřadí obrázky podle posloupnosti děje, jmenuje, co se stalo nejdříve, později, naposled|||same||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+277||8|Rozliší pojmy nejdříve, před tím, nyní, potom|5||||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+278||9|Začíná se orientovat ve dnech v týdnu|5|6|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+279||10 Č10|Přiřadí činnosti obvyklé pro roční období|5|6|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+280|279||Přiřadí činnosti obvyklé pro roční období|||harder||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+281||11|Pojmy včera, dnes, zítra|6||||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+282||12|Předevčírem, pozítří|6.5|7|||Vnímání času|Vnímání času|nezvládá / ukáže s dopomocí, ukáže na obrázku / zvládá samostatně, aktivně používá
+283||1 M1|Malý x velký|3||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+284|283||Malý x velký|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+285||2 M2|Hodně x málo|3||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+286|285||Hodně x málo|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+287||3|Všechny|3||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+288||4 M4|Krátký x dlouhý|3.5||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+289|288||Krátký x dlouhý|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+290||5 M5|Úzký x široký|3.5||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+291|290||Úzký x široký|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+292||6 M6|Nízký x vysoký|3.5||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+293|292||Nízký x vysoký|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+294||7 M7|Prázdný x plný|3.5||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+295|294||Prázdný x plný|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+296||8|Stejně, vytváření dvojic|3.5||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+297||9 M2|Méně x více-výrazný rozdíl|3.5|4|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+298|297||Méně x více-výrazný rozdíl|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+299||10 M1|Menší x větší|3.5|4|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+300|299||Menší x větší|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+301||11 M4|Kratší x delší|3.5|4|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+302|301||Kratší x delší|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+303||12 M6|Nižší x vyšší|3.5|4|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+304|303||Nižší x vyšší|||same||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+305||13|Některé|4||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+306||14|Žádné, nic|4||||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+307||15 M15|Méně, více, stejně při odlišné velikosti a uspořádání prvků|5|5.5|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+308|307||Méně, více, stejně při odlišné velikosti a uspořádání prvků|||harder||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+309||16|O jeden více|5|6|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+310||17|O jeden méně|5|6|||Porovnávání, pojmy, vztahy|Základní matematické představy|nezvládá / zvládá s dopomocí, předmět přiřadí / zvládá samostatně, pojmenuje
+311||18 M18|Podle druhu (jídlo, hračky)|3|3.5|||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+312||19 M24|Podle barvy|3.5||||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+313||20 M24|Podle velikosti|3.5||||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+314||21 M24|Podle tvaru|5||||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+315||22 M22|Pozná, co do skupiny nepatří|5|5.5|||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+316|315||Pozná, co do skupiny nepatří|||harder||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+317||23 M24|Podle dvou kritérií (žluté kruhy)|5.5||||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+318||24 M24|Podle tří kritérií (malé žluté kruhy)|6||||Třídění, tvoření skupin|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně, pojmenuje
+319||25 M25|Seřadí tři prvky podle velikosti|4||||Řazení|Základní matematické představy|nezvládá / zvládá s dopomocí, seřadí, ale nepojmenuje / zvládá samostatně, pojmenuje
+320||26 M26|Pojmenuje nejmenší, největší|4.5||||Řazení|Základní matematické představy|nezvládá / zvládá s dopomocí, seřadí, ale nepojmenuje / zvládá samostatně, pojmenuje
+321||27 M25,27|Seřadí: malý, střední, velký Vysoký, vyšší, nejvyšší málo, méně, nejméně|4.5|5|||Řazení|Základní matematické představy|nezvládá / zvládá s dopomocí, seřadí, ale nepojmenuje / zvládá samostatně, pojmenuje
+322||28 M25,27|Pojmenuje: malý, střední, velký vysoký, vyšší, nejvyšší málo, méně, nejméně|5||||Řazení|Základní matematické představy|nezvládá / zvládá s dopomocí, seřadí, ale nepojmenuje / zvládá samostatně, pojmenuje
+323||29 M29|Seřadí pět prvků podle velikosti|5||||Řazení|Základní matematické představy|nezvládá / zvládá s dopomocí, seřadí, ale nepojmenuje / zvládá samostatně, pojmenuje
+324||30|Množství do dvou|3||||Množství|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně
+325||31|Množství do tří|3.5||||Množství|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně
+326||32|Množství do čtyř|4|4.5|||Množství|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně
+327||33|Množství do pěti|5||||Množství|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně
+328||34|Množství do šesti|5|6|||Množství|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně
+329||35|Množství do …|||||Množství|Základní matematické představy|nezvládá / zvládá s dopomocí / zvládá samostatně
+330||36 M36|Kruh|3||||Tvary|Základní matematické představy|nezvládá / zvládá s dopomocí, přiřadí / zvládá samostatně, pojmenuje
+331||37 M37|Čtverec|3.5|4|||Tvary|Základní matematické představy|nezvládá / zvládá s dopomocí, přiřadí / zvládá samostatně, pojmenuje
+332||38 M38|Trojúhelník|5||||Tvary|Základní matematické představy|nezvládá / zvládá s dopomocí, přiřadí / zvládá samostatně, pojmenuje
+333||39 M39|Obdélník|5.5|6|||Tvary|Základní matematické představy|nezvládá / zvládá s dopomocí, přiřadí / zvládá samostatně, pojmenuje
+334||1|Dokáže se odloučit od matky|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+335||2|Projevuje zájem o ostatní děti|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+336||3|Postupně se učí ovládat své chování a brát v úvahu ostatní děti|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+337||4|Postupně chápe, v čem spočívá střídání, ale ne vždy je schopné a ochotné ho dodržet|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+338||5|Začíná kooperovat s dětmi, respektovat je (učí se počkat, až na něj příjde řada, chápe, že je nutné se rozdělit…)|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+339||6|Zvyká si říkat ,,děkuji, prosím, dobrý den, na shledanou…” (zpočátku jako odezvu, po připomenutí, ještě neužíva spontánne)|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+340||7|Postupně se učí chápat a dodržovat pravidla chování a jednání (neubližovat si navzájem, umět navázat kontakt, poprosit, požádat…)|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+341||8|Projevuje soucit, poskytuje útěchu (výrazem, gestem, slovně…)|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+342||9|Poprosí o pomoc, když má problém|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+343||10|V případě konfliktu se uchyluje spíše ke slovním, než tělesným výpadům|3|4|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+344||11|Rádo se kamarádí (případně uzavírá přátelství s jedním či dvěma dětmi)|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+345||12|Vůči mladším dětem projevuje náklonnost, chová se ochranitelsky|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+346||13|Umí se vcítit do druhého, myslet na něj, podělit se, půjčit, dávat dárky…|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+347||14|Vesměs dodržuje základní pravidla slušného chování a zdvořilostní pravidla|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+348||15|Domluví se s ostatními (umí vyjádřit svoje nápady, potřeby, požádat o něco, dokáže hájit svůj názor…)|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+349||16|Spolupracuje, zapojuje se do činností ve skupině a vzájemně pomáhá|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+350||17|Umí počkat, až na něj přijde řada|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+351||18|Dokáže přijmout, že jiné dítě získá pozici, výhody, pozornost, kterou mělo ono samo před chvílí|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+352||19|Správně reaguje na pokyny autority (na prosbu, požadavek, zákaz, je přístupnější argumentům dospělého…)|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+353||20|Umí zhodnotit pod vedením dospělého následky vlastního chování v jednoduchých situacích|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+354||21|Na veřejnosti se chová přiměřeně (v kině, v divadle, v obchodě, u lékaře…)|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+355||22|Požádá o dovolení, aby si mohlo hrát s hračkou|4|5|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+356||23|Vědomě projevuje zdvořilostní chování (pozdraví, přivítá se, rozloučí se, přeje dobrou chuť, dobré ráno, dobrou noc, odpovídá na otázky…)|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+357||24|Začíná se rozvíjet smysl pro morálku (dokáže rozpoznat vhodné či nevhodné chování, projevuje ohleduplnost, čestnost, soucit…)|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+358||25|Dokáže odmítnout nežádoucí chování (lež, nespravedlnost, ubližování, odolá navádění k něčemu nesprávnému, odmítne, co je mu nepříjemné…)|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+359||26|Zná základní pravidla chování na ulici (přecházení, správné reagování na světelnou signalizaci…)|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+360||27|Samostatněji plní i náročnější úkoly a zhodnotí výsledky (co jsem udělal dobře, co špatně, při různých činnostech projevuje samostatnost, rozhodnost, nebojácnost, vytrvalost, otevřenost…)|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+361||28|Začíná rozlišovat mezi hrou a úkolem (rozvíjí smysl pro povinnost, odpovědnost, dokončení započaté práce, pomoc druhým…)|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+362||29|Udržuje pořádek ve vlastních věcech i ve společných prostorách|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+363||30|Trpělivě překonává překážky|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+364||31|Zapojuje se mezi ostatní děti do her, při nichž je třeba rozhodovat, rozdělit role, dodržovat určitá pravidla|5|6|||Sociální dovednosti|Sociální dovednosti|nezvládá / zvládá s dopomocí / zvládá samostatně
+365||1|Staví z kostek (komín, vláček, most)|3||||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+366||2|Navléká větší dřevěné korálky|3||||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+367||3|Zastrká kolíky a jednoduché tvary do otvorů|3||||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+368||4|Hraje si s vodou, hlínou, pískem|3||||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+369||5|Napodobuje někoho nebo něco (krmí panenku, nakládá auto)|3||||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+370||6|Symbolická hra ,,jen jako”|3||||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+371||7|Má rádo hračky, které jezdí (odrážedlo, tříkolku), vymýšlí jízdní dráhy pro autíčka|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+372||8|Hraje si s pískem (dělá bábovičky, staví hrady, tunely)|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+373||9|Staví z kostek, jednoduchých stavebnic|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+374||10|Skládá jednoduché puzzle, skládanky|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+375||11|Hraje si s figurkami lidí, zvířat|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+376||12|Hraje si jako ,,doopravdy” na vaření, na doktora, prodavače, opraváře, farmáře|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+377||13|Hraje si s převleky|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+378||14|Sleduje hru ostatních a již se po kratší dobu účastní hry s jiným dítětem|3|4|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+379||15|Pohybové hry|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+380||16|Konstruktivní hry|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+381||17|Námětové hry|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+382||18|Hry s převleky|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+383||19|Společenské hry|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+384||20|Didaktické hry|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+385||21|Rukodělné (výtvarné) činnosti|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+386||22|Vyhledává hraní s dětmi|4|5|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+387||23|Pohybové hry|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+388||24|Konstruktivní hry|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+389||25|Námětové hry|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+390||26|Hry s převleky|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+391||27|Společenské hry|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+392||28|Didaktické hry|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+393||29|Rukodělné (výtvarné) činnosti|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+394||30|Akceptuje pravidla soutěživých her|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+395||31|Daří se mu vyrovnat s prohrou|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+396||32|Při hrách uplatňuje iniciativu|5|6|||Hra|Hra|nezvládá / zvládá s dopomocí / zvládá samostatně
+400||1|Musí být upozorněno|2.5|3|||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+401||2|Aktivně hlásí potřebu|3||||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+402||3|Jde samo na WC (stáhne, natáhne si kalhotky, kalhoty)|4||||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+403||4|Po použití WC si umyje a utře ruce|3.5|4|||Hygiena|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+404||5|Při spaní je suché (vydrží nebo se probudí v případě potřeby)|3.5|4|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+405||6|Správně používá toaletní papír|4|5|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+406||7|Hygienu udržuje samostatně (jde samo, použije toaletní papír, splachovací zařízení, umyje a utře si ruce)|5|6|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+407||8|Opláchne si ruce, utře se|3.5|4|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+408||9|Namydlí si ruce, umyje si obličej, utře se|3.5|4|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+409||10|Učí se samo si čistit zuby|3.5|4|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+410||11|Na upozornění se vysmrká|4||||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+411||12|Samostatně používá kapesník|4|5|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+412||13|Samostatně si vyčistí zuby|4|5|||Umývání||nezvládá / zvládá s dopomocí / zvládá samostatně
+413||14|Pozná, kdy je třeba si umýt špinavé ruce, pusu|5|6|||Umývání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+414||15|Rozepne si zip|3||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+415||16|Stáhne a natáhne si kalhoty|3||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+416||17|Stáhne a natáhne si tričko, svetr, když ho má z poloviny na hlavě|3||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+417||18|Rukama si zuje boty|3||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+418||19|Obleče a vysleče si jednoducé oblečení (tričko, tepláky…)|3|4|||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+419||20|Obleče a vysvleče si ponožky|3|4|||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+420||21|Zapne si boty na suchý zip|3|4|||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+421||22|Rozepne lehce rozepnutelné knoflíky|4||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+422||23|Samostatněji se obléká a svléká|4||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+423||24|Samostatněji se obuje a vyzuje (bez zavázání tkaniček)|4||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+424||25|Snaží se ukládat věci na správné místo|4||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+425||26|Samostatně se obleče bez zavazování bot|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+426||27|Zvládá zapínání a rozepínání knoflíků|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+427||28|Složí a uloží si věci na příslušné místo|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+428||29|Rozlišuje mezi přední a zadní částí oděvu|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+429||30|Pozná svoje oblečení|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+430||31|Zkouší zavazovat tkanićky|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+431||32|Zapíná zip|5||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+432||33|Obrací oděv, když je naruby|6||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+433||34|Dokáže pojmenovat jednotlivé druhy a části oblečení a zvolit vhodné oblečení a obuv podle počasí a podle příležitosti|6||||Oblékání|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+434||35|Správně drží lžičku|3||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+435||36|Jí samo, z vlastního talíře|3||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+436||37|Pije z hrnečku, skleničky|3||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+437||38|Pomáhá s chystáním předmětů ke stolování (prostírání, lžíce…)|3||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+438||39|Učí se napichovat vidličkou|3||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+439||40|Jí samstatně a čistě lžičkou i vidličkou|3||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+440||41|Začíná používat příborový nůž|4|4.5|||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+441||42|Nalévá si pití ze zásobníku|4||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+442||43|Během celého jídla sedí u stolu|4||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+443||44|Dokáže prostřít s dopomocí|4||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+444||45|Samostatně prostře i sklidí ze stolu|5||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+445||46|Krájí jídlo nožem|5|5.5|||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+446||47|Namaže si chleba s dopomocí|5||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+447||48|Nalije si nápoj ze džbánu|5||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+448||49|Běžně používá příbor|6||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+449||50|Samostatně si namaže chleba|6||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+450||51|Samostatně si nalije polévku|6||||Stolování|Sebeobsluha-samostatnost|nezvládá / zvládá s dopomocí / zvládá samostatně
+>>>>>>> master

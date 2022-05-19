@@ -1,6 +1,6 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { Notes } from '../components/Notes';
+import { ChildNotes } from '../components/ChildNotes';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { ChildOverview } from '../components/ChildOverview';
@@ -27,7 +27,7 @@ export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
         />
         <Tab.Screen
           name="Poznámky"
-          component={Notes}
+          component={ChildNotes}
           options={{ tabBarIcon: "note-multiple-outline" }}
         />
       </Tab.Navigator>

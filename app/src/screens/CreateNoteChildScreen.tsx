@@ -1,15 +1,22 @@
 import React from 'react';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
-import { Button, Caption, useTheme } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { TextInput } from '../components/TextInput';
 import { Modal } from '../components/Modal';
+import { useApi } from '../use-fetch';
 
-type Props = StackScreenProps<RootStackParamList, 'Child'>;
+type Props = StackScreenProps<RootStackParamList, 'CreateNoteChild'>;
 
-export const CreateNoteScreen = React.memo(function CreateNoteScreen(props: Props) {
+export const CreateNoteChildScreen = React.memo(function CreateNoteScreen(props: Props) {
   const { route, navigation } = props;
   const [note, setNote] = React.useState({ value: '', error: '' });
+  const { authClient } = useApi();
+
+  const createNote = async () => {
+    await authClient.createChildNote(null, { child: route.params.childId, note: note.value });
+    navigation.pop();
+  };
 
   return <Modal {...props}>
     <TextInput
@@ -22,6 +29,6 @@ export const CreateNoteScreen = React.memo(function CreateNoteScreen(props: Prop
       autoComplete="none"
     />
 
-    <Button labelStyle={{ color: "white" }} mode='contained' onPress={() => navigation.pop()}>Vytvořit poznámku</Button>
+    <Button labelStyle={{ color: "white" }} mode='contained' onPress={createNote}>Vytvořit poznámku</Button>
   </Modal>;
 });

@@ -159,6 +159,12 @@ class Child(models.Model):
         School, related_name="%(class)s", on_delete=models.CASCADE, default=1
     )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
+    GENDER_CHOICES = (
+        ("M", "Muž"),
+        ("F", "Žena"),
+    )
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES)
+
     class Meta:
         verbose_name_plural = "children"
 
