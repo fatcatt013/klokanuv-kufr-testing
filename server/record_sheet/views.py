@@ -1,6 +1,7 @@
-from rest_framework import viewsets, permissions
-from record_sheet import models, serializers
+from rest_framework import permissions, viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+
+from record_sheet import models, serializers
 from record_sheet.permissions import CustomDjangoModelPermission
 
 
@@ -121,3 +122,30 @@ class ClassroomNoteViewSet(viewsets.ModelViewSet):
         return models.ClassroomNote.objects.filter(
             classroom__teachers__id=self.request.user.id
         )
+
+
+class InvoiceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows invoices to be viewed or edited by superuser
+    """
+
+    queryset = models.Invoice.objects.all()
+    serializer_class = serializers.InvoiceSerializer
+
+
+class InvoiceItemViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows invoice items to be viewed or edited by superuser
+    """
+
+    queryset = models.InvoiceItem.objects.all()
+    serializer_class = serializers.InvoiceItemSerializer
+
+
+class ParameterViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows parameters to be viewed or edited by superuser
+    """
+
+    queryset = models.Parameter.objects.all()
+    serializer_class = serializers.ParameterSerializer

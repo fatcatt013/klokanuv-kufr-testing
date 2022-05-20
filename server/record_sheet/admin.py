@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
 from . import models
+
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
@@ -61,9 +63,49 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class InvoiceItemInline(admin.TabularInline):
+    model = models.InvoiceItem
+    fields = ["title", "unit_price", "vat_rate", "total_vat"]
+    readonly_fields = fields
+    can_delete = False
+    extra = 0
+
+
+class InvoiceAdmin(admin.ModelAdmin):
+
+    fields = [
+        "serial_number",
+        "note",
+        "created_at",
+        "paid_at",
+        "total_price",
+        "is_paid",
+    ]
+    list_display = [
+        "serial_number",
+        "created_at",
+        "paid_at",
+        "total_price",
+        "is_paid",
+    ]
+    inlines = [
+        InvoiceItemInline,
+    ]
+    readonly_fields = ["serial_number", "note", "created_at", "total_price"]
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+
+class ParameterAdmin(admin.ModelAdmin):
+    list_display = ["name", "value"]
+
+
 admin.site.register(models.User, CustomUserAdmin)
 admin.site.register(models.School)
 admin.site.register(models.Classroom)
 admin.site.register(models.Child)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
+admin.site.register(models.Invoice, InvoiceAdmin)
+admin.site.register(models.Parameter, ParameterAdmin)
