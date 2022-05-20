@@ -24,6 +24,7 @@ email and password "superuser".
 ```
 poetry shell
 python manage.py migrate
+python manage.py create_and_assign_permissions
 python manage.py create_test_users
 python manage.py populate_db -t
 python manage.py runserver
