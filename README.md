@@ -19,7 +19,7 @@ poetry run python manage.py runserver
 ```
 
 For quick local setup - this also loads the CSV, and creates a superuser with
-email and password "superuser".
+email and password "superadmin".
 
 ```
 poetry shell
