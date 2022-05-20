@@ -31,7 +31,7 @@ class Command(BaseCommand):
         classroom4 = school2.classrooms.create(label="Třída 4")
         classroom5 = school2.classrooms.create(label="Třída 5")
 
-        for classroom in [classroom1, classroom2, classroom3, classroom4, classroom5]:
+        for classroom in [classroom2, classroom5]:
             for suffix in range(1, random.randrange(9, 14)):
                 classroom.children.create(
                     first_name=fake.first_name_female(),
@@ -41,6 +41,23 @@ class Command(BaseCommand):
                     gender="F",
                 )
             for suffix in range(1, random.randrange(9, 14)):
+                classroom.children.create(
+                    first_name=fake.first_name_male(),
+                    last_name=fake.last_name_male(),
+                    birthdate=fake.date_between(start_date="-6y", end_date="-3y"),
+                    school=classroom.school,
+                    gender="M",
+                )
+        for classroom in [classroom1, classroom3, classroom4]:
+            for suffix in range(1, random.randrange(1, 3)):
+                classroom.children.create(
+                    first_name=fake.first_name_female(),
+                    last_name=fake.last_name_female(),
+                    birthdate=fake.date_between(start_date="-6y", end_date="-3y"),
+                    school=classroom.school,
+                    gender="F",
+                )
+            for suffix in range(1, random.randrange(1, 3)):
                 classroom.children.create(
                     first_name=fake.first_name_male(),
                     last_name=fake.last_name_male(),
