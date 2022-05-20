@@ -17,9 +17,11 @@ export function ChildList({ navigation }: Props) {
   const classroom = useClassroom(classId);
   const isFocused = useIsFocused();
   const insets = useSafeAreaInsets();
-  const children = classroom?.children || [];
+  let children = classroom?.children || [];
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
   const [selected, setSelected] = React.useState<number[]>([]);
+
+  children = children.sort((x, y) => 0.5 - x.first_name.localeCompare(y.last_name));
 
   return <>
     <FlatList

@@ -35,7 +35,7 @@ export const theme = {
   colors: {
     ...DefaultTheme.colors,
     ...colors,
-    primary: colors.blue,
+    primary: colors.orange,
     error: colors.red,
   } as ReactNativePaper.ThemeColors,
   fonts: configureFonts({ android: fontConfig, ios: fontConfig, web: fontConfig }),

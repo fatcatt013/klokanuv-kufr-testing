@@ -54,14 +54,12 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       if (route.params.children.length > 0) {
         setChildIds(route.params.children);
         setClassId(classes?.find(x => x.children.find(y => route.params.children.includes(y)))?.id || -1);
-        setCategoryOpen(true);
       } else if (route.params.tasks.length > 0) {
         setTaskIds(route.params.tasks);
         const subcategory = tasks.find(x => route.params.tasks.includes(x.id!!))?.subcategory || -1
         setSubcategoryId(subcategory)
         setCategoryId(categories?.find(x => x.subcategories.includes(subcategory))?.id || -1)
         // set cat, subcat
-        setClassOpen(true);
       }
     }
   }, [isFocused]);

@@ -19,7 +19,7 @@ export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
     <ChildIDContext.Provider value={route.params.childId}>
       <Tab.Navigator
         sceneAnimationEnabled={false}
-        barStyle={{ backgroundColor: theme.colors.blue }}
+        barStyle={{ backgroundColor: theme.colors.orange }}
         activeColor="white"
         inactiveColor="rgba(255, 255, 255, 0.5)"
       >

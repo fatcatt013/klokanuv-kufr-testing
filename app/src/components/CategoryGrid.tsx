@@ -35,7 +35,7 @@ export const CategoryGrid = ({ onSelect, onClose, open }: CategoryGridProps) => 
           flexGrow: 1,
           alignItems: 'center',
           alignContent: 'center',
-          marginVertical: 5
+          marginVertical: 5,
         }}>
           <TouchableOpacity onPress={() => { onClose(); onSelect(cat.id!!) }}>
             {React.createElement(icons[cat.label], {
