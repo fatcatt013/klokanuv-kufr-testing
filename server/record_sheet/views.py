@@ -9,7 +9,6 @@ class TaskViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = serializers.TaskSerializer
-    # TODO: temporary. permission class for demo purposes
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
