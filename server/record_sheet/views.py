@@ -24,7 +24,6 @@ class SubcategoryViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = serializers.SubcategorySerializer
-    # TODO: temporary. permission class for demo purposes
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
@@ -40,7 +39,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """
 
     serializer_class = serializers.CategorySerializer
-    # TODO: temporary. permission class for demo purposes
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
@@ -51,19 +49,44 @@ class CategoryViewSet(viewsets.ModelViewSet):
             return models.Category.objects.all()
 
 
+class AssessmentTypeOptionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows assessment type opions to be viewed or edited.
+    """
+
+    serializer_class = serializers.AssessmentTypeSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        if isinstance(self.request.user, AnonymousUser):
+            type_ids = (
+                models.Task.objects.filter(is_in_demo=True)
+                .values("assessment_type")
+                .distinct()
+            )
+            return models.AssessmentTypeOption.objects.filter(
+                parent_assessment_type__in=type_ids
+            )
+        else:
+            return models.AssessmentType.objects.all()
+
+
 class AssessmentTypeViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows assessment types to be viewed or edited.
     """
 
     serializer_class = serializers.AssessmentTypeSerializer
-    # TODO: temporary. permission class for demo purposes
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         if isinstance(self.request.user, AnonymousUser):
-
-            return models.AssessmentType.objects.filter(is_in_demo=True)
+            type_ids = (
+                models.Task.objects.filter(is_in_demo=True)
+                .values("assessment_type")
+                .distinct()
+            )
+            return models.AssessmentType.objects.filter(id__in=type_ids)
         else:
             return models.AssessmentType.objects.all()
 
