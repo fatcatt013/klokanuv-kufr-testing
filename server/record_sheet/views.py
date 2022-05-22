@@ -111,8 +111,6 @@ class SchoolViewSet(viewsets.ModelViewSet):
     API endpoint that allows schools to be viewed or edited.
     """
 
-    permission_classes = [custom_permissions.CustomDjangoModelPermission]
-
     serializer_class = serializers.SchoolSerializer
 
     def get_queryset(self):
