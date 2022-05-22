@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from record_sheet import models, serializers
+from record_sheet import models, serializers, permissions as custom_permissions
 from django.contrib.auth.models import AnonymousUser
 
 
@@ -99,6 +99,8 @@ class AssessmentViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.AssessmentSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.Assessment.objects.all()
         return models.Assessment.objects.filter(
             child__classroom__teachers__id=self.request.user.id
         )
@@ -109,9 +111,13 @@ class SchoolViewSet(viewsets.ModelViewSet):
     API endpoint that allows schools to be viewed or edited.
     """
 
+    permission_classes = [custom_permissions.CustomDjangoModelPermission]
+
     serializer_class = serializers.SchoolSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.School.objects.all()
         return models.School.objects.filter(users__id=self.request.user.id)
 
 
@@ -123,6 +129,8 @@ class ClassroomViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ClassroomSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.Classroom.objects.all()
         return self.request.user.classrooms
 
 
@@ -134,6 +142,8 @@ class ChildViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ChildSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.Child.objects.all()
         return models.Child.objects.filter(classroom__teachers__id=self.request.user.id)
 
 
@@ -145,6 +155,8 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.User.objects.all()
         return models.User.objects.filter(school=self.request.user.school)
 
 
@@ -156,6 +168,9 @@ class ChildNoteViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ChildNoteSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.ChildNote.objects.all()
+
         return models.ChildNote.objects.filter(
             child__classroom__teachers__id=self.request.user.id
         )
@@ -169,6 +184,9 @@ class ClassroomNoteViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.ClassroomNoteSerializer
 
     def get_queryset(self):
+        if self.request.user.is_superuser:
+            return models.ClassroomNote.objects.all()
+
         return models.ClassroomNote.objects.filter(
             classroom__teachers__id=self.request.user.id
         )
