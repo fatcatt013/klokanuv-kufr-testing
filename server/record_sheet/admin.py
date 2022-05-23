@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from . import models
+from django.contrib.auth.models import Group
+from django.forms import TextInput, Textarea
+from django.db import models as db_models
+
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
@@ -61,9 +65,29 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 
+class ChildAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
+    }
+
+
+class ClassroomAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 20})},
+    }
+
+
+class SchoolAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.CharField: {"widget": Textarea(attrs={"rows": 3, "cols": 40})},
+    }
+
+
 admin.site.register(models.User, CustomUserAdmin)
-admin.site.register(models.School)
-admin.site.register(models.Classroom)
-admin.site.register(models.Child)
+admin.site.register(models.School, SchoolAdmin)
+admin.site.register(models.Classroom, ClassroomAdmin)
+admin.site.register(models.Child, ChildAdmin)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
+admin.site.register(models.Assessment)
+admin.site.unregister(Group)

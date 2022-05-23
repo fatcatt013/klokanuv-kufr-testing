@@ -182,6 +182,9 @@ class Assessment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "%s | %s | %s" % (self.task, self.child, self.option)
+
 
 class ChildNote(models.Model):
     child = models.ForeignKey(Child, related_name="notes", on_delete=models.CASCADE)
