@@ -43,6 +43,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const [tempTaskIds, setTempTaskIds] = React.useState<number[]>([]);
   const [taskIds, setTaskIds] = React.useState<number[]>([]);
   const [optionId, setOptionId] = React.useState(-1);
+  const [note, setNote] = React.useState('');
 
   const category = categories.find(x => x.id === categoryId);
   const subcategory = subcategories.find(x => x.id === subcategoryId);
@@ -101,6 +102,13 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       </Card>
     ))}
 
+    {assessmentType?.options && (
+      <TextInput
+        value={note} onChange={setNote}
+        label="Poznámka" autoComplete="none" multiline numberOfLines={2}
+      />
+    )}
+
     <Button
       mode="contained"
       disabled={optionId < 1 || !childIds.length || !taskIds.length}
@@ -109,7 +117,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
         await Promise.all([taskIds.map(task => childIds.map(child =>
           ops.addAssessment({
             task: task.toString(), child, option: optionId,
-            date_of_assessment: '2022-05-19',
+            date_of_assessment: '2022-05-19', note
           })
         ))])
         navigation.pop();
