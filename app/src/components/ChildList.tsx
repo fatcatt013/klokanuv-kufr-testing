@@ -61,7 +61,7 @@ export function ChildList({ navigation }: Props) {
             setSelected([item.id!!])
           }}
         >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between' }}>
             <Text style={{
               padding: 2, fontWeight: 'bold', color: 'white'
             }}>{item.first_name} {item.last_name.slice(0, 1)}.</Text>

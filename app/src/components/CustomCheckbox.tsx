@@ -16,7 +16,7 @@ export function CustomCheckbox(props: any) {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', marginBottom: 1, marginLeft: 5 }}>
+    <View style={{ justifyContent: 'center', marginBottom: 1, marginLeft: 5 }}>
       <Icon.Button
         {...props}
         name={iconName}
