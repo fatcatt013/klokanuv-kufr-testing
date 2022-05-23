@@ -3,12 +3,12 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { theme } from '../theme';
 import { ClassIDContext } from '../lib/contexts';
 import { useClassroom } from '../use-school-data';
-import { Card, FAB, Portal, Text } from 'react-native-paper';
+import { Card, Portal, Text } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { CustomCheckbox } from './CustomCheckbox';
+import { CreateAssessmentFAB } from './CreateAssessmentFAB';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
@@ -16,7 +16,6 @@ export function ChildList({ navigation }: Props) {
   const classId = React.useContext(ClassIDContext);
   const classroom = useClassroom(classId);
   const isFocused = useIsFocused();
-  const insets = useSafeAreaInsets();
   let children = classroom?.children || [];
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
   const [selected, setSelected] = React.useState<number[]>([]);
@@ -73,17 +72,10 @@ export function ChildList({ navigation }: Props) {
         </Card>
       )}
     />
+
     <Portal>
-      <FAB
+      <CreateAssessmentFAB
         visible={isFocused && mode === 'select'}
-        icon="order-bool-ascending-variant"
-        color="white"
-        style={{
-          backgroundColor: theme.colors.green,
-          position: 'absolute',
-          bottom: insets.bottom + 54 + 16,
-          right: insets.right + 16,
-        }}
         onPress={() => navigation.push('CreateAssessment', { children: selected, tasks: [] })}
       />
     </Portal>

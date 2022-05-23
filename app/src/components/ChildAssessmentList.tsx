@@ -1,11 +1,11 @@
 import { useIsFocused } from '@react-navigation/native';
 import React from 'react';
 import { FlatList, View } from "react-native";
-import { Card, FAB, Portal, Text, useTheme } from "react-native-paper";
+import { Card, Portal, Text } from "react-native-paper";
 import { ChildIDContext } from '../lib/contexts';
 import { useChildAssessments } from '../use-assessment-data';
 import { useCoreData } from '../use-core-data';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { CreateAssessmentFAB } from './CreateAssessmentFAB';
 
 export function ChildAssessmentList({ navigation }: any) {
   const childId = React.useContext(ChildIDContext);
@@ -13,8 +13,6 @@ export function ChildAssessmentList({ navigation }: any) {
   const { data: coreData } = useCoreData();
   const { tasks, assessmentTypes } = coreData!!;
   const isFocused = useIsFocused()
-  const theme = useTheme();
-  const insets = useSafeAreaInsets();
 
   return <>
     <FlatList
@@ -36,16 +34,8 @@ export function ChildAssessmentList({ navigation }: any) {
       }}
     />
     <Portal>
-      <FAB
+      <CreateAssessmentFAB
         visible={isFocused}
-        icon="order-bool-ascending-variant"
-        color="white"
-        style={{
-          backgroundColor: theme.colors.green,
-          position: 'absolute',
-          bottom: insets.bottom + 54 + 16,
-          right: insets.right + 16,
-        }}
         onPress={() => navigation.push('CreateAssessment', { children: [childId], tasks: [] })}
       />
     </Portal>
