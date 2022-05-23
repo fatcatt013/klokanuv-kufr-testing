@@ -4,13 +4,11 @@ import React from 'react';
 import { Dimensions, TouchableOpacity, View } from 'react-native';
 import { Button, Card, Dialog, Portal, Text } from 'react-native-paper';
 import { Background } from '../components/Background';
-import { CategoryHeader } from '../components/CategoryHeader';
 import { CategoryPicker } from '../components/CategoryPicker';
 import { ChildPicker } from '../components/ChildPicker';
 import { ClassroomPicker } from '../components/ClassPicker';
 import { CustomCheckbox } from '../components/CustomCheckbox';
 import { CustomDialog } from '../components/CustomDialog';
-import { SubcategoryHeader } from '../components/SubcategoryHeader';
 import { SubcategoryPicker } from '../components/SubcategoryPicker';
 import { TaskPicker } from '../components/TaskPicker';
 import { TextInput } from '../components/TextInput';
@@ -104,7 +102,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
 
     {assessmentType?.options && (
       <TextInput
-        value={note} onChange={setNote}
+        value={note} onChangeText={setNote}
         label="Poznámka" autoComplete="none" multiline numberOfLines={2}
       />
     )}
@@ -139,7 +137,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       </CustomDialog>
 
       <CustomDialog visible={subcategoryOpen} onDismiss={() => setSubcategoryOpen(false)}>
-        <Dialog.Title><CategoryHeader id={categoryId} /></Dialog.Title>
+        <Dialog.Title>{category?.label}</Dialog.Title>
         <SubcategoryPicker category={categoryId} onSelect={(id) => {
           setSubcategoryOpen(false);
           setSubcategoryId(id);
@@ -148,7 +146,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       </CustomDialog>
 
       <CustomDialog visible={taskOpen} onDismiss={() => setTaskOpen(false)} style={{ maxHeight: 0.8 * Dimensions.get('window').height }}>
-        <Dialog.Title><SubcategoryHeader id={subcategoryId} /></Dialog.Title>
+        <Dialog.Title>{subcategory?.label}</Dialog.Title>
         <Dialog.ScrollArea>
           <TaskPicker
             subcategory={subcategoryId}

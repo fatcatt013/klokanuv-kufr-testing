@@ -5,7 +5,7 @@ import { Headline, Portal, Text } from "react-native-paper";
 import { RootStackParamList } from "../lib/navigation";
 import { useAssessmentType, useTask } from "../use-core-data";
 import { useIsFocused } from "@react-navigation/native";
-import { CreateNoteFAB } from "../components/CreateNoteFAB";
+import { CreateAssessmentFAB } from "../components/CreateAssessmentFAB";
 
 type Props = StackScreenProps<RootStackParamList, 'Task'>;
 
@@ -23,7 +23,7 @@ export const TaskScreen = React.memo(function TaskScreen({ route, navigation }: 
     </View>
 
     <Portal>
-      <CreateNoteFAB
+      <CreateAssessmentFAB
         visible={isFocused}
         onPress={() => navigation.push('CreateAssessment', { children: [], tasks: [task?.id!!] })}
       />

@@ -16,11 +16,10 @@ export function ChildList({ navigation }: Props) {
   const classId = React.useContext(ClassIDContext);
   const classroom = useClassroom(classId);
   const isFocused = useIsFocused();
-  let children = classroom?.children || [];
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
   const [selected, setSelected] = React.useState<number[]>([]);
 
-  children = children.sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
+  const children = (classroom?.children || []).sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
 
   React.useEffect(() => {
     setSelected([]);
