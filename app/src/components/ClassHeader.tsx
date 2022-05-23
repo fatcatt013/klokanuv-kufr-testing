@@ -2,12 +2,12 @@ import React from "react";
 import { Button, Menu } from "react-native-paper";
 import { useClassroom, useClassrooms } from "../use-school-data";
 
-interface ClassSelectProps {
+interface ClassHeaderProps {
   selected: number;
   selectClass: (classId: number) => void;
 }
 
-export const ClassSelect = React.memo(function ClassSelect(props: ClassSelectProps) {
+export const ClassHeader = React.memo(function ClassHeader(props: ClassHeaderProps) {
   const classData = useClassroom(props.selected);
   const classrooms = useClassrooms()
   const [visible, setVisible] = React.useState(false);

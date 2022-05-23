@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export function CustomCheckbox(props: any) {
@@ -16,25 +16,27 @@ export function CustomCheckbox(props: any) {
   }
 
   return (
-    <Icon.Button
-      {...props}
-      name={iconName}
-      size={props.size}
-      backgroundColor={props.backgroundColor}
-      color={props.color}
-      style={{ margin: 0, padding: 0 }}
-      iconStyle={[{ margin: 0, padding: 0, alignSelf: 'center' }, props.iconStyle, props.checked && props.checkedIconStyle]}
-      onPress={onPress}
-      activeOpacity={props.activeOpacity}
-      underlayColor={props.underlayColor}
-      borderRadius={props.borderRadius}
-    >
-      <Text
-        style={[styles.label, props.labelStyle]}
+    <View style={{ justifyContent: 'center', marginBottom: 1, marginLeft: 5 }}>
+      <Icon.Button
+        {...props}
+        name={iconName}
+        size={props.size}
+        backgroundColor={props.backgroundColor}
+        color={props.color}
+        style={{ margin: 0, padding: 0 }}
+        iconStyle={[{ margin: 0, padding: 0, alignSelf: 'center' }, props.iconStyle, props.checked && props.checkedIconStyle]}
+        onPress={onPress}
+        activeOpacity={props.activeOpacity}
+        underlayColor={props.underlayColor}
+        borderRadius={props.borderRadius}
       >
-        {props.label}
-      </Text>
-    </Icon.Button>
+        <Text
+          style={[styles.label, props.labelStyle]}
+        >
+          {props.label}
+        </Text>
+      </Icon.Button>
+    </View>
   );
 }
 /* 

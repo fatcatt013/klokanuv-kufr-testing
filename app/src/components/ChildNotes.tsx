@@ -2,19 +2,17 @@ import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { Button, Caption, Card, Dialog, FAB, Headline, Portal, Text, useTheme } from 'react-native-paper';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button, Caption, Card, Dialog, Headline, Portal, Text } from 'react-native-paper';
 import { ChildIDContext } from '../lib/contexts';
 import { RootStackParamList } from '../lib/navigation';
 import { useChildNoteOps, useChildNotes } from '../use-assessment-data';
 import { useChild } from '../use-school-data';
+import { CreateNoteFAB } from './CreateNoteFAB';
 import { TextInput } from './TextInput';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 
 export const ChildNotes = ({ }: Props) => {
-  const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const childId = React.useContext(ChildIDContext);
   const child = useChild(childId);
@@ -44,16 +42,8 @@ export const ChildNotes = ({ }: Props) => {
     />
 
     <Portal>
-      <FAB
+      <CreateNoteFAB
         visible={isFocused}
-        icon="note-plus-outline"
-        color="white"
-        style={{
-          backgroundColor: theme.colors.blue,
-          position: 'absolute',
-          bottom: insets.bottom + 54 + 16,
-          right: insets.right + 16
-        }}
         onPress={() => { setNoteId(null); setNote(''); setOpen(true) }}
       />
 

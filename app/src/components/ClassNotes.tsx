@@ -2,19 +2,17 @@ import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { FlatList, View } from 'react-native';
-import { Button, Card, FAB, Portal, Dialog, Text, useTheme, Headline, Caption } from 'react-native-paper';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Button, Card, Portal, Dialog, Text, Headline, Caption } from 'react-native-paper';
 import { ClassIDContext } from '../lib/contexts';
 import { RootStackParamList } from '../lib/navigation';
 import { useClassNotes, useClassroomNoteOps } from '../use-assessment-data';
 import { useClassroom } from '../use-school-data';
+import { CreateNoteFAB } from './CreateNoteFAB';
 import { TextInput } from './TextInput';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
 export const ClassNotes = ({ }: Props) => {
-  const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const isFocused = useIsFocused();
   const classId = React.useContext(ClassIDContext);
   const classroom = useClassroom(classId);
@@ -44,16 +42,8 @@ export const ClassNotes = ({ }: Props) => {
     />
 
     <Portal>
-      <FAB
+      <CreateNoteFAB
         visible={isFocused}
-        icon="note-plus-outline"
-        color="white"
-        style={{
-          backgroundColor: theme.colors.blue,
-          position: 'absolute',
-          bottom: insets.bottom + 54 + 16,
-          right: insets.right + 16,
-        }}
         onPress={() => { setNoteId(null); setNote(''); setOpen(true) }}
       />
 

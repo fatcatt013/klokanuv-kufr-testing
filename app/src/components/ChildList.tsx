@@ -3,12 +3,12 @@ import { FlatList, StyleSheet, View } from 'react-native';
 import { theme } from '../theme';
 import { ClassIDContext } from '../lib/contexts';
 import { useClassroom } from '../use-school-data';
-import { Card, FAB, Portal, Text } from 'react-native-paper';
+import { Card, Portal, Text } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { CustomCheckbox } from './CustomCheckbox';
+import { CreateAssessmentFAB } from './CreateAssessmentFAB';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
@@ -16,16 +16,19 @@ export function ChildList({ navigation }: Props) {
   const classId = React.useContext(ClassIDContext);
   const classroom = useClassroom(classId);
   const isFocused = useIsFocused();
-  const insets = useSafeAreaInsets();
   let children = classroom?.children || [];
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
   const [selected, setSelected] = React.useState<number[]>([]);
 
-  children = children.sort((x, y) => 0.5 - x.first_name.localeCompare(y.last_name));
+  children = children.sort((x, y) => 0.5 - x.first_name.localeCompare(y.first_name));
+
+  React.useEffect(() => {
+    setSelected([]);
+    setMode('view');
+  }, [classId, setSelected, setMode]);
 
   return <>
     <FlatList
-      style={{ flex: 1, marginVertical: 4 }}
       data={children}
       keyExtractor={item => item.id!.toString()}
       numColumns={2}
@@ -58,24 +61,25 @@ export function ChildList({ navigation }: Props) {
             setSelected([item.id!!])
           }}
         >
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', color: 'white' }}>{item.first_name} {item.last_name.slice(0, 1)}.</Text>
-            {mode === 'select' && <CustomCheckbox iconStyle={{ color: 'white' }} checked={selected.includes(item.id!)} />}
+          <View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between' }}>
+            <Text style={{
+              padding: 2, fontWeight: 'bold', color: 'white'
+            }}>{item.first_name} {item.last_name.slice(0, 1)}.</Text>
+            <View style={{ borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,.3)', }}>
+              <CustomCheckbox
+                iconStyle={{ color: 'white' }}
+                checked={selected.includes(item.id!)}
+                onPress={() => { setMode('select'); setSelected(xs => [...xs, item.id!]) }}
+              />
+            </View>
           </View>
         </Card>
       )}
     />
+
     <Portal>
-      <FAB
+      <CreateAssessmentFAB
         visible={isFocused && mode === 'select'}
-        icon="order-bool-ascending-variant"
-        color="white"
-        style={{
-          backgroundColor: theme.colors.green,
-          position: 'absolute',
-          bottom: insets.bottom + 54 + 16,
-          right: insets.right + 16,
-        }}
         onPress={() => navigation.push('CreateAssessment', { children: selected, tasks: [] })}
       />
     </Portal>

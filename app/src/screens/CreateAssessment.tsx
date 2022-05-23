@@ -1,13 +1,16 @@
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
-import { Button, Card, Portal, Text } from 'react-native-paper';
+import { Dimensions, TouchableOpacity, View } from 'react-native';
+import { Button, Card, Dialog, Portal, Text } from 'react-native-paper';
 import { Background } from '../components/Background';
-import { CategoryGrid } from '../components/CategoryGrid';
+import { CategoryHeader } from '../components/CategoryHeader';
+import { CategoryPicker } from '../components/CategoryPicker';
 import { ChildPicker } from '../components/ChildPicker';
 import { ClassroomPicker } from '../components/ClassPicker';
 import { CustomCheckbox } from '../components/CustomCheckbox';
+import { CustomDialog } from '../components/CustomDialog';
+import { SubcategoryHeader } from '../components/SubcategoryHeader';
 import { SubcategoryPicker } from '../components/SubcategoryPicker';
 import { TaskPicker } from '../components/TaskPicker';
 import { TextInput } from '../components/TextInput';
@@ -36,8 +39,11 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const [categoryId, setCategoryId] = React.useState(-1);
   const [subcategoryId, setSubcategoryId] = React.useState(-1);
   const [childIds, setChildIds] = React.useState<number[]>([]);
+  const [tempChildIds, setTempChildIds] = React.useState<number[]>([]);
+  const [tempTaskIds, setTempTaskIds] = React.useState<number[]>([]);
   const [taskIds, setTaskIds] = React.useState<number[]>([]);
   const [optionId, setOptionId] = React.useState(-1);
+  const [note, setNote] = React.useState('');
 
   const category = categories.find(x => x.id === categoryId);
   const subcategory = subcategories.find(x => x.id === subcategoryId);
@@ -53,8 +59,10 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
     if (isFocused) {
       if (route.params.children.length > 0) {
         setChildIds(route.params.children);
+        setTempChildIds(route.params.children);
         setClassId(classes?.find(x => x.children.find(y => route.params.children.includes(y)))?.id || -1);
       } else if (route.params.tasks.length > 0) {
+        setTempTaskIds(route.params.tasks);
         setTaskIds(route.params.tasks);
         const subcategory = tasks.find(x => route.params.tasks.includes(x.id!!))?.subcategory || -1
         setSubcategoryId(subcategory)
@@ -65,7 +73,6 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   }, [isFocused]);
 
   return <Background>
-
     <TouchableOpacity onPress={() => setCategoryOpen(true)}>
       <TextInput label="Kategorie" value={category?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
     </TouchableOpacity>
@@ -95,6 +102,13 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       </Card>
     ))}
 
+    {assessmentType?.options && (
+      <TextInput
+        value={note} onChange={setNote}
+        label="Poznámka" autoComplete="none" multiline numberOfLines={2}
+      />
+    )}
+
     <Button
       mode="contained"
       disabled={optionId < 1 || !childIds.length || !taskIds.length}
@@ -103,7 +117,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
         await Promise.all([taskIds.map(task => childIds.map(child =>
           ops.addAssessment({
             task: task.toString(), child, option: optionId,
-            date_of_assessment: '2022-05-19',
+            date_of_assessment: '2022-05-19', note
           })
         ))])
         navigation.pop();
@@ -111,36 +125,64 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
     >Uložit</Button>
 
     <Portal>
-      <CategoryGrid
-        open={categoryOpen}
-        onClose={() => setCategoryOpen(false)}
-        onSelect={(id) => { setCategoryId(id); setSubcategoryOpen(true) }}
-      />
-      <SubcategoryPicker
-        open={subcategoryOpen}
-        category={categoryId}
-        onClose={() => setSubcategoryOpen(false)}
-        onSelect={(id) => { setSubcategoryId(id); setTaskOpen(true) }}
-      />
-      <TaskPicker
-        open={taskOpen}
-        subcategory={subcategoryId}
-        selected={taskIds}
-        onClose={() => setTaskOpen(false)}
-        onSelect={(id) => setTaskIds(id)}
-      />
-      <ClassroomPicker
-        open={classOpen}
-        onClose={() => setClassOpen(false)}
-        onSelect={(id) => { setClassId(id); setChildOpen(true) }}
-      />
-      <ChildPicker
-        open={childOpen}
-        classroom={classId}
-        selected={childIds}
-        onClose={() => setChildOpen(false)}
-        onSelect={(id) => setChildIds(id)}
-      />
+      <CustomDialog visible={categoryOpen} onDismiss={() => setCategoryOpen(false)}>
+        <CategoryPicker onSelect={(id, subcat) => {
+          setCategoryOpen(false);
+          setCategoryId(id);
+          if (subcat) {
+            setSubcategoryId(subcat);
+            setTaskOpen(true);
+          } else {
+            setSubcategoryOpen(true);
+          }
+        }} />
+      </CustomDialog>
+
+      <CustomDialog visible={subcategoryOpen} onDismiss={() => setSubcategoryOpen(false)}>
+        <Dialog.Title><CategoryHeader id={categoryId} /></Dialog.Title>
+        <SubcategoryPicker category={categoryId} onSelect={(id) => {
+          setSubcategoryOpen(false);
+          setSubcategoryId(id);
+          setTaskOpen(true);
+        }} />
+      </CustomDialog>
+
+      <CustomDialog visible={taskOpen} onDismiss={() => setTaskOpen(false)} style={{ maxHeight: 0.8 * Dimensions.get('window').height }}>
+        <Dialog.Title><SubcategoryHeader id={subcategoryId} /></Dialog.Title>
+        <Dialog.ScrollArea>
+          <TaskPicker
+            subcategory={subcategoryId}
+            selected={tempTaskIds}
+            onSelect={(id) => setTempTaskIds(id)}
+          />
+          <Button onPress={() => { setTaskOpen(false); setTaskIds(tempTaskIds) }}>
+            Ok
+          </Button>
+        </Dialog.ScrollArea>
+      </CustomDialog>
+
+      <CustomDialog visible={classOpen} onDismiss={() => setClassOpen(false)}>
+        <ClassroomPicker onSelect={(id) => {
+          setClassOpen(false);
+          setClassId(id);
+          if (id !== classId) {
+            setChildIds([]);
+          }
+          setChildOpen(true);
+        }} />
+      </CustomDialog>
+
+      <CustomDialog visible={childOpen} onDismiss={() => setChildOpen(false)}>
+        <ChildPicker
+          classroom={classId}
+          selected={tempChildIds}
+          onSelect={(id) => setTempChildIds(id)}
+        />
+        <Button onPress={() => { setChildOpen(false); setChildIds(tempChildIds) }}>
+          Ok
+        </Button>
+      </CustomDialog>
+
     </Portal>
   </Background >
 })

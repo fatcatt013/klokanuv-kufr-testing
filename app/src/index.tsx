@@ -4,12 +4,12 @@ import { RootStack } from './lib/navigation';
 import { LoginScreen } from './screens/Login';
 import { RegisterScreen } from './screens/Register';
 import { ForgotPasswordScreen } from './screens/ForgotPassword';
-import { ClassSelectScreen } from './screens/ClassSelect';
+import { ClassListScreen } from './screens/ClassList';
+import { CategoryListScreen } from './screens/CategoryList';
 import { ChildScreen } from './screens/Child';
 import { ClassScreen } from "./screens/Class";
 import { ChildHeader } from './components/ChildHeader';
-import { Header } from './components/Header';
-import { ClassSelect } from './components/ClassSelect';
+import { ClassHeader } from './components/ClassHeader';
 import { TaskScreen } from './screens/Task';
 import { SubcategoryScreen } from './screens/Subcategory';
 import { ProfileScreen } from './screens/Profile';
@@ -17,9 +17,15 @@ import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
 import AppLoading from 'expo-app-loading';
 import { CategoryScreen } from './screens/Category';
+import { AboutScreen } from './screens/About';
+import { CategoryHeader } from './components/CategoryHeader';
+import { SubcategoryHeader } from './components/SubcategoryHeader';
+import { HeaderMenu } from './components/HeaderMenu';
+import { useTheme } from 'react-native-paper';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
+  const theme = useTheme();
 
   if (initializing) {
     return <AppLoading />;
@@ -38,21 +44,25 @@ export function App() {
   }
 
   return (
-    <RootStack.Navigator initialRouteName="ClassSelect">
-      <RootStack.Group screenOptions={{
+    <RootStack.Navigator initialRouteName="ClassList">
+      <RootStack.Group screenOptions={({ navigation }) => ({
         animationEnabled: true,
-        header: (props) => <Header {...props} />,
-      }}>
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+        headerTintColor: '#fff',
+        headerRight: (props) => <HeaderMenu navigation={navigation} {...props} />
+      })}>
         <RootStack.Screen
-          name="ClassSelect"
-          component={ClassSelectScreen}
+          name="ClassList"
+          component={ClassListScreen}
           options={{ title: 'Výběr třídy' }}
         />
         <RootStack.Screen
           name="Class"
           component={ClassScreen}
           options={({ route, navigation }) => ({
-            headerTitle: (props) => <ClassSelect
+            headerTitle: (props) => <ClassHeader
               selected={route.params.classId}
               selectClass={classId => navigation.setParams({ classId })}
               {...props}
@@ -69,14 +79,23 @@ export function App() {
         />
 
         <RootStack.Screen
+          name="CategoryList"
+          component={CategoryListScreen}
+          options={{ title: 'Kategorie' }}
+        />
+        <RootStack.Screen
           name="Category"
           component={CategoryScreen}
-          options={{ title: 'Úkoly' }}
+          options={({ route }) => ({
+            headerTitle: (props) => <CategoryHeader id={route.params.categoryId} {...props} />
+          })}
         />
         <RootStack.Screen
           name="Subcategory"
           component={SubcategoryScreen}
-          options={{ title: 'Úkoly' }}
+          options={({ route }) => ({
+            headerTitle: (props) => <SubcategoryHeader id={route.params.subcategoryId} {...props} />
+          })}
         />
         <RootStack.Screen
           name="Task"
@@ -93,6 +112,12 @@ export function App() {
           name="Assessment"
           component={AssessmentScreen}
           options={{ title: 'Hodnocení' }}
+        />
+
+        <RootStack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{ title: 'O aplikaci' }}
         />
 
         <RootStack.Screen

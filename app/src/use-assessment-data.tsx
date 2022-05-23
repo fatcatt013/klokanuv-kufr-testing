@@ -19,14 +19,14 @@ export const ProvideAssessmentData: React.FC = React.memo(
     const assessments = useQuery('assessments', () => (
       authAxios.get('/assessments/').then(x => x.data as any || [])
     ), {
-      staleTime: 60 * 60 * 1000,
+      staleTime: Infinity,
       cacheTime: Infinity,
       enabled: authEnabled,
     });
     const classNotes = useQuery('classNotes', () => (
       authAxios.get('/class-notes/').then(x => x.data as any || [])
     ), {
-      staleTime: 60 * 60 * 1000,
+      staleTime: Infinity,
       cacheTime: Infinity,
       enabled: authEnabled,
     });
