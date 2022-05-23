@@ -1,27 +1,24 @@
 import React from "react";
-import { Card, Dialog, Text, useTheme } from "react-native-paper";
+import { FlatList } from "react-native";
+import { Card, Text } from "react-native-paper";
 import { useClassrooms } from "../use-school-data";
 
 interface ClassroomPickerProps {
-  open: boolean;
   onSelect: (catId: number) => void;
-  onClose: () => void;
 }
 
-export const ClassroomPicker = ({ onSelect, onClose, open }: ClassroomPickerProps) => {
+export const ClassroomPicker = ({ onSelect }: ClassroomPickerProps) => {
   const classrooms = useClassrooms()
-  const theme = useTheme();
 
-  return <Dialog visible={!!open} onDismiss={onClose} style={{
-    backgroundColor: theme.colors.background,
-    padding: 8,
-  }}>
-    {classrooms.map(sub => (
-      <Card key={sub.id} style={{ margin: 4 }} onPress={() => { onClose(); onSelect(sub.id!!) }}>
+  return <FlatList
+    data={classrooms}
+    keyExtractor={item => item.id!.toString()}
+    renderItem={({ item }) => (
+      <Card style={{ margin: 4 }} onPress={() => onSelect(item.id!!)}>
         <Card.Content>
-          <Text>{sub.label}</Text>
+          <Text>{item.label}</Text>
         </Card.Content>
       </Card>
-    ))}
-  </Dialog>;
+    )}
+  />;
 }

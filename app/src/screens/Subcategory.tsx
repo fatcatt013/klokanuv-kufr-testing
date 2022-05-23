@@ -35,21 +35,3 @@ export const SubcategoryScreen = React.memo(function SubcategoryScreen({ route, 
     />
   </Background>;
 });
-
-/*
- *     <SectionList
- *       style={{ margin: 3 }}
- *       sections={(category?.subcategories || []).map(
- *         sub => ({ title: sub.label, data: sub.tasks })
- *       )}
- *       keyExtractor={(item) => item.id.toString()}
- *       renderSectionHeader={({ section }) => <Caption>{section.title}</Caption>}
- *       renderItem={({ item }) => (
- *         <Card style={{ flex: 1, margin: 2 }} onPress={() => navigation.push('Task', { taskId })}>
- *           <Card.Content style={{ flexDirection: 'row' }}>
- *
- *             <Text>{item.task_description}</Text>
- *           </Card.Content>
- *         </Card>
- *       )}
- *     /> */

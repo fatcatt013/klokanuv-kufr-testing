@@ -1,29 +1,26 @@
 import React from "react";
-import { Card, Dialog, Text, Title, useTheme } from "react-native-paper";
+import { FlatList } from "react-native";
+import { Card, Text } from "react-native-paper";
 import { useCategory } from "../use-core-data";
 
 interface SubcategoryPickerProps {
-  open: boolean;
   category: number;
   onSelect: (catId: number) => void;
-  onClose: () => void;
 }
 
 export const SubcategoryPicker = (props: SubcategoryPickerProps) => {
   const category = useCategory(props.category);
-  const theme = useTheme();
 
-  return <Dialog visible={!!props.open} onDismiss={props.onClose} style={{
-    backgroundColor: theme.colors.background,
-    padding: 8,
-  }}>
-    <Title>{category?.label}</Title>
-    {category?.subcategories.map(sub => (
-      <Card key={sub.id} style={{ margin: 4 }} onPress={() => { props.onClose(); props.onSelect(sub.id!!) }}>
+  return <FlatList
+    style={{ marginVertical: 4 }}
+    data={category?.subcategories}
+    keyExtractor={item => item.id!.toString()}
+    renderItem={({ item }) => (
+      <Card key={item.id} style={{ margin: 4 }} onPress={() => props.onSelect(item.id!!)}>
         <Card.Content>
-          <Text>{sub.label}</Text>
+          <Text>{item.label}</Text>
         </Card.Content>
       </Card>
-    ))}
-  </Dialog>;
+    )}
+  />;
 }

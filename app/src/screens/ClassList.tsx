@@ -1,14 +1,14 @@
-import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
+import { StackScreenProps } from '@react-navigation/stack';
 import { FlatList } from 'react-native';
 import { Card, Title } from 'react-native-paper';
 import { Background } from '../components/Background';
 import { RootStackParamList } from '../lib/navigation';
 import { useClassrooms } from '../use-school-data';
 
-type Props = StackScreenProps<RootStackParamList, 'ClassSelect'>;
+type Props = StackScreenProps<RootStackParamList, 'ClassList'>;
 
-export const ClassSelectScreen = React.memo(function ClassSelectScreen({ navigation }: Props) {
+export const ClassListScreen = React.memo(function ClassListScreen({ navigation }: Props) {
   const classrooms = useClassrooms();
 
   return <Background>

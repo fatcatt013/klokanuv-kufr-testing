@@ -21,11 +21,15 @@ export function ChildList({ navigation }: Props) {
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
   const [selected, setSelected] = React.useState<number[]>([]);
 
-  children = children.sort((x, y) => 0.5 - x.first_name.localeCompare(y.last_name));
+  children = children.sort((x, y) => 0.5 - x.first_name.localeCompare(y.first_name));
+
+  React.useEffect(() => {
+    setSelected([]);
+    setMode('view');
+  }, [classId, setSelected, setMode]);
 
   return <>
     <FlatList
-      style={{ flex: 1, marginVertical: 4 }}
       data={children}
       keyExtractor={item => item.id!.toString()}
       numColumns={2}
@@ -59,8 +63,12 @@ export function ChildList({ navigation }: Props) {
           }}
         >
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold', color: 'white' }}>{item.first_name} {item.last_name.slice(0, 1)}.</Text>
-            {mode === 'select' && <CustomCheckbox iconStyle={{ color: 'white' }} checked={selected.includes(item.id!)} />}
+            <Text style={{
+              padding: 2, fontWeight: 'bold', color: 'white'
+            }}>{item.first_name} {item.last_name.slice(0, 1)}.</Text>
+            <View style={{ borderLeftWidth: 1 }}>
+              <CustomCheckbox iconStyle={{ color: 'white' }} checked={selected.includes(item.id!)} />
+            </View>
           </View>
         </Card>
       )}

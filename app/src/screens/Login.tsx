@@ -5,7 +5,6 @@ import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
 import { TextInput } from '../components/TextInput';
 import { theme } from '../theme';
-import { emailValidator, passwordValidator } from '../utils';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { useAuth } from '../use-auth';
