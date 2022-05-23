@@ -9,7 +9,6 @@ import { CategoryListScreen } from './screens/CategoryList';
 import { ChildScreen } from './screens/Child';
 import { ClassScreen } from "./screens/Class";
 import { ChildHeader } from './components/ChildHeader';
-import { Header } from './components/Header';
 import { ClassHeader } from './components/ClassHeader';
 import { TaskScreen } from './screens/Task';
 import { SubcategoryScreen } from './screens/Subcategory';
@@ -21,9 +20,12 @@ import { CategoryScreen } from './screens/Category';
 import { AboutScreen } from './screens/About';
 import { CategoryHeader } from './components/CategoryHeader';
 import { SubcategoryHeader } from './components/SubcategoryHeader';
+import { HeaderMenu } from './components/HeaderMenu';
+import { useTheme } from 'react-native-paper';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
+  const theme = useTheme();
 
   if (initializing) {
     return <AppLoading />;
@@ -43,10 +45,14 @@ export function App() {
 
   return (
     <RootStack.Navigator initialRouteName="ClassList">
-      <RootStack.Group screenOptions={{
+      <RootStack.Group screenOptions={({ navigation }) => ({
         animationEnabled: true,
-        header: (props) => <Header {...props} />,
-      }}>
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+        headerTintColor: '#fff',
+        headerRight: (props) => <HeaderMenu navigation={navigation} {...props} />
+      })}>
         <RootStack.Screen
           name="ClassList"
           component={ClassListScreen}
