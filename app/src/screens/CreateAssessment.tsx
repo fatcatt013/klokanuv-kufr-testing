@@ -9,6 +9,7 @@ import { CategoryPicker } from '../components/CategoryPicker';
 import { ChildPicker } from '../components/ChildPicker';
 import { ClassroomPicker } from '../components/ClassPicker';
 import { CustomCheckbox } from '../components/CustomCheckbox';
+import { CustomDialog } from '../components/CustomDialog';
 import { SubcategoryHeader } from '../components/SubcategoryHeader';
 import { SubcategoryPicker } from '../components/SubcategoryPicker';
 import { TaskPicker } from '../components/TaskPicker';
@@ -116,7 +117,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
     >Uložit</Button>
 
     <Portal>
-      <Dialog visible={categoryOpen} onDismiss={() => setCategoryOpen(false)}>
+      <CustomDialog visible={categoryOpen} onDismiss={() => setCategoryOpen(false)}>
         <CategoryPicker onSelect={(id, subcat) => {
           setCategoryOpen(false);
           setCategoryId(id);
@@ -127,18 +128,18 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
             setSubcategoryOpen(true);
           }
         }} />
-      </Dialog>
+      </CustomDialog>
 
-      <Dialog visible={subcategoryOpen} onDismiss={() => setSubcategoryOpen(false)}>
+      <CustomDialog visible={subcategoryOpen} onDismiss={() => setSubcategoryOpen(false)}>
         <Dialog.Title><CategoryHeader id={categoryId} /></Dialog.Title>
         <SubcategoryPicker category={categoryId} onSelect={(id) => {
           setSubcategoryOpen(false);
           setSubcategoryId(id);
           setTaskOpen(true);
         }} />
-      </Dialog>
+      </CustomDialog>
 
-      <Dialog visible={taskOpen} onDismiss={() => setTaskOpen(false)} style={{ maxHeight: 0.8 * Dimensions.get('window').height }}>
+      <CustomDialog visible={taskOpen} onDismiss={() => setTaskOpen(false)} style={{ maxHeight: 0.8 * Dimensions.get('window').height }}>
         <Dialog.Title><SubcategoryHeader id={subcategoryId} /></Dialog.Title>
         <Dialog.ScrollArea>
           <TaskPicker
@@ -150,9 +151,9 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
             Ok
           </Button>
         </Dialog.ScrollArea>
-      </Dialog>
+      </CustomDialog>
 
-      <Dialog visible={classOpen} onDismiss={() => setClassOpen(false)}>
+      <CustomDialog visible={classOpen} onDismiss={() => setClassOpen(false)}>
         <ClassroomPicker onSelect={(id) => {
           setClassOpen(false);
           setClassId(id);
@@ -161,9 +162,9 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
           }
           setChildOpen(true);
         }} />
-      </Dialog>
+      </CustomDialog>
 
-      <Dialog visible={childOpen} onDismiss={() => setChildOpen(false)}>
+      <CustomDialog visible={childOpen} onDismiss={() => setChildOpen(false)}>
         <ChildPicker
           classroom={classId}
           selected={tempChildIds}
@@ -172,7 +173,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
         <Button onPress={() => { setChildOpen(false); setChildIds(tempChildIds) }}>
           Ok
         </Button>
-      </Dialog>
+      </CustomDialog>
 
     </Portal>
   </Background >
