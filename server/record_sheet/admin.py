@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from . import models
 from django.contrib.auth.models import Group
-from django.forms import TextInput, Textarea
+from django.forms import Textarea
 from django.db import models as db_models
 
 
@@ -47,6 +47,10 @@ class CustomUserAdmin(UserAdmin):
             ",".join([g.name for g in obj.groups.all()]) if obj.groups.count() else ""
         )
 
+    def get_queryset(self, request):
+        qs = super(CustomUserAdmin, self).get_queryset(request)
+        return qs.filter(school=self.request.user.school)
+
 
 class ChildNoteAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -64,11 +68,25 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
         super().save_model(request, obj, form, change)
 
+    # filter results - teachers & headmasters can only see notes of classrooms they belong to
+    def get_queryset(self, request):
+        qs = super(ClassroomNoteAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(classroom__teachers__id=request.user.id)
+
 
 class ChildAdmin(admin.ModelAdmin):
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
+
+    # filter results - teachers & headmasters can only see children if they belong to the same class
+    def get_queryset(self, request):
+        qs = super(ChildAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(classroom__teachers__id=request.user.id)
 
 
 class ClassroomAdmin(admin.ModelAdmin):
@@ -76,11 +94,34 @@ class ClassroomAdmin(admin.ModelAdmin):
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 20})},
     }
 
+    # filter results - teachers & headmasters can only see notes of classes they belong to
+    def get_queryset(self, request):
+        qs = super(ClassroomAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return request.user.classrooms
+
 
 class SchoolAdmin(admin.ModelAdmin):
     formfield_overrides = {
         db_models.CharField: {"widget": Textarea(attrs={"rows": 3, "cols": 40})},
     }
+
+    # filter results - teachers & headmasters can only see school they belong to
+    def get_queryset(self, request):
+        qs = super(SchoolAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(users__id=request.user.id)
+
+
+class AssessmentAdmin(admin.ModelAdmin):
+    # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
+    def get_queryset(self, request):
+        qs = super(AssessmentAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(child__classroom__teachers__id=request.user.id)
 
 
 admin.site.register(models.User, CustomUserAdmin)
@@ -89,5 +130,5 @@ admin.site.register(models.Classroom, ClassroomAdmin)
 admin.site.register(models.Child, ChildAdmin)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
-admin.site.register(models.Assessment)
+admin.site.register(models.Assessment, AssessmentAdmin)
 admin.site.unregister(Group)
