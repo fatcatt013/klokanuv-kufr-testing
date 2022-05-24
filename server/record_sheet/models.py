@@ -152,7 +152,7 @@ class Child(models.Model):
         Classroom, related_name="children", on_delete=models.CASCADE
     )
     school = models.ForeignKey(
-        School, related_name="%(class)s", on_delete=models.CASCADE, default=1
+        School, related_name="children", on_delete=models.CASCADE, default=1
     )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     GENDER_CHOICES = (
@@ -243,11 +243,13 @@ class Invoice(models.Model):
 
 
 class InvoiceItem(models.Model):
-    invoice = models.ForeignKey(Invoice, on_delete=models.CASCADE)
+    invoice = models.ForeignKey(Invoice, related_name="items", on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.IntegerField()
     vat_rate = models.DecimalField(max_digits=4, decimal_places=2)
     total_vat = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
 
 class Parameter(models.Model):

@@ -65,7 +65,7 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
 
 class InvoiceItemInline(admin.TabularInline):
     model = models.InvoiceItem
-    fields = ["title", "unit_price", "vat_rate", "total_vat"]
+    fields = ["title", "unit_price", "amount", "vat_rate", "total_vat", "total_price"]
     readonly_fields = fields
     can_delete = False
     extra = 0
@@ -75,6 +75,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 
     fields = [
         "serial_number",
+        "school",
         "note",
         "created_at",
         "paid_at",
@@ -83,6 +84,7 @@ class InvoiceAdmin(admin.ModelAdmin):
     ]
     list_display = [
         "serial_number",
+        "school",
         "created_at",
         "paid_at",
         "total_price",
@@ -91,9 +93,12 @@ class InvoiceAdmin(admin.ModelAdmin):
     inlines = [
         InvoiceItemInline,
     ]
-    readonly_fields = ["serial_number", "note", "created_at", "total_price"]
+    readonly_fields = ["serial_number", "school", "note", "created_at", "total_price"]
 
     def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
         return False
 
 
