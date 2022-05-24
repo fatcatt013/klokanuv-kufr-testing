@@ -23,7 +23,7 @@ export const SubcategoryScreen = React.memo(function SubcategoryScreen({ route, 
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
         <Card style={{ margin: 3 }} onPress={() => navigation.push('Task', { taskId: item.id! })}>
-          <Card.Content>
+          <Card.Content style={{ flexDirection: 'row' }}>
             {item.difficulty &&
               <Icon size={15} style={{ marginRight: 5 }} name={difficultyIcons[item.difficulty]} />}
             <Paragraph>

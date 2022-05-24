@@ -14,8 +14,18 @@ export const ChildPicker = React.memo(function ChildPicker(props: ChildPickerPro
   const theme = useTheme();
   const classroom = useClassroom(props.classroom);
 
+  const children = (classroom?.children || []).sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
+
+  const toggleId = React.useCallback((id: number) => {
+    if (props.selected.includes(id)) {
+      props.onSelect(props.selected.filter(x => x !== id));
+    } else {
+      props.onSelect([...props.selected, id]);
+    }
+  }, [props]);
+
   return <FlatList
-    data={classroom?.children}
+    data={children}
     keyExtractor={item => item.id!.toString()}
     numColumns={2}
     renderItem={({ item }) => (
@@ -28,22 +38,16 @@ export const ChildPicker = React.memo(function ChildPicker(props: ChildPickerPro
             !item.gender ? undefined :
               item.gender === "M" ? theme.colors.blue : theme.colors.red
         }}
-        onPress={() => {
-          if (props.selected.includes(item.id!)) {
-            props.onSelect(props.selected.filter(x => x !== item.id!));
-          } else {
-            props.onSelect([...props.selected, item.id!]);
-          }
-        }}
+        onPress={() => toggleId(item.id!)}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={{ marginLeft: 10, color: 'white' }}>
             {item.first_name} {item.last_name.slice(0, 1)}.
           </Text>
           <CustomCheckbox
-            size={15}
-            checkedColor='white'
+            iconStyle={{ color: 'white' }}
             checked={props.selected.includes(item.id!)}
+            onPress={() => toggleId(item.id!)}
           />
         </View>
       </Card>

@@ -22,6 +22,7 @@ import { CategoryHeader } from './components/CategoryHeader';
 import { SubcategoryHeader } from './components/SubcategoryHeader';
 import { HeaderMenu } from './components/HeaderMenu';
 import { useTheme } from 'react-native-paper';
+import { useCategory, useSubcategory } from './use-core-data';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
@@ -86,16 +87,18 @@ export function App() {
         <RootStack.Screen
           name="Category"
           component={CategoryScreen}
-          options={({ route }) => ({
-            headerTitle: (props) => <CategoryHeader id={route.params.categoryId} {...props} />
-          })}
+          options={({ route }) => {
+            const category = useCategory(route.params.categoryId);
+            return { headerTitle: category?.label };
+          }}
         />
         <RootStack.Screen
           name="Subcategory"
           component={SubcategoryScreen}
-          options={({ route }) => ({
-            headerTitle: (props) => <SubcategoryHeader id={route.params.subcategoryId} {...props} />
-          })}
+          options={({ route }) => {
+            const subcategory = useSubcategory(route.params.subcategoryId);
+            return { headerTitle: subcategory?.label };
+          }}
         />
         <RootStack.Screen
           name="Task"
