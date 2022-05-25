@@ -7,10 +7,11 @@ import { useAssessmentType, useTask } from "../use-core-data";
 import { useIsFocused } from "@react-navigation/native";
 import { CreateAssessmentFAB } from "../components/CreateAssessmentFAB";
 
-type Props = StackScreenProps<RootStackParamList, 'Task'>;
+type Props = StackScreenProps<RootStackParamList, 'ChildTask'>;
 
-export const TaskScreen = React.memo(function TaskScreen({ route, navigation }: Props) {
+export const ChildTaskScreen = React.memo(function ChildTaskScreen({ route, navigation }: Props) {
   const task = useTask(route.params.taskId);
+  const childId = route.params.childId;
   const assessmentType = useAssessmentType(task?.assessment_type!!);
   const isFocused = useIsFocused();
 
@@ -25,7 +26,7 @@ export const TaskScreen = React.memo(function TaskScreen({ route, navigation }: 
     <Portal>
       <CreateAssessmentFAB
         visible={isFocused}
-        onPress={() => navigation.push('CreateAssessment', { children: [], tasks: [task?.id!!] })}
+        onPress={() => navigation.push('CreateAssessment', { children: [childId], tasks: [task?.id!!] })}
       />
     </Portal>
   </SafeAreaView>
