@@ -1,8 +1,8 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { ClassNotes } from "../components/ClassNotes";
 import { useTheme } from 'react-native-paper';
 import { StackScreenProps } from '@react-navigation/stack';
+import { ClassNotes } from '../components/ClassNotes';
 import { RootStackParamList } from '../lib/navigation';
 import { ChildList } from '../components/ChildList';
 import { Background } from '../components/Background';
@@ -27,7 +27,7 @@ export const ClassScreen = React.memo(function ClassScreen({ route }: Props) {
         <Tab.Screen
           name="Seznam dětí"
           component={ChildList}
-          options={{ tabBarIcon: "account-multiple" }}
+          options={{ tabBarIcon: 'account-multiple' }}
         />
         <Tab.Screen
           name="Klokanův kufr"
@@ -37,12 +37,12 @@ export const ClassScreen = React.memo(function ClassScreen({ route }: Props) {
         <Tab.Screen
           name="Statistiky"
           component={ClassOverview}
-          options={{ tabBarIcon: "order-bool-descending-variant" }}
+          options={{ tabBarIcon: 'order-bool-descending-variant' }}
         />
         <Tab.Screen
           name="Poznámky"
           component={ClassNotes}
-          options={{ tabBarIcon: "note-multiple-outline" }}
+          options={{ tabBarIcon: 'note-multiple-outline' }}
         />
       </Tab.Navigator>
     </ClassIDContext.Provider>
