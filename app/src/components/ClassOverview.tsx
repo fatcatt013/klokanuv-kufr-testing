@@ -5,6 +5,7 @@ import { Image, SafeAreaView } from 'react-native';
 import { Portal } from 'react-native-paper';
 import { ClassIDContext } from '../lib/contexts';
 import { RootStackParamList } from '../lib/navigation';
+import { useClassroom } from '../use-school-data';
 import { CreateAssessmentFAB } from './CreateAssessmentFAB';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
