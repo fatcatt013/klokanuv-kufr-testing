@@ -26,6 +26,28 @@ export function ChildList({ navigation }: Props) {
     setMode('view');
   }, [classId, setSelected, setMode]);
 
+  const onPressCheck = React.useCallback((childId: number) => {
+    if (selected.includes(childId)) {
+      if (selected.length === 1) {
+        setSelected([]);
+        setMode('view');
+      } else {
+        setSelected(selected.filter(x => x !== childId));
+      }
+    } else {
+      setMode('select');
+      setSelected([...selected, childId]);
+    }
+  }, [selected, setSelected, setMode]);
+
+  const onPress = React.useCallback((childId: number) => {
+    if (mode === 'view') {
+      navigation.push('Child', { childId });
+    } else {
+      onPressCheck(childId);
+    }
+  }, [mode, selected]);
+
   return <>
     <FlatList
       data={children}
@@ -39,26 +61,7 @@ export function ChildList({ navigation }: Props) {
               !item.gender ? undefined :
                 item.gender === "M" ? theme.colors.blue : theme.colors.red
           }]}
-          onPress={() => {
-            if (mode === 'view') {
-              navigation.push('Child', { childId: item.id! })
-            } else {
-              if (selected.includes(item.id!)) {
-                if (selected.length === 1) {
-                  setSelected([]);
-                  setMode('view');
-                } else {
-                  setSelected(selected.filter(x => x !== item.id!));
-                }
-              } else {
-                setSelected([...selected, item.id!]);
-              }
-            }
-          }}
-          onLongPress={() => {
-            setMode('select')
-            setSelected([item.id!!])
-          }}
+          onPress={() => onPress(item.id!)}
         >
           <View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between' }}>
             <Text style={{
@@ -68,7 +71,7 @@ export function ChildList({ navigation }: Props) {
               <CustomCheckbox
                 iconStyle={{ color: 'white' }}
                 checked={selected.includes(item.id!)}
-                onPress={() => { setMode('select'); setSelected(xs => [...xs, item.id!]) }}
+                onPress={() => onPressCheck(item.id!)}
               />
             </View>
           </View>

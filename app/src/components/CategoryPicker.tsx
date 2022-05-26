@@ -1,9 +1,9 @@
-import React from "react";
-import { FlatList, View } from "react-native";
-import { Card, Text } from "react-native-paper";
-import { Components } from "../server";
-import { useCoreData } from "../use-core-data";
-import { icons } from "./icons";
+import React from 'react';
+import { FlatList, View } from 'react-native';
+import { Card, Text } from 'react-native-paper';
+import { Components } from '../server';
+import { useCoreData } from '../use-core-data';
+import { icons } from './icons';
 
 interface CategoryPickerProps {
   onSelect: (catId: number, subcatId?: number) => void;
@@ -13,8 +13,8 @@ export const CategoryPicker = ({ onSelect }: CategoryPickerProps) => {
   const { data } = useCoreData();
   const categories = [...(data?.categories || [])];
   let ordered: Components.Schemas.Category[] = [];
-  Object.keys(icons).forEach(label => {
-    const i = categories.findIndex(x => x.label === label);
+  Object.keys(icons).forEach((label) => {
+    const i = categories.findIndex((x) => x.label === label);
     if (i > -1) {
       ordered = ordered.concat(categories.splice(i, 1));
     }
@@ -23,14 +23,14 @@ export const CategoryPicker = ({ onSelect }: CategoryPickerProps) => {
 
   return <FlatList
     data={ordered}
-    keyExtractor={item => item.id!.toString()}
+    keyExtractor={(item) => item.id!.toString()}
     numColumns={2}
     renderItem={({ item }) => (
       <Card key={item.id} onPress={() => {
         if (item.subcategories.length === 1) {
-          onSelect(item.id!!, item.subcategories[0])
+          onSelect(item.id!, item.subcategories[0]);
         } else {
-          onSelect(item.id!!)
+          onSelect(item.id!);
         }
       }} style={{
         flex: 1,
@@ -50,5 +50,5 @@ export const CategoryPicker = ({ onSelect }: CategoryPickerProps) => {
         </View>
       </Card>
     )}
-  />
-}
+  />;
+};

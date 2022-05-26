@@ -1,27 +1,27 @@
 import React from 'react';
+import AppLoading from 'expo-app-loading';
+import { useTheme } from 'react-native-paper';
 import { useAuth } from './use-auth';
 import { RootStack } from './lib/navigation';
 import { LoginScreen } from './screens/Login';
 import { RegisterScreen } from './screens/Register';
 import { ForgotPasswordScreen } from './screens/ForgotPassword';
 import { ClassListScreen } from './screens/ClassList';
-import { CategoryListScreen } from './screens/CategoryList';
 import { ChildScreen } from './screens/Child';
-import { ClassScreen } from "./screens/Class";
+import { ClassScreen } from './screens/Class';
 import { ChildHeader } from './components/ChildHeader';
 import { ClassHeader } from './components/ClassHeader';
-import { TaskScreen } from './screens/Task';
-import { SubcategoryScreen } from './screens/Subcategory';
+import { ClassTaskScreen } from './screens/ClassTask';
+import { ClassSubcategoryScreen } from './screens/ClassSubcategory';
+import { ClassCategoryScreen } from './screens/ClassCategory';
+import { ChildTaskScreen } from './screens/ChildTask';
+import { ChildSubcategoryScreen } from './screens/ChildSubcategory';
+import { ChildCategoryScreen } from './screens/ChildCategory';
 import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
-import AppLoading from 'expo-app-loading';
-import { CategoryScreen } from './screens/Category';
 import { AboutScreen } from './screens/About';
-import { CategoryHeader } from './components/CategoryHeader';
-import { SubcategoryHeader } from './components/SubcategoryHeader';
 import { HeaderMenu } from './components/HeaderMenu';
-import { useTheme } from 'react-native-paper';
 import { useCategory, useSubcategory } from './use-core-data';
 
 export function App() {
@@ -80,29 +80,34 @@ export function App() {
         />
 
         <RootStack.Screen
-          name="CategoryList"
-          component={CategoryListScreen}
-          options={{ title: 'Kategorie' }}
+          name="ClassCategory"
+          component={ClassCategoryScreen}
+          options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
         />
         <RootStack.Screen
-          name="Category"
-          component={CategoryScreen}
-          options={({ route }) => {
-            const category = useCategory(route.params.categoryId);
-            return { headerTitle: category?.label };
-          }}
+          name="ClassSubcategory"
+          component={ClassSubcategoryScreen}
+          options={({ route }) => ({ headerTitle: useSubcategory(route.params.subcategoryId)?.label })}
         />
         <RootStack.Screen
-          name="Subcategory"
-          component={SubcategoryScreen}
-          options={({ route }) => {
-            const subcategory = useSubcategory(route.params.subcategoryId);
-            return { headerTitle: subcategory?.label };
-          }}
+          name="ClassTask"
+          component={ClassTaskScreen}
+          options={{ title: 'Úkol' }}
+        />
+
+        <RootStack.Screen
+          name="ChildCategory"
+          component={ChildCategoryScreen}
+          options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
         />
         <RootStack.Screen
-          name="Task"
-          component={TaskScreen}
+          name="ChildSubcategory"
+          component={ChildSubcategoryScreen}
+          options={({ route }) => ({ headerTitle: useSubcategory(route.params.subcategoryId)?.label })}
+        />
+        <RootStack.Screen
+          name="ChildTask"
+          component={ChildTaskScreen}
           options={{ title: 'Úkol' }}
         />
 

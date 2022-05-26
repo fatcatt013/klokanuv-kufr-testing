@@ -4,13 +4,14 @@ import { RootStackParamList } from '../lib/navigation';
 import { Background } from '../components/Background';
 import { SubcategoryPicker } from '../components/SubcategoryPicker';
 
-type Props = StackScreenProps<RootStackParamList, 'Category'>;
+type Props = StackScreenProps<RootStackParamList, 'ClassCategory'>;
 
-export const CategoryScreen = React.memo(function CategoryScreen({ route, navigation }: Props) {
+export const ClassCategoryScreen = React.memo(function ClassCategoryScreen({ route, navigation }: Props) {
+  const classId = route.params.classId;
   return <Background>
     <SubcategoryPicker
       category={route.params.categoryId}
-      onSelect={(id) => navigation.navigate('Subcategory', { subcategoryId: id })}
+      onSelect={(id) => navigation.navigate('ClassSubcategory', { classId, subcategoryId: id })}
     />
   </Background>;
 });
