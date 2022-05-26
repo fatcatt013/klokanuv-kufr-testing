@@ -34,8 +34,11 @@ export function ChildOverview({ navigation }: Props) {
     <SafeAreaView>
       <Headline>{child?.first_name} {child?.last_name}</Headline>
       <Subheading>
-        Věk: {years} let
-        {months && `, ${months} měsíců`}
+        {`Věk: `}
+        {years < 5 ? `${years} roky` : `${years} let`}
+        {months === 1 ? ', 1 měsíc' : ''}
+        {months > 1 && months < 5 ? `, ${months} měsíce` : ''}
+        {months > 5 ? `, ${months} měsíců` : ''}
       </Subheading>
 
       <Image
