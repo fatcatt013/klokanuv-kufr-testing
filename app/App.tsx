@@ -68,17 +68,17 @@ export default () => {
           <ProvideCoreData>
             <ProvideSchoolData>
               <ProvideAssessmentData>
-                <Provider theme={theme}>
-                  <NavigationContainer
-                    initialState={initialState}
-                    onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
-                  >
+                <NavigationContainer
+                  initialState={initialState}
+                  onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
+                >
+                  <Provider theme={theme}>
                     <React.Suspense fallback={<AppLoading />}>
                       <OfflineStatusBar show={!isConnected} />
                       <App />
                     </React.Suspense>
-                  </NavigationContainer>
-                </Provider>
+                  </Provider>
+                </NavigationContainer>
               </ProvideAssessmentData>
             </ProvideSchoolData>
           </ProvideCoreData>

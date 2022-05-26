@@ -1,8 +1,8 @@
 import React from "react";
 import { FlatList, View } from "react-native";
 import { Card, Text, useTheme } from "react-native-paper";
-import { useClassroom } from "../use-school-data";
-import { CustomCheckbox } from './CustomCheckbox'
+import { useClassroom } from "../../use-school-data";
+import { CustomCheckbox } from '../CustomCheckbox'
 
 interface ChildPickerProps {
   classroom: number;

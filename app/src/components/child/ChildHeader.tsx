@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { Caption, Subheading } from "react-native-paper";
-import { useChild, useSchoolData } from "../use-school-data";
+import { useChild, useSchoolData } from "../../use-school-data";
 
 interface ChildHeaderProps {
   childId: number;

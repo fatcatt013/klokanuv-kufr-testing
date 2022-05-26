@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Menu } from "react-native-paper";
-import { useClassroom, useClassrooms } from "../use-school-data";
+import { useClassroom, useClassrooms } from "../../use-school-data";
 
 interface ClassHeaderProps {
   selected: number;
@@ -27,7 +27,7 @@ export const ClassHeader = React.memo(function ClassHeader(props: ClassHeaderPro
     }
   >
     {classrooms.map(x => (
-      <Menu.Item key={x.id} title={x.label} onPress={() => props.selectClass(x.id!!)} />
+      <Menu.Item key={x.id} title={x.label} onPress={() => props.selectClass(x.id!)} />
     ))}
   </Menu>
 });

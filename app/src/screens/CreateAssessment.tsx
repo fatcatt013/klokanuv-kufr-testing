@@ -1,12 +1,13 @@
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
+import format from 'date-fns/format';
 import React from 'react';
 import { Dimensions, TouchableOpacity, View } from 'react-native';
 import { Button, Card, Dialog, Portal, Text } from 'react-native-paper';
 import { Background } from '../components/Background';
 import { CategoryPicker } from '../components/CategoryPicker';
-import { ChildPicker } from '../components/ChildPicker';
-import { ClassroomPicker } from '../components/ClassPicker';
+import { ChildPicker } from '../components/child/ChildPicker';
+import { ClassroomPicker } from '../components/class/ClassPicker';
 import { CustomCheckbox } from '../components/CustomCheckbox';
 import { CustomDialog } from '../components/CustomDialog';
 import { SubcategoryPicker } from '../components/SubcategoryPicker';
@@ -24,9 +25,9 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const ops = useAssessmentOps()
 
   const { data: coreData } = useCoreData();
-  const { categories, subcategories, tasks, assessmentTypes } = coreData!!;
+  const { categories, subcategories, tasks, assessmentTypes } = coreData!;
   const { data: schoolData } = useSchoolData();
-  const { classes, children } = schoolData!!;
+  const { classes, children } = schoolData!;
 
   const [classOpen, setClassOpen] = React.useState(false);
   const [childOpen, setChildOpen] = React.useState(false);
@@ -50,22 +51,33 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const classroom = classes?.find(x => x.id === classId);
   const assessmentType = taskList.length > 0 ? assessmentTypes.find(x => x.id === taskList[0].assessment_type) : undefined;
 
-  const childrenLabel = childList?.map(x => x.first_name).join(", ");
-  const tasksLabel = taskList.map(x => x.task_description).join(", ");
+  const childrenLabel = childList?.map(x => x.first_name).join(', ');
+  const tasksLabel = taskList.map(x => x.task_description).join(', ');
 
   React.useEffect(() => {
     if (isFocused) {
-      if (route.params.children.length > 0) {
-        setChildIds(route.params.children);
-        setTempChildIds(route.params.children);
-        setClassId(classes?.find(x => x.children.find(y => route.params.children.includes(y)))?.id || -1);
-      } else if (route.params.tasks.length > 0) {
-        setTempTaskIds(route.params.tasks);
-        setTaskIds(route.params.tasks);
-        const subcategory = tasks.find(x => route.params.tasks.includes(x.id!!))?.subcategory || -1
+      const { classId, childIds, categoryId, subcategoryId, taskIds } = route.params;
+      if (classId) {
+        setClassId(classId);
+      }
+      if (categoryId) {
+        setCategoryId(categoryId);
+      }
+      if (subcategoryId) {
+        setSubcategoryId(subcategoryId);
+        setCategoryId(categories?.find(x => x.subcategories.includes(subcategoryId))?.id || -1);
+      }
+      if (childIds && childIds.length > 0) {
+        setChildIds(childIds);
+        setTempChildIds(childIds);
+        setClassId(classes?.find(x => x.children.find(y => childIds.includes(y)))?.id || -1);
+      }
+      if (taskIds && taskIds.length > 0) {
+        setTempTaskIds(taskIds);
+        setTaskIds(taskIds);
+        const subcategory = tasks.find(x => taskIds.includes(x.id!))?.subcategory || -1
         setSubcategoryId(subcategory)
         setCategoryId(categories?.find(x => x.subcategories.includes(subcategory))?.id || -1)
-        // set cat, subcat
       }
     }
   }, [isFocused]);
@@ -114,8 +126,11 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       onPress={async () => {
         await Promise.all([taskIds.map(task => childIds.map(child =>
           ops.addAssessment({
-            task: task.toString(), child, option: optionId,
-            date_of_assessment: '2022-05-19', note
+            task: task.toString(),
+            child,
+            option: optionId,
+            date_of_assessment: format(new Date(), 'YYYY-MM-DD'),
+            note
           })
         ))])
         navigation.pop();

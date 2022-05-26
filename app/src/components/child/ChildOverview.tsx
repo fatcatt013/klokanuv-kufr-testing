@@ -4,16 +4,16 @@ import intervalToDuration from 'date-fns/intervalToDuration';
 import React from 'react';
 import { Image, SafeAreaView, View } from 'react-native';
 import { Headline, Portal, Subheading, Text } from 'react-native-paper';
-import { ChildIDContext } from '../lib/contexts';
-import { RootStackParamList } from '../lib/navigation';
-import { useChild } from '../use-school-data';
-import { CreateAssessmentFAB } from './CreateAssessmentFAB';
-import { useCoreData } from '../use-core-data';
-import { icons } from './icons';
+import { ChildIDContext } from '../../lib/contexts';
+import { RootStackParamList } from '../../lib/navigation';
+import { useChild } from '../../use-school-data';
+import { useCoreData } from '../../use-core-data';
+import { icons } from '../icons';
+import { MultiFAB } from '../MultiFAB';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 
-export function ChildOverview({ navigation }: Props) {
+export function ChildOverview({ }: Props) {
   const isFocused = useIsFocused();
   const childId = React.useContext(ChildIDContext);
   const child = useChild(childId);
@@ -34,32 +34,29 @@ export function ChildOverview({ navigation }: Props) {
     <SafeAreaView>
       <Headline>{child?.first_name} {child?.last_name}</Headline>
       <Subheading>
-        {`Věk: `}
-        {years < 5 ? `${years} roky` : `${years} let`}
+        Věk:
+        {years < 5 ? ` ${years} roky` : ` ${years} let`}
         {months === 1 ? ', 1 měsíc' : ''}
         {months > 1 && months < 5 ? `, ${months} měsíce` : ''}
         {months > 5 ? `, ${months} měsíců` : ''}
       </Subheading>
 
       <Image
-        source={require('../../assets/pavouk.png')}
+        source={require('../../../assets/pavouk.png')}
         style={{ width: 300, height: 300, alignSelf: 'center', margin: 5 }}
       />
 
-      {(coreData?.categories.map((item) => (
-        <View>
+      {(coreData?.categories.map((item, i) => (
+        <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
           {React.createElement(icons[item.label], {
-            style: { width: 55, height: 55, marginHorizontal: 'auto' },
+            style: { width: 40, height: 40 },
           })}
           <Text style={{ marginTop: 5, fontSize: 13 }}>{item.label}</Text>
         </View>
       )))}
 
       <Portal>
-        <CreateAssessmentFAB
-          visible={isFocused}
-          onPress={() => navigation.push('CreateAssessment', { children: [childId], tasks: [] })}
-        />
+        <MultiFAB tabs visible={isFocused} initial={{ childIds: [childId] }} />
       </Portal>
     </SafeAreaView>
   );

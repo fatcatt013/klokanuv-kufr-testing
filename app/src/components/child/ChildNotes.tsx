@@ -3,16 +3,16 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { Button, Caption, Card, Dialog, Headline, Portal, Text } from 'react-native-paper';
-import { ChildIDContext } from '../lib/contexts';
-import { RootStackParamList } from '../lib/navigation';
-import { useChildNoteOps, useChildNotes } from '../use-assessment-data';
-import { useChild } from '../use-school-data';
-import { CreateNoteFAB } from './CreateNoteFAB';
-import { TextInput } from './TextInput';
+import { ChildIDContext } from '../../lib/contexts';
+import { RootStackParamList } from '../../lib/navigation';
+import { useChildNoteOps, useChildNotes } from '../../use-assessment-data';
+import { useChild } from '../../use-school-data';
+import { MultiFAB } from '../MultiFAB';
+import { TextInput } from '../TextInput';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 
-export const ChildNotes = ({ }: Props) => {
+export const ChildNotes = ({ route, navigation }: Props) => {
   const isFocused = useIsFocused();
   const childId = React.useContext(ChildIDContext);
   const child = useChild(childId);
@@ -22,6 +22,19 @@ export const ChildNotes = ({ }: Props) => {
   const [noteId, setNoteId] = React.useState<number | null>(null);
   const [note, setNote] = React.useState<string>('');
   const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if ((route.params as any)?.openAdd) {
+      setNoteId(null);
+      setNote('');
+      setOpen(true);
+    }
+  }, [(route.params as any)?.openAdd, setNoteId, setNote, setOpen]);
+
+  const closeDialog = React.useCallback(() => {
+    setOpen(false);
+    navigation.setParams({ openAdd: false } as any);
+  }, [navigation, setOpen]);
 
   return <>
     <FlatList
@@ -42,19 +55,16 @@ export const ChildNotes = ({ }: Props) => {
     />
 
     <Portal>
-      <CreateNoteFAB
-        visible={isFocused}
-        onPress={() => { setNoteId(null); setNote(''); setOpen(true) }}
-      />
+      <MultiFAB tabs visible={isFocused} initial={{ childIds: [childId] }} />
 
-      <Dialog visible={open} onDismiss={() => setOpen(false)}>
+      <Dialog visible={open} onDismiss={closeDialog}>
         <Dialog.Content>
           <Headline>{child?.first_name} {child?.last_name}</Headline>
           <Caption>19. 5. 2022</Caption>
           <TextInput
             returnKeyType="done"
             value={note}
-            onChangeText={text => setNote(text)}
+            onChangeText={(text) => setNote(text)}
             autoComplete="none"
             multiline={true}
             numberOfLines={4}
@@ -67,12 +77,12 @@ export const ChildNotes = ({ }: Props) => {
               } else {
                 await ops.addChildNote(childId, note);
               }
-              setOpen(false);
+              closeDialog();
             }}>Uložit</Button>
 
             {noteId && <Button onPress={async () => {
               await ops.deleteChildNote(noteId);
-              setOpen(false);
+              closeDialog();
             }}>Odstranit</Button>}
           </View>
         </Dialog.Content>
@@ -80,4 +90,4 @@ export const ChildNotes = ({ }: Props) => {
 
     </Portal>
   </>;
-}
+};

@@ -16,7 +16,7 @@ export const SubcategoryPicker = (props: SubcategoryPickerProps) => {
     data={category?.subcategories}
     keyExtractor={item => item.id!.toString()}
     renderItem={({ item }) => (
-      <Card key={item.id} style={{ margin: 4 }} onPress={() => props.onSelect(item.id!!)}>
+      <Card key={item.id} style={{ margin: 4 }} onPress={() => props.onSelect(item.id!)}>
         <Card.Content>
           <Text>{item.label}</Text>
         </Card.Content>

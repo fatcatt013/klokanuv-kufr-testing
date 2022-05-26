@@ -1,14 +1,14 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { theme } from '../theme';
-import { ClassIDContext } from '../lib/contexts';
-import { useClassroom } from '../use-school-data';
+import { theme } from '../../theme';
+import { ClassIDContext } from '../../lib/contexts';
+import { useClassroom } from '../../use-school-data';
 import { Card, Portal, Text } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../lib/navigation';
-import { CustomCheckbox } from './CustomCheckbox';
-import { CreateAssessmentFAB } from './CreateAssessmentFAB';
+import { RootStackParamList } from '../../lib/navigation';
+import { CustomCheckbox } from '../CustomCheckbox';
+import { MultiFAB } from '../MultiFAB';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
@@ -24,7 +24,7 @@ export function ChildList({ navigation }: Props) {
   React.useEffect(() => {
     setSelected([]);
     setMode('view');
-  }, [classId, setSelected, setMode]);
+  }, [useIsFocused, setSelected, setMode]);
 
   const onPressCheck = React.useCallback((childId: number) => {
     if (selected.includes(childId)) {
@@ -64,10 +64,10 @@ export function ChildList({ navigation }: Props) {
           onPress={() => onPress(item.id!)}
         >
           <View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between' }}>
-            <Text style={{
-              padding: 2, fontWeight: 'bold', color: 'white'
-            }}>{item.first_name} {item.last_name.slice(0, 1)}.</Text>
-            <View style={{ borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,.3)', }}>
+            <Text style={{ padding: 2, fontWeight: 'bold', color: 'white' }}>
+              {item.first_name} {item.last_name.slice(0, 1)}.
+            </Text>
+            <View style={{ borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,.3)' }}>
               <CustomCheckbox
                 iconStyle={{ color: 'white' }}
                 checked={selected.includes(item.id!)}
@@ -80,10 +80,7 @@ export function ChildList({ navigation }: Props) {
     />
 
     <Portal>
-      <CreateAssessmentFAB
-        visible={isFocused && mode === 'select'}
-        onPress={() => navigation.push('CreateAssessment', { children: selected, tasks: [] })}
-      />
+      <MultiFAB visible={isFocused} tabs multi={mode === 'select'} initial={{ classId, childIds: selected }} />
     </Portal>
   </>
 }
