@@ -23,12 +23,20 @@ export function ChildOverview({ navigation }: Props) {
     start: new Date(child?.birthdate || ''),
     end: new Date(),
   });
-  const years = (age.years || 0) + (age.months || 0) / 12 + (age.days || 0) / 365;
+  let years = age.years || 0;
+  let months = age.months || 0;
+  if (months > 4 && months < 8) {
+    years += 0.5;
+    months = 0;
+  }
 
   return (
     <SafeAreaView>
       <Headline>{child?.first_name} {child?.last_name}</Headline>
-      <Subheading>Věk: {Math.round(100 * years) / 100} let</Subheading>
+      <Subheading>
+        Věk: {years} let
+        {months && `, ${months} měsíců`}
+      </Subheading>
 
       <Image
         source={require('../../assets/pavouk.png')}
