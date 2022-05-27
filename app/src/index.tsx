@@ -114,7 +114,7 @@ export function App() {
         <RootStack.Screen
           name="CreateAssessment"
           component={CreateAssessmentScreen}
-          options={{ title: 'Hodnotit dítě' }}
+          options={{ title: 'Vyplnit úkol' }}
         />
         <RootStack.Screen
           name="Assessment"

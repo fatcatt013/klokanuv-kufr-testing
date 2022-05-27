@@ -67,7 +67,7 @@ export function ChildList({ navigation }: Props) {
             <Text style={{ padding: 2, fontWeight: 'bold', color: 'white' }}>
               {item.first_name} {item.last_name.slice(0, 1)}.
             </Text>
-            <View style={{ borderLeftWidth: 1, borderLeftColor: 'rgba(255,255,255,.3)' }}>
+            <View>
               <CustomCheckbox
                 iconStyle={{ color: 'white' }}
                 checked={selected.includes(item.id!)}

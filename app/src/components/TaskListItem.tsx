@@ -40,7 +40,7 @@ export const TaskListItem: React.FC<{
             <Text style={{ fontWeight: 'bold' }}>{item.codename}</Text>
             {item.expected_age_from !== '0.00' && (
               <Text style={{ color: theme.colors.grey }}>
-                {Math.round(parseFloat(item.expected_age_from || '0') * 10) / 10}
+                Věk: {Math.round(parseFloat(item.expected_age_from || '0') * 10) / 10}
                 {item.expected_age_from !== item.expected_age_to && item.expected_age_to !== '8.00'
                   ? `-${Math.round(parseFloat(item.expected_age_to || '0') * 10) / 10}` : ''}
               </Text>
@@ -48,7 +48,7 @@ export const TaskListItem: React.FC<{
           </View>
           <Text>{item.task_description}</Text>
         </View>
-        <View style={{ justifyContent: 'center', marginLeft: 4, borderLeftWidth: 1, borderLeftColor: 'rgba(0,0,0,.3)' }}>
+        <View style={{ marginLeft: 4 }}>
           <CustomCheckbox checked={false} onPress={() => { }} />
         </View>
       </Card.Content>
