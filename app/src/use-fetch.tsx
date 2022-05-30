@@ -58,7 +58,7 @@ export const ApiProvider: React.FC = ({ children }) => {
   createAuthRefreshInterceptor(authAxios, async (failedRequest: any) => {
     try {
       const response = await publicAxios.post('/api/token/refresh/', { refresh: refresh as string });
-      await updateAccessToken(response.data.access!!);
+      await updateAccessToken(response.data.access!);
       failedRequest.response.config.headers.Authorization = `Bearer ${response.data.access}`;
     } catch (e) {
       logOut();

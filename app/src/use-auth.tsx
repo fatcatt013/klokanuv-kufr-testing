@@ -46,7 +46,6 @@ export const AuthProvider: React.FC = ({ children }) => {
           initializing: false,
         });
       } catch (error) {
-        console.log(`Keychain Error: ${error.message}`);
         setAuthState({
           access: null,
           refresh: null,
@@ -54,7 +53,7 @@ export const AuthProvider: React.FC = ({ children }) => {
           initializing: false,
         });
       }
-    })()
+    })();
   }, []);
 
   const context: AuthContextType = {
@@ -81,7 +80,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     },
     getAccessToken() {
       return authState.access;
-    }
+    },
   };
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
 };

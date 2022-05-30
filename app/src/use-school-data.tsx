@@ -63,7 +63,7 @@ export const useClassroom = (id: number): Class | null => {
   }
   return {
     ...item,
-    children: data?.children?.filter(x => item?.children.includes(x.id!!)) || [],
+    children: data?.children?.filter(x => item?.children.includes(x.id!)) || [],
   };
 }
 

@@ -9,8 +9,8 @@ import { ForgotPasswordScreen } from './screens/ForgotPassword';
 import { ClassListScreen } from './screens/ClassList';
 import { ChildScreen } from './screens/Child';
 import { ClassScreen } from './screens/Class';
-import { ChildHeader } from './components/ChildHeader';
-import { ClassHeader } from './components/ClassHeader';
+import { ChildHeader } from './components/child/ChildHeader';
+import { ClassHeader } from './components/class/ClassHeader';
 import { ClassTaskScreen } from './screens/ClassTask';
 import { ClassSubcategoryScreen } from './screens/ClassSubcategory';
 import { ClassCategoryScreen } from './screens/ClassCategory';
@@ -114,7 +114,7 @@ export function App() {
         <RootStack.Screen
           name="CreateAssessment"
           component={CreateAssessmentScreen}
-          options={{ title: 'Hodnotit dítě' }}
+          options={{ title: 'Vyplnit úkol' }}
         />
         <RootStack.Screen
           name="Assessment"

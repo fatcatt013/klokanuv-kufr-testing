@@ -15,7 +15,13 @@ export type RootStackParamList = {
   ChildSubcategory: { childId: number; subcategoryId: number; };
   ChildTask: { childId: number; taskId: number; };
 
-  CreateAssessment: { children: number[]; tasks: number[]; };
+  CreateAssessment: {
+    classId?: number;
+    childIds?: number[];
+    categoryId?: number;
+    subcategoryId?: number;
+    taskIds?: number[];
+  };
   Assessment: { assessmentId: number; };
 
   ForgotPassword: undefined;

@@ -59,7 +59,7 @@ export const useCategory = (id: number): Category | null => {
   }
   return {
     ...category,
-    subcategories: data?.subcategories?.filter(x => category?.subcategories.includes(x.id!!)) || [],
+    subcategories: data?.subcategories?.filter(x => category?.subcategories.includes(x.id!)) || [],
   };
 }
 

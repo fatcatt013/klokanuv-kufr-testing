@@ -2,12 +2,12 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useTheme } from 'react-native-paper';
-import { ChildNotes } from '../components/ChildNotes';
+import { ChildNotes } from '../components/child/ChildNotes';
 import { RootStackParamList } from '../lib/navigation';
-import { ChildOverview } from '../components/ChildOverview';
+import { ChildOverview } from '../components/child/ChildOverview';
 import { Background } from '../components/Background';
 import { ChildIDContext } from '../lib/contexts';
-import { ChildCategorySelect } from '../components/ChildCategorySelect';
+import { ChildCategorySelect } from '../components/child/ChildCategorySelect';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 const Tab = createMaterialBottomTabNavigator();
@@ -34,9 +34,9 @@ export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
           options={{ tabBarIcon: 'briefcase-outline' }}
         />
         <Tab.Screen
-          name="Poznámky"
+          name="ChildNotes"
           component={ChildNotes}
-          options={{ tabBarIcon: 'note-multiple-outline' }}
+          options={{ title: 'Poznámky', tabBarIcon: 'note-multiple-outline' }}
         />
       </Tab.Navigator>
     </ChildIDContext.Provider>

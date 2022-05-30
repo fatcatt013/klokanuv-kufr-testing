@@ -82,7 +82,7 @@ declare namespace Components {
             codename?: string | null;
             assessment_type: number;
             task_description: string;
-            difficulty?: "EASIER" | "SAME" | "HARDER";
+            difficulty?: "-" | "=" | "+";
             expected_age_from?: string | null; // decimal
             expected_age_to?: string | null; // decimal
             url?: string;

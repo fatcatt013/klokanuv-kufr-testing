@@ -63,7 +63,7 @@ CustomCheckbox.defaultProps = {
   labelStyle: {},
   iconStyle: {},
   checkedIconStyle: {},
-  color: '#91c861',
+  color: '#006bcc',
   backgroundColor: 'rgba(0,0,0,0)',
   underlayColor: 'rgba(0,0,0,0)',
   activeOpacity: 1,
