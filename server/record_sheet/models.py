@@ -67,7 +67,6 @@ class School(models.Model):
     name = models.CharField("name", max_length=100)
     address = models.CharField("address", max_length=250, blank=True)
     cin = models.IntegerField("IČO", null=True)
-    variable_symbol = models.IntegerField(null=True)
 
     def __str__(self):
         return self.name
