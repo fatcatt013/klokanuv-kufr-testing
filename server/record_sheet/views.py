@@ -1,3 +1,5 @@
+from django.views.generic.detail import DetailView
+from django_xhtml2pdf.views import PdfMixin
 from rest_framework import permissions, viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 
@@ -140,6 +142,11 @@ class InvoiceItemViewSet(viewsets.ModelViewSet):
 
     queryset = models.InvoiceItem.objects.all()
     serializer_class = serializers.InvoiceItemSerializer
+
+
+class InvoicePdfView(PdfMixin, DetailView):
+    model = models.Invoice
+    template_name = "invoice.html"
 
 
 class ParameterViewSet(viewsets.ModelViewSet):
