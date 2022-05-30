@@ -148,6 +148,13 @@ class InvoicePdfView(PdfMixin, DetailView):
     model = models.Invoice
     template_name = "invoice.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["parameters"] = {
+            param.name: param.value for param in models.Parameter.objects.all()
+        }
+        return context
+
 
 class ParameterViewSet(viewsets.ModelViewSet):
     """

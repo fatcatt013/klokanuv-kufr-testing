@@ -232,7 +232,14 @@ class Invoice(models.Model):
     )
     note = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    due_date = models.DateTimeField()
     paid_at = models.DateTimeField(null=True, blank=True)
+    total_vat = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    base_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
     total_price = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True
     )
@@ -249,6 +256,7 @@ class InvoiceItem(models.Model):
     amount = models.IntegerField()
     vat_rate = models.DecimalField(max_digits=4, decimal_places=2)
     total_vat = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
 
 

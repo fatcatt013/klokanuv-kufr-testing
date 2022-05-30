@@ -1,53 +1,119 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-<title>Page 1</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<style type="text/css">
-<!--
-	p {margin: 0; padding: 0;}	.ft00{font-size:17px;font-family:EATBXM+NotoSans;color:#000000;}
-	.ft01{font-size:17px;font-family:NFQRVK+NotoSans;color:#000000;}
-	.ft02{font-size:21px;font-family:EATBXM+NotoSans;color:#000000;}
-	.ft03{font-size:14px;font-family:OJYWUX+NotoSans;color:#000000;}
-	.ft04{font-size:14px;font-family:ZJLDJY+NotoSans;color:#000000;}
-	.ft05{font-size:14px;font-family:EATBXM+NotoSans;color:#000000;}
-	.ft06{font-size:14px;font-family:NFQRVK+NotoSans;color:#000000;}
-	.ft07{font-size:11px;font-family:OJYWUX+NotoSans;color:#000000;}
-	.ft08{font-size:11px;font-family:ZJLDJY+NotoSans;color:#000000;}
-	.ft09{font-size:15px;font-family:EATBXM+NotoSans;color:#000000;}
-	.ft010{font-size:14px;line-height:19px;font-family:OJYWUX+NotoSans;color:#000000;}
--->
-</style>
+    <title>Faktura {{invoice.serial_number}}</title>
 </head>
-{% comment %} <img width="892" height="1261" src="/faktura_gimp001.png" alt="background image"/> {% endcomment %}
-<p style="position:absolute;top:41px;left:68px;white-space:nowrap" class="ft00"><b>FAKTURA - daňový doklad č.</b></p>
-<p style="position:absolute;top:42px;left:731px;white-space:nowrap" class="ft02"><b>{{invoice.serial_number}}</b></p>
-<p style="position:absolute;top:84px;left:240px;white-space:nowrap" class="ft00"><b>Lužánky - středisko volného času Brno, příspěvková organizace</b></p>
-<p style="position:absolute;top:120px;left:245px;white-space:nowrap" class="ft010">Lidická&#160;1880/50<br/>IČ: 00401803</p>
-<p style="position:absolute;top:117px;left:370px;white-space:nowrap" class="ft010">6020&#160;Brno<br/>DIČ: CZ00401803</p>
-<p style="position:absolute;top:118px;left:626px;white-space:nowrap" class="ft010">Tel.:&#160;+420&#160;545211336<br/>www.luzanky.cz</p>
-<p style="position:absolute;top:180px;left:487px;white-space:nowrap" class="ft05"><b>Odběratel</b></p>
-<p style="position:absolute;top:199px;left:487px;white-space:nowrap" class="ft05"><b>{{invoice.school}}</b></p>
-<p style="position:absolute;top:238px;left:487px;white-space:nowrap" class="ft03">Pavlovice u Přerova 5<br>75111 Pavlovice u Přerova<br>Česká republika<br>IČ: 22661701</p>
-<p style="position:absolute;top:441px;left:64px;white-space:nowrap" class="ft03">{{invoice.note}}</p>
-<p style="position:absolute;top:181px;left:66px;white-space:nowrap" class="ft05"><b>Datum</b></p>
-<p style="position:absolute;top:200px;left:66px;white-space:nowrap" class="ft03">Vystavení:</p>
-<p style="position:absolute;top:220px;left:66px;white-space:nowrap" class="ft05"><b>Splatnosti:</b></p>
-<p style="position:absolute;top:239px;left:66px;white-space:nowrap" class="ft03">Zd.&#160;pln</p>
-<p style="position:absolute;top:239px;left:109px;white-space:nowrap" class="ft04">ě</p>
-<p style="position:absolute;top:239px;left:117px;white-space:nowrap" class="ft03">ní:</p>
-<p style="position:absolute;top:200px;left:143px;white-space:nowrap" class="ft03">04.01.2022</p>
-<p style="position:absolute;top:220px;left:143px;white-space:nowrap" class="ft05"><b>10.01.2022</b></p>
-<p style="position:absolute;top:239px;left:143px;white-space:nowrap" class="ft03">04.01.2022</p>
-<p style="position:absolute;top:280px;left:62px;white-space:nowrap" class="ft05"><b>Objednávka</b></p>
-<p style="position:absolute;top:300px;left:62px;white-space:nowrap" class="ft03">Zp.&#160;platby:&#160;Bankovním&#160;p</p>
-<p style="position:absolute;top:300px;left:217px;white-space:nowrap" class="ft04">ř</p>
-<p style="position:absolute;top:300px;left:222px;white-space:nowrap" class="ft03">evodem</p>
-<p style="position:absolute;top:336px;left:65px;white-space:nowrap" class="ft07">Bankovní&#160;ú</p>
-<p style="position:absolute;top:336px;left:127px;white-space:nowrap" class="ft08">č</p>
-<p style="position:absolute;top:336px;left:133px;white-space:nowrap" class="ft07">et&#160;pro&#160;platbu&#160;faktury</p>
-<p style="position:absolute;top:363px;left:90px;white-space:nowrap" class="ft09"><b>2300553212/2010</b></p>
-</div>
+<body>
+    <table>
+        <tr>
+            <td>FAKTURA - daňový doklad č.</td>
+            <td>{{invoice.serial_number}}</td>
+        </tr>
+        <tr>
+            <td><!-- logo --></td>
+            <td>{{parameters.luzanky_title}}</td>
+        </tr>
+        <tr>
+            <td>{{parameters.luzanky_address}}</td>
+            <td>Tel.: {{parameters.luzanky_tel}}</td>
+        </tr>
+        <tr>
+            <td>IČ: {{parameters.luzanky_ic}}</td>
+            <td>DIČ: CZ{{parameters.luzanky_ic}}</td>
+            <td>{{parameters.luzanky_web}}</td>
+        </tr>
+        <tr>
+            <td>Datum</td>
+            <td></td>
+            <td>Symboly</td>
+            <td></td>
+            <td>Odběratel</td>
+        </tr>
+        <tr>
+            <td>Vystavení:</td>
+            <td>{{invoice.created_at | date:"d.m.Y"}}</td>
+            <td>Variabilní:</td>
+            <td>{{invoice.school.variable_symbol}}</td>
+            <td>{{invoice.school.name}}</td>
+        </tr>
+        <tr>
+            <td>Splatnosti:</td>
+            <td>{{invoice.due_date | date:"d.m.Y"}}</td>
+        </tr>
+        <tr>
+            <td>Zd. plnění:</td>
+            <td>{{invoice.created_at | date:"d.m.Y"}}</td>
+            <td></td>
+            <td></td>
+            <td>{{invoice.school.address}}</td>
+        </tr>
+        <tr>
+            <td>Objednávka</td>
+            <td>IČ:</td>
+            <td>{{invoice.school.cin}}</td>
+        </tr>
+        <tr>
+            <td>Zp. platby:</td>
+            <td>Bankovním převodem</td>
+        </tr>
+        <tr>
+            <td>Bankovní účet pro platbu faktury</td>
+        </tr>
+        <tr>
+            <td>{{parameters.luzanky_bank_account}}</td>
+        </tr>
+        <tr>
+            <td>{{invoice.note}}</td>
+        </tr>
+        <tr>
+            <td>Označení dodávky</td>
+            <td>Počet MJ</td>
+            <td>Cena za MJ</td>
+            <td>Sazba</td>
+            <td>Základ</td>
+            <td>Celkem s DPH</td>
+        </tr>
+        {% for item in invoice.items.all %}
+        <tr>
+            <td>{{item.title}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.unit_price}}</td> {% comment %} TODO czech format {% endcomment %}
+            <td>{% widthratio item.vat_rate 1 100 %} %</td>
+            <td>{{item.base_price}}</td> {% comment %} TODO czech format {% endcomment %}
+            <td>{{item.total_price}} Kč</td> {% comment %} TODO czech format {% endcomment %}
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Celková částka k úhradě</td>
+            <td>{{invoice.total_price}} Kč</td>
+        </tr>
+        <tr>
+            <td>Sazba DPH</td>
+            <td>Základ</td>
+            <td>Výše DPH</td>
+            <td>Celkem</td>
+        </tr>
+        <tr>
+            <td>{% widthratio parameters.vat_rate 1 100 %} %</td>
+            <td>{{invoice.base_price}}</td>
+            <td>{{invoice.total_vat}}</td>
+            <td>{{invoice.total_price}}</td>
+        </tr>
+        <tr>
+            <td>CELKEM</td>
+            <td>{{invoice.base_price}}</td>
+            <td>{{invoice.total_vat}}</td>
+            <td>{{invoice.total_price}}</td>
+        </tr>
+        <tr>
+            <td>Rozpis DPH uveden v měně CZK</td>
+            <td>____________________________</td>
+        </tr>
+        <tr>
+            <td>{{parameters.luzanky_description}}</td>
+        </tr>
+        <tr>
+            <td>Vystavil: {{parameters.invoice_issued_by}}</td>
+        </tr>
+    </table>
 </body>
 </html>
