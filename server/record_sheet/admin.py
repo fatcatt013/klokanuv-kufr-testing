@@ -95,6 +95,12 @@ class InvoiceAdmin(admin.ModelAdmin):
     ]
     readonly_fields = ["serial_number", "school", "note", "created_at", "total_price"]
 
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(school=request.user.school)
+
     def has_add_permission(self, request, obj=None):
         return False
 
