@@ -131,8 +131,10 @@ class InvoiceViewSet(viewsets.ModelViewSet):
     API endpoint that allows invoices to be viewed or edited by superuser
     """
 
-    queryset = models.Invoice.objects.all()
     serializer_class = serializers.InvoiceSerializer
+
+    def get_queryset(self):
+        return models.Invoice.objects.filter(school=self.request.user.school)
 
 
 class InvoiceItemViewSet(viewsets.ModelViewSet):
@@ -140,8 +142,12 @@ class InvoiceItemViewSet(viewsets.ModelViewSet):
     API endpoint that allows invoice items to be viewed or edited by superuser
     """
 
-    queryset = models.InvoiceItem.objects.all()
     serializer_class = serializers.InvoiceItemSerializer
+
+    def get_queryset(self):
+        return models.InvoiceItem.objects.filter(
+            invoice__school=self.request.user.school
+        )
 
 
 class InvoicePdfView(PdfMixin, DetailView):
