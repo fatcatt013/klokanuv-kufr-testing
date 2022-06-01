@@ -49,7 +49,7 @@ class CustomUserAdmin(UserAdmin):
 
     def get_queryset(self, request):
         qs = super(CustomUserAdmin, self).get_queryset(request)
-        return qs.filter(school=self.request.user.school)
+        return qs.filter(school=request.user.school)
 
 
 class ChildNoteAdmin(admin.ModelAdmin):
@@ -59,6 +59,14 @@ class ChildNoteAdmin(admin.ModelAdmin):
         obj.updated_by = request.user
 
         super().save_model(request, obj, form, change)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        print(models.Classroom.objects.filter(teachers=request.user.id))
+        if db_field.name == "child":
+            kwargs["queryset"] = models.Child.objects.filter(
+                classroom__teachers__id=request.user.id
+            )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class ClassroomNoteAdmin(admin.ModelAdmin):
@@ -74,6 +82,13 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         if request.user.is_superuser:
             return qs
         return qs.filter(classroom__teachers__id=request.user.id)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "classroom":
+            kwargs["queryset"] = models.Classroom.objects.filter(
+                teachers__id=request.user.id
+            )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class ChildAdmin(admin.ModelAdmin):
@@ -110,6 +125,19 @@ class ClassroomAdmin(admin.ModelAdmin):
             return qs
         return request.user.classrooms
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "school":
+            kwargs["queryset"] = models.School.objects.filter(users__id=request.user.id)
+
+        # TODO: toto sa robi nejako inak - na multiselect bezny postup nefacha
+        print(db_field)
+        if db_field.name == "":
+            print(
+                "kakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakaka"
+            )
+            kwargs["queryset"] = models.User.objects.filter(id=request.user.id)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 class SchoolAdmin(admin.ModelAdmin):
     formfield_overrides = {
@@ -132,16 +160,15 @@ class AssessmentAdmin(admin.ModelAdmin):
             return qs
         return qs.filter(child__classroom__teachers__id=request.user.id)
 
-
-# todo modify filter fields
-# def formfield_for_foreignkey(self, db_field, request, **kwargs):
-#     if db_field.name == "child":
-#         kwargs["queryset"] = models.Child.objects.filter(users__id=request.user.id)
-#     if db_field.name == "user":
-#         kwargs["queryset"] = models.User.objects.filter(
-#             teachers__id=request.user.id
-#         )
-#     return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    # todo modify filter fields
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "child":
+            kwargs["queryset"] = models.Child.objects.filter(
+                classroom__teachers__id=request.user.id
+            )
+        if db_field.name == "assessed_by":
+            kwargs["queryset"] = models.User.objects.filter(userid=request.user.id)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 admin.site.register(models.User, CustomUserAdmin)
