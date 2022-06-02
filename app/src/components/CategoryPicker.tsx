@@ -6,7 +6,7 @@ import { useCoreData } from '../use-core-data';
 import { icons } from './icons';
 
 interface CategoryPickerProps {
-  onSelect: (catId: number, subcatId?: number) => void;
+  onSelect: (catId: number) => void;
 }
 
 export const CategoryPicker = ({ onSelect }: CategoryPickerProps) => {
@@ -26,17 +26,10 @@ export const CategoryPicker = ({ onSelect }: CategoryPickerProps) => {
     keyExtractor={(item) => item.id!.toString()}
     numColumns={2}
     renderItem={({ item }) => (
-      <Card key={item.id} onPress={() => {
-        if (item.subcategories.length === 1) {
-          onSelect(item.id!, item.subcategories[0]);
-        } else {
-          onSelect(item.id!);
-        }
-      }} style={{
-        flex: 1,
-        margin: 2,
-        padding: 8,
-      }}>
+      <Card key={item.id}
+        onPress={() => onSelect(item.id!)}
+        style={{ flex: 1, margin: 2, padding: 8 }}
+      >
         <View style={{
           flexDirection: 'column',
           justifyContent: 'center',

@@ -14,13 +14,7 @@ export const ChildCategorySelect = ({ navigation }: Props) => {
   const childId = React.useContext(ChildIDContext);
   const isFocused = useIsFocused();
   return <Background>
-    <CategoryPicker onSelect={(categoryId, subcategoryId) => {
-      if (subcategoryId) {
-        navigation.navigate('ChildSubcategory', { childId, subcategoryId });
-      } else {
-        navigation.navigate('ChildCategory', { childId, categoryId });
-      }
-    }} />
+    <CategoryPicker onSelect={categoryId => navigation.navigate('ChildCategory', { childId, categoryId })} />
 
     <Portal>
       <MultiFAB tabs visible={isFocused} initial={{ childIds: [childId] }} />

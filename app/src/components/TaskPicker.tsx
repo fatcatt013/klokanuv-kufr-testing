@@ -1,8 +1,8 @@
-import React from "react";
-import { Card, Text } from "react-native-paper";
-import { useSubcategory } from "../use-core-data";
-import { FlatList, View } from "react-native";
-import { CustomCheckbox } from "./CustomCheckbox";
+import React from 'react';
+import { Card, Text } from 'react-native-paper';
+import { FlatList, View } from 'react-native';
+import { useSubcategory } from '../use-core-data';
+import { CustomCheckbox } from './CustomCheckbox';
 
 interface TaskPickerProps {
   subcategory: number;
