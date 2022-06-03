@@ -136,7 +136,6 @@ class User(AbstractUser):
         return self.email
 
 
-# TODO: - ask: /classes/ in browser doesn't look good
 class Classroom(models.Model):
     label = models.TextField()
     school = models.ForeignKey(

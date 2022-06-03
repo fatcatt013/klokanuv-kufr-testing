@@ -15,7 +15,14 @@ class CustomUserAdmin(UserAdmin):
         (None, {"fields": ("email", "password")}),
         (
             "Permissions",
-            {"fields": ("groups", "is_superuser", "is_staff", "is_active")},
+            {
+                "fields": (
+                    # "groups",
+                    # "is_superuser",
+                    # "is_staff",
+                    "is_active",
+                )
+            },
         ),
     )
     add_fieldsets = (
@@ -25,11 +32,11 @@ class CustomUserAdmin(UserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "email",
-                    "groups",
+                    # "groups",
                     "password1",
                     "password2",
-                    "is_superuser",
-                    "is_staff",
+                    # "is_superuser",
+                    # "is_staff",
                     "is_active",
                 ),
             },
@@ -49,7 +56,11 @@ class CustomUserAdmin(UserAdmin):
 
     def get_queryset(self, request):
         qs = super(CustomUserAdmin, self).get_queryset(request)
-        return qs.filter(school=request.user.school)
+        if not request.user.is_superuser:
+            return qs.filter(school=request.user.school)
+        return qs
+
+    # TODO: pridat filter na zobrazovanie pola is_superuser - treba ho vobec?
 
 
 class ChildNoteAdmin(admin.ModelAdmin):
@@ -61,11 +72,12 @@ class ChildNoteAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        print(models.Classroom.objects.filter(teachers=request.user.id))
         if db_field.name == "child":
             kwargs["queryset"] = models.Child.objects.filter(
                 classroom__teachers__id=request.user.id
             )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Child.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -88,6 +100,8 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
             kwargs["queryset"] = models.Classroom.objects.filter(
                 teachers__id=request.user.id
             )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -106,10 +120,14 @@ class ChildAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "school":
             kwargs["queryset"] = models.School.objects.filter(users__id=request.user.id)
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.School.objects.all()
         if db_field.name == "classroom":
             kwargs["queryset"] = models.Classroom.objects.filter(
                 teachers__id=request.user.id
             )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -128,15 +146,18 @@ class ClassroomAdmin(admin.ModelAdmin):
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "school":
             kwargs["queryset"] = models.School.objects.filter(users__id=request.user.id)
-
-        # TODO: toto sa robi nejako inak - na multiselect bezny postup nefacha
-        print(db_field)
-        if db_field.name == "":
-            print(
-                "kakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakakaka"
-            )
-            kwargs["queryset"] = models.User.objects.filter(id=request.user.id)
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.School.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "teachers":
+            kwargs["queryset"] = models.User.objects.all()
+            if not request.user.is_superuser:
+                kwargs["queryset"] = kwargs["queryset"].filter(
+                    school_id=request.user.school.id
+                )
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
 
 
 class SchoolAdmin(admin.ModelAdmin):
@@ -152,6 +173,7 @@ class SchoolAdmin(admin.ModelAdmin):
         return qs.filter(users__id=request.user.id)
 
 
+# TODO: options pre assessment su velmi neprehladne (mb to nie je ani treba v adminovi?)
 class AssessmentAdmin(admin.ModelAdmin):
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
@@ -160,14 +182,22 @@ class AssessmentAdmin(admin.ModelAdmin):
             return qs
         return qs.filter(child__classroom__teachers__id=request.user.id)
 
-    # todo modify filter fields
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "child":
             kwargs["queryset"] = models.Child.objects.filter(
                 classroom__teachers__id=request.user.id
             )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Child.objects.all()
         if db_field.name == "assessed_by":
-            kwargs["queryset"] = models.User.objects.filter(userid=request.user.id)
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.User.objects.all()
+            elif request.user.groups.filter(name="Headmasters").exists():
+                kwargs["queryset"] = models.User.objects.filter(
+                    school__id=request.user.school.id
+                )
+            elif request.user.groups.filter(name="Teachers").exists():
+                kwargs["queryset"] = models.User.objects.filter(id=request.user.id)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
