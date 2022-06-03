@@ -64,3 +64,9 @@ yarn start  # `yarn start --web` for local testing
   - způsob splnění úkolu --> Assessment Type
   - vyhodnocení úkolu --> Assessment
   - vyhodnocení stavu třídy --> Class evaluation
+
+## Workflows:
+- Lužánky vytvoří ředitele, ten dostane email s pozvánkou
+- Ředitel si aktivuje účet pomocí jednorázového odkazu
+- Ředitel stejně tak vytvoří učitele, těm přijde email s pozvánkou
+- Učitel si aktivuje účet kliknutím na odkaz

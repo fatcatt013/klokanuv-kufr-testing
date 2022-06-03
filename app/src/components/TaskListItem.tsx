@@ -19,9 +19,12 @@ const iconColors = {
 
 export const TaskListItem: React.FC<{
   item: Components.Schemas.Task;
+  checked?: boolean;
   onPress: () => void;
-}> = ({ item, onPress }) => {
+  onCheck: () => void;
+}> = ({ item, checked, onPress, onCheck }) => {
   const theme = useTheme();
+  const [id, ...rest] = (item.codename || '').split(' ');
 
   return <View style={{ flexDirection: 'row' }}>
     {item.parent_task && <View style={{ width: 35, marginLeft: 3, justifyContent: 'center' }}>
@@ -37,7 +40,9 @@ export const TaskListItem: React.FC<{
       <Card.Content style={{ flexDirection: 'row' }}>
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text style={{ fontWeight: 'bold' }}>{item.codename}</Text>
+            <Text style={{ fontWeight: 'bold' }}>
+              {id ? `${id}. ` : ''}{rest.join(' ')}
+            </Text>
             {item.expected_age_from !== '0.00' && (
               <Text style={{ color: theme.colors.grey }}>
                 Věk: {Math.round(parseFloat(item.expected_age_from || '0') * 10) / 10}
@@ -49,7 +54,7 @@ export const TaskListItem: React.FC<{
           <Text>{item.task_description}</Text>
         </View>
         <View style={{ marginLeft: 4 }}>
-          <CustomCheckbox checked={false} onPress={() => { }} />
+          <CustomCheckbox checked={checked} onPress={onCheck} />
         </View>
       </Card.Content>
     </Card>

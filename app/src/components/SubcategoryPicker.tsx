@@ -1,7 +1,7 @@
-import React from "react";
-import { FlatList } from "react-native";
-import { Card, Text } from "react-native-paper";
-import { useCategory } from "../use-core-data";
+import React from 'react';
+import { FlatList } from 'react-native';
+import { Card, Text } from 'react-native-paper';
+import { useCategory } from '../use-core-data';
 
 interface SubcategoryPickerProps {
   category: number;

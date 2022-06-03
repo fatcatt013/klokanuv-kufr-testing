@@ -12,17 +12,15 @@ import { ClassScreen } from './screens/Class';
 import { ChildHeader } from './components/child/ChildHeader';
 import { ClassHeader } from './components/class/ClassHeader';
 import { ClassTaskScreen } from './screens/ClassTask';
-import { ClassSubcategoryScreen } from './screens/ClassSubcategory';
 import { ClassCategoryScreen } from './screens/ClassCategory';
 import { ChildTaskScreen } from './screens/ChildTask';
-import { ChildSubcategoryScreen } from './screens/ChildSubcategory';
 import { ChildCategoryScreen } from './screens/ChildCategory';
 import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
 import { AboutScreen } from './screens/About';
 import { HeaderMenu } from './components/HeaderMenu';
-import { useCategory, useSubcategory } from './use-core-data';
+import { useCategory } from './use-core-data';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
@@ -85,11 +83,6 @@ export function App() {
           options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
         />
         <RootStack.Screen
-          name="ClassSubcategory"
-          component={ClassSubcategoryScreen}
-          options={({ route }) => ({ headerTitle: useSubcategory(route.params.subcategoryId)?.label })}
-        />
-        <RootStack.Screen
           name="ClassTask"
           component={ClassTaskScreen}
           options={{ title: 'Úkol' }}
@@ -99,11 +92,6 @@ export function App() {
           name="ChildCategory"
           component={ChildCategoryScreen}
           options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
-        />
-        <RootStack.Screen
-          name="ChildSubcategory"
-          component={ChildSubcategoryScreen}
-          options={({ route }) => ({ headerTitle: useSubcategory(route.params.subcategoryId)?.label })}
         />
         <RootStack.Screen
           name="ChildTask"

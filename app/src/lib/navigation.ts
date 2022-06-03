@@ -8,11 +8,9 @@ export type RootStackParamList = {
   Child: { childId: number; };
 
   ClassCategory: { classId: number; categoryId: number; };
-  ClassSubcategory: { classId: number; subcategoryId: number; };
   ClassTask: { classId: number; taskId: number; };
 
   ChildCategory: { childId: number; categoryId: number; };
-  ChildSubcategory: { childId: number; subcategoryId: number; };
   ChildTask: { childId: number; taskId: number; };
 
   CreateAssessment: {

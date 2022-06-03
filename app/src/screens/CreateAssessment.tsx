@@ -139,15 +139,10 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
 
     <Portal>
       <CustomDialog visible={categoryOpen} onDismiss={() => setCategoryOpen(false)}>
-        <CategoryPicker onSelect={(id, subcat) => {
+        <CategoryPicker onSelect={(id) => {
           setCategoryOpen(false);
           setCategoryId(id);
-          if (subcat) {
-            setSubcategoryId(subcat);
-            setTaskOpen(true);
-          } else {
-            setSubcategoryOpen(true);
-          }
+          setSubcategoryOpen(true);
         }} />
       </CustomDialog>
 
