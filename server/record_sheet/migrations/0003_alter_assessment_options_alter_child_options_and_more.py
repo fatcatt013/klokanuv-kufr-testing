@@ -6,36 +6,36 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('record_sheet', '0002_assessmenttype_is_in_demo_and_more'),
+        ("record_sheet", "0002_assessmenttype_is_in_demo_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='assessment',
-            options={'verbose_name_plural': 'Hodnocení'},
+            name="assessment",
+            options={"verbose_name_plural": "Hodnocení"},
         ),
         migrations.AlterModelOptions(
-            name='child',
-            options={'verbose_name_plural': 'Děti'},
+            name="child",
+            options={"verbose_name_plural": "Děti"},
         ),
         migrations.AlterModelOptions(
-            name='childnote',
-            options={'verbose_name_plural': 'Poznámky o dětech'},
+            name="childnote",
+            options={"verbose_name_plural": "Poznámky o dětech"},
         ),
         migrations.AlterModelOptions(
-            name='classroom',
-            options={'verbose_name_plural': 'Třídy'},
+            name="classroom",
+            options={"verbose_name_plural": "Třídy"},
         ),
         migrations.AlterModelOptions(
-            name='classroomnote',
-            options={'verbose_name_plural': 'Poznámky o třídách'},
+            name="classroomnote",
+            options={"verbose_name_plural": "Poznámky o třídách"},
         ),
         migrations.AlterModelOptions(
-            name='school',
-            options={'verbose_name': 'Skola', 'verbose_name_plural': 'Školy'},
+            name="school",
+            options={"verbose_name": "Skola", "verbose_name_plural": "Školky"},
         ),
         migrations.AlterModelOptions(
-            name='user',
-            options={'verbose_name_plural': 'Uživatelé'},
+            name="user",
+            options={"verbose_name_plural": "Uživatelé"},
         ),
     ]

@@ -76,8 +76,8 @@ class School(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = "Škola"
-        verbose_name_plural = "Školy"
+        verbose_name = "Školka"
+        verbose_name_plural = "Školky"
 
 
 # extending BaseUserManager to use email instead of username
@@ -152,7 +152,7 @@ class Classroom(models.Model):
         School,
         related_name="classrooms",
         on_delete=models.CASCADE,
-        verbose_name="Škola",
+        verbose_name="Školka",
     )
     teachers = models.ManyToManyField(
         User, related_name="classrooms", verbose_name="Učitelé"
@@ -167,7 +167,7 @@ class Classroom(models.Model):
 
 
 class Child(models.Model):
-    first_name = models.TextField(verbose_name="Rodné jméno")
+    first_name = models.TextField(verbose_name="Křestní jméno")
     last_name = models.TextField(verbose_name="Příjmení")
     birthdate = models.DateField(verbose_name="Datum narození")
     classroom = models.ForeignKey(
@@ -181,7 +181,7 @@ class Child(models.Model):
         related_name="%(class)s",
         on_delete=models.CASCADE,
         default=1,
-        verbose_name="Škola",
+        verbose_name="Školka",
     )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     GENDER_CHOICES = (
@@ -209,7 +209,7 @@ class Assessment(models.Model):
     date_of_assessment = models.DateField(verbose_name="Datum hodnocení")
     note = models.TextField(null=True, verbose_name="Poznámka")
     assessed_by = models.ForeignKey(
-        User, on_delete=models.PROTECT, verbose_name="Hodnotitel"
+        User, on_delete=models.PROTECT, verbose_name="Hodnotící"
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
