@@ -5,12 +5,14 @@ from django.contrib.auth.models import Group
 from django.forms import Textarea
 from django.db import models as db_models
 
+admin.site.site_header = "Administrace webu Klokanův Kufr"
+
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
     model = models.User
-    list_display = ("email", "display_group", "is_superuser", "is_staff", "is_active")
-    list_filter = ("email", "groups__name", "is_superuser", "is_staff", "is_active")
+    list_display = ("email", "display_group", "is_superuser", "is_active")
+    list_filter = ("email", "groups__name", "is_superuser", "is_active")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (

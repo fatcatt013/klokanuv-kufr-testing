@@ -1,6 +1,6 @@
 prehodit do cestiny
-prava v adminovi - vnutri filtrov a selectboxov zobrazit iba to, na co ma user prava
 
+prava v adminovi - vnutri filtrov a selectboxov zobrazit iba to, na co ma user prava
 pridat assessments - DONE (pridat nejake filtre / riesit ktore stlpce sa maju zobrazit alebo tak?)
 groups nema vidiet nikto - DONE
 upravit formulare (txt field) - DONE
