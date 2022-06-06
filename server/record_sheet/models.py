@@ -225,14 +225,16 @@ class ClassroomNote(models.Model):
 
 
 class Invoice(models.Model):
-    serial_number = models.IntegerField()
+    serial_number = models.IntegerField(verbose_name="Sériové číslo")
     school = models.ForeignKey(
-        School, related_name="invoices", on_delete=models.CASCADE
+        School, related_name="invoices", on_delete=models.CASCADE, verbose_name="Školka"
     )
-    note = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    due_date = models.DateTimeField()
-    paid_at = models.DateTimeField(null=True, blank=True)
+    note = models.TextField(verbose_name="Poznámka")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Datum vystavení")
+    due_date = models.DateTimeField(verbose_name="Datum splatnosti")
+    paid_at = models.DateTimeField(
+        null=True, blank=True, verbose_name="Datum zaplacení"
+    )
     total_vat = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True
     )
@@ -240,9 +242,17 @@ class Invoice(models.Model):
         max_digits=10, decimal_places=2, null=True, blank=True
     )
     total_price = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Celková cena",
     )
-    is_paid = models.BooleanField(default=False)
+    is_paid = models.BooleanField(default=False, verbose_name="Zaplaceno")
+
+    class Meta:
+        verbose_name = "Faktura"
+        verbose_name_plural = "Faktury"
 
     def __str__(self):
         return str(self.serial_number)
@@ -260,8 +270,12 @@ class InvoiceItem(models.Model):
 
 
 class Parameter(models.Model):
-    name = models.CharField(max_length=100)
-    value = models.TextField()
+    name = models.CharField(max_length=100, verbose_name="název")
+    value = models.TextField(verbose_name="hodnota")
+
+    class Meta:
+        verbose_name = "Parametr"
+        verbose_name_plural = "Parametry"
 
     def __str__(self):
         return self.name
