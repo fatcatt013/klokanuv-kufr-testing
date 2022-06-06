@@ -6,13 +6,19 @@ from django.utils import timezone
 from record_sheet import models
 
 
-class Command(BaseCommand):  # TODO create only nonexisting invoices
+class Command(BaseCommand):
     help = "Creates invoices for using the app for each school"
 
     params = {param.name: param.value for param in models.Parameter.objects.all()}
 
     def handle(self, *args, **options):
         for school in models.School.objects.exclude(name="SVČ Lužánky"):
+
+            if school.invoices.filter(
+                created_at__range=[timezone.now().replace(day=1), timezone.now()]
+            ).exists():
+                continue
+
             invoice = school.invoices.create(
                 note=self.params["invoice_note"],
                 created_at=timezone.now(),

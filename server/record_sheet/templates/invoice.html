@@ -76,10 +76,10 @@
         <tr>
             <td>{{item.title}}</td>
             <td>{{item.amount}}</td>
-            <td>{{item.unit_price}}</td> {% comment %} TODO czech format {% endcomment %}
+            <td>{{item.unit_price}}</td>
             <td>{% widthratio item.vat_rate 1 100 %} %</td>
-            <td>{{item.base_price}}</td> {% comment %} TODO czech format {% endcomment %}
-            <td>{{item.total_price}} Kč</td> {% comment %} TODO czech format {% endcomment %}
+            <td>{{item.base_price}}</td>
+            <td>{{item.total_price}} Kč</td>
         </tr>
         {% endfor %}
         <tr>
