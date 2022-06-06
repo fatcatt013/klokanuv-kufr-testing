@@ -2,9 +2,6 @@ import os
 import csv
 
 from django.core.management.base import BaseCommand
-from django.contrib.auth import get_user_model
-from django.db.utils import IntegrityError
-
 from record_sheet.models import (
     AssessmentTypeOption,
     Category,
@@ -32,7 +29,7 @@ def populate_categories(base_data):
     for row in base_data:
         if row["category"] not in cats_already_added and row["category"]:
             cats_already_added.append(row["category"])
-            Category(label=row["category"]).save()
+            Category(label=row["category"], is_in_demo=row["is_in_demo"] == "1").save()
 
 
 # extract data about Subcategory from base_data, retrieve FK objects, save newly created instances
@@ -43,10 +40,12 @@ def populate_subcategories(base_data):
     for row in base_data:
         if row["subcategory"] not in subcats_already_added and row["subcategory"]:
             parent_category = Category.objects.get(label=row["category"])
-            Subcategory(
-                label=row["subcategory"], parent_category=parent_category
-            ).save()
             subcats_already_added.append(row["subcategory"])
+            Subcategory(
+                label=row["subcategory"],
+                parent_category=parent_category,
+                is_in_demo=row["is_in_demo"] == "1",
+            ).save()
 
 
 # extract data about AssessmentType from base_data, save newly created instances
@@ -56,8 +55,11 @@ def populate_assessment_types(base_data):
     for row in base_data:
         # ensure uniqueness
         if row["assessment_type"] not in assessment_types_already_added:
-            AssessmentType(label=row["assessment_type"]).save()
             assessment_types_already_added.append(row["assessment_type"])
+            AssessmentType(
+                label=row["assessment_type"],
+                is_in_demo=row["is_in_demo"] == "1",
+            ).save()
 
 
 # take existing instances of AssessmentType, extract AssessmentTypeOption labels from them, save new instances
@@ -95,6 +97,7 @@ def populate_tasks(base_data):
             difficulty=difficulty,
             expected_age_from=float(task_match["age_from"] or 0),
             expected_age_to=float(task_match["age_to"] or 8),
+            is_in_demo=task_match["is_in_demo"] == "1",
         ).save()
 
     # now we update records with their parent_task, if there is one

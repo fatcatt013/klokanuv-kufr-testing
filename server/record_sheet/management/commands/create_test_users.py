@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from record_sheet.models import School, Classroom, Child, User
 from faker import Faker
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password as mkpwd
 import random
 
@@ -27,7 +27,7 @@ class Command(BaseCommand):
 
         classroom1 = school1.classrooms.create(label="Třída 1")
         classroom2 = school1.classrooms.create(label="Třída 2")
-        classroom3 = school1.classrooms.create(label="Třída 3")
+        classroom3 = school2.classrooms.create(label="Třída 3")
         classroom4 = school2.classrooms.create(label="Třída 4")
         classroom5 = school2.classrooms.create(label="Třída 5")
 
@@ -68,12 +68,13 @@ class Command(BaseCommand):
 
         pwd = mkpwd("password")
 
-        manager = school0.users.create(
-            email="superadmin",
+        # create superuser (SVC Luzanky)
+        school0.users.create(
+            email="svcluzanky@mail.com",
             is_active=True,
             is_staff=True,
             is_superuser=True,
-            password=mkpwd("superadmin"),
+            password=mkpwd("svcluzanky"),
         )
 
         teacher1 = school1.users.create(email="teacher1@mail.com", password=pwd)
@@ -92,6 +93,6 @@ class Command(BaseCommand):
 
         classroom1.teachers.add(headmaster1, teacher1, teacher3)
         classroom2.teachers.add(headmaster1, teacher2, teacher3)
-        classroom3.teachers.add(headmaster1, teacher4, teacher5)
+        classroom3.teachers.add(headmaster2, teacher4, teacher5)
         classroom4.teachers.add(headmaster2, teacher5)
         classroom5.teachers.add(headmaster2, teacher6, teacher4)

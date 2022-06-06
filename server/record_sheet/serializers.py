@@ -39,7 +39,7 @@ class AssessmentTypeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.AssessmentType
-        fields = ["id", "label", "allows_note", "options", "url"]
+        fields = ["id", "label", "allows_note", "options"]
 
 
 class SchoolSerializer(serializers.ModelSerializer):

@@ -2,18 +2,31 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from . import models
+from django.contrib.auth.models import Group
+from django.forms import Textarea
+from django.db import models as db_models
+
+admin.site.site_header = "Administrace webu Klokanův Kufr"
+
 
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
     model = models.User
-    list_display = ("email", "display_group", "is_superuser", "is_staff", "is_active")
-    list_filter = ("email", "groups__name", "is_superuser", "is_staff", "is_active")
+    list_display = ("email", "display_group", "is_superuser", "is_active")
+    list_filter = ("email", "groups__name", "is_superuser", "is_active")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (
             "Permissions",
-            {"fields": ("groups", "is_superuser", "is_staff", "is_active")},
+            {
+                "fields": (
+                    # "groups",
+                    # "is_superuser",
+                    # "is_staff",
+                    "is_active",
+                )
+            },
         ),
     )
     add_fieldsets = (
@@ -23,11 +36,11 @@ class CustomUserAdmin(UserAdmin):
                 "classes": ("wide",),
                 "fields": (
                     "email",
-                    "groups",
+                    # "groups",
                     "password1",
                     "password2",
-                    "is_superuser",
-                    "is_staff",
+                    # "is_superuser",
+                    # "is_staff",
                     "is_active",
                 ),
             },
@@ -45,6 +58,14 @@ class CustomUserAdmin(UserAdmin):
             ",".join([g.name for g in obj.groups.all()]) if obj.groups.count() else ""
         )
 
+    def get_queryset(self, request):
+        qs = super(CustomUserAdmin, self).get_queryset(request)
+        if not request.user.is_superuser:
+            return qs.filter(school=request.user.school)
+        return qs
+
+    # TODO: pridat filter na zobrazovanie pola is_superuser - treba ho vobec? - netreba
+
 
 class ChildNoteAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -54,6 +75,15 @@ class ChildNoteAdmin(admin.ModelAdmin):
 
         super().save_model(request, obj, form, change)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "child":
+            kwargs["queryset"] = models.Child.objects.filter(
+                classroom__teachers__id=request.user.id
+            )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Child.objects.all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 class ClassroomNoteAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -61,6 +91,127 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
             obj.created_by = request.user
         obj.updated_by = request.user
         super().save_model(request, obj, form, change)
+
+    # filter results - teachers & headmasters can only see notes of classrooms they belong to
+    def get_queryset(self, request):
+        qs = super(ClassroomNoteAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(classroom__teachers__id=request.user.id)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "classroom":
+            kwargs["queryset"] = models.Classroom.objects.filter(
+                teachers__id=request.user.id
+            )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Classroom.objects.all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class ChildAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
+    }
+
+    # filter results - teachers & headmasters can only see children if they belong to the same class
+    def get_queryset(self, request):
+        qs = super(ChildAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(classroom__teachers__id=request.user.id)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "school":
+            kwargs["queryset"] = models.School.objects.filter(users__id=request.user.id)
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.School.objects.all()
+        if db_field.name == "classroom":
+            kwargs["queryset"] = models.Classroom.objects.filter(
+                teachers__id=request.user.id
+            )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Classroom.objects.all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class ClassroomAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 20})},
+    }
+
+    # filter results - teachers & headmasters can only see notes of classes they belong to
+    def get_queryset(self, request):
+        qs = super(ClassroomAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return request.user.classrooms
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "school":
+            kwargs["queryset"] = models.School.objects.filter(users__id=request.user.id)
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.School.objects.all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        if db_field.name == "teachers":
+            kwargs["queryset"] = models.User.objects.all()
+            if not request.user.is_superuser:
+                kwargs["queryset"] = kwargs["queryset"].filter(
+                    school_id=request.user.school.id
+                )
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+
+class SchoolAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        db_models.CharField: {"widget": Textarea(attrs={"rows": 3, "cols": 40})},
+    }
+
+    # filter results - teachers & headmasters can only see school they belong to
+    def get_queryset(self, request):
+        qs = super(SchoolAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(users__id=request.user.id)
+
+
+# TODO: options pre assessment su velmi neprehladne (mb to nie je ani treba v adminovi?) - zakazat edit a add
+class AssessmentAdmin(admin.ModelAdmin):
+    # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
+    def get_queryset(self, request):
+        qs = super(AssessmentAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(child__classroom__teachers__id=request.user.id)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "child":
+            kwargs["queryset"] = models.Child.objects.filter(
+                classroom__teachers__id=request.user.id
+            )
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.Child.objects.all()
+        if db_field.name == "assessed_by":
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.User.objects.all()
+            elif request.user.groups.filter(name="Headmasters").exists():
+                kwargs["queryset"] = models.User.objects.filter(
+                    school__id=request.user.school.id
+                )
+            elif request.user.groups.filter(name="Teachers").exists():
+                kwargs["queryset"] = models.User.objects.filter(id=request.user.id)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class InvoiceItemInline(admin.TabularInline):
@@ -113,10 +264,12 @@ class ParameterAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.User, CustomUserAdmin)
-admin.site.register(models.School)
-admin.site.register(models.Classroom)
-admin.site.register(models.Child)
+admin.site.register(models.School, SchoolAdmin)
+admin.site.register(models.Classroom, ClassroomAdmin)
+admin.site.register(models.Child, ChildAdmin)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
+admin.site.register(models.Assessment, AssessmentAdmin)
+admin.site.unregister(Group)
 admin.site.register(models.Invoice, InvoiceAdmin)
 admin.site.register(models.Parameter, ParameterAdmin)
