@@ -1,12 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View, Alert, Platform } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { Background } from '../components/Background';
 import { Logo } from '../components/Logo';
 import { Button } from '../components/Button';
 import { TextInput } from '../components/TextInput';
 import { theme } from '../theme';
-import { emailValidator, passwordValidator } from '../utils';
-import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../lib/navigation';
 import { useAuth } from '../use-auth';
 import { useApi } from '../use-fetch';
@@ -17,9 +16,9 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
   const [email, setEmail] = React.useState({ value: '', error: '' });
   const [password, setPassword] = React.useState({ value: '', error: '' });
   const { logIn } = useAuth();
-  const { publicClient } = useApi();
+  const { publicAxios } = useApi();
 
-  const _onLoginPressed = React.useCallback(async () => {
+  const onLoginPressed = React.useCallback(async () => {
     const emailError = !email.value || email.value.length <= 0 ? 'Zadejte e-mail' : '';
     const passwordError = !password.value || password.value.length <= 0 ? 'Zadejte heslo' : '';
     if (emailError || passwordError) {
@@ -29,7 +28,7 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
     }
 
     try {
-      const response = await publicClient.createTokenObtainPair(null, {
+      const response = await publicAxios.post('/api/token/', {
         email: email.value,
         password: password.value,
       });
@@ -37,16 +36,29 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
     } catch (e) {
       const alertText = e instanceof Error ? e.message : String(e);
       if (Platform.OS === 'web') {
-        alert(alertText)
+        alert(alertText);
       } else {
-        Alert.alert('Chyba', alertText)
+        Alert.alert('Chyba', alertText);
       }
     }
-  }, [email, password, logIn, publicClient]);
+  }, [email, password, logIn, publicAxios]);
 
-  const _onDemoPressed = () => {
-    //signInDemo();
-  };
+  const onDemoPressed = React.useCallback(async () => {
+    try {
+      const response = await publicAxios.post('/api/token/', {
+        email: 'headmaster1@mail.com',
+        password: 'password',
+      });
+      logIn(response.data as unknown as { access: string, refresh: string });
+    } catch (e) {
+      const alertText = e instanceof Error ? e.message : String(e);
+      if (Platform.OS === 'web') {
+        alert(alertText);
+      } else {
+        Alert.alert('Chyba', alertText);
+      }
+    }
+  }, [logIn, publicAxios]);
 
   return <Background center>
     <Logo />
@@ -83,7 +95,7 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
       </TouchableOpacity>
     </View>
 
-    <Button mode="contained" onPress={_onLoginPressed}>
+    <Button mode="contained" onPress={onLoginPressed}>
       Přihlásit se
     </Button>
 
@@ -94,10 +106,10 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
       </TouchableOpacity>
     </View>
 
-    <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={_onDemoPressed}>
+    <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={onDemoPressed}>
       Přihlásit do demo verze
     </Button>
-  </Background>
+  </Background>;
 });
 
 const styles = StyleSheet.create({

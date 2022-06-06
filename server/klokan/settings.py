@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -184,7 +185,7 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = "cs"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Prague"
 
 USE_I18N = True
 

@@ -1,29 +1,30 @@
 import React from 'react';
+import AppLoading from 'expo-app-loading';
+import { useTheme } from 'react-native-paper';
 import { useAuth } from './use-auth';
 import { RootStack } from './lib/navigation';
 import { LoginScreen } from './screens/Login';
 import { RegisterScreen } from './screens/Register';
 import { ForgotPasswordScreen } from './screens/ForgotPassword';
-import { ClassSelectScreen } from './screens/ClassSelect';
+import { ClassListScreen } from './screens/ClassList';
 import { ChildScreen } from './screens/Child';
-import { ClassScreen } from "./screens/Class";
-import { ChildSelect } from './components/ChildSelect';
-import { Header } from './components/Header';
-import { GroupSelect } from './components/ClassSelect';
-import { TaskScreen } from './screens/TaskScreen';
-import { TaskListScreen } from './screens/TaskListScreen';
+import { ClassScreen } from './screens/Class';
+import { ChildHeader } from './components/child/ChildHeader';
+import { ClassHeader } from './components/class/ClassHeader';
+import { ClassTaskScreen } from './screens/ClassTask';
+import { ClassCategoryScreen } from './screens/ClassCategory';
+import { ChildTaskScreen } from './screens/ChildTask';
+import { ChildCategoryScreen } from './screens/ChildCategory';
 import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
-import { CreateNoteChildScreen } from './screens/CreateNoteChildScreen';
-import { CreateNoteClassScreen } from './screens/CreateNoteClassScreen';
-import AppLoading from 'expo-app-loading';
-import { ProvideCoreData } from './use-core-data';
-import { ProvideSchoolData } from './use-school-data';
-import { ProvideAssessmentData } from './use-assessment-data';
+import { AboutScreen } from './screens/About';
+import { HeaderMenu } from './components/HeaderMenu';
+import { useCategory } from './use-core-data';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
+  const theme = useTheme();
 
   if (initializing) {
     return <AppLoading />;
@@ -42,82 +43,85 @@ export function App() {
   }
 
   return (
-    <ProvideCoreData>
-      <ProvideSchoolData>
-        <ProvideAssessmentData>
-          <RootStack.Navigator initialRouteName="ClassSelect">
-            <RootStack.Group screenOptions={{
-              animationEnabled: true,
-              header: (props) => <Header {...props} />,
-            }}>
-              <RootStack.Screen
-                name="ClassSelect"
-                component={ClassSelectScreen}
-                options={{ title: 'Výběr třídy' }}
-              />
-              <RootStack.Screen
-                name="Class"
-                component={ClassScreen}
-                options={({ route, navigation }) => ({
-                  headerTitle: (props) => <GroupSelect
-                    selected={route.params.classId}
-                    selectGroup={classId => navigation.setParams({ classId })}
-                    {...props}
-                  />
-                })}
-              />
+    <RootStack.Navigator initialRouteName="ClassList">
+      <RootStack.Group screenOptions={({ navigation }) => ({
+        animationEnabled: true,
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+        headerTintColor: '#fff',
+        headerRight: (props) => <HeaderMenu navigation={navigation} {...props} />
+      })}>
+        <RootStack.Screen
+          name="ClassList"
+          component={ClassListScreen}
+          options={{ title: 'Výběr třídy' }}
+        />
+        <RootStack.Screen
+          name="Class"
+          component={ClassScreen}
+          options={({ route, navigation }) => ({
+            headerTitle: (props) => <ClassHeader
+              selected={route.params.classId}
+              selectClass={classId => navigation.setParams({ classId })}
+              {...props}
+            />
+          })}
+        />
 
-              <RootStack.Screen
-                name="Child"
-                component={ChildScreen}
-                options={({ route, navigation }) => ({
-                  headerTitle: (props) => <ChildSelect
-                    selected={route.params.childId}
-                    selectChild={childId => navigation.setParams({ childId })}
-                    {...props}
-                  />
-                })}
-              />
+        <RootStack.Screen
+          name="Child"
+          component={ChildScreen}
+          options={({ route }) => ({
+            headerTitle: (props) => <ChildHeader childId={route.params.childId} {...props} />
+          })}
+        />
 
-              <RootStack.Screen
-                name="TaskList"
-                component={TaskListScreen}
-                options={{ title: 'Úkoly' }}
-              />
-              <RootStack.Screen
-                name="Task"
-                component={TaskScreen}
-                options={{ title: 'Úkol' }}
-              />
+        <RootStack.Screen
+          name="ClassCategory"
+          component={ClassCategoryScreen}
+          options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
+        />
+        <RootStack.Screen
+          name="ClassTask"
+          component={ClassTaskScreen}
+          options={{ title: 'Úkol' }}
+        />
 
-              <RootStack.Screen
-                name="CreateAssessment"
-                component={CreateAssessmentScreen}
-                options={{ title: 'Hodnotit dítě' }}
-              />
-              <RootStack.Screen
-                name="Assessment"
-                component={AssessmentScreen}
-                options={{ title: 'Hodnocení' }}
-              />
+        <RootStack.Screen
+          name="ChildCategory"
+          component={ChildCategoryScreen}
+          options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
+        />
+        <RootStack.Screen
+          name="ChildTask"
+          component={ChildTaskScreen}
+          options={{ title: 'Úkol' }}
+        />
 
-              <RootStack.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{ title: 'Profil' }}
-              />
-            </RootStack.Group>
+        <RootStack.Screen
+          name="CreateAssessment"
+          component={CreateAssessmentScreen}
+          options={{ title: 'Vyplnit úkol' }}
+        />
+        <RootStack.Screen
+          name="Assessment"
+          component={AssessmentScreen}
+          options={{ title: 'Hodnocení' }}
+        />
 
-            <RootStack.Group screenOptions={{
-              presentation: 'transparentModal',
-              headerShown: false,
-            }}>
-              <RootStack.Screen name="CreateNoteChild" component={CreateNoteChildScreen} />
-              <RootStack.Screen name="CreateNoteClass" component={CreateNoteClassScreen} />
-            </RootStack.Group>
-          </RootStack.Navigator>
-        </ProvideAssessmentData>
-      </ProvideSchoolData>
-    </ProvideCoreData>
+        <RootStack.Screen
+          name="About"
+          component={AboutScreen}
+          options={{ title: 'O aplikaci' }}
+        />
+
+        <RootStack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ title: 'Profil' }}
+        />
+      </RootStack.Group>
+    </RootStack.Navigator>
   );
 }

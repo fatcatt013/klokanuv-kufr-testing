@@ -15,7 +15,7 @@ declare namespace Components {
             option: number;
             date_of_assessment: string; // date
             note?: string | null;
-            assessed_by: number;
+            assessed_by?: string;
         }
         export interface AssessmentType {
             id?: number;
@@ -38,34 +38,31 @@ declare namespace Components {
             first_name: string;
             last_name: string;
             birthdate: string; // date
-            notes?: {
-                id?: number;
-                child: number;
-                note: string;
-            }[];
+            gender: "M" | "F";
+            notes: number[];
             url?: string;
         }
         export interface ChildNote {
             id?: number;
             child: number;
             note: string;
+            created_by?: string;
+            updated_by?: string;
         }
         export interface Classroom {
             id?: number;
             label: string;
             school: number;
             children: number[];
-            notes?: {
-                id?: number;
-                classroom: number;
-                note: string;
-            }[];
+            notes: number[];
             url?: string;
         }
         export interface ClassroomNote {
             id?: number;
             classroom: number;
             note: string;
+            created_by?: string;
+            updated_by?: string;
         }
         export interface School {
             id?: number;
@@ -85,7 +82,7 @@ declare namespace Components {
             codename?: string | null;
             assessment_type: number;
             task_description: string;
-            difficulty?: "EASIER" | "SAME" | "HARDER";
+            difficulty?: "-" | "=" | "+";
             expected_age_from?: string | null; // decimal
             expected_age_to?: string | null; // decimal
             url?: string;
@@ -1134,7 +1131,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroySubcategory.Responses.$204>
   /**
-   * listCategorys - API endpoint that allows subcategories to be viewed or edited.
+   * listCategorys - API endpoint that allows categories to be viewed or edited.
    */
   'listCategorys'(
     parameters?: Parameters<Paths.ListCategorys.QueryParameters> | null,
@@ -1142,7 +1139,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListCategorys.Responses.$200>
   /**
-   * createCategory - API endpoint that allows subcategories to be viewed or edited.
+   * createCategory - API endpoint that allows categories to be viewed or edited.
    */
   'createCategory'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1150,7 +1147,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateCategory.Responses.$201>
   /**
-   * retrieveCategory - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveCategory - API endpoint that allows categories to be viewed or edited.
    */
   'retrieveCategory'(
     parameters?: Parameters<Paths.RetrieveCategory.PathParameters> | null,
@@ -1158,7 +1155,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveCategory.Responses.$200>
   /**
-   * updateCategory - API endpoint that allows subcategories to be viewed or edited.
+   * updateCategory - API endpoint that allows categories to be viewed or edited.
    */
   'updateCategory'(
     parameters?: Parameters<Paths.UpdateCategory.PathParameters> | null,
@@ -1166,7 +1163,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateCategory.Responses.$200>
   /**
-   * partialUpdateCategory - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateCategory - API endpoint that allows categories to be viewed or edited.
    */
   'partialUpdateCategory'(
     parameters?: Parameters<Paths.PartialUpdateCategory.PathParameters> | null,
@@ -1174,7 +1171,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateCategory.Responses.$200>
   /**
-   * destroyCategory - API endpoint that allows subcategories to be viewed or edited.
+   * destroyCategory - API endpoint that allows categories to be viewed or edited.
    */
   'destroyCategory'(
     parameters?: Parameters<Paths.DestroyCategory.PathParameters> | null,
@@ -1182,7 +1179,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyCategory.Responses.$204>
   /**
-   * listAssessmentTypes - API endpoint that allows subcategories to be viewed or edited.
+   * listAssessmentTypes - API endpoint that allows assessment types to be viewed or edited.
    */
   'listAssessmentTypes'(
     parameters?: Parameters<Paths.ListAssessmentTypes.QueryParameters> | null,
@@ -1190,7 +1187,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListAssessmentTypes.Responses.$200>
   /**
-   * createAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+   * createAssessmentType - API endpoint that allows assessment types to be viewed or edited.
    */
   'createAssessmentType'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1198,7 +1195,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateAssessmentType.Responses.$201>
   /**
-   * retrieveAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveAssessmentType - API endpoint that allows assessment types to be viewed or edited.
    */
   'retrieveAssessmentType'(
     parameters?: Parameters<Paths.RetrieveAssessmentType.PathParameters> | null,
@@ -1206,7 +1203,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveAssessmentType.Responses.$200>
   /**
-   * updateAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+   * updateAssessmentType - API endpoint that allows assessment types to be viewed or edited.
    */
   'updateAssessmentType'(
     parameters?: Parameters<Paths.UpdateAssessmentType.PathParameters> | null,
@@ -1214,7 +1211,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateAssessmentType.Responses.$200>
   /**
-   * partialUpdateAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateAssessmentType - API endpoint that allows assessment types to be viewed or edited.
    */
   'partialUpdateAssessmentType'(
     parameters?: Parameters<Paths.PartialUpdateAssessmentType.PathParameters> | null,
@@ -1222,7 +1219,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateAssessmentType.Responses.$200>
   /**
-   * destroyAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+   * destroyAssessmentType - API endpoint that allows assessment types to be viewed or edited.
    */
   'destroyAssessmentType'(
     parameters?: Parameters<Paths.DestroyAssessmentType.PathParameters> | null,
@@ -1230,7 +1227,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyAssessmentType.Responses.$204>
   /**
-   * listAssessments - API endpoint that allows subcategories to be viewed or edited.
+   * listAssessments - API endpoint that allows assessments to be viewed or edited.
    */
   'listAssessments'(
     parameters?: Parameters<Paths.ListAssessments.QueryParameters> | null,
@@ -1238,7 +1235,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListAssessments.Responses.$200>
   /**
-   * createAssessment - API endpoint that allows subcategories to be viewed or edited.
+   * createAssessment - API endpoint that allows assessments to be viewed or edited.
    */
   'createAssessment'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1246,7 +1243,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateAssessment.Responses.$201>
   /**
-   * retrieveAssessment - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveAssessment - API endpoint that allows assessments to be viewed or edited.
    */
   'retrieveAssessment'(
     parameters?: Parameters<Paths.RetrieveAssessment.PathParameters> | null,
@@ -1254,7 +1251,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveAssessment.Responses.$200>
   /**
-   * updateAssessment - API endpoint that allows subcategories to be viewed or edited.
+   * updateAssessment - API endpoint that allows assessments to be viewed or edited.
    */
   'updateAssessment'(
     parameters?: Parameters<Paths.UpdateAssessment.PathParameters> | null,
@@ -1262,7 +1259,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateAssessment.Responses.$200>
   /**
-   * partialUpdateAssessment - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateAssessment - API endpoint that allows assessments to be viewed or edited.
    */
   'partialUpdateAssessment'(
     parameters?: Parameters<Paths.PartialUpdateAssessment.PathParameters> | null,
@@ -1270,7 +1267,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateAssessment.Responses.$200>
   /**
-   * destroyAssessment - API endpoint that allows subcategories to be viewed or edited.
+   * destroyAssessment - API endpoint that allows assessments to be viewed or edited.
    */
   'destroyAssessment'(
     parameters?: Parameters<Paths.DestroyAssessment.PathParameters> | null,
@@ -1278,7 +1275,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyAssessment.Responses.$204>
   /**
-   * listChildNotes - API endpoint that allows subcategories to be viewed or edited.
+   * listChildNotes - API endpoint that allows children notes to be viewed or edited.
    */
   'listChildNotes'(
     parameters?: Parameters<Paths.ListChildNotes.QueryParameters> | null,
@@ -1286,7 +1283,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListChildNotes.Responses.$200>
   /**
-   * createChildNote - API endpoint that allows subcategories to be viewed or edited.
+   * createChildNote - API endpoint that allows children notes to be viewed or edited.
    */
   'createChildNote'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1294,7 +1291,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateChildNote.Responses.$201>
   /**
-   * retrieveChildNote - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveChildNote - API endpoint that allows children notes to be viewed or edited.
    */
   'retrieveChildNote'(
     parameters?: Parameters<Paths.RetrieveChildNote.PathParameters> | null,
@@ -1302,7 +1299,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveChildNote.Responses.$200>
   /**
-   * updateChildNote - API endpoint that allows subcategories to be viewed or edited.
+   * updateChildNote - API endpoint that allows children notes to be viewed or edited.
    */
   'updateChildNote'(
     parameters?: Parameters<Paths.UpdateChildNote.PathParameters> | null,
@@ -1310,7 +1307,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateChildNote.Responses.$200>
   /**
-   * partialUpdateChildNote - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateChildNote - API endpoint that allows children notes to be viewed or edited.
    */
   'partialUpdateChildNote'(
     parameters?: Parameters<Paths.PartialUpdateChildNote.PathParameters> | null,
@@ -1318,7 +1315,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateChildNote.Responses.$200>
   /**
-   * destroyChildNote - API endpoint that allows subcategories to be viewed or edited.
+   * destroyChildNote - API endpoint that allows children notes to be viewed or edited.
    */
   'destroyChildNote'(
     parameters?: Parameters<Paths.DestroyChildNote.PathParameters> | null,
@@ -1326,7 +1323,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyChildNote.Responses.$204>
   /**
-   * listClassroomNotes - API endpoint that allows subcategories to be viewed or edited.
+   * listClassroomNotes - API endpoint that allows classroom notes to be viewed or edited.
    */
   'listClassroomNotes'(
     parameters?: Parameters<Paths.ListClassroomNotes.QueryParameters> | null,
@@ -1334,7 +1331,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListClassroomNotes.Responses.$200>
   /**
-   * createClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+   * createClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
    */
   'createClassroomNote'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1342,7 +1339,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateClassroomNote.Responses.$201>
   /**
-   * retrieveClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
    */
   'retrieveClassroomNote'(
     parameters?: Parameters<Paths.RetrieveClassroomNote.PathParameters> | null,
@@ -1350,7 +1347,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveClassroomNote.Responses.$200>
   /**
-   * updateClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+   * updateClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
    */
   'updateClassroomNote'(
     parameters?: Parameters<Paths.UpdateClassroomNote.PathParameters> | null,
@@ -1358,7 +1355,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateClassroomNote.Responses.$200>
   /**
-   * partialUpdateClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
    */
   'partialUpdateClassroomNote'(
     parameters?: Parameters<Paths.PartialUpdateClassroomNote.PathParameters> | null,
@@ -1366,7 +1363,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateClassroomNote.Responses.$200>
   /**
-   * destroyClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+   * destroyClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
    */
   'destroyClassroomNote'(
     parameters?: Parameters<Paths.DestroyClassroomNote.PathParameters> | null,
@@ -1422,7 +1419,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyClassroom.Responses.$204>
   /**
-   * listChilds - API endpoint that allows subcategories to be viewed or edited.
+   * listChilds - API endpoint that allows children to be viewed or edited.
    */
   'listChilds'(
     parameters?: Parameters<Paths.ListChilds.QueryParameters> | null,
@@ -1430,7 +1427,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListChilds.Responses.$200>
   /**
-   * createChild - API endpoint that allows subcategories to be viewed or edited.
+   * createChild - API endpoint that allows children to be viewed or edited.
    */
   'createChild'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1438,7 +1435,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateChild.Responses.$201>
   /**
-   * retrieveChild - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveChild - API endpoint that allows children to be viewed or edited.
    */
   'retrieveChild'(
     parameters?: Parameters<Paths.RetrieveChild.PathParameters> | null,
@@ -1446,7 +1443,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveChild.Responses.$200>
   /**
-   * updateChild - API endpoint that allows subcategories to be viewed or edited.
+   * updateChild - API endpoint that allows children to be viewed or edited.
    */
   'updateChild'(
     parameters?: Parameters<Paths.UpdateChild.PathParameters> | null,
@@ -1454,7 +1451,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateChild.Responses.$200>
   /**
-   * partialUpdateChild - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateChild - API endpoint that allows children to be viewed or edited.
    */
   'partialUpdateChild'(
     parameters?: Parameters<Paths.PartialUpdateChild.PathParameters> | null,
@@ -1462,7 +1459,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateChild.Responses.$200>
   /**
-   * destroyChild - API endpoint that allows subcategories to be viewed or edited.
+   * destroyChild - API endpoint that allows children to be viewed or edited.
    */
   'destroyChild'(
     parameters?: Parameters<Paths.DestroyChild.PathParameters> | null,
@@ -1470,7 +1467,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyChild.Responses.$204>
   /**
-   * listUsers - API endpoint that allows subcategories to be viewed or edited.
+   * listUsers - API endpoint that allows users to be viewed or edited.
    */
   'listUsers'(
     parameters?: Parameters<Paths.ListUsers.QueryParameters> | null,
@@ -1478,7 +1475,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListUsers.Responses.$200>
   /**
-   * createUser - API endpoint that allows subcategories to be viewed or edited.
+   * createUser - API endpoint that allows users to be viewed or edited.
    */
   'createUser'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1486,7 +1483,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateUser.Responses.$201>
   /**
-   * retrieveUser - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveUser - API endpoint that allows users to be viewed or edited.
    */
   'retrieveUser'(
     parameters?: Parameters<Paths.RetrieveUser.PathParameters> | null,
@@ -1494,7 +1491,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveUser.Responses.$200>
   /**
-   * updateUser - API endpoint that allows subcategories to be viewed or edited.
+   * updateUser - API endpoint that allows users to be viewed or edited.
    */
   'updateUser'(
     parameters?: Parameters<Paths.UpdateUser.PathParameters> | null,
@@ -1502,7 +1499,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateUser.Responses.$200>
   /**
-   * partialUpdateUser - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateUser - API endpoint that allows users to be viewed or edited.
    */
   'partialUpdateUser'(
     parameters?: Parameters<Paths.PartialUpdateUser.PathParameters> | null,
@@ -1510,7 +1507,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateUser.Responses.$200>
   /**
-   * destroyUser - API endpoint that allows subcategories to be viewed or edited.
+   * destroyUser - API endpoint that allows users to be viewed or edited.
    */
   'destroyUser'(
     parameters?: Parameters<Paths.DestroyUser.PathParameters> | null,
@@ -1518,7 +1515,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.DestroyUser.Responses.$204>
   /**
-   * listSchools - API endpoint that allows subcategories to be viewed or edited.
+   * listSchools - API endpoint that allows schools to be viewed or edited.
    */
   'listSchools'(
     parameters?: Parameters<Paths.ListSchools.QueryParameters> | null,
@@ -1526,7 +1523,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.ListSchools.Responses.$200>
   /**
-   * createSchool - API endpoint that allows subcategories to be viewed or edited.
+   * createSchool - API endpoint that allows schools to be viewed or edited.
    */
   'createSchool'(
     parameters?: Parameters<UnknownParamsObject> | null,
@@ -1534,7 +1531,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.CreateSchool.Responses.$201>
   /**
-   * retrieveSchool - API endpoint that allows subcategories to be viewed or edited.
+   * retrieveSchool - API endpoint that allows schools to be viewed or edited.
    */
   'retrieveSchool'(
     parameters?: Parameters<Paths.RetrieveSchool.PathParameters> | null,
@@ -1542,7 +1539,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.RetrieveSchool.Responses.$200>
   /**
-   * updateSchool - API endpoint that allows subcategories to be viewed or edited.
+   * updateSchool - API endpoint that allows schools to be viewed or edited.
    */
   'updateSchool'(
     parameters?: Parameters<Paths.UpdateSchool.PathParameters> | null,
@@ -1550,7 +1547,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.UpdateSchool.Responses.$200>
   /**
-   * partialUpdateSchool - API endpoint that allows subcategories to be viewed or edited.
+   * partialUpdateSchool - API endpoint that allows schools to be viewed or edited.
    */
   'partialUpdateSchool'(
     parameters?: Parameters<Paths.PartialUpdateSchool.PathParameters> | null,
@@ -1558,7 +1555,7 @@ export interface OperationMethods {
     config?: AxiosRequestConfig  
   ): OperationResponse<Paths.PartialUpdateSchool.Responses.$200>
   /**
-   * destroySchool - API endpoint that allows subcategories to be viewed or edited.
+   * destroySchool - API endpoint that allows schools to be viewed or edited.
    */
   'destroySchool'(
     parameters?: Parameters<Paths.DestroySchool.PathParameters> | null,
@@ -1692,7 +1689,7 @@ export interface PathsDictionary {
   }
   ['/categories/']: {
     /**
-     * listCategorys - API endpoint that allows subcategories to be viewed or edited.
+     * listCategorys - API endpoint that allows categories to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListCategorys.QueryParameters> | null,
@@ -1700,7 +1697,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListCategorys.Responses.$200>
     /**
-     * createCategory - API endpoint that allows subcategories to be viewed or edited.
+     * createCategory - API endpoint that allows categories to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -1710,7 +1707,7 @@ export interface PathsDictionary {
   }
   ['/categories/{id}/']: {
     /**
-     * retrieveCategory - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveCategory - API endpoint that allows categories to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveCategory.PathParameters> | null,
@@ -1718,7 +1715,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveCategory.Responses.$200>
     /**
-     * updateCategory - API endpoint that allows subcategories to be viewed or edited.
+     * updateCategory - API endpoint that allows categories to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateCategory.PathParameters> | null,
@@ -1726,7 +1723,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateCategory.Responses.$200>
     /**
-     * partialUpdateCategory - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateCategory - API endpoint that allows categories to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateCategory.PathParameters> | null,
@@ -1734,7 +1731,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateCategory.Responses.$200>
     /**
-     * destroyCategory - API endpoint that allows subcategories to be viewed or edited.
+     * destroyCategory - API endpoint that allows categories to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyCategory.PathParameters> | null,
@@ -1744,7 +1741,7 @@ export interface PathsDictionary {
   }
   ['/assessment-types/']: {
     /**
-     * listAssessmentTypes - API endpoint that allows subcategories to be viewed or edited.
+     * listAssessmentTypes - API endpoint that allows assessment types to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListAssessmentTypes.QueryParameters> | null,
@@ -1752,7 +1749,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListAssessmentTypes.Responses.$200>
     /**
-     * createAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+     * createAssessmentType - API endpoint that allows assessment types to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -1762,7 +1759,7 @@ export interface PathsDictionary {
   }
   ['/assessment-types/{id}/']: {
     /**
-     * retrieveAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveAssessmentType - API endpoint that allows assessment types to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveAssessmentType.PathParameters> | null,
@@ -1770,7 +1767,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveAssessmentType.Responses.$200>
     /**
-     * updateAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+     * updateAssessmentType - API endpoint that allows assessment types to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateAssessmentType.PathParameters> | null,
@@ -1778,7 +1775,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateAssessmentType.Responses.$200>
     /**
-     * partialUpdateAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateAssessmentType - API endpoint that allows assessment types to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateAssessmentType.PathParameters> | null,
@@ -1786,7 +1783,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateAssessmentType.Responses.$200>
     /**
-     * destroyAssessmentType - API endpoint that allows subcategories to be viewed or edited.
+     * destroyAssessmentType - API endpoint that allows assessment types to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyAssessmentType.PathParameters> | null,
@@ -1796,7 +1793,7 @@ export interface PathsDictionary {
   }
   ['/assessments/']: {
     /**
-     * listAssessments - API endpoint that allows subcategories to be viewed or edited.
+     * listAssessments - API endpoint that allows assessments to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListAssessments.QueryParameters> | null,
@@ -1804,7 +1801,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListAssessments.Responses.$200>
     /**
-     * createAssessment - API endpoint that allows subcategories to be viewed or edited.
+     * createAssessment - API endpoint that allows assessments to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -1814,7 +1811,7 @@ export interface PathsDictionary {
   }
   ['/assessments/{id}/']: {
     /**
-     * retrieveAssessment - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveAssessment - API endpoint that allows assessments to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveAssessment.PathParameters> | null,
@@ -1822,7 +1819,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveAssessment.Responses.$200>
     /**
-     * updateAssessment - API endpoint that allows subcategories to be viewed or edited.
+     * updateAssessment - API endpoint that allows assessments to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateAssessment.PathParameters> | null,
@@ -1830,7 +1827,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateAssessment.Responses.$200>
     /**
-     * partialUpdateAssessment - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateAssessment - API endpoint that allows assessments to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateAssessment.PathParameters> | null,
@@ -1838,7 +1835,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateAssessment.Responses.$200>
     /**
-     * destroyAssessment - API endpoint that allows subcategories to be viewed or edited.
+     * destroyAssessment - API endpoint that allows assessments to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyAssessment.PathParameters> | null,
@@ -1848,7 +1845,7 @@ export interface PathsDictionary {
   }
   ['/child-notes/']: {
     /**
-     * listChildNotes - API endpoint that allows subcategories to be viewed or edited.
+     * listChildNotes - API endpoint that allows children notes to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListChildNotes.QueryParameters> | null,
@@ -1856,7 +1853,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListChildNotes.Responses.$200>
     /**
-     * createChildNote - API endpoint that allows subcategories to be viewed or edited.
+     * createChildNote - API endpoint that allows children notes to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -1866,7 +1863,7 @@ export interface PathsDictionary {
   }
   ['/child-notes/{id}/']: {
     /**
-     * retrieveChildNote - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveChildNote - API endpoint that allows children notes to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveChildNote.PathParameters> | null,
@@ -1874,7 +1871,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveChildNote.Responses.$200>
     /**
-     * updateChildNote - API endpoint that allows subcategories to be viewed or edited.
+     * updateChildNote - API endpoint that allows children notes to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateChildNote.PathParameters> | null,
@@ -1882,7 +1879,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateChildNote.Responses.$200>
     /**
-     * partialUpdateChildNote - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateChildNote - API endpoint that allows children notes to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateChildNote.PathParameters> | null,
@@ -1890,7 +1887,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateChildNote.Responses.$200>
     /**
-     * destroyChildNote - API endpoint that allows subcategories to be viewed or edited.
+     * destroyChildNote - API endpoint that allows children notes to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyChildNote.PathParameters> | null,
@@ -1900,7 +1897,7 @@ export interface PathsDictionary {
   }
   ['/class-notes/']: {
     /**
-     * listClassroomNotes - API endpoint that allows subcategories to be viewed or edited.
+     * listClassroomNotes - API endpoint that allows classroom notes to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListClassroomNotes.QueryParameters> | null,
@@ -1908,7 +1905,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListClassroomNotes.Responses.$200>
     /**
-     * createClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+     * createClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -1918,7 +1915,7 @@ export interface PathsDictionary {
   }
   ['/class-notes/{id}/']: {
     /**
-     * retrieveClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveClassroomNote.PathParameters> | null,
@@ -1926,7 +1923,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveClassroomNote.Responses.$200>
     /**
-     * updateClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+     * updateClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateClassroomNote.PathParameters> | null,
@@ -1934,7 +1931,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateClassroomNote.Responses.$200>
     /**
-     * partialUpdateClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateClassroomNote.PathParameters> | null,
@@ -1942,7 +1939,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateClassroomNote.Responses.$200>
     /**
-     * destroyClassroomNote - API endpoint that allows subcategories to be viewed or edited.
+     * destroyClassroomNote - API endpoint that allows classroom notes to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyClassroomNote.PathParameters> | null,
@@ -2004,7 +2001,7 @@ export interface PathsDictionary {
   }
   ['/children/']: {
     /**
-     * listChilds - API endpoint that allows subcategories to be viewed or edited.
+     * listChilds - API endpoint that allows children to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListChilds.QueryParameters> | null,
@@ -2012,7 +2009,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListChilds.Responses.$200>
     /**
-     * createChild - API endpoint that allows subcategories to be viewed or edited.
+     * createChild - API endpoint that allows children to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -2022,7 +2019,7 @@ export interface PathsDictionary {
   }
   ['/children/{id}/']: {
     /**
-     * retrieveChild - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveChild - API endpoint that allows children to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveChild.PathParameters> | null,
@@ -2030,7 +2027,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveChild.Responses.$200>
     /**
-     * updateChild - API endpoint that allows subcategories to be viewed or edited.
+     * updateChild - API endpoint that allows children to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateChild.PathParameters> | null,
@@ -2038,7 +2035,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateChild.Responses.$200>
     /**
-     * partialUpdateChild - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateChild - API endpoint that allows children to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateChild.PathParameters> | null,
@@ -2046,7 +2043,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateChild.Responses.$200>
     /**
-     * destroyChild - API endpoint that allows subcategories to be viewed or edited.
+     * destroyChild - API endpoint that allows children to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyChild.PathParameters> | null,
@@ -2056,7 +2053,7 @@ export interface PathsDictionary {
   }
   ['/user/']: {
     /**
-     * listUsers - API endpoint that allows subcategories to be viewed or edited.
+     * listUsers - API endpoint that allows users to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListUsers.QueryParameters> | null,
@@ -2064,7 +2061,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListUsers.Responses.$200>
     /**
-     * createUser - API endpoint that allows subcategories to be viewed or edited.
+     * createUser - API endpoint that allows users to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -2074,7 +2071,7 @@ export interface PathsDictionary {
   }
   ['/user/{id}/']: {
     /**
-     * retrieveUser - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveUser - API endpoint that allows users to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveUser.PathParameters> | null,
@@ -2082,7 +2079,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveUser.Responses.$200>
     /**
-     * updateUser - API endpoint that allows subcategories to be viewed or edited.
+     * updateUser - API endpoint that allows users to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateUser.PathParameters> | null,
@@ -2090,7 +2087,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateUser.Responses.$200>
     /**
-     * partialUpdateUser - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateUser - API endpoint that allows users to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateUser.PathParameters> | null,
@@ -2098,7 +2095,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateUser.Responses.$200>
     /**
-     * destroyUser - API endpoint that allows subcategories to be viewed or edited.
+     * destroyUser - API endpoint that allows users to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroyUser.PathParameters> | null,
@@ -2108,7 +2105,7 @@ export interface PathsDictionary {
   }
   ['/school/']: {
     /**
-     * listSchools - API endpoint that allows subcategories to be viewed or edited.
+     * listSchools - API endpoint that allows schools to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.ListSchools.QueryParameters> | null,
@@ -2116,7 +2113,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.ListSchools.Responses.$200>
     /**
-     * createSchool - API endpoint that allows subcategories to be viewed or edited.
+     * createSchool - API endpoint that allows schools to be viewed or edited.
      */
     'post'(
       parameters?: Parameters<UnknownParamsObject> | null,
@@ -2126,7 +2123,7 @@ export interface PathsDictionary {
   }
   ['/school/{id}/']: {
     /**
-     * retrieveSchool - API endpoint that allows subcategories to be viewed or edited.
+     * retrieveSchool - API endpoint that allows schools to be viewed or edited.
      */
     'get'(
       parameters?: Parameters<Paths.RetrieveSchool.PathParameters> | null,
@@ -2134,7 +2131,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.RetrieveSchool.Responses.$200>
     /**
-     * updateSchool - API endpoint that allows subcategories to be viewed or edited.
+     * updateSchool - API endpoint that allows schools to be viewed or edited.
      */
     'put'(
       parameters?: Parameters<Paths.UpdateSchool.PathParameters> | null,
@@ -2142,7 +2139,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.UpdateSchool.Responses.$200>
     /**
-     * partialUpdateSchool - API endpoint that allows subcategories to be viewed or edited.
+     * partialUpdateSchool - API endpoint that allows schools to be viewed or edited.
      */
     'patch'(
       parameters?: Parameters<Paths.PartialUpdateSchool.PathParameters> | null,
@@ -2150,7 +2147,7 @@ export interface PathsDictionary {
       config?: AxiosRequestConfig  
     ): OperationResponse<Paths.PartialUpdateSchool.Responses.$200>
     /**
-     * destroySchool - API endpoint that allows subcategories to be viewed or edited.
+     * destroySchool - API endpoint that allows schools to be viewed or edited.
      */
     'delete'(
       parameters?: Parameters<Paths.DestroySchool.PathParameters> | null,

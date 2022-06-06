@@ -1,6 +1,12 @@
-from rest_framework import viewsets, permissions
-from record_sheet import models, serializers, permissions as custom_permissions
+
 from django.contrib.auth.models import AnonymousUser
+from django.views.generic.detail import DetailView
+from django_xhtml2pdf.views import PdfMixin
+from rest_framework import permissions, viewsets
+from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
+
+from record_sheet import models, serializers, permissions as custom_permissions
+from record_sheet.permissions import CustomDjangoModelPermission
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -188,3 +194,48 @@ class ClassroomNoteViewSet(viewsets.ModelViewSet):
         return models.ClassroomNote.objects.filter(
             classroom__teachers__id=self.request.user.id
         )
+
+
+class InvoiceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows invoices to be viewed or edited by superuser
+    """
+
+    serializer_class = serializers.InvoiceSerializer
+
+    def get_queryset(self):
+        return models.Invoice.objects.filter(school=self.request.user.school)
+
+
+class InvoiceItemViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows invoice items to be viewed or edited by superuser
+    """
+
+    serializer_class = serializers.InvoiceItemSerializer
+
+    def get_queryset(self):
+        return models.InvoiceItem.objects.filter(
+            invoice__school=self.request.user.school
+        )
+
+
+class InvoicePdfView(PdfMixin, DetailView):
+    model = models.Invoice
+    template_name = "invoice.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["parameters"] = {
+            param.name: param.value for param in models.Parameter.objects.all()
+        }
+        return context
+
+
+class ParameterViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows parameters to be viewed or edited by superuser
+    """
+
+    queryset = models.Parameter.objects.all()
+    serializer_class = serializers.ParameterSerializer

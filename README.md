@@ -19,11 +19,12 @@ poetry run python manage.py runserver
 ```
 
 For quick local setup - this also loads the CSV, and creates a superuser with
-email and password "superuser".
+email and password "superadmin".
 
 ```
 poetry shell
 python manage.py migrate
+python manage.py create_and_assign_permissions
 python manage.py create_test_users
 python manage.py populate_db -t
 python manage.py runserver
@@ -63,3 +64,9 @@ yarn start  # `yarn start --web` for local testing
   - způsob splnění úkolu --> Assessment Type
   - vyhodnocení úkolu --> Assessment
   - vyhodnocení stavu třídy --> Class evaluation
+
+## Workflows:
+- Lužánky vytvoří ředitele, ten dostane email s pozvánkou
+- Ředitel si aktivuje účet pomocí jednorázového odkazu
+- Ředitel stejně tak vytvoří učitele, těm přijde email s pozvánkou
+- Učitel si aktivuje účet kliknutím na odkaz

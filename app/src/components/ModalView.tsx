@@ -5,7 +5,10 @@ import { StackScreenProps, useCardAnimation } from '@react-navigation/stack';
 
 type Props = StackScreenProps<ParamListBase>;
 
-export function Modal({ navigation, children }: Props & { children: React.ReactNode }) {
+export function ModalView({ navigation, children, backgroundColor }: Props & {
+  children: React.ReactNode;
+  backgroundColor?: string;
+}) {
   const { colors } = useTheme();
   const { current } = useCardAnimation();
 
@@ -14,7 +17,7 @@ export function Modal({ navigation, children }: Props & { children: React.ReactN
       <Pressable
         style={[
           StyleSheet.absoluteFill,
-          { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
+          { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
         ]}
         onPress={navigation.goBack}
       />
@@ -24,7 +27,7 @@ export function Modal({ navigation, children }: Props & { children: React.ReactN
           width: '90%',
           maxWidth: 400,
           borderRadius: 3,
-          backgroundColor: colors.card,
+          backgroundColor: backgroundColor || colors.card,
           transform: [
             {
               scale: current.progress.interpolate({

@@ -504,7 +504,7 @@
     "/categories/": {
       "get": {
         "operationId": "listCategorys",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows categories to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -558,7 +558,7 @@
       },
       "post": {
         "operationId": "createCategory",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows categories to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -599,7 +599,7 @@
     "/categories/{id}/": {
       "get": {
         "operationId": "retrieveCategory",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows categories to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -629,7 +629,7 @@
       },
       "put": {
         "operationId": "updateCategory",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows categories to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -678,7 +678,7 @@
       },
       "patch": {
         "operationId": "partialUpdateCategory",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows categories to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -727,7 +727,7 @@
       },
       "delete": {
         "operationId": "destroyCategory",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows categories to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -752,7 +752,7 @@
     "/assessment-types/": {
       "get": {
         "operationId": "listAssessmentTypes",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessment types to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -806,7 +806,7 @@
       },
       "post": {
         "operationId": "createAssessmentType",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessment types to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -847,7 +847,7 @@
     "/assessment-types/{id}/": {
       "get": {
         "operationId": "retrieveAssessmentType",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessment types to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -877,7 +877,7 @@
       },
       "put": {
         "operationId": "updateAssessmentType",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessment types to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -926,7 +926,7 @@
       },
       "patch": {
         "operationId": "partialUpdateAssessmentType",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessment types to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -975,7 +975,7 @@
       },
       "delete": {
         "operationId": "destroyAssessmentType",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessment types to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1000,7 +1000,7 @@
     "/assessments/": {
       "get": {
         "operationId": "listAssessments",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessments to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -1054,7 +1054,7 @@
       },
       "post": {
         "operationId": "createAssessment",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessments to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -1095,7 +1095,7 @@
     "/assessments/{id}/": {
       "get": {
         "operationId": "retrieveAssessment",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessments to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1125,7 +1125,7 @@
       },
       "put": {
         "operationId": "updateAssessment",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessments to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1174,7 +1174,7 @@
       },
       "patch": {
         "operationId": "partialUpdateAssessment",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessments to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1223,7 +1223,7 @@
       },
       "delete": {
         "operationId": "destroyAssessment",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows assessments to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1248,7 +1248,7 @@
     "/child-notes/": {
       "get": {
         "operationId": "listChildNotes",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children notes to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -1302,7 +1302,7 @@
       },
       "post": {
         "operationId": "createChildNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children notes to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -1343,7 +1343,7 @@
     "/child-notes/{id}/": {
       "get": {
         "operationId": "retrieveChildNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1373,7 +1373,7 @@
       },
       "put": {
         "operationId": "updateChildNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1422,7 +1422,7 @@
       },
       "patch": {
         "operationId": "partialUpdateChildNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1471,7 +1471,7 @@
       },
       "delete": {
         "operationId": "destroyChildNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1496,7 +1496,7 @@
     "/class-notes/": {
       "get": {
         "operationId": "listClassroomNotes",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows classroom notes to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -1550,7 +1550,7 @@
       },
       "post": {
         "operationId": "createClassroomNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows classroom notes to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -1591,7 +1591,7 @@
     "/class-notes/{id}/": {
       "get": {
         "operationId": "retrieveClassroomNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows classroom notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1621,7 +1621,7 @@
       },
       "put": {
         "operationId": "updateClassroomNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows classroom notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1670,7 +1670,7 @@
       },
       "patch": {
         "operationId": "partialUpdateClassroomNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows classroom notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1719,7 +1719,7 @@
       },
       "delete": {
         "operationId": "destroyClassroomNote",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows classroom notes to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -1992,7 +1992,7 @@
     "/children/": {
       "get": {
         "operationId": "listChilds",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -2046,7 +2046,7 @@
       },
       "post": {
         "operationId": "createChild",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -2087,7 +2087,7 @@
     "/children/{id}/": {
       "get": {
         "operationId": "retrieveChild",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2117,7 +2117,7 @@
       },
       "put": {
         "operationId": "updateChild",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2166,7 +2166,7 @@
       },
       "patch": {
         "operationId": "partialUpdateChild",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2215,7 +2215,7 @@
       },
       "delete": {
         "operationId": "destroyChild",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows children to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2240,7 +2240,7 @@
     "/user/": {
       "get": {
         "operationId": "listUsers",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows users to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -2294,7 +2294,7 @@
       },
       "post": {
         "operationId": "createUser",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows users to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -2335,7 +2335,7 @@
     "/user/{id}/": {
       "get": {
         "operationId": "retrieveUser",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows users to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2365,7 +2365,7 @@
       },
       "put": {
         "operationId": "updateUser",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows users to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2414,7 +2414,7 @@
       },
       "patch": {
         "operationId": "partialUpdateUser",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows users to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2463,7 +2463,7 @@
       },
       "delete": {
         "operationId": "destroyUser",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows users to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2488,7 +2488,7 @@
     "/school/": {
       "get": {
         "operationId": "listSchools",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows schools to be viewed or edited.",
         "parameters": [
           {
             "name": "page",
@@ -2542,7 +2542,7 @@
       },
       "post": {
         "operationId": "createSchool",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows schools to be viewed or edited.",
         "parameters": [],
         "requestBody": {
           "content": {
@@ -2583,7 +2583,7 @@
     "/school/{id}/": {
       "get": {
         "operationId": "retrieveSchool",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows schools to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2613,7 +2613,7 @@
       },
       "put": {
         "operationId": "updateSchool",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows schools to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2662,7 +2662,7 @@
       },
       "patch": {
         "operationId": "partialUpdateSchool",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows schools to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2711,7 +2711,7 @@
       },
       "delete": {
         "operationId": "destroySchool",
-        "description": "API endpoint that allows subcategories to be viewed or edited.",
+        "description": "API endpoint that allows schools to be viewed or edited.",
         "parameters": [
           {
             "name": "id",
@@ -2994,15 +2994,15 @@
             "nullable": true
           },
           "assessed_by": {
-            "type": "integer"
+            "type": "string",
+            "readOnly": true
           }
         },
         "required": [
           "task",
           "child",
           "option",
-          "date_of_assessment",
-          "assessed_by"
+          "date_of_assessment"
         ]
       },
       "ChildNote": {
@@ -3017,6 +3017,14 @@
           },
           "note": {
             "type": "string"
+          },
+          "created_by": {
+            "type": "string",
+            "readOnly": true
+          },
+          "updated_by": {
+            "type": "string",
+            "readOnly": true
           }
         },
         "required": [
@@ -3036,6 +3044,14 @@
           },
           "note": {
             "type": "string"
+          },
+          "created_by": {
+            "type": "string",
+            "readOnly": true
+          },
+          "updated_by": {
+            "type": "string",
+            "readOnly": true
           }
         },
         "required": [
@@ -3065,25 +3081,8 @@
           "notes": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "readOnly": true
-                },
-                "classroom": {
-                  "type": "integer"
-                },
-                "note": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "classroom",
-                "note"
-              ]
-            },
-            "readOnly": true
+              "type": "integer"
+            }
           },
           "url": {
             "type": "string",
@@ -3093,7 +3092,8 @@
         "required": [
           "label",
           "school",
-          "children"
+          "children",
+          "notes"
         ]
       },
       "Child": {
@@ -3113,28 +3113,18 @@
             "type": "string",
             "format": "date"
           },
+          "gender": {
+            "enum": [
+              "M",
+              "F"
+            ],
+            "type": "string"
+          },
           "notes": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "integer",
-                  "readOnly": true
-                },
-                "child": {
-                  "type": "integer"
-                },
-                "note": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "child",
-                "note"
-              ]
-            },
-            "readOnly": true
+              "type": "integer"
+            }
           },
           "url": {
             "type": "string",
@@ -3144,7 +3134,9 @@
         "required": [
           "first_name",
           "last_name",
-          "birthdate"
+          "birthdate",
+          "gender",
+          "notes"
         ]
       },
       "User": {

@@ -1,25 +1,31 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 export type RootStackParamList = {
-  Profile: undefined;
+  About: undefined;
 
-  ClassSelect: undefined;
+  ClassList: undefined;
   Class: { classId: number; };
-  ClassAssessmentList: { classId: number; taskId: number; };
-
   Child: { childId: number; };
 
-  TaskList: { categoryId: number; };
-  Task: { taskId: number; };
+  ClassCategory: { classId: number; categoryId: number; };
+  ClassTask: { classId: number; taskId: number; };
 
-  CreateAssessment: undefined;
-  CreateNoteChild: { childId: number; };
-  CreateNoteClass: { classId: number; };
+  ChildCategory: { childId: number; categoryId: number; };
+  ChildTask: { childId: number; taskId: number; };
+
+  CreateAssessment: {
+    classId?: number;
+    childIds?: number[];
+    categoryId?: number;
+    subcategoryId?: number;
+    taskIds?: number[];
+  };
   Assessment: { assessmentId: number; };
 
-  Login: undefined;
-  Register: undefined;
   ForgotPassword: undefined;
+  Login: undefined;
+  Profile: undefined;
+  Register: undefined;
 };
 
 export const RootStack = createStackNavigator<RootStackParamList>();

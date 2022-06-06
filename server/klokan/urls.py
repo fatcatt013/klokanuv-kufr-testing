@@ -13,10 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import include, path
-from rest_framework import routers
-from record_sheet import views
 from django.contrib import admin
+from django.urls import include, path
+from record_sheet import views
+from rest_framework import routers
 from rest_framework.schemas import get_schema_view
 from rest_framework_simplejwt import views as jwt
 
@@ -34,11 +34,14 @@ router.register(r"classes", views.ClassroomViewSet, basename="classroom")
 router.register(r"children", views.ChildViewSet, basename="child")
 router.register(r"user", views.UserViewSet, basename="user")
 router.register(r"school", views.SchoolViewSet, basename="school")
+router.register(r"invoice", views.InvoiceViewSet, basename="invoice")
+router.register(r"invoice-item", views.InvoiceItemViewSet, basename="invoice-item")
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("", include(router.urls)),
+    path("invoice/<int:pk>/pdf/", views.InvoicePdfView.as_view(), name="invoice_pdf"),
     path("api/token/", jwt.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", jwt.TokenRefreshView.as_view(), name="token_refresh"),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),

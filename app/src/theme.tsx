@@ -1,6 +1,6 @@
 import { configureFonts, DefaultTheme } from 'react-native-paper';
 
-const colors = {
+export const colors = {
   orange: '#eb803f',
   red: '#e04221',
   blue: '#006bcc',

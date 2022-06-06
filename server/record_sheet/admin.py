@@ -1,11 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+
 from . import models
 from django.contrib.auth.models import Group
 from django.forms import Textarea
 from django.db import models as db_models
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
+
 
 
 # replacing username with email
@@ -212,6 +214,55 @@ class AssessmentAdmin(admin.ModelAdmin):
         return False
 
 
+class InvoiceItemInline(admin.TabularInline):
+    model = models.InvoiceItem
+    fields = ["title", "unit_price", "amount", "vat_rate", "total_vat", "total_price"]
+    readonly_fields = fields
+    can_delete = False
+    extra = 0
+
+
+class InvoiceAdmin(admin.ModelAdmin):
+
+    fields = [
+        "serial_number",
+        "school",
+        "note",
+        "created_at",
+        "paid_at",
+        "total_price",
+        "is_paid",
+    ]
+    list_display = [
+        "serial_number",
+        "school",
+        "created_at",
+        "paid_at",
+        "total_price",
+        "is_paid",
+    ]
+    inlines = [
+        InvoiceItemInline,
+    ]
+    readonly_fields = ["serial_number", "school", "note", "created_at", "total_price"]
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(school=request.user.school)
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class ParameterAdmin(admin.ModelAdmin):
+    list_display = ["name", "value"]
+
+
 admin.site.register(models.User, CustomUserAdmin)
 admin.site.register(models.School, SchoolAdmin)
 admin.site.register(models.Classroom, ClassroomAdmin)
@@ -220,3 +271,5 @@ admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
 admin.site.register(models.Assessment, AssessmentAdmin)
 admin.site.unregister(Group)
+admin.site.register(models.Invoice, InvoiceAdmin)
+admin.site.register(models.Parameter, ParameterAdmin)

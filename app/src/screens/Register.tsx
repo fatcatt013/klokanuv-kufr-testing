@@ -30,7 +30,7 @@ export const RegisterScreen = React.memo(function RegisterScreen({ navigation }:
       return;
     }
 
-    navigation.push('ClassSelect');
+    navigation.push('ClassList');
   };
 
   return (
