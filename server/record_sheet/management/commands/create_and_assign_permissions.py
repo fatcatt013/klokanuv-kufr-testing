@@ -106,6 +106,14 @@ class Command(BaseCommand):
             "change_assessment",
             "delete_assessment",
             "view_assessment",
+            # "add_invoice",
+            # "change_invoice",
+            # "delete_invoice",
+            "view_invoice",
+            # "add_invoiceitem",
+            # "change_invoiceitem",
+            # "delete_invoiceitem",
+            "view_invoiceitem",
         ]
 
         for permission in headmaster_permissions:

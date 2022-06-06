@@ -1,6 +1,6 @@
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.contrib.auth.base_user import BaseUserManager
 
 
 class Category(models.Model):
@@ -66,6 +66,7 @@ class Task(models.Model):
 class School(models.Model):
     name = models.CharField("name", max_length=100)
     address = models.CharField("address", max_length=250, blank=True)
+    cin = models.IntegerField("IČO", null=True)
 
     def __str__(self):
         return self.name
@@ -150,7 +151,7 @@ class Child(models.Model):
         Classroom, related_name="children", on_delete=models.CASCADE
     )
     school = models.ForeignKey(
-        School, related_name="%(class)s", on_delete=models.CASCADE, default=1
+        School, related_name="children", on_delete=models.CASCADE, default=1
     )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
 
     GENDER_CHOICES = (
@@ -221,3 +222,60 @@ class ClassroomNote(models.Model):
 
     def __str__(self):
         return "Note for: %s" % self.classroom
+
+
+class Invoice(models.Model):
+    serial_number = models.IntegerField(verbose_name="Sériové číslo")
+    school = models.ForeignKey(
+        School, related_name="invoices", on_delete=models.CASCADE, verbose_name="Školka"
+    )
+    note = models.TextField(verbose_name="Poznámka")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Datum vystavení")
+    due_date = models.DateTimeField(verbose_name="Datum splatnosti")
+    paid_at = models.DateTimeField(
+        null=True, blank=True, verbose_name="Datum zaplacení"
+    )
+    total_vat = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    base_price = models.DecimalField(
+        max_digits=10, decimal_places=2, null=True, blank=True
+    )
+    total_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        null=True,
+        blank=True,
+        verbose_name="Celková cena",
+    )
+    is_paid = models.BooleanField(default=False, verbose_name="Zaplaceno")
+
+    class Meta:
+        verbose_name = "Faktura"
+        verbose_name_plural = "Faktury"
+
+    def __str__(self):
+        return str(self.serial_number)
+
+
+class InvoiceItem(models.Model):
+    invoice = models.ForeignKey(Invoice, related_name="items", on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.IntegerField()
+    vat_rate = models.DecimalField(max_digits=4, decimal_places=2)
+    total_vat = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(max_digits=10, decimal_places=2)
+    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class Parameter(models.Model):
+    name = models.CharField(max_length=100, verbose_name="název")
+    value = models.TextField(verbose_name="hodnota")
+
+    class Meta:
+        verbose_name = "Parametr"
+        verbose_name_plural = "Parametry"
+
+    def __str__(self):
+        return self.name

@@ -1,5 +1,6 @@
-from record_sheet import models
 from rest_framework import serializers
+
+from record_sheet import models
 
 
 class AssessmentTypeOptionSerializer(serializers.ModelSerializer):
@@ -44,7 +45,7 @@ class AssessmentTypeSerializer(serializers.ModelSerializer):
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.School
-        fields = ["id", "name", "address", "url"]
+        fields = ["id", "name", "address", "url", "cin", "variable_symbol"]
 
 
 class TaskSerializer(serializers.ModelSerializer):
@@ -131,4 +132,22 @@ class ChildSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
+        fields = "__all__"
+
+
+class InvoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Invoice
+        fields = "__all__"
+
+
+class InvoiceItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.InvoiceItem
+        fields = "__all__"
+
+
+class ParameterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Parameter
         fields = "__all__"
