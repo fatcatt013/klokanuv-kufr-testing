@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from record_sheet.models import School, Classroom, Child, User
 from faker import Faker
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, Permission
 from django.contrib.auth.hashers import make_password as mkpwd
 import random
 

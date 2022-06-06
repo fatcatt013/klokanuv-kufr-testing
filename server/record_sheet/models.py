@@ -125,7 +125,7 @@ class User(AbstractUser):
     # can't have users without school assigned
     school = models.ForeignKey(
         School, related_name="users", on_delete=models.CASCADE, default=1
-    )  # TODO: default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+    )
 
     # currently, we suppose that all users should be able to make some changes in admin module
     is_staff = models.BooleanField(
@@ -182,7 +182,7 @@ class Child(models.Model):
         on_delete=models.CASCADE,
         default=1,
         verbose_name="Školka",
-    )  # TODO default=1 je tu zatial preto, aby sme mohli vytvorit superusera
+    )
 
     GENDER_CHOICES = (
         ("M", "Muž"),

@@ -62,7 +62,7 @@ class CustomUserAdmin(UserAdmin):
             return qs.filter(school=request.user.school)
         return qs
 
-    # TODO: pridat filter na zobrazovanie pola is_superuser - treba ho vobec?
+    # TODO: pridat filter na zobrazovanie pola is_superuser - treba ho vobec? - netreba
 
 
 class ChildNoteAdmin(admin.ModelAdmin):
@@ -175,7 +175,7 @@ class SchoolAdmin(admin.ModelAdmin):
         return qs.filter(users__id=request.user.id)
 
 
-# TODO: options pre assessment su velmi neprehladne (mb to nie je ani treba v adminovi?)
+# TODO: options pre assessment su velmi neprehladne (mb to nie je ani treba v adminovi?) - zakazat edit a add
 class AssessmentAdmin(admin.ModelAdmin):
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
@@ -201,6 +201,15 @@ class AssessmentAdmin(admin.ModelAdmin):
             elif request.user.groups.filter(name="Teachers").exists():
                 kwargs["queryset"] = models.User.objects.filter(id=request.user.id)
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 admin.site.register(models.User, CustomUserAdmin)
