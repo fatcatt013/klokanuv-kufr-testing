@@ -19,4 +19,4 @@ class CustomSignupForm(SignupForm):
 
 
 class CsvImportForm(forms.Form):
-    csv_upload = forms.FileField
+    csv_upload = forms.FileField()
