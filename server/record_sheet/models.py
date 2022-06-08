@@ -337,3 +337,16 @@ class Parameter(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ImportData(models.Model):
+    children_csv = models.FileField(
+        upload_to="uploads/csv_children", null=True, blank=True
+    )
+    school_csv = models.FileField(
+        upload_to="uploads/csv_schools", null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = "ImportCSV"
+        verbose_name_plural = "ImportCSV"

@@ -1,13 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
 from . import models
 from django.contrib.auth.models import Group
 from django.forms import Textarea
 from django.db import models as db_models
+from django_object_actions import DjangoObjectActions
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
-
 
 
 # replacing username with email
@@ -109,7 +108,21 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class ChildAdmin(admin.ModelAdmin):
+class MyModelAdmin(DjangoObjectActions, admin.ModelAdmin):
+    def toolfunc(self, request, obj):
+        pass
+
+    toolfunc.label = "This will be the label of the button"  # optional
+    toolfunc.short_description = "This will be the tooltip of the button"  # optional
+
+    def make_published(modeladmin, request, queryset):
+        queryset.update(status="p")
+
+    change_actions = ("toolfunc",)
+    changelist_actions = ("make_published",)
+
+
+class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
@@ -133,6 +146,18 @@ class ChildAdmin(admin.ModelAdmin):
             if request.user.is_superuser:
                 kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def toolfunc(self, request, obj):
+        pass
+
+    toolfunc.label = "This will be the label of the button"  # optional
+    toolfunc.short_description = "This will be the tooltip of the button"  # optional
+
+    def import_children(modeladmin, request, queryset):
+        queryset.update(status="p")
+
+    change_actions = ("toolfunc",)
+    changelist_actions = ("import_children",)
 
 
 class ClassroomAdmin(admin.ModelAdmin):
@@ -273,3 +298,4 @@ admin.site.register(models.Assessment, AssessmentAdmin)
 admin.site.unregister(Group)
 admin.site.register(models.Invoice, InvoiceAdmin)
 admin.site.register(models.Parameter, ParameterAdmin)
+admin.site.register(models.ImportData, MyModelAdmin)

@@ -34,6 +34,9 @@ class Command(BaseCommand):
             "add_classroomnote",
             "change_classroomnote",
             "delete_classroomnote",
+            "add_child",
+            "change_child",
+            "delete_child",
         ]
         for permission in teacher_permissions:
             teacher_group.permissions.add(Permission.objects.get(codename=permission))
