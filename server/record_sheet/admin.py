@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from . import models
+from . import models, forms
 from django.contrib.auth.models import Group
 from django.forms import Textarea
 from django.db import models as db_models
 from django_object_actions import DjangoObjectActions
+from django.urls import path, reverse
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
 
@@ -154,7 +157,9 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     toolfunc.short_description = "This will be the tooltip of the button"  # optional
 
     def import_children(modeladmin, request, queryset):
-        queryset.update(status="p")
+        form = forms.CsvImportForm()
+        data = {"form": form}
+        return render(request, "csv_upload.html", data)
 
     change_actions = ("toolfunc",)
     changelist_actions = ("import_children",)
@@ -298,4 +303,3 @@ admin.site.register(models.Assessment, AssessmentAdmin)
 admin.site.unregister(Group)
 admin.site.register(models.Invoice, InvoiceAdmin)
 admin.site.register(models.Parameter, ParameterAdmin)
-admin.site.register(models.ImportData, MyModelAdmin)
