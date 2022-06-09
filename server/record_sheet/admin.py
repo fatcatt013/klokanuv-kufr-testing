@@ -1,13 +1,14 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from . import models, forms
 from django.contrib.auth.models import Group
 from django.forms import Textarea
 from django.db import models as db_models
 from django_object_actions import DjangoObjectActions
-from django.urls import path, reverse
-from django.shortcuts import render, redirect
+from django.shortcuts import render
+from django.urls import reverse
 from django.http import HttpResponseRedirect
+import sys
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
 
@@ -111,20 +112,6 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class MyModelAdmin(DjangoObjectActions, admin.ModelAdmin):
-    def toolfunc(self, request, obj):
-        pass
-
-    toolfunc.label = "This will be the label of the button"  # optional
-    toolfunc.short_description = "This will be the tooltip of the button"  # optional
-
-    def make_published(modeladmin, request, queryset):
-        queryset.update(status="p")
-
-    change_actions = ("toolfunc",)
-    changelist_actions = ("make_published",)
-
-
 class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
@@ -157,6 +144,40 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     toolfunc.short_description = "This will be the tooltip of the button"  # optional
 
     def import_children(modeladmin, request, queryset):
+
+        if request.method == "POST":
+            csv_file = request.FILES["csv_upload"]
+
+            if not csv_file.name.endswith(".csv"):
+                messages.warning(request, "The wrong file type was uploaded")
+                return HttpResponseRedirect(request.path_info)
+
+            file_data = csv_file.read().decode("utf-8")
+            csv_data = file_data.split("\n")
+            if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
+                print(
+                    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                )
+                sys.exit()  # TODO pridat rozumnu hlasku - "prvy riadok musia byt nazvy stlpcov"
+            if csv_data[-1] == "":  # TODO pridat dalsiu validaciu:
+                # je vsade rovnako vela delimiterov?
+                # su datumy (aj ostatne policka) v spravnom formate?
+                # nepouziva sa \n\r?
+                # nie je viac ako 1 prazdny riadok na konci?
+                csv_data.pop(-1)
+            for x in csv_data:
+                fields = x.split("|")
+                created = models.Child.objects.update_or_create(
+                    first_name=fields[0],
+                    last_name=fields[1],
+                    birthdate=fields[2],
+                    gender=fields[3],
+                    school=models.School.objects.get(name=fields[4]),
+                    classroom=models.Classroom.objects.get(label=fields[5]),
+                )
+            url = reverse("admin:index")
+            return HttpResponseRedirect(url)
+
         form = forms.CsvImportForm()
         data = {"form": form}
         return render(request, "csv_upload.html", data)
