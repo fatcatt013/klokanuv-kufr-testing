@@ -27,6 +27,8 @@ python manage.py migrate
 python manage.py create_and_assign_permissions
 python manage.py create_test_users
 python manage.py populate_db -t
+python manage.py set_parameters
+python manage.py create_invoices
 python manage.py runserver
 ```
 
