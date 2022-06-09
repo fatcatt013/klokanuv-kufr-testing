@@ -1,42 +1,55 @@
+<style>
+    @font-face {
+        font-family: Poppins-Regular;
+        src: url("/server/static/Poppins-Regular.ttf");
+    }
+</style>
+
 <!DOCTYPE html>
 <head>
+    <meta charset="UTF-8">
     <title>Faktura {{invoice.serial_number}}</title>
 </head>
 <body>
-    <table>
+    <table style="white-space: nowrap">
         <tr>
-            <td>FAKTURA - daňový doklad č.</td>
-            <td>{{invoice.serial_number}}</td>
+            <td colspan="2" style="font-size: 16px"><b>FAKTURA - daňový doklad č.</b></td>
+            <td colspan="5" style="text-align: right; "><b>{{invoice.serial_number}}</b></td>
         </tr>
         <tr>
-            <td><!-- logo --></td>
-            <td>{{parameters.luzanky_title}}</td>
+            <td colspan="7"><hr></td>
         </tr>
         <tr>
+            <td colspan="2"><!-- logo --></td>
+            <td colspan="5"><b>{{parameters.luzanky_title}}</b></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
             <td>{{parameters.luzanky_address}}</td>
-            <td>Tel.: {{parameters.luzanky_tel}}</td>
+            <td colspan="3" style="text-align: right">Tel.: {{parameters.luzanky_tel}}</td>
         </tr>
         <tr>
+            <td colspan="2"></td>
             <td>IČ: {{parameters.luzanky_ic}}</td>
             <td>DIČ: CZ{{parameters.luzanky_ic}}</td>
-            <td>{{parameters.luzanky_web}}</td>
+            <td colspan="2" style="text-align: right">{{parameters.luzanky_web}}</td>
         </tr>
         <tr>
-            <td>Datum</td>
+            <td><b>Datum</b></td>
             <td></td>
-            <td>Symboly</td>
+            <td><b>Symboly</b></td>
             <td></td>
-            <td>Odběratel</td>
+            <td colspan="3"><b>Odběratel</b></td>
         </tr>
         <tr>
             <td>Vystavení:</td>
             <td>{{invoice.created_at | date:"d.m.Y"}}</td>
-            <td>Variabilní:</td>
+            <td><b>Variabilní:</b></td>
             <td>{{invoice.serial_number}}</td>
-            <td>{{invoice.school.name}}</td>
+            <td colspan="3"><b>{{invoice.school.name}}</b></td>
         </tr>
         <tr>
-            <td>Splatnosti:</td>
+            <td><b>Splatnosti:</b></td>
             <td>{{invoice.due_date | date:"d.m.Y"}}</td>
         </tr>
         <tr>
@@ -47,7 +60,7 @@
             <td>{{invoice.school.address}}</td>
         </tr>
         <tr>
-            <td>Objednávka</td>
+            <td><b>Objednávka</b></td>
             <td>IČ:</td>
             <td>{{invoice.school.cin}}</td>
         </tr>
@@ -56,16 +69,19 @@
             <td>Bankovním převodem</td>
         </tr>
         <tr>
-            <td>Bankovní účet pro platbu faktury</td>
+            <td colspan="7">Bankovní účet pro platbu faktury</td>
         </tr>
         <tr>
             <td>{{parameters.luzanky_bank_account}}</td>
         </tr>
         <tr>
-            <td>{{invoice.note}}</td>
+            <td colspan="7"><hr></td>
         </tr>
         <tr>
-            <td>Označení dodávky</td>
+            <td colspan="7">{{invoice.note}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">Označení dodávky</td>
             <td>Počet MJ</td>
             <td>Cena za MJ</td>
             <td>Sazba</td>
@@ -74,17 +90,18 @@
         </tr>
         {% for item in invoice.items.all %}
         <tr>
-            <td>{{item.title}}</td>
+            <td colspan="2">{{item.title}}</td>
             <td>{{item.amount}}</td>
             <td>{{item.unit_price}}</td>
             <td>{% widthratio item.vat_rate 1 100 %} %</td>
             <td>{{item.base_price}}</td>
-            <td>{{item.total_price}} Kč</td>
+            <td style="text-align: right">{{item.total_price}} Kč</td>
         </tr>
         {% endfor %}
-        <tr>
-            <td>Celková částka k úhradě</td>
-            <td>{{invoice.total_price}} Kč</td>
+        <tr style="font-size: 16px">
+            <td colspan="3"></td>
+            <td colspan="2">Celková částka k úhradě</td>
+            <td colspan="2" style="text-align: right">{{invoice.total_price}} Kč</td>
         </tr>
         <tr>
             <td>Sazba DPH</td>
@@ -106,13 +123,16 @@
         </tr>
         <tr>
             <td>Rozpis DPH uveden v měně CZK</td>
-            <td>____________________________</td>
+            <td style="border-bottom: 1px solid black"></td>
         </tr>
         <tr>
-            <td>{{parameters.luzanky_description}}</td>
+            <td></td>
+            <td colspan="2" style="white-space: normal">{{parameters.luzanky_description}}</td>
         </tr>
         <tr>
-            <td>Vystavil: {{parameters.invoice_issued_by}}</td>
+            <td colspan="2">Fakturu vystavil(a): {{parameters.invoice_issued_by}}</td>
+            <td colspan="3" style="text-align: center"><a href="https://www.luzanky.cz">www.luzanky.cz</a></td>
+            <td colspan="2" style="text-align: right">Vytiskl(a): [TODO]</td>
         </tr>
     </table>
 </body>
