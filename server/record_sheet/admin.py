@@ -2,12 +2,13 @@ from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from . import models, forms
 from django.contrib.auth.models import Group
-from django.forms import Textarea
+from django.forms import Textarea, ValidationError
 from django.db import models as db_models
 from django_object_actions import DjangoObjectActions
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
 import sys
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
@@ -66,8 +67,6 @@ class CustomUserAdmin(UserAdmin):
         if not request.user.is_superuser:
             return qs.filter(school=request.user.school)
         return qs
-
-    # TODO: pridat filter na zobrazovanie pola is_superuser - treba ho vobec? - netreba
 
 
 class ChildNoteAdmin(admin.ModelAdmin):
@@ -151,32 +150,88 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
             if not csv_file.name.endswith(".csv"):
                 messages.warning(request, "The wrong file type was uploaded")
                 return HttpResponseRedirect(request.path_info)
+            url_to_redirect = reverse("admin:index")
 
             file_data = csv_file.read().decode("utf-8")
             csv_data = file_data.split("\n")
             if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
-                print(
-                    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                )
                 sys.exit()  # TODO pridat rozumnu hlasku - "prvy riadok musia byt nazvy stlpcov"
-            if csv_data[-1] == "":  # TODO pridat dalsiu validaciu:
-                # je vsade rovnako vela delimiterov?
-                # su datumy (aj ostatne policka) v spravnom formate?
-                # nepouziva sa \n\r?
-                # nie je viac ako 1 prazdny riadok na konci?
-                csv_data.pop(-1)
+            ending_empty_lines = True
+
+            # taking care of possible empty line(s) from the end of the csv
+            while ending_empty_lines is True:
+                if csv_data[-1] == "":
+                    csv_data.pop(-1)
+                else:
+                    ending_empty_lines = False
+
+            # count number of fields of first row, then make sure that each row has same no. of fields
+            reference_no_of_fields = len(csv_data[0].split("|"))
+            children_to_add = []
             for x in csv_data:
                 fields = x.split("|")
-                created = models.Child.objects.update_or_create(
-                    first_name=fields[0],
-                    last_name=fields[1],
-                    birthdate=fields[2],
-                    gender=fields[3],
-                    school=models.School.objects.get(name=fields[4]),
-                    classroom=models.Classroom.objects.get(label=fields[5]),
+
+                if len(fields) != reference_no_of_fields:
+                    sys.exit()  # TODO pridat hlasku - "niektore riadky maju rozny pocet oddelovacov - vsetky musia mat rovnaky pocet"
+
+                try:
+                    models.School.objects.get(name=fields[4]),
+                except ObjectDoesNotExist:
+                    messages.error(
+                        request,
+                        "Zadaná školka neexistuje. Prosím zkontrolujte CSV data.",
+                    )
+                    return HttpResponseRedirect(url_to_redirect)
+
+                try:
+                    models.Classroom.objects.get(label=fields[4]),
+                except ObjectDoesNotExist:
+                    messages.error(
+                        request,
+                        "Zadaná třída neexistuje. Prosím zkontrolujte CSV data.",
+                    )
+                    return HttpResponseRedirect(url_to_redirect)
+
+                try:
+                    first_name, last_name, birthdate, gender, school, classroom = (
+                        fields[0],
+                        fields[1],
+                        fields[2],
+                        fields[3],
+                        models.School.objects.get(name=fields[4]),
+                        models.Classroom.objects.get(label=fields[5]),
+                    )
+                except IndexError as index_err:
+                    messages.error(request, index_err)
+                    return HttpResponseRedirect(url_to_redirect)
+
+                try:
+                    if gender not in ["F", "M"]:
+                        raise ValidationError(
+                            """Hodnota pole 'pohlaví' není správná - prosím vyplňte buď 'F' nebo 'M'.\
+                                Žádné nové záznamy se neuložili."""
+                        )
+                except ValidationError as val_err:
+                    messages.error(request, val_err)
+                    return HttpResponseRedirect(url_to_redirect)
+
+                new_child = models.Child(
+                    first_name=first_name,
+                    last_name=last_name,
+                    birthdate=birthdate,
+                    gender=gender,
+                    school=models.School.objects.get(name=school),
+                    classroom=models.Classroom.objects.get(label=classroom),
                 )
-            url = reverse("admin:index")
-            return HttpResponseRedirect(url)
+
+                children_to_add.append(new_child)
+
+            try:
+                models.Child.objects.bulk_create(children_to_add)
+                messages.success(request, "CSV soubor byl úspěšně zpracován.")
+            except ValidationError as val_err:
+                messages.error(request, val_err)
+            return HttpResponseRedirect(url_to_redirect)
 
         form = forms.CsvImportForm()
         data = {"form": form}
@@ -228,7 +283,6 @@ class SchoolAdmin(admin.ModelAdmin):
         return qs.filter(users__id=request.user.id)
 
 
-# TODO: options pre assessment su velmi neprehladne (mb to nie je ani treba v adminovi?) - zakazat edit a add
 class AssessmentAdmin(admin.ModelAdmin):
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
