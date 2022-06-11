@@ -146,22 +146,17 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     request, "Nahráli jste nesprávný typ souboru. Očekávaný typ je CSV."
                 )
                 return HttpResponseRedirect(request.path_info)
-            url_to_redirect = reverse("admin:index")
 
             file_data = csv_file.read().decode("utf-8")
             csv_data = file_data.split("\n")
-            try:
-                if (
-                    csv_data.pop(0)
-                    != "jméno|přijmení|datum narození|pohlaví|škola|třída"
-                ):
-                    raise ValidationError(
-                        """Nesprávný formát CSV - první řádek musí obsahovat názvy sloupců:\
-                            jméno|přijmení|datum narození|pohlaví|škola|třída . Žádné nové záznamy se neuložili."""
-                    )
-            except ValidationError as val_err:
-                messages.error(request, val_err)
-                return HttpResponseRedirect(url_to_redirect)
+            if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
+                messages.error(
+                    request,
+                    """Nesprávný formát CSV - první řádek musí obsahovat názvy sloupců: \
+                        jméno|přijmení|datum narození|pohlaví|škola|třída . Žádné nové záznamy se neuložili.""",
+                )
+                return HttpResponseRedirect(request.path_info)
+
             ending_empty_lines = True
 
             # taking care of possible empty line(s) from the end of the csv
@@ -176,34 +171,31 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
             children_to_add = []
             for x in csv_data:
                 fields = x.split("|")
-
-                try:
-                    if len(fields) != reference_no_of_fields:
-                        raise ValidationError(
-                            "Některé řádky obsahují různý počet oddělovačů. Všechny řádky musí mít stejný počet. \
-                                Žádné nové záznamy se neuložili."
-                        )
-                except ValidationError as val_err:
-                    messages.error(request, val_err)
-                    return HttpResponseRedirect(url_to_redirect)
+                if len(fields) != reference_no_of_fields:
+                    messages.error(
+                        request,
+                        "Některé řádky obsahují různý počet sloupců. Všechny řádky musí mít stejný počet. \
+                                Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
 
                 try:
                     school = models.School.objects.get(name=fields[4])
                 except ObjectDoesNotExist:
                     messages.error(
                         request,
-                        "Zadaná školka neexistuje. Prosím zkontrolujte CSV data. Žádné nové záznamy se neuložili.",
+                        "Zadaná školka neexistuje. Žádné nové záznamy se neuložili.",
                     )
-                    return HttpResponseRedirect(url_to_redirect)
+                    return HttpResponseRedirect(request.path_info)
 
                 try:
                     classroom = models.Classroom.objects.get(label=fields[5])
                 except ObjectDoesNotExist:
                     messages.error(
                         request,
-                        "Zadaná třída neexistuje. Prosím zkontrolujte CSV data. Žádné nové záznamy se neuložili.",
+                        "Zadaná třída neexistuje. Žádné nové záznamy se neuložili.",
                     )
-                    return HttpResponseRedirect(url_to_redirect)
+                    return HttpResponseRedirect(request.path_info)
 
                 try:
                     first_name, last_name, birthdate, gender = (
@@ -214,26 +206,22 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     )
                 except IndexError as index_err:
                     messages.error(request, index_err)
-                    return HttpResponseRedirect(url_to_redirect)
+                    return HttpResponseRedirect(request.path_info)
 
-                try:
-                    if gender not in ["F", "M"]:
-                        raise ValidationError(
-                            """Hodnota pole 'pohlaví' není správná - prosím vyplňte buď 'F' nebo 'M'.\
-                                Žádné nové záznamy se neuložili."""
-                        )
-                except ValidationError as val_err:
-                    messages.error(request, val_err)
-                    return HttpResponseRedirect(url_to_redirect)
+                if gender not in ["F", "M"]:
+                    messages.error(
+                        request,
+                        "Hodnota pole 'pohlaví' není správná - prosím vyplňte buď 'F' nebo 'M'.\
+                            Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
 
-                try:
-                    if classroom.school != school:
-                        raise ValidationError(
-                            """Zadaná třída nepatří pod zadanou školku. Žádné nové záznamy se neuložili."""
-                        )
-                except ValidationError as val_err:
-                    messages.error(request, val_err)
-                    return HttpResponseRedirect(url_to_redirect)
+                if classroom.school != school:
+                    messages.error(
+                        request,
+                        "Zadaná třída nepatří pod zadanou školku. Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
 
                 new_child = models.Child(
                     first_name=first_name,
@@ -251,7 +239,7 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                 messages.success(request, "CSV soubor byl úspěšně zpracován.")
             except ValidationError as val_err:
                 messages.error(request, val_err)
-            return HttpResponseRedirect(url_to_redirect)
+            return HttpResponseRedirect(request.path_info)
 
         form = forms.CsvImportForm()
         data = {"form": form}
