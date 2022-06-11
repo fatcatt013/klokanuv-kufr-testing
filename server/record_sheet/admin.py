@@ -136,26 +136,32 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                 kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def toolfunc(self, request, obj):
-        pass
-
-    toolfunc.label = "This will be the label of the button"  # optional
-    toolfunc.short_description = "This will be the tooltip of the button"  # optional
-
     def import_children(modeladmin, request, queryset):
 
         if request.method == "POST":
             csv_file = request.FILES["csv_upload"]
 
             if not csv_file.name.endswith(".csv"):
-                messages.warning(request, "The wrong file type was uploaded")
+                messages.error(
+                    request, "Nahráli jste nesprávný typ souboru. Očekávaný typ je CSV."
+                )
                 return HttpResponseRedirect(request.path_info)
             url_to_redirect = reverse("admin:index")
 
             file_data = csv_file.read().decode("utf-8")
             csv_data = file_data.split("\n")
-            if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
-                sys.exit()  # TODO pridat rozumnu hlasku - "prvy riadok musia byt nazvy stlpcov"
+            try:
+                if (
+                    csv_data.pop(0)
+                    != "jméno|přijmení|datum narození|pohlaví|škola|třída"
+                ):
+                    raise ValidationError(
+                        """Nesprávný formát CSV - první řádek musí obsahovat názvy sloupců:\
+                            jméno|přijmení|datum narození|pohlaví|škola|třída . Žádné nové záznamy se neuložili."""
+                    )
+            except ValidationError as val_err:
+                messages.error(request, val_err)
+                return HttpResponseRedirect(url_to_redirect)
             ending_empty_lines = True
 
             # taking care of possible empty line(s) from the end of the csv
@@ -171,35 +177,40 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
             for x in csv_data:
                 fields = x.split("|")
 
-                if len(fields) != reference_no_of_fields:
-                    sys.exit()  # TODO pridat hlasku - "niektore riadky maju rozny pocet oddelovacov - vsetky musia mat rovnaky pocet"
+                try:
+                    if len(fields) != reference_no_of_fields:
+                        raise ValidationError(
+                            "Některé řádky obsahují různý počet oddělovačů. Všechny řádky musí mít stejný počet. \
+                                Žádné nové záznamy se neuložili."
+                        )
+                except ValidationError as val_err:
+                    messages.error(request, val_err)
+                    return HttpResponseRedirect(url_to_redirect)
 
                 try:
-                    models.School.objects.get(name=fields[4]),
+                    school = models.School.objects.get(name=fields[4])
                 except ObjectDoesNotExist:
                     messages.error(
                         request,
-                        "Zadaná školka neexistuje. Prosím zkontrolujte CSV data.",
+                        "Zadaná školka neexistuje. Prosím zkontrolujte CSV data. Žádné nové záznamy se neuložili.",
                     )
                     return HttpResponseRedirect(url_to_redirect)
 
                 try:
-                    models.Classroom.objects.get(label=fields[4]),
+                    classroom = models.Classroom.objects.get(label=fields[5])
                 except ObjectDoesNotExist:
                     messages.error(
                         request,
-                        "Zadaná třída neexistuje. Prosím zkontrolujte CSV data.",
+                        "Zadaná třída neexistuje. Prosím zkontrolujte CSV data. Žádné nové záznamy se neuložili.",
                     )
                     return HttpResponseRedirect(url_to_redirect)
 
                 try:
-                    first_name, last_name, birthdate, gender, school, classroom = (
+                    first_name, last_name, birthdate, gender = (
                         fields[0],
                         fields[1],
                         fields[2],
                         fields[3],
-                        models.School.objects.get(name=fields[4]),
-                        models.Classroom.objects.get(label=fields[5]),
                     )
                 except IndexError as index_err:
                     messages.error(request, index_err)
@@ -215,13 +226,22 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     messages.error(request, val_err)
                     return HttpResponseRedirect(url_to_redirect)
 
+                try:
+                    if classroom.school != school:
+                        raise ValidationError(
+                            """Zadaná třída nepatří pod zadanou školku. Žádné nové záznamy se neuložili."""
+                        )
+                except ValidationError as val_err:
+                    messages.error(request, val_err)
+                    return HttpResponseRedirect(url_to_redirect)
+
                 new_child = models.Child(
                     first_name=first_name,
                     last_name=last_name,
                     birthdate=birthdate,
                     gender=gender,
-                    school=models.School.objects.get(name=school),
-                    classroom=models.Classroom.objects.get(label=classroom),
+                    school=school,
+                    classroom=classroom,
                 )
 
                 children_to_add.append(new_child)
@@ -237,7 +257,10 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
         data = {"form": form}
         return render(request, "csv_upload.html", data)
 
-    change_actions = ("toolfunc",)
+    import_children.label = "Importovat CSV"
+    import_children.short_description = (
+        "Nahrát CSV soubor s datami dětí, které se uloží do databáze."
+    )
     changelist_actions = ("import_children",)
 
 
