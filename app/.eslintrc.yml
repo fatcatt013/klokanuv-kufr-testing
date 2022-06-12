@@ -7,9 +7,6 @@ extends:
   - eslint:recommended
   - plugin:react/recommended
   - plugin:@typescript-eslint/recommended
-  - "airbnb-base"
-  - "airbnb-typescript/base"
-  - "airbnb-typescript"
 parser: '@typescript-eslint/parser'
 parserOptions:
   project: './tsconfig.json'
@@ -22,4 +19,5 @@ plugins:
   - '@typescript-eslint'
 rules: {
   import/prefer-default-import: "off",
+  react/prop-types: "off",
 }
