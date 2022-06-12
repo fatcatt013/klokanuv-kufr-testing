@@ -14,20 +14,15 @@ import { SubcategoryPicker } from '../components/SubcategoryPicker';
 import { TaskPicker } from '../components/TaskPicker';
 import { TextInput } from '../components/TextInput';
 import { RootStackParamList } from '../lib/navigation';
-import { useAssessmentOps } from '../use-assessment-data';
-import { useCoreData } from '../use-core-data';
-import { useSchoolData } from '../use-school-data';
+import { useAssessmentOps } from '../actions';
+import { useRecoilValue } from 'recoil';
+import { assessmentTypeState, categoriesState, categoryState, childrenState, classesState, classState, subcategoryState, subcategoryTasksState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'CreateAssessment'>;
 
 export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen({ route, navigation }: Props) {
   const isFocused = useIsFocused();
   const ops = useAssessmentOps()
-
-  const { data: coreData } = useCoreData();
-  const { categories, subcategories, tasks, assessmentTypes } = coreData!;
-  const { data: schoolData } = useSchoolData();
-  const { classes, children } = schoolData!;
 
   const [classOpen, setClassOpen] = React.useState(false);
   const [childOpen, setChildOpen] = React.useState(false);
@@ -44,12 +39,17 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const [optionId, setOptionId] = React.useState(-1);
   const [note, setNote] = React.useState('');
 
-  const category = categories.find(x => x.id === categoryId);
-  const subcategory = subcategories.find(x => x.id === subcategoryId);
+  const categories = useRecoilValue(categoriesState);
+  const subcategory = useRecoilValue(subcategoryState(subcategoryId));
+  const tasks = useRecoilValue(subcategoryTasksState(subcategoryId));
+  const assessmentType = useRecoilValue(assessmentTypeState(tasks?.[0]?.assessment_type || -1))
+  const classes = useRecoilValue(classesState);
+  const children = useRecoilValue(childrenState);
+
+  const category = categories.find(x => x.id! === categoryId);
+  const classroom = classes.find(x => x.id! === classId);
   const childList = children?.filter(x => childIds.includes(x.id!));
   const taskList = tasks.filter(x => taskIds.includes(x.id));
-  const classroom = classes?.find(x => x.id === classId);
-  const assessmentType = taskList.length > 0 ? assessmentTypes.find(x => x.id === taskList[0].assessment_type) : undefined;
 
   const childrenLabel = childList?.map(x => x.first_name).join(', ');
   const tasksLabel = taskList.map(x => x.task_description).join(', ');
@@ -129,8 +129,8 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
             task: task.toString(),
             child,
             option: optionId,
-            date_of_assessment: format(new Date(), 'YYYY-MM-DD'),
-            note
+            date_of_assessment: format(new Date(), 'yyyy-MM-dd'),
+            note: note || ' ',
           })
         ))])
         navigation.pop();

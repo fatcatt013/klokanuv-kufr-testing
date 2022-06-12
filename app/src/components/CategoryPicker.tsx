@@ -1,8 +1,9 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
+import { useRecoilValue } from 'recoil';
 import { Components } from '../server';
-import { useCoreData } from '../use-core-data';
+import { categoriesState } from '../store';
 import { icons } from './icons';
 
 interface CategoryPickerProps {
@@ -10,8 +11,7 @@ interface CategoryPickerProps {
 }
 
 export const CategoryPicker = ({ onSelect }: CategoryPickerProps) => {
-  const { data } = useCoreData();
-  const categories = [...(data?.categories || [])];
+  const categories = [...useRecoilValue(categoriesState)];
   let ordered: Components.Schemas.Category[] = [];
   Object.keys(icons).forEach((label) => {
     const i = categories.findIndex((x) => x.label === label);

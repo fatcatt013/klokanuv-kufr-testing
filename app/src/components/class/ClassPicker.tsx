@@ -1,14 +1,15 @@
 import React from "react";
 import { FlatList } from "react-native";
 import { Card, Text } from "react-native-paper";
-import { useClassrooms } from "../../use-school-data";
+import { useRecoilValue } from "recoil";
+import { classesState } from "../../store";
 
 interface ClassroomPickerProps {
   onSelect: (catId: number) => void;
 }
 
 export const ClassroomPicker = ({ onSelect }: ClassroomPickerProps) => {
-  const classrooms = useClassrooms()
+  const classrooms = useRecoilValue(classesState);
 
   return <FlatList
     data={classrooms}

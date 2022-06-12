@@ -5,18 +5,19 @@ import { FlatList, View } from 'react-native';
 import { Button, Card, Portal, Dialog, Text, Headline, Caption } from 'react-native-paper';
 import { ClassIDContext } from '../../lib/contexts';
 import { RootStackParamList } from '../../lib/navigation';
-import { useClassNotes, useClassroomNoteOps } from '../../use-assessment-data';
-import { useClassroom } from '../../use-school-data';
+import { useClassroomNoteOps } from '../../actions';
 import { MultiFAB } from '../MultiFAB';
 import { TextInput } from '../TextInput';
+import { useRecoilValue } from 'recoil';
+import { classNotesState, classState } from '../../store';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
 export const ClassNotes = ({ route, navigation }: Props) => {
   const isFocused = useIsFocused();
   const classId = React.useContext(ClassIDContext);
-  const classroom = useClassroom(classId);
-  const notes = useClassNotes(classId);
+  const classroom = useRecoilValue(classState(classId));
+  const notes = useRecoilValue(classNotesState(classId));
   const ops = useClassroomNoteOps();
 
   const [noteId, setNoteId] = React.useState<number | null>(null);

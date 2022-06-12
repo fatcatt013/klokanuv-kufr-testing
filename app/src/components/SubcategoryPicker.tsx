@@ -1,7 +1,8 @@
 import React from 'react';
 import { FlatList } from 'react-native';
 import { Card, Text } from 'react-native-paper';
-import { useCategory } from '../use-core-data';
+import { useRecoilValue } from 'recoil';
+import { categorySubcategoriesState } from '../store';
 
 interface SubcategoryPickerProps {
   category: number;
@@ -9,11 +10,11 @@ interface SubcategoryPickerProps {
 }
 
 export const SubcategoryPicker = (props: SubcategoryPickerProps) => {
-  const category = useCategory(props.category);
+  const subcategories = useRecoilValue(categorySubcategoriesState(props.category));
 
   return <FlatList
     style={{ marginVertical: 4 }}
-    data={category?.subcategories}
+    data={subcategories}
     keyExtractor={item => item.id!.toString()}
     renderItem={({ item }) => (
       <Card key={item.id} style={{ margin: 4 }} onPress={() => props.onSelect(item.id!)}>

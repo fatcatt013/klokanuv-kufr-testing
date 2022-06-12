@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Menu } from "react-native-paper";
-import { useClassroom, useClassrooms } from "../../use-school-data";
+import { useRecoilValue } from "recoil";
+import { classesState, classState } from "../../store";
 
 interface ClassHeaderProps {
   selected: number;
@@ -8,8 +9,8 @@ interface ClassHeaderProps {
 }
 
 export const ClassHeader = React.memo(function ClassHeader(props: ClassHeaderProps) {
-  const classData = useClassroom(props.selected);
-  const classrooms = useClassrooms()
+  const classrooms = useRecoilValue(classesState);
+  const classroom = useRecoilValue(classState(props.selected));
   const [visible, setVisible] = React.useState(false);
 
   return <Menu
@@ -22,7 +23,7 @@ export const ClassHeader = React.memo(function ClassHeader(props: ClassHeaderPro
         onPress={() => setVisible(true)}
         contentStyle={{ flexDirection: 'row-reverse' }}
       >
-        {classData?.label}
+        {classroom?.label}
       </Button>
     }
   >

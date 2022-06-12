@@ -5,23 +5,17 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import 'react-native-gesture-handler';
 import { Provider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
-import { QueryClientProvider } from 'react-query';
 import AppLoading from 'expo-app-loading';
 import { useFonts } from 'expo-font';
 import { useNetInfo } from '@react-native-community/netinfo';
-import { queryClient } from './src/utils';
 import { theme } from './src/theme';
 import { App } from './src';
 import OfflineStatusBar from './src/components/OfflineStatusBar';
 import { AuthProvider } from './src/use-auth';
 import { ApiProvider } from './src/use-fetch';
-import { ProvideCoreData } from './src/use-core-data';
-import { ProvideSchoolData } from './src/use-school-data';
-import { ProvideAssessmentData } from './src/use-assessment-data';
+import { RecoilRoot } from 'recoil';
 
-const PERSISTENCE_KEY = 'NAVIGATION_STATE';
-
-export default () => {
+export default function AppRoot() {
   const [isReady, setIsReady] = React.useState(false);
   const [initialState, setInitialState] = React.useState();
   const { isConnected } = useNetInfo();
@@ -41,7 +35,7 @@ export default () => {
       try {
         const initialUrl = await Linking.getInitialURL();
         if (Platform.OS === 'web' || initialUrl == null) {
-          const savedStateString = await AsyncStorage.getItem(PERSISTENCE_KEY);
+          const savedStateString = await AsyncStorage.getItem('NAVIGATION_STATE');
           const state = savedStateString ? JSON.parse(savedStateString) : undefined;
           if (state !== undefined) {
             setInitialState(state);
@@ -62,28 +56,22 @@ export default () => {
   }
 
   return <SafeAreaProvider>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <ApiProvider>
-          <ProvideCoreData>
-            <ProvideSchoolData>
-              <ProvideAssessmentData>
-                <NavigationContainer
-                  initialState={initialState}
-                  onStateChange={state => AsyncStorage.setItem(PERSISTENCE_KEY, JSON.stringify(state))}
-                >
-                  <Provider theme={theme}>
-                    <React.Suspense fallback={<AppLoading />}>
-                      <OfflineStatusBar show={!isConnected} />
-                      <App />
-                    </React.Suspense>
-                  </Provider>
-                </NavigationContainer>
-              </ProvideAssessmentData>
-            </ProvideSchoolData>
-          </ProvideCoreData>
-        </ApiProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <RecoilRoot>
+      <React.Suspense fallback={<AppLoading />}>
+        <AuthProvider>
+          <ApiProvider>
+            <NavigationContainer
+              initialState={initialState}
+              onStateChange={state => AsyncStorage.setItem('NAVIGATION_STATE', JSON.stringify(state))}
+            >
+              <Provider theme={theme}>
+                <OfflineStatusBar show={!isConnected} />
+                <App />
+              </Provider>
+            </NavigationContainer>
+          </ApiProvider>
+        </AuthProvider>
+      </React.Suspense>
+    </RecoilRoot>
   </SafeAreaProvider>;
-};
+}

@@ -1,23 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { QueryClient } from 'react-query'
-import { persistQueryClient } from 'react-query/persistQueryClient-experimental'
-import { createAsyncStoragePersistor } from 'react-query/createAsyncStoragePersistor-experimental'
-
-export const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      // suspense: true,
-    },
-  },
-});
-
-persistQueryClient({
-  queryClient,
-  persistor: createAsyncStoragePersistor({
-    storage: AsyncStorage
-  }),
-})
-
 export const emailValidator = (email: string) => {
   const re = /\S+@\S+\.\S+/;
 

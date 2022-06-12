@@ -4,10 +4,10 @@ import intervalToDuration from 'date-fns/intervalToDuration';
 import React from 'react';
 import { Image, SafeAreaView, View } from 'react-native';
 import { Headline, Portal, Subheading, Text } from 'react-native-paper';
+import { useRecoilValue } from 'recoil';
 import { ChildIDContext } from '../../lib/contexts';
 import { RootStackParamList } from '../../lib/navigation';
-import { useChild } from '../../use-school-data';
-import { useCoreData } from '../../use-core-data';
+import { categoriesState, childState } from '../../store';
 import { icons } from '../icons';
 import { MultiFAB } from '../MultiFAB';
 
@@ -16,8 +16,8 @@ type Props = StackScreenProps<RootStackParamList, 'Child'>;
 export function ChildOverview({ }: Props) {
   const isFocused = useIsFocused();
   const childId = React.useContext(ChildIDContext);
-  const child = useChild(childId);
-  const { data: coreData } = useCoreData();
+  const child = useRecoilValue(childState(childId));
+  const categories = useRecoilValue(categoriesState);
 
   const age = intervalToDuration({
     start: new Date(child?.birthdate || ''),
@@ -46,7 +46,7 @@ export function ChildOverview({ }: Props) {
         style={{ width: 300, height: 300, alignSelf: 'center', margin: 5 }}
       />
 
-      {(coreData?.categories.map((item, i) => (
+      {(categories.map((item, i) => (
         <View key={i} style={{ flexDirection: 'row', alignItems: 'center' }}>
           {React.createElement(icons[item.label], {
             style: { width: 40, height: 40 },
