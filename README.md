@@ -22,14 +22,13 @@ For quick local setup - this also loads the CSV, and creates a superuser with
 email and password "superadmin".
 
 ```
-poetry shell
-python manage.py migrate
-python manage.py create_and_assign_permissions
-python manage.py create_test_users
-python manage.py populate_db -t
-python manage.py set_parameters
-python manage.py create_invoices
-python manage.py runserver
+poetry run python manage.py migrate
+poetry run python manage.py create_and_assign_permissions
+poetry run python manage.py create_test_users
+poetry run python manage.py populate_db -t
+poetry run python manage.py set_parameters
+poetry run python manage.py create_invoices
+poetry run python manage.py runserver
 ```
 
 ### `create_test_users`
