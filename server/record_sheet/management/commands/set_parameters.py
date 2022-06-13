@@ -14,6 +14,12 @@ class Command(BaseCommand):
             name="luzanky_address", value="Lidická 1880/50 6020 Brno"
         )
         models.Parameter.objects.create(
+            name="luzanky_address_street", value="Lidická 1880/50"
+        )
+        models.Parameter.objects.create(
+            name="luzanky_address_city_psc", value="602 00, Brno"
+        )
+        models.Parameter.objects.create(
             name="luzanky_title",
             value="Lužánky - středisko volného času Brno, příspěvková organizace",
         )

@@ -22,7 +22,9 @@ class Command(BaseCommand):
         Faker.seed(0)
 
         school0 = School.objects.create(id=1, name="SVČ Lužánky", address="")
-        school1 = School.objects.create(name="Test School 1", address="Test School 1")
+        school1 = School.objects.create(name="Test School 1", address="Pavlovice u Přerova 5\n"
+                                                                      "75111 Pavlovice u Přerova\n"
+                                                                      "Česká republika", cin=22661701)
         school2 = School.objects.create(name="Test School 2", address="Test School 2")
 
         classroom1 = school1.classrooms.create(label="Třída 1")
