@@ -189,11 +189,13 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     return HttpResponseRedirect(request.path_info)
 
                 try:
-                    classroom = models.Classroom.objects.get(label=fields[5])
+                    classroom = models.Classroom.objects.get(
+                        label=fields[5], teachers=request.user
+                    )
                 except ObjectDoesNotExist:
                     messages.error(
                         request,
-                        "Zadaná třída neexistuje. Žádné nové záznamy se neuložili.",
+                        "Zadaná třída neexistuje anebo k ní nemáte přístup. Žádné nové záznamy se neuložili.",
                     )
                     return HttpResponseRedirect(request.path_info)
 
@@ -216,10 +218,10 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     )
                     return HttpResponseRedirect(request.path_info)
 
-                if classroom.school != school:
+                if classroom.school != request.user.school:
                     messages.error(
                         request,
-                        "Zadaná třída nepatří pod zadanou školku. Žádné nové záznamy se neuložili.",
+                        "Zadaná školka neexistuje anebo nepatří pod vaši správu.",
                     )
                     return HttpResponseRedirect(request.path_info)
 
@@ -250,6 +252,13 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
         "Nahrát CSV soubor s datami dětí, které se uloží do databáze."
     )
     changelist_actions = ("import_children",)
+
+    # if user is an admin (svcluzanky), we're not showing the importcsv button
+    def get_changelist_actions(self, request):
+        if request.user.is_superuser:
+            return []
+
+        return self.changelist_actions
 
 
 class ClassroomAdmin(admin.ModelAdmin):
