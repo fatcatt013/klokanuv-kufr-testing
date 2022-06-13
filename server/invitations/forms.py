@@ -58,6 +58,11 @@ class InviteForm(forms.Form, CleanEmailMixin):
 
 
 class InvitationAdminAddForm(forms.ModelForm, CleanEmailMixin):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not self.request.user.is_superuser:
+            self.fields["group"].choices = [("teacher", "Učitel")]
+
     email = forms.EmailField(
         label=_("E-mail"),
         required=True,
@@ -68,8 +73,6 @@ class InvitationAdminAddForm(forms.ModelForm, CleanEmailMixin):
         cleaned_data = super().clean()
         email = cleaned_data.get("email")
         params = {"email": email}
-        if cleaned_data.get("inviter"):
-            params["inviter"] = cleaned_data.get("inviter")
         params["school"] = cleaned_data.get("school")
         instance = Invitation.create(**params)
         instance.send_invitation(self.request)
@@ -78,10 +81,10 @@ class InvitationAdminAddForm(forms.ModelForm, CleanEmailMixin):
 
     class Meta:
         model = Invitation
-        fields = ("email", "inviter", "school", "group")
+        fields = ("email", "school", "group")
 
 
 class InvitationAdminChangeForm(forms.ModelForm):
     class Meta:
         model = Invitation
-        fields = "__all__"
+        fields = ("school", "group")

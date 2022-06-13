@@ -36,13 +36,13 @@ class Invitation(AbstractBaseInvitation):
         verbose_name=_("Školka"),
     )
 
-    group = models.ForeignKey(
-        Group,
-        related_name="%(class)s",
-        on_delete=models.CASCADE,
-        verbose_name=_("Pozice"),
-        null=True
-        # default=Group.objects.get(label="Teachers"),
+    GROUP_CHOICES = (
+        ("manager", "Správce"),
+        ("headmaster", "Ředitel"),
+        ("teacher", "Učitel"),
+    )
+    group = models.CharField(
+        max_length=10, choices=GROUP_CHOICES, verbose_name="Pozice"
     )
 
     @classmethod

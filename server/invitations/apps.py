@@ -6,3 +6,4 @@ class Config(AppConfig):
 
     name = "invitations"
     label = "invitations"
+    verbose_name = "Pozvánky"

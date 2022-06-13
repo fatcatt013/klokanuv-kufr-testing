@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.views.generic.detail import DetailView
 from django_xhtml2pdf.views import PdfMixin
@@ -254,10 +255,7 @@ class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["teachers"] = ", ".join(
-            [
-                f"{teacher.first_name} {teacher.last_name}"
-                for teacher in self.object.classroom.teachers.all()
-            ]
+            [f"{teacher.email}" for teacher in self.object.classroom.teachers.all()]
         )
 
         categorized = defaultdict(lambda: defaultdict(dict))
@@ -293,6 +291,7 @@ class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
             category: dict(subcategories)
             for category, subcategories in categorized.items()
         }
+        context["STATIC_ROOT"] = settings.STATIC_ROOT
         return context
 
 

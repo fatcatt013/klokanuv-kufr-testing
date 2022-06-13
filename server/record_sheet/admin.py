@@ -14,11 +14,13 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.sites.models import Site
+
 import sys
 
 from . import models, forms
 
-admin.site.site_header = "Administrace webu Klokanův Kufr"
+admin.site.site_header = "Administrace aplikace Klokanův Kufr"
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
@@ -144,13 +146,7 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                 kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def response_change(self, request, obj):
-        if "_export-pdf" in request.POST:
-            return HttpResponseRedirect(f"/child/{obj.id}/pdf/")
-        return super().response_change(request, obj)
-
     def import_children(modeladmin, request, queryset):
-
         if request.method == "POST":
             csv_file = request.FILES["csv_upload"]
 
@@ -361,6 +357,8 @@ class InvoiceItemInline(admin.TabularInline):
 
 
 class InvoiceAdmin(admin.ModelAdmin):
+    change_form_template = "invoice_admin_export.html"
+
     fields = [
         "serial_number",
         "school",
@@ -381,7 +379,14 @@ class InvoiceAdmin(admin.ModelAdmin):
     inlines = [
         InvoiceItemInline,
     ]
-    readonly_fields = ["serial_number", "school", "note", "created_at", "total_price"]
+    readonly_fields = [
+        "items",
+        "serial_number",
+        "school",
+        "note",
+        "created_at",
+        "total_price",
+    ]
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -407,10 +412,12 @@ admin.site.register(models.Child, ChildAdmin)
 admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
 admin.site.register(models.Assessment, AssessmentAdmin)
+admin.site.register(models.Invoice, InvoiceAdmin)
+admin.site.register(models.Parameter, ParameterAdmin)
+
 admin.site.unregister(Group)
 admin.site.unregister(SocialToken)
 admin.site.unregister(SocialAccount)
 admin.site.unregister(SocialApp)
 admin.site.unregister(EmailAddress)
-admin.site.register(models.Invoice, InvoiceAdmin)
-admin.site.register(models.Parameter, ParameterAdmin)
+admin.site.unregister(Site)

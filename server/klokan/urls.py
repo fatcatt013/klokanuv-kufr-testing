@@ -19,8 +19,9 @@ from record_sheet import views
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
 from rest_framework_simplejwt import views as jwt
+from django.views.generic import RedirectView
 
-router = routers.DefaultRouter()
+router = routers.SimpleRouter()
 router.register(r"tasks", views.TaskViewSet, basename="task")
 router.register(r"subcategories", views.SubcategoryViewSet, basename="subcategory")
 router.register(r"categories", views.CategoryViewSet, basename="category")
@@ -41,6 +42,7 @@ router.register(r"invoice-item", views.InvoiceItemViewSet, basename="invoice-ite
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path("", include(router.urls)),
+    path("", RedirectView.as_view(url="/accounts/login")),
     path("invoice/<int:pk>/pdf/", views.InvoicePdfView.as_view(), name="invoice_pdf"),
     path("child/<int:pk>/pdf/", views.ChildPdfView.as_view(), name="child_pdf"),
     path("api/token/", jwt.TokenObtainPairView.as_view(), name="token_obtain_pair"),
