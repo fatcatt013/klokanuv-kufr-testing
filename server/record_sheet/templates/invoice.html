@@ -1,19 +1,19 @@
-<style>
-    @font-face {
-         font-family: "Roboto", Roboto, sans-serif;
-        /*font-family: "Poppins", Poppins-Regular, sans-serif;*/
-        /*src: url("/server/static/Poppins-Regular.ttf");*/
-    }
-</style>
+{% load static %}
 
 <!DOCTYPE html>
 <head>
+    <style>
+        @font-face {
+            font-family: "Poppins";
+            src: url("{% static "/Poppins-Regular.ttf"%}");
+        }
+    </style>
     <meta charset="UTF-8">
     <title>Faktura {{invoice.serial_number}}</title>
 </head>
 <body>
-{% load static %}
-    <table style="white-space: nowrap; font-family: 'Roboto', sans-serif">
+    <img src="{% static "/kufr-logo.png" %}" alt="">
+    <table style="white-space: nowrap; font-family: 'Poppins'">
         <tr style="font-size: 1.75em">
             <td colspan="3" ><b>FAKTURA - daňový doklad č.</b></td>
             <td colspan="4" style="text-align: right; "><b>{{invoice.serial_number}}</b></td>
@@ -29,13 +29,15 @@
             <td colspan="2"></td>
             <td>{{parameters.luzanky_address_street}}</td>
             <td>{{parameters.luzanky_address_city_psc}}</td>
-            <td colspan="3" style="text-align: right">Tel.: {{parameters.luzanky_tel}}</td>
+            <td> </td>
+            <td colspan="2">Tel.: {{parameters.luzanky_tel}}</td>
         </tr>
         <tr>
             <td colspan="2"></td>
             <td>IČ: {{parameters.luzanky_ic}}</td>
             <td>DIČ: CZ{{parameters.luzanky_ic}}</td>
-            <td colspan="2" style="text-align: right">{{parameters.luzanky_web}}</td>
+            <td> </td>
+            <td colspan="2">{{parameters.luzanky_web}}</td>
         </tr>
         <tr style="padding-top: 10px">
             <td><b>Datum</b></td>
@@ -147,9 +149,7 @@
             <td colspan="3" style="white-space: normal">{{parameters.luzanky_description}}</td>
         </tr>
         <tr style="padding-top: 100%">
-            <td colspan="2">Fakturu vystavil(a): {{parameters.invoice_issued_by}}</td>
-            <td colspan="3" style="text-align: center"><a href="https://www.luzanky.cz">www.luzanky.cz</a></td>
-            <td colspan="2" style="text-align: right">Vytiskl(a): [TODO]</td>
+            <td colspan="7">Fakturu vystavil(a): {{parameters.invoice_issued_by}}</td>
         </tr>
     </table>
 </body>

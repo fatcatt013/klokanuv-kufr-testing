@@ -1,3 +1,4 @@
+from collections import defaultdict
 
 from django.contrib.auth.models import AnonymousUser
 from django.views.generic.detail import DetailView
@@ -5,8 +6,13 @@ from django_xhtml2pdf.views import PdfMixin
 from rest_framework import permissions, viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 
-from record_sheet import models, serializers, permissions as custom_permissions
+from record_sheet import models
+from record_sheet import permissions as custom_permissions
+from record_sheet import serializers
 from record_sheet.permissions import CustomDjangoModelPermission
+
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib import messages
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -228,6 +234,64 @@ class InvoicePdfView(PdfMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["parameters"] = {
             param.name: param.value for param in models.Parameter.objects.all()
+        }
+        return context
+
+
+class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
+    model = models.Child
+    template_name = "child.html"
+
+    def has_permission(self):
+        obj = self.get_object()
+        perm = self.request.user.is_superuser or (
+            self.request.user in obj.classroom.teachers.all()
+        )
+        if not perm:
+            messages.error(self.request, "Chybějící oprávnění.")
+        return perm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["teachers"] = ", ".join(
+            [
+                f"{teacher.first_name} {teacher.last_name}"
+                for teacher in self.object.classroom.teachers.all()
+            ]
+        )
+
+        categorized = defaultdict(lambda: defaultdict(dict))
+
+        for task in models.Task.objects.all():
+            options = task.assessment_type.options.all()
+            subcategory = task.subcategory
+            category = subcategory.parent_category
+            categorized[category.label][subcategory.label]["headers"] = [
+                opt.label for opt in options
+            ]
+            codename = task.codename.split(" ")
+            categorized[category.label][subcategory.label][task.id] = {
+                "data": task,
+                "codename": [f"{codename[0]}." if codename[0] != "" else ""]
+                + codename[1:],
+            }
+            categorized[category.label][subcategory.label][task.id]["options"] = {
+                opt.id: [] for opt in options
+            }
+
+        for assessment in self.object.assessments.all():
+            task = assessment.task
+            subcategory = task.subcategory
+            category = subcategory.parent_category
+            categorized[category.label][subcategory.label][task.id]["options"][
+                assessment.option.id
+            ].append(
+                f"{assessment.date_of_assessment.strftime('%m/%y')}{f' {assessment.note}' if assessment.note else ''}"
+            )
+
+        context["tasks"] = {
+            category: dict(subcategories)
+            for category, subcategories in categorized.items()
         }
         return context
 

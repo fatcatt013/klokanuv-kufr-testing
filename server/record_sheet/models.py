@@ -72,6 +72,7 @@ class School(models.Model):
     name = models.CharField("name", max_length=100)
     address = models.CharField("address", max_length=250, blank=True)
     cin = models.IntegerField("IČO", null=True)
+    is_subscriber = models.BooleanField(default=True, verbose_name="Odběratel")
 
     def __str__(self):
         return self.name
@@ -203,7 +204,9 @@ class Child(models.Model):
 
 class Assessment(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, verbose_name="Úkol")
-    child = models.ForeignKey(Child, on_delete=models.CASCADE, verbose_name="Dítě")
+    child = models.ForeignKey(
+        Child, related_name="assessments", on_delete=models.CASCADE, verbose_name="Dítě"
+    )
     option = models.ForeignKey(
         AssessmentTypeOption, on_delete=models.CASCADE, verbose_name="Hodnocení"
     )
@@ -282,7 +285,12 @@ class ClassroomNote(models.Model):
         verbose_name = "Poznámka"
 
 
+class InvoiceManager(models.Manager):
+    pass
+
+
 class Invoice(models.Model):
+    objects = InvoiceManager()
     serial_number = models.IntegerField(verbose_name="Sériové číslo")
     school = models.ForeignKey(
         School, related_name="invoices", on_delete=models.CASCADE, verbose_name="Školka"
@@ -318,13 +326,25 @@ class Invoice(models.Model):
 
 class InvoiceItem(models.Model):
     invoice = models.ForeignKey(Invoice, related_name="items", on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
-    amount = models.IntegerField()
-    vat_rate = models.DecimalField(max_digits=4, decimal_places=2)
+    title = models.CharField(max_length=100, verbose_name="Název položky")
+    unit_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Jednotková cena"
+    )
+    amount = models.IntegerField(verbose_name="Množství")
+    vat_rate = models.DecimalField(
+        max_digits=4, decimal_places=2, verbose_name="Sazba DPH"
+    )
     total_vat = models.DecimalField(max_digits=10, decimal_places=2)
-    base_price = models.DecimalField(max_digits=10, decimal_places=2)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    base_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Základ"
+    )
+    total_price = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Celkem s DPH"
+    )
+
+    class Meta:
+        verbose_name = "Položka faktury"
+        verbose_name_plural = "Položky faktury"
 
 
 class Parameter(models.Model):

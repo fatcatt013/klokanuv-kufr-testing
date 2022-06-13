@@ -42,6 +42,7 @@ router.register(r"invoice-item", views.InvoiceItemViewSet, basename="invoice-ite
 urlpatterns = [
     path("", include(router.urls)),
     path("invoice/<int:pk>/pdf/", views.InvoicePdfView.as_view(), name="invoice_pdf"),
+    path("child/<int:pk>/pdf/", views.ChildPdfView.as_view(), name="child_pdf"),
     path("api/token/", jwt.TokenObtainPairView.as_view(), name="token_obtain_pair"),
     path("api/token/refresh/", jwt.TokenRefreshView.as_view(), name="token_refresh"),
     path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),

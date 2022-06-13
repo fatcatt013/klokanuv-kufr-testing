@@ -903,6 +903,10 @@ django-object-actions = [
     {file = "django-object-actions-4.0.0.tar.gz", hash = "sha256:e08f46ff4b41509d6647486ab2a2305692e80c126bdf9327b7a357d9724db53b"},
     {file = "django_object_actions-4.0.0-py3-none-any.whl", hash = "sha256:d87b4bb8a31e8485291acae39ceede40316091914d24bfb3073b54138f409313"},
 ]
+django-object-actions = [
+    {file = "django-object-actions-4.0.0.tar.gz", hash = "sha256:e08f46ff4b41509d6647486ab2a2305692e80c126bdf9327b7a357d9724db53b"},
+    {file = "django_object_actions-4.0.0-py3-none-any.whl", hash = "sha256:d87b4bb8a31e8485291acae39ceede40316091914d24bfb3073b54138f409313"},
+]
 django-xhtml2pdf = [
     {file = "django-xhtml2pdf-0.0.4.tar.gz", hash = "sha256:e91f4ea6033fb0eb9ae3869fe764df3c756c22897b526587aef008fb04d69871"},
     {file = "django_xhtml2pdf-0.0.4-py3-none-any.whl", hash = "sha256:84595fd7f242efffc1682eaf6646f237cb4823cda14e81b9cd642f6c790edd4e"},
