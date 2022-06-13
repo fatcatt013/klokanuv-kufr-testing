@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<head>
+    <title>{{child.first_name}} {{child.last_name}}</title>
+    <style>
+        table, th, td {
+          border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    Jméno a příjmení: {{child.first_name}} {{child.last_name}}<br>
+    Datum narození: {{child.birthdate | date:"d. m. Y"}}<br>
+    Učitelé: {{teachers}}<br>
+
+    <table>
+        <tr><th>datum</th><th>pedagog</th><th>poznámka</th></tr>
+        {% for note in child.notes.all %}
+            <tr>
+                <td>{{note.created_at | date:"d. m. Y"}}</td>
+                <td>{{note.created_by}}</td>
+                <td>{{note.note}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    {% for category, subcategories in tasks.items %}
+        <h2>{{category}}</h2>
+        {% for subcategory, tasks in subcategories.items %}
+            <h3>{{subcategory}}</h3>
+            <table>
+                <tr>
+                    <th>ÚKOL</th>
+                    <th>ZADÁNÍ</th>
+                    <th>VĚK</th>
+                    {% for header in tasks.headers %}
+                        <th>{{header | upper}}</th>
+                    {% endfor %}
+                    {% comment %} <th>{{tasks.headers}}</th> {% endcomment %}
+                </tr>
+            {% for label, task in tasks.items %}
+                {% if label != "headers"%}
+                    <tr>
+                        <td>
+                            {% for line in task.codename %}
+                                <div>{{line}}</div>
+                            {% endfor %}
+                        </td>
+                        <td>{{task.data.task_description}}</td>
+                        <td>
+                            {% if task.data.expected_age_from != 0%}
+                                {% if task.data.expected_age_to == 8 %}
+                                    {{task.data.expected_age_from | floatformat}}
+                                {% else %}
+                                    {{task.data.expected_age_from | floatformat}}-{{task.data.expected_age_to | floatformat}}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        {% for option in task.options.values%}
+                            <td>
+                                {% for opt in option %}
+                                    <div>{{opt}}</div>
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </table>
+        {% endfor %}
+    {% endfor %}
+</body>
+</html>

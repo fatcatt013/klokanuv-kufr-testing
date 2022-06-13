@@ -1,13 +1,20 @@
+from allauth.socialaccount.models import (
+    EmailAddress,
+    SocialAccount,
+    SocialApp,
+    SocialToken,
+)
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Group
+from django.db import models as db_models
+from django.forms import Textarea
+
+from django.http import HttpResponseRedirect
 
 from . import models
-from django.contrib.auth.models import Group
-from django.forms import Textarea
-from django.db import models as db_models
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
-
 
 
 # replacing username with email
@@ -114,6 +121,8 @@ class ChildAdmin(admin.ModelAdmin):
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
 
+    change_form_template = "child_admin_export.html"
+
     # filter results - teachers & headmasters can only see children if they belong to the same class
     def get_queryset(self, request):
         qs = super(ChildAdmin, self).get_queryset(request)
@@ -133,6 +142,11 @@ class ChildAdmin(admin.ModelAdmin):
             if request.user.is_superuser:
                 kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def response_change(self, request, obj):
+        if "_export-pdf" in request.POST:
+            return HttpResponseRedirect(f"/child/{obj.id}/pdf/")
+        return super().response_change(request, obj)
 
 
 class ClassroomAdmin(admin.ModelAdmin):
@@ -216,7 +230,7 @@ class AssessmentAdmin(admin.ModelAdmin):
 
 class InvoiceItemInline(admin.TabularInline):
     model = models.InvoiceItem
-    fields = ["title", "unit_price", "amount", "vat_rate", "total_vat", "total_price"]
+    fields = ["title", "amount", "unit_price", "vat_rate", "base_price", "total_price"]
     readonly_fields = fields
     can_delete = False
     extra = 0
@@ -252,7 +266,7 @@ class InvoiceAdmin(admin.ModelAdmin):
             return qs
         return qs.filter(school=request.user.school)
 
-    def has_add_permission(self, request, obj=None):
+    def has_add_permission(self, request):
         return False
 
     def has_delete_permission(self, request, obj=None):
@@ -271,5 +285,9 @@ admin.site.register(models.ChildNote, ChildNoteAdmin)
 admin.site.register(models.ClassroomNote, ClassroomNoteAdmin)
 admin.site.register(models.Assessment, AssessmentAdmin)
 admin.site.unregister(Group)
+admin.site.unregister(SocialToken)
+admin.site.unregister(SocialAccount)
+admin.site.unregister(SocialApp)
+admin.site.unregister(EmailAddress)
 admin.site.register(models.Invoice, InvoiceAdmin)
 admin.site.register(models.Parameter, ParameterAdmin)
