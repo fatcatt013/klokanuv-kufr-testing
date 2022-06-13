@@ -9,6 +9,7 @@ def on_user_signed_up(request, user, **kwargs):
         Invitation = get_invitation_model()
         invite = Invitation.objects.get(email=user.email)
         user.school = invite.school
+        user.groups.add(invite.group)
         user.save()
     except Invitation.DoesNotExist:
         print("signed up user was not invited.")

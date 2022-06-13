@@ -2,7 +2,7 @@ import datetime
 
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-
+from django.contrib.auth.models import Group
 
 try:
     from django.urls import reverse
@@ -34,6 +34,15 @@ class Invitation(AbstractBaseInvitation):
         related_name="%(class)s",
         on_delete=models.CASCADE,
         verbose_name=_("Školka"),
+    )
+
+    group = models.ForeignKey(
+        Group,
+        related_name="%(class)s",
+        on_delete=models.CASCADE,
+        verbose_name=_("Pozice"),
+        null=True
+        # default=Group.objects.get(label="Teachers"),
     )
 
     @classmethod

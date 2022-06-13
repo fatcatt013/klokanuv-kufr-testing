@@ -78,7 +78,7 @@ class InvitationAdminAddForm(forms.ModelForm, CleanEmailMixin):
 
     class Meta:
         model = Invitation
-        fields = ("email", "inviter", "school")
+        fields = ("email", "inviter", "school", "group")
 
 
 class InvitationAdminChangeForm(forms.ModelForm):
