@@ -32,6 +32,12 @@ class AssessmentSerializer(serializers.ModelSerializer):
             "note",
             "assessed_by",
         ]
+        extra_kwargs = {
+            "note": {
+                "required": False,
+                "allow_blank": True,
+            }
+        }
 
 
 class AssessmentTypeSerializer(serializers.ModelSerializer):
@@ -45,7 +51,7 @@ class AssessmentTypeSerializer(serializers.ModelSerializer):
 class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.School
-        fields = ["id", "name", "address", "url", "cin", "variable_symbol"]
+        fields = ["id", "name", "address", "url", "cin"]
 
 
 class TaskSerializer(serializers.ModelSerializer):

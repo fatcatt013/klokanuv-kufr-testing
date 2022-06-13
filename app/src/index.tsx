@@ -1,6 +1,6 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { useTheme } from 'react-native-paper';
+import { Subheading, useTheme } from 'react-native-paper';
 import { useAuth } from './use-auth';
 import { RootStack } from './lib/navigation';
 import { LoginScreen } from './screens/Login';
@@ -23,11 +23,30 @@ import { PreparingAppScreen } from './screens/PreparingApp';
 import { HeaderMenu } from './components/HeaderMenu';
 import { useRecoilValue } from 'recoil';
 import { categoryState, dataReadyState } from './store';
+import { useFetchers } from './actions';
+import { Alert, Platform } from 'react-native';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
   const theme = useTheme();
   const dataReady = useRecoilValue(dataReadyState);
+  const fetchers = useFetchers();
+
+  React.useEffect(() => {
+    if (!initializing && dataReady && authenticated) {
+      (async () => {
+        try {
+          await fetchers.fetchSchool();
+        } catch (e) {
+          if (Platform.OS === 'web') {
+            alert(e);
+          } else {
+            Alert.alert('Chyba', e);
+          }
+        }
+      })();
+    }
+  }, [initializing, dataReady, authenticated])
 
   if (initializing) {
     return <AppLoading />;
@@ -91,7 +110,12 @@ export function App() {
         <RootStack.Screen
           name="ClassCategory"
           component={ClassCategoryScreen}
-          options={({ route }) => ({ headerTitle: useRecoilValue(categoryState(route.params.categoryId))?.label })}
+          options={({ route }) => ({
+            headerTitle: () => {
+              const cat = useRecoilValue(categoryState(route.params.categoryId));
+              return <Subheading style={{ color: 'white' }}>{cat?.label}</Subheading>;
+            }
+          })}
         />
         <RootStack.Screen
           name="ClassTask"
@@ -102,7 +126,12 @@ export function App() {
         <RootStack.Screen
           name="ChildCategory"
           component={ChildCategoryScreen}
-          options={({ route }) => ({ headerTitle: useRecoilValue(categoryState(route.params.categoryId))?.label })}
+          options={({ route }) => ({
+            headerTitle: () => {
+              const cat = useRecoilValue(categoryState(route.params.categoryId));
+              return <Subheading style={{ color: 'white' }}>{cat?.label}</Subheading>;
+            }
+          })}
         />
         <RootStack.Screen
           name="ChildTask"

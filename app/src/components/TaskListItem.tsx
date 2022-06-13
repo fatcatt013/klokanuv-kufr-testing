@@ -45,9 +45,9 @@ export const TaskListItem: React.FC<{
             </Text>
             {item.expected_age_from !== '0.00' && (
               <Text style={{ color: theme.colors.grey }}>
-                Věk: {Math.round(parseFloat(item.expected_age_from || '0') * 10) / 10}
+                Věk: {Math.round(parseFloat(item.expected_age_from || '0') * 100) / 100}
                 {item.expected_age_from !== item.expected_age_to && item.expected_age_to !== '8.00'
-                  ? `-${Math.round(parseFloat(item.expected_age_to || '0') * 10) / 10}` : ''}
+                  ? `-${Math.round(parseFloat(item.expected_age_to || '0') * 100) / 100}` : ''}
               </Text>
             )}
           </View>

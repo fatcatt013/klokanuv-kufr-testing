@@ -28,7 +28,10 @@ export const ClassHeader = React.memo(function ClassHeader(props: ClassHeaderPro
     }
   >
     {classrooms.map(x => (
-      <Menu.Item key={x.id} title={x.label} onPress={() => props.selectClass(x.id!)} />
+      <Menu.Item key={x.id} title={x.label} onPress={() => {
+        props.selectClass(x.id!);
+        setVisible(false);
+      }} />
     ))}
   </Menu>
 });

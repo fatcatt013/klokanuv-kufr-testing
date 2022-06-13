@@ -14,6 +14,7 @@ import {
 } from './store';
 import { useApi } from './use-fetch';
 import { Components } from "./server";
+import intervalToDuration from 'date-fns/intervalToDuration';
 
 export const useFetchers = () => {
   const { authAxios } = useApi();
@@ -40,7 +41,15 @@ export const useFetchers = () => {
       setTasks(await authAxios.get('/tasks/').then(x => x.data as any || []));
     },
     async fetchAssessmentTypes() {
-      setAssessmentTypes(await authAxios.get('/assessment-types/').then(x => x.data as any || []));
+      const { data } = await authAxios.get<Components.Schemas.AssessmentType[]>('/assessment-types/');
+      setAssessmentTypes(data.map(item => {
+        const options = item.options || [];
+        const optionsScore: { [id: number]: number } = {};
+        item.options?.forEach((option, i) => {
+          optionsScore[option.id!] = i;
+        });
+        return { ...item, options, optionsScore };
+      }));
     },
 
     async fetchSchool() {
@@ -53,7 +62,27 @@ export const useFetchers = () => {
       setClasses(await authAxios.get('/classes/').then(x => x.data as any || []));
     },
     async fetchChildren() {
-      setChildren(await authAxios.get('/children/').then(x => x.data as any || []));
+      const { data } = await authAxios.get<Components.Schemas.Child[]>('/children/');
+      setChildren(data.map((child) => {
+        const age = intervalToDuration({
+          start: new Date(child.birthdate || ''),
+          end: new Date(),
+        });
+        let years = age.years || 0;
+        let months = age.months || 0;
+        if (months > 4 && months < 8) {
+          years += 0.5;
+          months = 0;
+        }
+
+        return {
+          ...child,
+          ageNumber: (age.years || 0) + (age.months || 0) / 12,
+          ageString: (years < 5 ? ` ${years} roky` : ` ${years} let`) +
+            (months === 1 ? ', 1 měsíc' :
+              (months > 1 && months < 5) ? `, ${months} měsíce` : `, ${months} měsíců`),
+        };
+      }));
     },
 
     async fetchAssessments() {

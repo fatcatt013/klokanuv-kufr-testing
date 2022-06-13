@@ -64,6 +64,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     },
     async logOut() {
       await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('recoil-persist');
       setAuthState({
         access: null,
         refresh: null,
