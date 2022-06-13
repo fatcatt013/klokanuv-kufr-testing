@@ -11,6 +11,9 @@ from record_sheet import permissions as custom_permissions
 from record_sheet import serializers
 from record_sheet.permissions import CustomDjangoModelPermission
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib import messages
+
 
 class TaskViewSet(viewsets.ModelViewSet):
     """
@@ -235,15 +238,18 @@ class InvoicePdfView(PdfMixin, DetailView):
         return context
 
 
-class ChildPdfView(PdfMixin, DetailView):
+class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
     model = models.Child
     template_name = "child.html"
 
     def has_permission(self):
-        print("has_permission")
-        return self.request.user.is_superuser or (
-            self.request.user in self.object.classroom.teachers.all()
+        obj = self.get_object()
+        perm = self.request.user.is_superuser or (
+            self.request.user in obj.classroom.teachers.all()
         )
+        if not perm:
+            messages.error(self.request, "Chybějící oprávnění.")
+        return perm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -266,7 +272,8 @@ class ChildPdfView(PdfMixin, DetailView):
             codename = task.codename.split(" ")
             categorized[category.label][subcategory.label][task.id] = {
                 "data": task,
-                "codename": [f"{codename[0]}." if codename[0] != '' else ""] + codename[1:]
+                "codename": [f"{codename[0]}." if codename[0] != "" else ""]
+                + codename[1:],
             }
             categorized[category.label][subcategory.label][task.id]["options"] = {
                 opt.id: [] for opt in options
