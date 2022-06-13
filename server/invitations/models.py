@@ -30,7 +30,10 @@ class Invitation(AbstractBaseInvitation):
     created = models.DateTimeField(verbose_name=_("created"), default=timezone.now)
 
     school = models.ForeignKey(
-        School, related_name="%(class)s", on_delete=models.CASCADE
+        School,
+        related_name="%(class)s",
+        on_delete=models.CASCADE,
+        verbose_name=_("Školka"),
     )
 
     @classmethod
@@ -76,7 +79,7 @@ class Invitation(AbstractBaseInvitation):
         )
 
     def __str__(self):
-        return f"Invite: {self.email}"
+        return f"Pozvánka: {self.email}"
 
 
 # here for backwards compatibility, historic allauth adapter

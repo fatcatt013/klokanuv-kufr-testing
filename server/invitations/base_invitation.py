@@ -6,7 +6,7 @@ from .managers import BaseInvitationManager
 
 
 class AbstractBaseInvitation(models.Model):
-    accepted = models.BooleanField(verbose_name=_("accepted"), default=False)
+    accepted = models.BooleanField(verbose_name="Akceptováno", default=False)
     key = models.CharField(verbose_name=_("key"), max_length=64, unique=True)
     sent = models.DateTimeField(verbose_name=_("sent"), null=True)
     inviter = models.ForeignKey(
@@ -14,12 +14,15 @@ class AbstractBaseInvitation(models.Model):
         null=True,
         blank=True,
         on_delete=models.CASCADE,
+        verbose_name="Pozívající",
     )
 
     objects = BaseInvitationManager()
 
     class Meta:
         abstract = True
+        verbose_name = "Pozvánka"
+        verbose_name_plural = "Pozvánky"
 
     @classmethod
     def create(cls, email, inviter=None, **kwargs):
