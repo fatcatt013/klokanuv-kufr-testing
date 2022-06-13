@@ -189,6 +189,14 @@ python-versions = ">=3.7"
 Django = ">=3.2"
 
 [[package]]
+name = "django-object-actions"
+version = "4.0.0"
+description = "A Django app for adding object tools for models in the admin"
+category = "main"
+optional = false
+python-versions = ">=3.7,<4.0"
+
+[[package]]
 name = "django-xhtml2pdf"
 version = "0.0.4"
 description = "A Django app to generate pdfs from templates"
@@ -739,7 +747,7 @@ svglib = ">=1.2.1"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "16113c8d3d65125cd381a6d5dfa3d827ec9058839344ba0d7ad149acbdaf0e34"
+content-hash = "882d4ac73df49702bbddfcb823a99711fe30d507931d54d68cca164efac8cfa6"
 
 [metadata.files]
 arabic-reshaper = [
@@ -890,6 +898,10 @@ django-allauth = [
 django-cors-headers = [
     {file = "django-cors-headers-3.13.0.tar.gz", hash = "sha256:f9dc6b4e3f611c3199700b3e5f3398c28757dcd559c2f82932687f3d0443cfdf"},
     {file = "django_cors_headers-3.13.0-py3-none-any.whl", hash = "sha256:37e42883b5f1f2295df6b4bba96eb2417a14a03270cb24b2a07f021cd4487cf4"},
+]
+django-object-actions = [
+    {file = "django-object-actions-4.0.0.tar.gz", hash = "sha256:e08f46ff4b41509d6647486ab2a2305692e80c126bdf9327b7a357d9724db53b"},
+    {file = "django_object_actions-4.0.0-py3-none-any.whl", hash = "sha256:d87b4bb8a31e8485291acae39ceede40316091914d24bfb3073b54138f409313"},
 ]
 django-xhtml2pdf = [
     {file = "django-xhtml2pdf-0.0.4.tar.gz", hash = "sha256:e91f4ea6033fb0eb9ae3869fe764df3c756c22897b526587aef008fb04d69871"},
