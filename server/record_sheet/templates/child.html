@@ -1,52 +1,112 @@
+{% load static %}
+{% load divide %}
+{% load concat %}
+
 <!DOCTYPE html>
 <head>
+    <meta charset="UTF-8">
     <title>{{child.first_name}} {{child.last_name}}</title>
     <style>
-        table, th, td {
-          border:1px solid black;
+        @font-face {
+            font-family: "Poppins-Regular";
+            src: url("{% static "/Poppins-Regular.ttf"%}");
+        }
+        @font-face {
+            font-family: "Poppins-Medium";
+            src: url("{% static "/Poppins-Medium.ttf"%}");
         }
     </style>
 </head>
 <body>
-    Jméno a příjmení: {{child.first_name}} {{child.last_name}}<br>
-    Datum narození: {{child.birthdate | date:"d. m. Y"}}<br>
-    Učitelé: {{teachers}}<br>
+    <h1 style="font-size: 24px; text-align: center">Záznamový arch</h1>
+    <table style="font-size: 16px">
+        <tr>
+            <td colspan="3">Jméno a příjmení: {{child.first_name}} {{child.last_name}}</td>
+            <td colspan="4" style="text-align: right">Datum narození: {{child.birthdate | date:"d. m. Y"}}</td>
+        </tr>
+        <tr>
+            <td colspan="7">Učitelé: {{teachers}}</td>
+        </tr>
+    </table>
 
-    <table>
-        <tr><th>datum</th><th>pedagog</th><th>poznámka</th></tr>
+    <table style="border: 1px solid darkgray; padding: 6px 3px 2px 3px">
+        <tr style="background-color: #9b9c9f; color: white">
+            <th>Datum</th>
+            <th colspan="2">Pedagog</th>
+            <th colspan="5">Poznámka</th>
+        </tr>
         {% for note in child.notes.all %}
-            <tr>
-                <td>{{note.created_at | date:"d. m. Y"}}</td>
-                <td>{{note.created_by}}</td>
-                <td>{{note.note}}</td>
-            </tr>
+            {% if forloop.counter|divisibleby:2 %}
+                <tr style="padding-top: 4px; background-color: #f3f3f3">
+                    <td>{{note.created_at | date:"d. m. Y"}}</td>
+                    <td colspan="2">{{note.created_by.first_name}}
+                        {{note.created_by.last_name}}</td>
+                    <td colspan="5">{{note.note}}</td>
+                </tr>
+            {% else %}
+                <tr style="padding-top: 4px">
+                    <td>{{note.created_at | date:"d. m. Y"}}</td>
+                    <td colspan="2">{{note.created_by.first_name}}
+                        {{note.created_by.last_name}}</td>
+                    <td colspan="5">{{note.note}}</td>
+                </tr>
+            {% endif %}
         {% endfor %}
     </table>
 
+    <pdf:nextpage>
     {% for category, subcategories in tasks.items %}
-        <h2>{{category}}</h2>
+        {% with forloop.counter as catId %}
         {% for subcategory, tasks in subcategories.items %}
-            <h3>{{subcategory}}</h3>
-            <table>
-                <tr>
-                    <th>ÚKOL</th>
-                    <th>ZADÁNÍ</th>
-                    <th>VĚK</th>
-                    {% for header in tasks.headers %}
-                        <th>{{header | upper}}</th>
-                    {% endfor %}
-                    {% comment %} <th>{{tasks.headers}}</th> {% endcomment %}
+            {% if forloop.counter == 1 %}
+                <table>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr>
+                        <td colspan="4"><img src="{% static "/icons/cat_"|concat:catId|concat:".png" %}" style="width: 64px" alt=""></td>
+                        <td></td>
+                        <td colspan="43">
+                            <div style="font-size: 16px; font-family: 'Poppins-Medium'">{{category}}</div>
+                            <div style="font-size: 12px; font-family: 'Poppins-Medium'">{{subcategory}}</div>
+                        </td>
+                    </tr>
+                </table>
+            {% else %}
+                <table>
+                    <tr></tr>
+                    <tr></tr>
+                    <tr>
+                        <td colspan="48">
+                            <div style="font-size: 12px; font-family: 'Poppins-Medium'">{{subcategory}}</div>
+                        </td>
+                    </tr>
+                </table>
+            {% endif %}
+            <table style="border: 1px solid darkgray; background-color: #ececed; padding: 6px
+            3px 2px 3px">
+                <tr style="text-align: center; background-color: #9b9c9f; color: white">
+                    <th colspan="2">ÚKOL</th>
+                    <th colspan="8">ZADÁNÍ</th>
+                    <th colspan="2">VĚK</th>
+                    {% with tasks.headers|length as len %}
+                        {% with 12|divide:len as headersLen %}
+                            {% for header in tasks.headers %}
+                                <th colspan="{{ headersLen }}">{{header | upper}}</th>
+                            {% endfor %}
+                        {% endwith %}
+                    {% endwith %}
                 </tr>
             {% for label, task in tasks.items %}
                 {% if label != "headers"%}
-                    <tr>
-                        <td>
+                    <tr {% if task.codename|first == "" %} style="background-color: white"
+                    {% endif %}>
+                        <td colspan="2">
                             {% for line in task.codename %}
                                 <div>{{line}}</div>
                             {% endfor %}
                         </td>
-                        <td>{{task.data.task_description}}</td>
-                        <td>
+                        <td colspan="8">{{task.data.task_description}}</td>
+                        <td colspan="2" style="text-align: center">
                             {% if task.data.expected_age_from != 0%}
                                 {% if task.data.expected_age_to == 8 %}
                                     {{task.data.expected_age_from | floatformat}}
@@ -56,17 +116,23 @@
                             {% endif %}
                         </td>
                         {% for option in task.options.values%}
-                            <td>
-                                {% for opt in option %}
-                                    <div>{{opt}}</div>
-                                {% endfor %}
-                            </td>
+                            {% with tasks.headers|length as len %}
+                                {% with 12|divide:len as headersLen %}
+                                    <td colspan="{{ headersLen }}">
+                                        {% for opt in option %}
+                                            <div>{{opt}} </div>
+                                        {% endfor %}
+                                    </td>
+                                {% endwith %}
+                            {% endwith %}
                         {% endfor %}
                     </tr>
                 {% endif %}
-            {% endfor %}
+            {% endfor %} {# endfor options #}
             </table>
-        {% endfor %}
-    {% endfor %}
+        {% endfor %} {# endfor subcategory #}
+        {% endwith %} {# endwith catId #}
+    {% endfor %} {# endfor category #}
+    </pdf:nextpage>
 </body>
 </html>

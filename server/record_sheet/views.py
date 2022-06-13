@@ -235,7 +235,7 @@ class InvoicePdfView(PdfMixin, DetailView):
         return context
 
 
-class ChildPdfView(DetailView):
+class ChildPdfView(PdfMixin, DetailView):
     model = models.Child
     template_name = "child.html"
 
@@ -263,9 +263,10 @@ class ChildPdfView(DetailView):
             categorized[category.label][subcategory.label]["headers"] = [
                 opt.label for opt in options
             ]
+            codename = task.codename.split(" ")
             categorized[category.label][subcategory.label][task.id] = {
                 "data": task,
-                "codename": task.codename.split(" "),
+                "codename": [f"{codename[0]}." if codename[0] != '' else ""] + codename[1:]
             }
             categorized[category.label][subcategory.label][task.id]["options"] = {
                 opt.id: [] for opt in options
