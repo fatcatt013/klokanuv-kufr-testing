@@ -1,7 +1,8 @@
 import React from "react";
 import { FlatList, View } from "react-native";
 import { Card, Text, useTheme } from "react-native-paper";
-import { useClassroom } from "../../use-school-data";
+import { useRecoilValue } from "recoil";
+import { classChildrenState } from "../../store";
 import { CustomCheckbox } from '../CustomCheckbox'
 
 interface ChildPickerProps {
@@ -12,9 +13,9 @@ interface ChildPickerProps {
 
 export const ChildPicker = React.memo(function ChildPicker(props: ChildPickerProps) {
   const theme = useTheme();
-  const classroom = useClassroom(props.classroom);
 
-  const children = (classroom?.children || []).sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
+  let children = useRecoilValue(classChildrenState(props.classroom));
+  children = [...children].sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
 
   const toggleId = React.useCallback((id: number) => {
     if (props.selected.includes(id)) {

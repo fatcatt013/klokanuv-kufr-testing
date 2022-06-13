@@ -4,12 +4,13 @@ import { FlatList } from 'react-native';
 import { Card, Title } from 'react-native-paper';
 import { Background } from '../components/Background';
 import { RootStackParamList } from '../lib/navigation';
-import { useClassrooms } from '../use-school-data';
+import { useRecoilValue } from 'recoil';
+import { classesState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'ClassList'>;
 
 export const ClassListScreen = React.memo(function ClassListScreen({ navigation }: Props) {
-  const classrooms = useClassrooms();
+  const classrooms = useRecoilValue(classesState);
 
   return <Background>
     <FlatList

@@ -4,18 +4,21 @@ from allauth.socialaccount.models import (
     SocialApp,
     SocialToken,
 )
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django.forms import Textarea, ValidationError
 from django.db import models as db_models
-from django.forms import Textarea
-
+from django_object_actions import DjangoObjectActions
+from django.shortcuts import render
+from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
+import sys
 
-from . import models
+from . import models, forms
 
 admin.site.site_header = "Administrace webu Klokanův Kufr"
-
 
 # replacing username with email
 class CustomUserAdmin(UserAdmin):
@@ -71,8 +74,6 @@ class CustomUserAdmin(UserAdmin):
             return qs.filter(school=request.user.school)
         return qs
 
-    # TODO: pridat filter na zobrazovanie pola is_superuser - treba ho vobec? - netreba
-
 
 class ChildNoteAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -116,7 +117,7 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class ChildAdmin(admin.ModelAdmin):
+class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
@@ -147,6 +148,130 @@ class ChildAdmin(admin.ModelAdmin):
         if "_export-pdf" in request.POST:
             return HttpResponseRedirect(f"/child/{obj.id}/pdf/")
         return super().response_change(request, obj)
+
+    def import_children(modeladmin, request, queryset):
+
+        if request.method == "POST":
+            csv_file = request.FILES["csv_upload"]
+
+            if not csv_file.name.endswith(".csv"):
+                messages.error(
+                    request, "Nahráli jste nesprávný typ souboru. Očekávaný typ je CSV."
+                )
+                return HttpResponseRedirect(request.path_info)
+
+            file_data = csv_file.read().decode("utf-8")
+            csv_data = file_data.split("\n")
+            if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
+                messages.error(
+                    request,
+                    """Nesprávný formát CSV - první řádek musí obsahovat názvy sloupců: \
+                        jméno|přijmení|datum narození|pohlaví|škola|třída . Žádné nové záznamy se neuložili.""",
+                )
+                return HttpResponseRedirect(request.path_info)
+
+            ending_empty_lines = True
+
+            # taking care of possible empty line(s) from the end of the csv
+            while ending_empty_lines is True:
+                if csv_data[-1] == "":
+                    csv_data.pop(-1)
+                else:
+                    ending_empty_lines = False
+
+            # count number of fields of first row, then make sure that each row has same no. of fields
+            reference_no_of_fields = len(csv_data[0].split("|"))
+            children_to_add = []
+            for x in csv_data:
+                fields = x.split("|")
+                if len(fields) != reference_no_of_fields:
+                    messages.error(
+                        request,
+                        "Některé řádky obsahují různý počet sloupců. Všechny řádky musí mít stejný počet. \
+                                Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
+
+                try:
+                    school = models.School.objects.get(name=fields[4])
+                except ObjectDoesNotExist:
+                    messages.error(
+                        request,
+                        "Zadaná školka neexistuje. Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
+
+                try:
+                    classroom = models.Classroom.objects.get(
+                        label=fields[5], teachers=request.user
+                    )
+                except ObjectDoesNotExist:
+                    messages.error(
+                        request,
+                        "Zadaná třída neexistuje anebo k ní nemáte přístup. Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
+
+                try:
+                    first_name, last_name, birthdate, gender = (
+                        fields[0],
+                        fields[1],
+                        fields[2],
+                        fields[3],
+                    )
+                except IndexError as index_err:
+                    messages.error(request, index_err)
+                    return HttpResponseRedirect(request.path_info)
+
+                if gender not in ["F", "M"]:
+                    messages.error(
+                        request,
+                        "Hodnota pole 'pohlaví' není správná - prosím vyplňte buď 'F' nebo 'M'.\
+                            Žádné nové záznamy se neuložili.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
+
+                if classroom.school != request.user.school:
+                    messages.error(
+                        request,
+                        "Zadaná školka neexistuje anebo nepatří pod vaši správu.",
+                    )
+                    return HttpResponseRedirect(request.path_info)
+
+                new_child = models.Child(
+                    first_name=first_name,
+                    last_name=last_name,
+                    birthdate=birthdate,
+                    gender=gender,
+                    school=school,
+                    classroom=classroom,
+                )
+
+                children_to_add.append(new_child)
+
+            try:
+                models.Child.objects.bulk_create(children_to_add)
+                messages.success(request, "CSV soubor byl úspěšně zpracován.")
+            except ValidationError as val_err:
+                messages.error(request, val_err)
+            return HttpResponseRedirect(request.path_info)
+
+        form = forms.CsvImportForm()
+        data = {"form": form}
+        return render(request, "csv_upload.html", data)
+
+    import_children.label = "Importovat CSV"
+    import_children.short_description = (
+        "Nahrát CSV soubor s datami dětí, které se uloží do databáze."
+    )
+    changelist_actions = ("import_children",)
+
+    # if user is an admin (svcluzanky), we're not showing the importcsv button
+    def get_changelist_actions(self, request):
+        if request.user.is_superuser:
+            return []
+
+        return self.changelist_actions
 
 
 class ClassroomAdmin(admin.ModelAdmin):
@@ -191,7 +316,6 @@ class SchoolAdmin(admin.ModelAdmin):
         return qs.filter(users__id=request.user.id)
 
 
-# TODO: options pre assessment su velmi neprehladne (mb to nie je ani treba v adminovi?) - zakazat edit a add
 class AssessmentAdmin(admin.ModelAdmin):
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
@@ -237,7 +361,6 @@ class InvoiceItemInline(admin.TabularInline):
 
 
 class InvoiceAdmin(admin.ModelAdmin):
-
     fields = [
         "serial_number",
         "school",

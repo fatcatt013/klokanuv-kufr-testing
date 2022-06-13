@@ -19,12 +19,15 @@ import { ProfileScreen } from './screens/Profile';
 import { CreateAssessmentScreen } from './screens/CreateAssessment';
 import { AssessmentScreen } from './screens/Assessment';
 import { AboutScreen } from './screens/About';
+import { PreparingAppScreen } from './screens/PreparingApp';
 import { HeaderMenu } from './components/HeaderMenu';
-import { useCategory } from './use-core-data';
+import { useRecoilValue } from 'recoil';
+import { categoryState, dataReadyState } from './store';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
   const theme = useTheme();
+  const dataReady = useRecoilValue(dataReadyState);
 
   if (initializing) {
     return <AppLoading />;
@@ -38,6 +41,14 @@ export function App() {
           <RootStack.Screen name="Register" component={RegisterScreen} />
           <RootStack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
         </RootStack.Group>
+      </RootStack.Navigator>
+    );
+  }
+
+  if (!dataReady) {
+    return (
+      <RootStack.Navigator initialRouteName="PreparingApp">
+        <RootStack.Screen name="PreparingApp" component={PreparingAppScreen} options={{ headerShown: false }} />
       </RootStack.Navigator>
     );
   }
@@ -80,7 +91,7 @@ export function App() {
         <RootStack.Screen
           name="ClassCategory"
           component={ClassCategoryScreen}
-          options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
+          options={({ route }) => ({ headerTitle: useRecoilValue(categoryState(route.params.categoryId))?.label })}
         />
         <RootStack.Screen
           name="ClassTask"
@@ -91,7 +102,7 @@ export function App() {
         <RootStack.Screen
           name="ChildCategory"
           component={ChildCategoryScreen}
-          options={({ route }) => ({ headerTitle: useCategory(route.params.categoryId)?.label })}
+          options={({ route }) => ({ headerTitle: useRecoilValue(categoryState(route.params.categoryId))?.label })}
         />
         <RootStack.Screen
           name="ChildTask"

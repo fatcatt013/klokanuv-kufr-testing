@@ -40,5 +40,5 @@ web-build/
 # App-specific
 __pycache__/
 db.sqlite3
-server/static/
+# server/static/
 result

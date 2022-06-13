@@ -1,8 +1,9 @@
 import React from 'react';
 import { Card, Text } from 'react-native-paper';
 import { FlatList, View } from 'react-native';
-import { useSubcategory } from '../use-core-data';
 import { CustomCheckbox } from './CustomCheckbox';
+import { useRecoilValue } from 'recoil';
+import { subcategoryTasksState } from '../store';
 
 interface TaskPickerProps {
   subcategory: number;
@@ -11,10 +12,10 @@ interface TaskPickerProps {
 }
 
 export const TaskPicker = React.memo(function TaskPicker(props: TaskPickerProps) {
-  const subcategory = useSubcategory(props.subcategory);
+  const tasks = useRecoilValue(subcategoryTasksState(props.subcategory));
 
   return <FlatList
-    data={subcategory?.tasks}
+    data={tasks}
     keyExtractor={item => item.id!.toString()}
     renderItem={({ item }) => (
       <Card key={item.id} style={{ margin: 4 }}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { SectionList } from 'react-native';
 import { Text } from 'react-native-paper';
-import { useCategory } from '../use-core-data';
+import { useRecoilValue } from 'recoil';
+import { categoryTasksState } from '../store';
 import { TaskListItem } from './TaskListItem';
 
 interface TaskPickerProps {
@@ -11,10 +12,10 @@ interface TaskPickerProps {
 }
 
 export const TaskPicker2 = React.memo(function TaskPicker(props: TaskPickerProps) {
-  const category = useCategory(props.category);
+  const subcategories = useRecoilValue(categoryTasksState(props.category));
 
   return <SectionList
-    sections={category?.subcategories || []}
+    sections={subcategories}
     keyExtractor={(item) => item.id.toString()}
     renderItem={({ item }) => (
       <TaskListItem

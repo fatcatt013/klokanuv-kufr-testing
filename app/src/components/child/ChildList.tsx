@@ -2,24 +2,25 @@ import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 import { theme } from '../../theme';
 import { ClassIDContext } from '../../lib/contexts';
-import { useClassroom } from '../../use-school-data';
 import { Card, Portal, Text } from 'react-native-paper';
 import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParamList } from '../../lib/navigation';
 import { CustomCheckbox } from '../CustomCheckbox';
 import { MultiFAB } from '../MultiFAB';
+import { useRecoilValue } from 'recoil';
+import { classChildrenState } from '../../store';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
 export function ChildList({ navigation }: Props) {
   const classId = React.useContext(ClassIDContext);
-  const classroom = useClassroom(classId);
+  let children = useRecoilValue(classChildrenState(classId));
+  children = [...children].sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
+
   const isFocused = useIsFocused();
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
   const [selected, setSelected] = React.useState<number[]>([]);
-
-  const children = (classroom?.children || []).sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
 
   React.useEffect(() => {
     setSelected([]);
