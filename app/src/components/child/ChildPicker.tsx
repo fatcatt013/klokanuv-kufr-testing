@@ -13,9 +13,7 @@ interface ChildPickerProps {
 
 export const ChildPicker = React.memo(function ChildPicker(props: ChildPickerProps) {
   const theme = useTheme();
-
-  let children = useRecoilValue(classChildrenState(props.classroom));
-  children = [...children].sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
+  const children = useRecoilValue(classChildrenState(props.classroom));
 
   const toggleId = React.useCallback((id: number) => {
     if (props.selected.includes(id)) {
@@ -42,9 +40,7 @@ export const ChildPicker = React.memo(function ChildPicker(props: ChildPickerPro
         onPress={() => toggleId(item.id!)}
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <Text style={{ marginLeft: 10, color: 'white' }}>
-            {item.first_name} {item.last_name.slice(0, 1)}.
-          </Text>
+          <Text style={{ marginLeft: 10, color: 'white' }}>{item.shortName}</Text>
           <CustomCheckbox
             iconStyle={{ color: 'white' }}
             checked={props.selected.includes(item.id!)}

@@ -15,6 +15,7 @@ import {
 import { useApi } from './use-fetch';
 import { Components } from "./server";
 import intervalToDuration from 'date-fns/intervalToDuration';
+import { icons } from './components/icons';
 
 export const useFetchers = () => {
   const { authAxios } = useApi();
@@ -32,14 +33,25 @@ export const useFetchers = () => {
 
   return {
     async fetchCategories() {
-      setCategories(await authAxios.get('/categories/').then(x => x.data as any || []));
+      const { data: categories } = await authAxios.get<Components.Schemas.Category[]>('/categories/');
+      let ordered: Components.Schemas.Category[] = [];
+      Object.keys(icons).forEach((label) => {
+        const i = categories.findIndex((x) => x.label === label);
+        if (i > -1) {
+          ordered = ordered.concat(categories.splice(i, 1));
+        }
+      });
+      setCategories(ordered.concat(categories));
     },
+
     async fetchSubcategories() {
       setSubcategories(await authAxios.get('/subcategories/').then(x => x.data as any || []));
     },
+
     async fetchTasks() {
       setTasks(await authAxios.get('/tasks/').then(x => x.data as any || []));
     },
+
     async fetchAssessmentTypes() {
       const { data } = await authAxios.get<Components.Schemas.AssessmentType[]>('/assessment-types/');
       setAssessmentTypes(data.map(item => {
@@ -77,12 +89,15 @@ export const useFetchers = () => {
 
         return {
           ...child,
+          shortName: `${child.first_name} ${child.last_name.slice(0, 1)}.`,
           ageNumber: (age.years || 0) + (age.months || 0) / 12,
           ageString: (years < 5 ? ` ${years} roky` : ` ${years} let`) +
-            (months === 1 ? ', 1 měsíc' :
-              (months > 1 && months < 5) ? `, ${months} měsíce` : `, ${months} měsíců`),
+            (months === 0 ? '' :
+              months === 1 ? ', 1 měsíc' :
+                (months > 1 && months < 5) ? `, ${months} měsíce` :
+                  `, ${months} měsíců`),
         };
-      }));
+      }).sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name)));
     },
 
     async fetchAssessments() {

@@ -48,10 +48,12 @@ export const classesState = atom<Components.Schemas.Classroom[]>({
   default: [],
 });
 
-export const childrenState = atom<(Components.Schemas.Child & {
+export type ChildType = Components.Schemas.Child & {
   ageString: string;
   ageNumber: number;
-})[]>({
+  shortName: string;
+};
+export const childrenState = atom<ChildType[]>({
   key: 'children',
   effects_UNSTABLE: [persistAtom],
   default: [],
@@ -282,7 +284,9 @@ export const childSubcategoryStatsState = selectorFamily({
         statsOlder.filledOut += 1;
       }
     });
-    const scoreAppropriate = statsAppropriate.score / scoreDivisor / (statsAppropriate.filledOut || 1);
+    const scoreAppropriate = statsAppropriate.filledOut
+      ? statsAppropriate.score / scoreDivisor / statsAppropriate.filledOut
+      : 0.5;
     const scoreOlder = statsOlder.score / scoreDivisor / (statsOlder.filledOut || 1);
     const fillRate = statsAppropriate.filledOut / (sections.appropriate.length || 1);
 
@@ -323,8 +327,8 @@ export const classStatsState = selectorFamily({
     return {
       averageAge: children.reduce((n, child) => n + child.ageNumber, 0) / children.length,
       categoryStats: categories.map(category => {
-        const laggingChildren: Components.Schemas.Child[] = [];
-        const notFilledOutChildren: Components.Schemas.Child[] = [];
+        const laggingChildren: ChildType[] = [];
+        const notFilledOutChildren: ChildType[] = [];
         let totalFillRate = 0;
         let totalScore = 0;
 
@@ -342,7 +346,7 @@ export const classStatsState = selectorFamily({
 
         const averageFillRate = totalFillRate / children.length;
         const averageScore = totalScore / children.length;
-        return { averageFillRate, averageScore, laggingChildren, notFilledOutChildren };
+        return { categoryId: category.id!, averageFillRate, averageScore, laggingChildren, notFilledOutChildren };
       }),
     };
   },

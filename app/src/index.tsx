@@ -25,15 +25,17 @@ import { useRecoilValue } from 'recoil';
 import { categoryState, dataReadyState } from './store';
 import { useFetchers } from './actions';
 import { Alert, Platform } from 'react-native';
+import { useNetInfo } from '@react-native-community/netinfo';
 
 export function App() {
   const { initializing, authenticated } = useAuth();
   const theme = useTheme();
   const dataReady = useRecoilValue(dataReadyState);
+  const { isConnected } = useNetInfo();
   const fetchers = useFetchers();
 
   React.useEffect(() => {
-    if (!initializing && dataReady && authenticated) {
+    if (isConnected && !initializing && dataReady && authenticated) {
       (async () => {
         try {
           await fetchers.fetchSchool();
@@ -46,7 +48,7 @@ export function App() {
         }
       })();
     }
-  }, [initializing, dataReady, authenticated])
+  }, [isConnected, initializing, dataReady, authenticated])
 
   if (initializing) {
     return <AppLoading />;

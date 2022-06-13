@@ -15,8 +15,7 @@ type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
 export function ChildList({ navigation }: Props) {
   const classId = React.useContext(ClassIDContext);
-  let children = useRecoilValue(classChildrenState(classId));
-  children = [...children].sort((x, y) => -0.5 + x.first_name.localeCompare(y.first_name));
+  const children = useRecoilValue(classChildrenState(classId));
 
   const isFocused = useIsFocused();
   const [mode, setMode] = React.useState<'view' | 'select'>('view');
@@ -65,9 +64,7 @@ export function ChildList({ navigation }: Props) {
           onPress={() => onPress(item.id!)}
         >
           <View style={{ flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between' }}>
-            <Text style={{ padding: 2, fontWeight: 'bold', color: 'white' }}>
-              {item.first_name} {item.last_name.slice(0, 1)}.
-            </Text>
+            <Text style={{ padding: 2, fontWeight: 'bold', color: 'white' }}>{item.shortName}</Text>
             <View>
               <CustomCheckbox
                 iconStyle={{ color: 'white' }}

@@ -87,11 +87,11 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       <TextInput label="Kategorie" value={category?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => setSubcategoryOpen(true)}>
+    <TouchableOpacity onPress={() => categoryId > 0 && setSubcategoryOpen(true)}>
       <TextInput label="Podkategorie" value={subcategory?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => setTaskOpen(true)}>
+    <TouchableOpacity onPress={() => subcategoryId > 0 && setTaskOpen(true)}>
       <TextInput label="Úkoly" value={tasksLabel || ''} autoComplete="none" editable={false} pointerEvents="none" />
     </TouchableOpacity>
 
@@ -99,7 +99,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       <TextInput label="Třída" value={classroom?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => setChildOpen(true)}>
+    <TouchableOpacity onPress={() => classId > 0 && setChildOpen(true)}>
       <TextInput label="Děti" value={childrenLabel || ''} autoComplete="none" editable={false} pointerEvents="none" />
     </TouchableOpacity>
 
