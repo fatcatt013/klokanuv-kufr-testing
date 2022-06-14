@@ -64,7 +64,7 @@
       buildPhase = ''
         export STATIC_ROOT=static
         export DJANGO_ENV=production
-        MANAGE_PY=1 python manage.py collectstatic
+        MANAGE_PY=1 python manage.py collectstatic --noinput
         # MANAGE_PY=1 python manage.py compress
       '';
       installPhase = ''
