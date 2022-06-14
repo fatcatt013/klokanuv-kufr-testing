@@ -8,7 +8,7 @@ import { useMultiFABScroll } from '../components/MultiFABContext';
 import { Portal } from 'react-native-paper';
 import { MultiFAB } from '../components/MultiFAB';
 import { useRecoilValue } from 'recoil';
-import { categoryTasksState } from '../store';
+import { categoryTasksState, childAssessmentsByTaskState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'ChildCategory'>;
 
@@ -18,6 +18,7 @@ export const ChildCategoryScreen = React.memo(function ChildCategoryScreen({ rou
   const { setStatus } = useMultiFABScroll()
   const [selected, setSelected] = React.useState<number[]>([]);
   const subcategories = useRecoilValue(categoryTasksState(categoryId));
+  const assessments = useRecoilValue(childAssessmentsByTaskState(childId));
 
   React.useEffect(() => {
     if (isFocused) {
@@ -27,10 +28,11 @@ export const ChildCategoryScreen = React.memo(function ChildCategoryScreen({ rou
         setStatus({ initial: { childIds: [childId], categoryId } })
       }
     }
-  }, [isFocused, setStatus, childId, categoryId]);
+  }, [isFocused, setStatus, childId, categoryId, selected]);
 
   return <Background>
     <TaskPicker
+      assessments={assessments}
       data={subcategories}
       selected={selected}
       onSelect={setSelected}

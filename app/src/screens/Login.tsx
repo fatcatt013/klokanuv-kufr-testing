@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, StyleSheet, Text, View, Alert, Platform } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, Alert, Platform, ScrollView } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { Background } from '../components/Background';
 import { Logo } from '../components/Logo';
@@ -109,7 +109,7 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
     <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={onDemoPressed}>
       Přihlásit do demo verze
     </Button>
-  </Background>;
+  </Background>
 });
 
 const styles = StyleSheet.create({

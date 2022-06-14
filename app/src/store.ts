@@ -1,8 +1,12 @@
 import { atom, selector, selectorFamily } from 'recoil'
 import { Components } from './server';
-import { recoilPersist } from 'recoil-persist'
+import { PersistStorage, recoilPersist } from 'recoil-persist'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
-const { persistAtom } = recoilPersist()
+const { persistAtom } = recoilPersist({
+  storage: Platform.OS === 'web' ? localStorage : AsyncStorage as PersistStorage,
+})
 
 export const categoriesState = atom<Components.Schemas.Category[]>({
   key: "categories",

@@ -3,9 +3,11 @@ import { Text } from 'react-native-paper';
 import { SectionList } from 'react-native';
 import { CategorySections } from '../store';
 import { TaskListItem } from './TaskListItem';
+import { Components } from '../server';
 
 interface TaskPickerProps {
   data: CategorySections;
+  assessments?: { [id: number]: Components.Schemas.Assessment[] };
   selected: number[];
   onSelect: (selected: number[]) => void;
   onPress?: (id: number) => void;
@@ -22,6 +24,7 @@ export const TaskPicker = React.memo(function TaskPicker(props: TaskPickerProps)
   const onPressCheck = React.useCallback((id: number) => {
     const task = findTask(id);
     if (assessmentType > 0 && task?.assessment_type !== assessmentType) {
+      console.log(assessmentType, task?.assessment_type);
       return;
     }
     if (props.selected.includes(id)) {
@@ -51,6 +54,7 @@ export const TaskPicker = React.memo(function TaskPicker(props: TaskPickerProps)
     renderItem={({ item }) => (
       <TaskListItem
         item={item}
+        assessments={props.assessments ? (props.assessments[item.id!] || []) : undefined}
         checked={props.selected.includes(item.id!)}
         onCheck={() => onPressCheck(item.id!)}
         onPress={() => onPress(item.id!)}

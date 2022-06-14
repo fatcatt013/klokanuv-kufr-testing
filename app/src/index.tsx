@@ -1,6 +1,6 @@
 import React from 'react';
 import AppLoading from 'expo-app-loading';
-import { Subheading, useTheme } from 'react-native-paper';
+import { Appbar, Subheading, useTheme } from 'react-native-paper';
 import { useAuth } from './use-auth';
 import { RootStack } from './lib/navigation';
 import { LoginScreen } from './screens/Login';
@@ -26,6 +26,24 @@ import { categoryState, dataReadyState } from './store';
 import { useFetchers } from './actions';
 import { Alert, Platform } from 'react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
+
+const Header = ({ options, back, navigation, route }: any) => {
+  const theme = useTheme();
+  const title =
+    options.headerTitle !== undefined
+      ? options.headerTitle()
+      : options.title !== undefined
+        ? options.title
+        : route.name;
+
+  return (
+    <Appbar.Header theme={{ colors: { primary: theme.colors.primary } }}>
+      {back ? <Appbar.BackAction onPress={() => navigation.pop()} color="white" /> : null}
+      <Appbar.Content color="white" title={title ? title : "Klokanův kufr"} />
+      <HeaderMenu navigation={navigation} />
+    </Appbar.Header>
+  );
+};
 
 export function App() {
   const { initializing, authenticated } = useAuth();
@@ -78,11 +96,9 @@ export function App() {
     <RootStack.Navigator initialRouteName="ClassList">
       <RootStack.Group screenOptions={({ navigation }) => ({
         animationEnabled: true,
-        headerStyle: {
-          backgroundColor: theme.colors.primary,
-        },
-        headerTintColor: '#fff',
-        headerRight: (props) => <HeaderMenu navigation={navigation} {...props} />
+        header: ({ back, navigation, options, route }) => (
+          <Header options={options} route={route} back={back} navigation={navigation} />
+        ),
       })}>
         <RootStack.Screen
           name="ClassList"

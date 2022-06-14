@@ -13,6 +13,9 @@
       overrides = pkgs.poetry2nix.overrides.withDefaults (
         self: super: {
           uwsgi = {};
+          pyhanko = super.pyhanko.overridePythonAttrs (old: {
+            doCheck = false;
+          });
         }
       );
     };
@@ -64,7 +67,7 @@
       buildPhase = ''
         export STATIC_ROOT=static
         export DJANGO_ENV=production
-        MANAGE_PY=1 python manage.py collectstatic
+        MANAGE_PY=1 python manage.py collectstatic --noinput
         # MANAGE_PY=1 python manage.py compress
       '';
       installPhase = ''
