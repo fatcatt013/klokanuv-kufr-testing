@@ -74,7 +74,7 @@ export function App() {
     );
   }
 
-  return (
+  return <>
     <RootStack.Navigator initialRouteName="ClassList">
       <RootStack.Group screenOptions={({ navigation }) => ({
         animationEnabled: true,
@@ -165,5 +165,5 @@ export function App() {
         />
       </RootStack.Group>
     </RootStack.Navigator>
-  );
+  </>;
 }

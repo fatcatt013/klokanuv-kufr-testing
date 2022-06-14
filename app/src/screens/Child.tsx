@@ -1,19 +1,22 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { StackScreenProps } from '@react-navigation/stack';
-import { useTheme } from 'react-native-paper';
+import { Portal, useTheme } from 'react-native-paper';
 import { ChildNotes } from '../components/child/ChildNotes';
 import { RootStackParamList } from '../lib/navigation';
 import { ChildOverview } from '../components/child/ChildOverview';
 import { Background } from '../components/Background';
 import { ChildIDContext } from '../lib/contexts';
 import { ChildCategorySelect } from '../components/child/ChildCategorySelect';
+import { MultiFAB } from '../components/MultiFAB';
+import { useIsFocused } from '@react-navigation/native';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 const Tab = createMaterialBottomTabNavigator();
 
 export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
   const theme = useTheme();
+  const isFocused = useIsFocused();
 
   return <Background>
     <ChildIDContext.Provider value={route.params.childId}>
@@ -39,6 +42,7 @@ export const ChildScreen = React.memo(function ChildScreen({ route }: Props) {
           options={{ title: 'Poznámky', tabBarIcon: 'note-multiple-outline' }}
         />
       </Tab.Navigator>
+      <Portal><MultiFAB visible={isFocused} tabs /></Portal>
     </ChildIDContext.Provider>
   </Background>;
 });

@@ -3,34 +3,35 @@ import React from 'react';
 import { FAB, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { RootStackParamList } from '../lib/navigation';
+import { useMultiFABScroll } from './MultiFABContext';
 
-interface MultiFABProps {
-  visible?: boolean;
+export interface MultiFABProps {
   multi?: boolean;
-  tabs?: boolean;
-  initial: RootStackParamList['CreateAssessment'];
+  initial?: RootStackParamList['CreateAssessment'];
 }
 
-export const MultiFAB: React.FC<MultiFABProps> = ({ visible, tabs, multi, initial }) => {
+export const MultiFAB: React.FC<{ visible?: boolean; tabs?: boolean }> = ({ visible, tabs }) => {
   const [open, setOpen] = React.useState(false);
+  const { props: { initial, multi }, showButton } = useMultiFABScroll();
   const navigation = useNavigation() as any;
   const insets = useSafeAreaInsets();
   const theme = useTheme();
 
   const createNote = React.useCallback(() => {
-    if (initial.classId) {
+    if (initial?.classId) {
       navigation.navigate('ClassNotes', { openAdd: true });
     } else {
       navigation.navigate('ChildNotes', { openAdd: true });
     }
   }, [initial, navigation]);
+
   const createAssessment = React.useCallback(() => {
     navigation.navigate('CreateAssessment', initial);
   }, [initial]);
 
   return (
     <FAB.Group
-      visible={visible || false}
+      visible={visible ? showButton : false}
       open={open}
       icon={multi ? 'order-bool-ascending-variant' : open ? 'close' : 'plus'}
       color="white"

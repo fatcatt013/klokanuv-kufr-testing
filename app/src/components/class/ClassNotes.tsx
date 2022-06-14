@@ -10,6 +10,7 @@ import { MultiFAB } from '../MultiFAB';
 import { TextInput } from '../TextInput';
 import { useRecoilValue } from 'recoil';
 import { classNotesState, classState } from '../../store';
+import { useMultiFABScroll } from '../MultiFABContext';
 
 type Props = StackScreenProps<RootStackParamList, 'Class'>;
 
@@ -19,18 +20,25 @@ export const ClassNotes = ({ route, navigation }: Props) => {
   const classroom = useRecoilValue(classState(classId));
   const notes = useRecoilValue(classNotesState(classId));
   const ops = useClassroomNoteOps();
+  const { setStatus } = useMultiFABScroll()
 
   const [noteId, setNoteId] = React.useState<number | null>(null);
   const [note, setNote] = React.useState<string>('');
-  const [open, setOpen] = React.useState((route.params as any).openAdd);
+  const [open, setOpen] = React.useState((route.params as any)?.openAdd);
 
   React.useEffect(() => {
-    if ((route.params as any).openAdd) {
+    if (isFocused) {
+      setStatus({ initial: { classId } });
+    }
+  }, [isFocused, setStatus, classId]);
+
+  React.useEffect(() => {
+    if ((route.params as any)?.openAdd) {
       setNoteId(null);
       setNote('');
       setOpen(true);
     }
-  }, [(route.params as any).openAdd, setNoteId, setNote, setOpen]);
+  }, [(route.params as any)?.openAdd, setNoteId, setNote, setOpen]);
 
   const closeDialog = React.useCallback(() => {
     setOpen(false);
@@ -56,8 +64,6 @@ export const ClassNotes = ({ route, navigation }: Props) => {
     />
 
     <Portal>
-      <MultiFAB tabs visible={isFocused} initial={{ classId }} />
-
       <Dialog visible={open} onDismiss={closeDialog}>
         <Dialog.Content>
           <Headline>{classroom?.label}</Headline>

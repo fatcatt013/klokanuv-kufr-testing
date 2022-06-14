@@ -14,6 +14,7 @@ import OfflineStatusBar from './src/components/OfflineStatusBar';
 import { AuthProvider } from './src/use-auth';
 import { ApiProvider } from './src/use-fetch';
 import { RecoilRoot } from 'recoil';
+import { MultiFABProvider } from './src/components/MultiFABContext';
 
 export default function AppRoot() {
   const [isReady, setIsReady] = React.useState(false);
@@ -60,15 +61,17 @@ export default function AppRoot() {
       <React.Suspense fallback={<AppLoading />}>
         <AuthProvider>
           <ApiProvider>
-            <NavigationContainer
-              initialState={initialState}
-              onStateChange={state => AsyncStorage.setItem('NAVIGATION_STATE', JSON.stringify(state))}
-            >
-              <Provider theme={theme}>
-                <OfflineStatusBar show={!isConnected} />
-                <App />
-              </Provider>
-            </NavigationContainer>
+            <MultiFABProvider>
+              <NavigationContainer
+                initialState={initialState}
+                onStateChange={state => AsyncStorage.setItem('NAVIGATION_STATE', JSON.stringify(state))}
+              >
+                <Provider theme={theme}>
+                  <OfflineStatusBar show={!isConnected} />
+                  <App />
+                </Provider>
+              </NavigationContainer>
+            </MultiFABProvider>
           </ApiProvider>
         </AuthProvider>
       </React.Suspense>

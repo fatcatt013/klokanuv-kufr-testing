@@ -6,10 +6,10 @@ import { Button, Caption, Card, Dialog, Headline, Portal, Text } from 'react-nat
 import { ChildIDContext } from '../../lib/contexts';
 import { RootStackParamList } from '../../lib/navigation';
 import { useChildNoteOps } from '../../actions';
-import { MultiFAB } from '../MultiFAB';
 import { TextInput } from '../TextInput';
 import { useRecoilValue } from 'recoil';
 import { childNotesState, childState } from '../../store';
+import { useMultiFABScroll } from '../MultiFABContext';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 
@@ -19,10 +19,17 @@ export const ChildNotes = ({ route, navigation }: Props) => {
   const child = useRecoilValue(childState(childId));
   const notes = useRecoilValue(childNotesState(childId));
   const ops = useChildNoteOps();
+  const { setStatus } = useMultiFABScroll()
 
   const [noteId, setNoteId] = React.useState<number | null>(null);
   const [note, setNote] = React.useState<string>('');
   const [open, setOpen] = React.useState(false);
+
+  React.useEffect(() => {
+    if (isFocused) {
+      setStatus({ initial: { childIds: [childId] } })
+    }
+  }, [isFocused, setStatus, childId]);
 
   React.useEffect(() => {
     if ((route.params as any)?.openAdd) {
@@ -56,8 +63,6 @@ export const ChildNotes = ({ route, navigation }: Props) => {
     />
 
     <Portal>
-      <MultiFAB tabs visible={isFocused} initial={{ childIds: [childId] }} />
-
       <Dialog visible={open} onDismiss={closeDialog}>
         <Dialog.Content>
           <Headline>{child?.first_name} {child?.last_name}</Headline>

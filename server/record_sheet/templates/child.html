@@ -7,11 +7,11 @@
     <style>
         @font-face {
             font-family: "Poppins-Regular";
-            src: url("{{ STATIC_ROOT }}/Poppins-Regular.ttf");
+            src: url("{% static "Poppins-Regular.ttf" %});
         }
         @font-face {
             font-family: "Poppins-Medium";
-            src: url("{{ STATIC_ROOT }}/Poppins-Medium.ttf");
+            src: url("{% static "Poppins-Medium.ttf" %}");
         }
         body {
             font-family: "Poppins-Regular";
@@ -64,8 +64,8 @@
                 <table>
                     <tr></tr>
                     <tr></tr>
-                    <tr>
-                        <td colspan="4"><img src="{{ STATIC_ROOT }}/icons/cat_{{ catId }}.png" style="width: 64px" alt=""></td>
+                    <tr>{{"a"|add:catId}}
+                        <td colspan="4"><img src="{% static "icons/" %}{{catId}}.png" style="width: 64px" alt=""></td>
                         <td></td>
                         <td colspan="43">
                             <div style="font-size: 16px; font-family: 'Poppins-Medium'">{{category}}</div>

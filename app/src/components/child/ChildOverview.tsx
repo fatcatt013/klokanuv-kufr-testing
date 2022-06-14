@@ -2,14 +2,14 @@ import { useIsFocused } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { SafeAreaView, ScrollView, View } from 'react-native';
-import { Headline, Portal, Subheading, Text } from 'react-native-paper';
+import { Headline, Subheading, Text } from 'react-native-paper';
 import { useRecoilValue } from 'recoil';
 import { ChildIDContext } from '../../lib/contexts';
 import { RootStackParamList } from '../../lib/navigation';
 import { categoriesState, childState, childTotalStatsState, subcategoriesState } from '../../store';
 import { CategoryChart } from '../CategoryChart';
 import { icons } from '../icons';
-import { MultiFAB } from '../MultiFAB';
+import { useMultiFABScroll } from '../MultiFABContext';
 
 type Props = StackScreenProps<RootStackParamList, 'Child'>;
 
@@ -19,15 +19,21 @@ export function ChildOverview({ }: Props) {
   const child = useRecoilValue(childState(childId));
   const categories = useRecoilValue(categoriesState);
   const subcategories = useRecoilValue(subcategoriesState);
-
   const { categoryStats } = useRecoilValue(childTotalStatsState(childId));
+  const { setStatus, handleScroll } = useMultiFABScroll()
+
+  React.useEffect(() => {
+    if (isFocused) {
+      setStatus({ initial: { childIds: [childId] } })
+    }
+  }, [isFocused, setStatus, childId]);
 
   return (
     <SafeAreaView style={{ height: "auto", maxHeight: '100%' }}>
       <Headline>{child?.first_name} {child?.last_name}</Headline>
       <Subheading>Věk: {child?.ageString}</Subheading>
 
-      <ScrollView>
+      <ScrollView onScroll={handleScroll}>
         <CategoryChart {...{ categoryStats }} />
 
         {(categories.map((item, i) => {
@@ -60,10 +66,6 @@ export function ChildOverview({ }: Props) {
           );
         }))}
       </ScrollView>
-
-      <Portal>
-        <MultiFAB tabs visible={isFocused} initial={{ childIds: [childId] }} />
-      </Portal>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 }
