@@ -38,6 +38,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
 
   const categories = useRecoilValue(categoriesState);
   const tasks = useRecoilValue(tasksState);
+  const categoryTasks = useRecoilValue(categoryTasksState(categoryId));
   const subcategories = useRecoilValue(subcategoriesState);
   const classes = useRecoilValue(classesState);
   const children = useRecoilValue(classChildrenState(classId));
@@ -156,7 +157,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       <CustomDialog visible={taskOpen} onDismiss={() => setTaskOpen(false)} style={{ maxHeight: 0.8 * Dimensions.get('window').height }}>
         <Dialog.Title style={{ fontSize: 15, margin: 5 }}>{category?.label}</Dialog.Title>
         <Dialog.ScrollArea style={{ paddingHorizontal: 0 }}>
-          <TaskPicker data={tasks} selected={tempTaskIds} onSelect={setTempTaskIds} />
+          <TaskPicker data={categoryTasks} selected={tempTaskIds} onSelect={setTempTaskIds} />
           <Button onPress={() => { setTaskOpen(false); setTaskIds(tempTaskIds) }}>
             Ok
           </Button>
