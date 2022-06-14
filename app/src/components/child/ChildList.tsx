@@ -31,7 +31,6 @@ export function ChildList({ navigation }: Props) {
 
   React.useEffect(() => {
     if (isFocused) {
-      console.log([setStatus, isFocused, mode, classId, selected]);
       setStatus({ multi: mode === 'select', initial: { classId, childIds: selected } });
     }
   }, [setStatus, isFocused, mode, classId, selected]);

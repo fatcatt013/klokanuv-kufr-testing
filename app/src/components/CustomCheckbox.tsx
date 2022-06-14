@@ -3,7 +3,7 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export function CustomCheckbox(props: any) {
+export const CustomCheckbox = React.memo(function CustomCheckbox(props: any) {
   const iconName = props.checked ? props.checkedIconName : props.uncheckedIconName;
   const styles = StyleSheet.create({
     label: {
@@ -38,7 +38,8 @@ export function CustomCheckbox(props: any) {
       </Icon.Button>
     </View>
   );
-}
+});
+
 /* 
  * CheckBox.propTypes = {
  *   size: PropTypes.number,

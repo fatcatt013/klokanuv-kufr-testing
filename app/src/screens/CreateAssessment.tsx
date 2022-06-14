@@ -10,13 +10,12 @@ import { ChildPicker } from '../components/child/ChildPicker';
 import { ClassroomPicker } from '../components/class/ClassPicker';
 import { CustomCheckbox } from '../components/CustomCheckbox';
 import { CustomDialog } from '../components/CustomDialog';
-import { SubcategoryPicker } from '../components/SubcategoryPicker';
 import { TaskPicker } from '../components/TaskPicker';
 import { TextInput } from '../components/TextInput';
 import { RootStackParamList } from '../lib/navigation';
 import { useAssessmentOps } from '../actions';
 import { useRecoilValue } from 'recoil';
-import { assessmentTypeState, categoriesState, categoryState, childrenState, classesState, classState, subcategoryState, subcategoryTasksState } from '../store';
+import { assessmentTypeState, categoriesState, categoryTasksState, childrenState, classesState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'CreateAssessment'>;
 
@@ -27,11 +26,9 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const [classOpen, setClassOpen] = React.useState(false);
   const [childOpen, setChildOpen] = React.useState(false);
   const [categoryOpen, setCategoryOpen] = React.useState(false);
-  const [subcategoryOpen, setSubcategoryOpen] = React.useState(false);
   const [taskOpen, setTaskOpen] = React.useState(false);
   const [classId, setClassId] = React.useState(-1);
   const [categoryId, setCategoryId] = React.useState(-1);
-  const [subcategoryId, setSubcategoryId] = React.useState(-1);
   const [childIds, setChildIds] = React.useState<number[]>([]);
   const [tempChildIds, setTempChildIds] = React.useState<number[]>([]);
   const [tempTaskIds, setTempTaskIds] = React.useState<number[]>([]);
@@ -40,32 +37,27 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const [note, setNote] = React.useState('');
 
   const categories = useRecoilValue(categoriesState);
-  const subcategory = useRecoilValue(subcategoryState(subcategoryId));
-  const tasks = useRecoilValue(subcategoryTasksState(subcategoryId));
-  const assessmentType = useRecoilValue(assessmentTypeState(tasks?.[0]?.assessment_type || -1))
+  const tasks = useRecoilValue(categoryTasksState(categoryId));
   const classes = useRecoilValue(classesState);
   const children = useRecoilValue(childrenState);
 
   const category = categories.find(x => x.id! === categoryId);
   const classroom = classes.find(x => x.id! === classId);
   const childList = children?.filter(x => childIds.includes(x.id!));
-  const taskList = tasks.filter(x => taskIds.includes(x.id));
+  const taskList = tasks.flatMap(sub => sub.data.filter(x => taskIds.includes(x.id)));
+  const assessmentType = useRecoilValue(assessmentTypeState(taskList?.[0]?.assessment_type || -1))
 
-  const childrenLabel = childList?.map(x => x.first_name).join(', ');
-  const tasksLabel = taskList.map(x => x.task_description).join(', ');
+  const childrenLabel = childList?.map(x => x.shortName).join('\n');
+  const tasksLabel = taskList.map(x => x.task_description).join('\n');
 
   React.useEffect(() => {
     if (isFocused) {
-      const { classId, childIds, categoryId, subcategoryId, taskIds } = route.params;
+      const { classId, childIds, categoryId, taskIds } = route.params;
       if (classId) {
         setClassId(classId);
       }
       if (categoryId) {
         setCategoryId(categoryId);
-      }
-      if (subcategoryId) {
-        setSubcategoryId(subcategoryId);
-        setCategoryId(categories?.find(x => x.subcategories.includes(subcategoryId))?.id || -1);
       }
       if (childIds && childIds.length > 0) {
         setChildIds(childIds);
@@ -75,8 +67,9 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       if (taskIds && taskIds.length > 0) {
         setTempTaskIds(taskIds);
         setTaskIds(taskIds);
-        const subcategory = tasks.find(x => taskIds.includes(x.id!))?.subcategory || -1
-        setSubcategoryId(subcategory)
+        const subcategory = tasks.flatMap(
+          sub => sub.data.find(x => x.id! === taskIds[0]) ? [sub] : []
+        )?.[0].id || -1;
         setCategoryId(categories?.find(x => x.subcategories.includes(subcategory))?.id || -1)
       }
     }
@@ -84,23 +77,33 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
 
   return <Background>
     <TouchableOpacity onPress={() => setCategoryOpen(true)}>
-      <TextInput label="Kategorie" value={category?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
+      <TextInput dense
+        label="Kategorie" value={category?.label || ''}
+        autoComplete="none" editable={false} pointerEvents="none"
+      />
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={() => categoryId > 0 && setSubcategoryOpen(true)}>
-      <TextInput label="Podkategorie" value={subcategory?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
-    </TouchableOpacity>
-
-    <TouchableOpacity onPress={() => subcategoryId > 0 && setTaskOpen(true)}>
-      <TextInput label="Úkoly" value={tasksLabel || ''} autoComplete="none" editable={false} pointerEvents="none" />
+    <TouchableOpacity onPress={() => categoryId > 0 && setTaskOpen(true)}>
+      <TextInput dense
+        label="Úkoly" value={tasksLabel || ''}
+        multiline numberOfLines={taskList.length || undefined}
+        autoComplete="none" editable={false} pointerEvents="none"
+      />
     </TouchableOpacity>
 
     <TouchableOpacity onPress={() => setClassOpen(true)}>
-      <TextInput label="Třída" value={classroom?.label || ''} autoComplete="none" editable={false} pointerEvents="none" />
+      <TextInput dense
+        label="Třída" value={classroom?.label || ''}
+        autoComplete="none" editable={false} pointerEvents="none"
+      />
     </TouchableOpacity>
 
     <TouchableOpacity onPress={() => classId > 0 && setChildOpen(true)}>
-      <TextInput label="Děti" value={childrenLabel || ''} autoComplete="none" editable={false} pointerEvents="none" />
+      <TextInput dense
+        label="Děti" value={childrenLabel || ''}
+        multiline numberOfLines={childList.length || undefined}
+        autoComplete="none" editable={false} pointerEvents="none"
+      />
     </TouchableOpacity>
 
     {assessmentType?.options?.map((item) => (
@@ -119,50 +122,41 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       />
     )}
 
-    <Button
-      mode="contained"
-      disabled={optionId < 1 || !childIds.length || !taskIds.length}
-      icon="plus"
-      onPress={async () => {
-        await Promise.all([taskIds.map(task => childIds.map(child =>
-          ops.addAssessment({
-            task: task.toString(),
-            child,
-            option: optionId,
-            date_of_assessment: format(new Date(), 'yyyy-MM-dd'),
-            note: note || ' ',
-          })
-        ))])
-        navigation.pop();
-      }}
-    >Uložit</Button>
+    {assessmentType?.options ? (
+      <Button
+        mode="contained"
+        labelStyle={{ color: optionId > 0 ? "white" : undefined }}
+        style={{ marginTop: 5 }}
+        disabled={optionId < 1}
+        icon="plus"
+        onPress={async () => {
+          await Promise.all([taskIds.map(task => childIds.map(child =>
+            ops.addAssessment({
+              task: task.toString(),
+              child,
+              option: optionId,
+              date_of_assessment: format(new Date(), 'yyyy-MM-dd'),
+              note: note || ' ',
+            })
+          ))])
+          navigation.pop();
+        }}
+      >Uložit</Button>
+    ) : null}
 
     <Portal>
       <CustomDialog visible={categoryOpen} onDismiss={() => setCategoryOpen(false)}>
         <CategoryPicker onSelect={(id) => {
           setCategoryOpen(false);
           setCategoryId(id);
-          setSubcategoryOpen(true);
-        }} />
-      </CustomDialog>
-
-      <CustomDialog visible={subcategoryOpen} onDismiss={() => setSubcategoryOpen(false)}>
-        <Dialog.Title>{category?.label}</Dialog.Title>
-        <SubcategoryPicker category={categoryId} onSelect={(id) => {
-          setSubcategoryOpen(false);
-          setSubcategoryId(id);
           setTaskOpen(true);
         }} />
       </CustomDialog>
 
       <CustomDialog visible={taskOpen} onDismiss={() => setTaskOpen(false)} style={{ maxHeight: 0.8 * Dimensions.get('window').height }}>
-        <Dialog.Title>{subcategory?.label}</Dialog.Title>
-        <Dialog.ScrollArea>
-          <TaskPicker
-            subcategory={subcategoryId}
-            selected={tempTaskIds}
-            onSelect={(id) => setTempTaskIds(id)}
-          />
+        <Dialog.Title style={{ fontSize: 15, margin: 5 }}>{category?.label}</Dialog.Title>
+        <Dialog.ScrollArea style={{ paddingHorizontal: 0 }}>
+          <TaskPicker data={tasks} selected={tempTaskIds} onSelect={setTempTaskIds} />
           <Button onPress={() => { setTaskOpen(false); setTaskIds(tempTaskIds) }}>
             Ok
           </Button>
@@ -181,11 +175,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       </CustomDialog>
 
       <CustomDialog visible={childOpen} onDismiss={() => setChildOpen(false)}>
-        <ChildPicker
-          classroom={classId}
-          selected={tempChildIds}
-          onSelect={(id) => setTempChildIds(id)}
-        />
+        <ChildPicker classroom={classId} selected={tempChildIds} onSelect={setTempChildIds} />
         <Button onPress={() => { setChildOpen(false); setChildIds(tempChildIds) }}>
           Ok
         </Button>

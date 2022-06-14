@@ -22,7 +22,7 @@ export const TaskListItem: React.FC<{
   checked?: boolean;
   onPress: () => void;
   onCheck: () => void;
-}> = ({ item, checked, onPress, onCheck }) => {
+}> = React.memo(function TaskListItem({ item, checked, onPress, onCheck }) {
   const theme = useTheme();
   const [id, ...rest] = (item.codename || '').split(' ');
 
@@ -59,4 +59,4 @@ export const TaskListItem: React.FC<{
       </Card.Content>
     </Card>
   </View>;
-};
+});
