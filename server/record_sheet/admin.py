@@ -413,6 +413,7 @@ class InvitationAdmin(DefaultInvitationAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.inviter = request.user
+        obj.group = form.cleaned_data.get("group")
         super().save_model(request, obj, form, change)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
@@ -427,7 +428,8 @@ class InvitationAdmin(DefaultInvitationAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
-        form.base_fields["school"].initial = request.user.school
+        if not request.user.is_superuser:
+            form.base_fields["school"].initial = request.user.school
         return form
 
     def get_queryset(self, request):
