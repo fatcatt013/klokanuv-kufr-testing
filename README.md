@@ -27,7 +27,6 @@ poetry run python manage.py create_and_assign_permissions
 poetry run python manage.py create_test_users
 poetry run python manage.py populate_db -t
 poetry run python manage.py set_parameters
-poetry run python manage.py create_invoices
 poetry run python manage.py runserver
 ```
 

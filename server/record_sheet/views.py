@@ -1,6 +1,8 @@
 from collections import defaultdict
 
 from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.auth.models import AnonymousUser
 from django.views.generic.detail import DetailView
 from django_xhtml2pdf.views import PdfMixin
@@ -11,9 +13,6 @@ from record_sheet import models
 from record_sheet import permissions as custom_permissions
 from record_sheet import serializers
 from record_sheet.permissions import CustomDjangoModelPermission
-
-from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.contrib import messages
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -227,7 +226,7 @@ class InvoiceItemViewSet(viewsets.ModelViewSet):
         )
 
 
-class InvoicePdfView(PdfMixin, DetailView):
+class InvoicePdfView(PermissionRequiredMixin, PdfMixin, DetailView):
     model = models.Invoice
     template_name = "invoice.html"
 
@@ -237,6 +236,15 @@ class InvoicePdfView(PdfMixin, DetailView):
             param.name: param.value for param in models.Parameter.objects.all()
         }
         return context
+
+    def has_permission(self):
+        obj = self.get_object()
+        perm = self.request.user.is_superuser or (
+            self.request.user in obj.school.users.all()
+        )
+        if not perm:
+            messages.error(self.request, "Chybějící oprávnění.")
+        return perm
 
 
 class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
