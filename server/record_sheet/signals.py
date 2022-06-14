@@ -1,6 +1,7 @@
 from allauth.account.signals import user_signed_up
-from invitations.utils import get_invitation_model
+from django.contrib.auth.models import Group
 from django.dispatch import receiver
+from invitations.utils import get_invitation_model
 
 
 @receiver(user_signed_up)
