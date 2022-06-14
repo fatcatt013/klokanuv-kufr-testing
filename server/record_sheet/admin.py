@@ -412,8 +412,6 @@ class InvitationAdmin(DefaultInvitationAdmin):
     list_display = ("email", "sent", "accepted", "school", "group")
 
     def save_model(self, request, obj, form, change):
-        print("in save")
-        print("after if not obj")
         obj.inviter = request.user
         super().save_model(request, obj, form, change)
 
