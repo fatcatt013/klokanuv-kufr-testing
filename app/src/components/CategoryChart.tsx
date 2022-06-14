@@ -59,9 +59,9 @@ export const CategoryChart = ({ categoryStats }: CategoryChartProps) => {
     backgroundColor: 'white', borderRadius: 3
   }}>
     <View style={{ flexDirection: 'row', marginLeft: 35, justifyContent: 'space-around' }}>
-      <Text style={styles.axis}>Potřeba<br />stimulace</Text>
-      <Text style={styles.axis}>Odpovídá<br />věku</Text>
-      <Text style={styles.axis}>Zvýšit<br />obtížnost</Text>
+      <Text style={styles.axis}>Potřeba{'\n'}stimulace</Text>
+      <Text style={styles.axis}>Odpovídá{'\n'}věku</Text>
+      <Text style={styles.axis}>Zvýšit{'\n'}obtížnost</Text>
     </View>
     <View style={{ flexDirection: 'row' }}>
       <View style={[{ marginTop: 4, alignItems: 'center', width: 35 }]}>

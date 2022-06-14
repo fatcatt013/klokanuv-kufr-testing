@@ -108,8 +108,9 @@ export const categorySubcategoriesState = selectorFamily({
   }
 });
 
-export type CategorySections = (Components.Schemas.Subcategory & { data: Components.Schemas.Task[] })[];
-export const categoryTasksState = selectorFamily<CategorySections, number>({
+export type SubcategorySections = (Components.Schemas.Subcategory & { data: Components.Schemas.Task[] })[];
+
+export const categoryTasksState = selectorFamily<SubcategorySections, number>({
   key: 'categoryTasks',
   get: (id: number) => ({ get }) => {
     const subs = get(categorySubcategoriesState(id));

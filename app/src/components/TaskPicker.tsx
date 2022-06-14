@@ -1,12 +1,12 @@
 import React from 'react';
 import { Text } from 'react-native-paper';
 import { SectionList } from 'react-native';
-import { CategorySections } from '../store';
+import { SubcategorySections } from '../store';
 import { TaskListItem } from './TaskListItem';
 import { Components } from '../server';
 
 interface TaskPickerProps {
-  data: CategorySections;
+  data: SubcategorySections;
   assessments?: { [id: number]: Components.Schemas.Assessment[] };
   selected: number[];
   onSelect: (selected: number[]) => void;
