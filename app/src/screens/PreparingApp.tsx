@@ -19,7 +19,7 @@ export const PreparingAppScreen = () => {
     Animated.timing(counter, {
       toValue: value / 7 * 100,
       duration: 500,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start();
   }, [value]);
 
