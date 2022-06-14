@@ -61,54 +61,56 @@ export const LoginScreen = React.memo(function LoginScreen({ navigation }: Props
   }, [logIn, publicAxios]);
 
   return <Background center>
-    <Logo />
+    <ScrollView>
+      <Logo />
 
-    <TextInput
-      label="E-mail"
-      returnKeyType="next"
-      value={email.value}
-      onChangeText={text => setEmail({ value: text, error: '' })}
-      error={!!email.error}
-      errorText={email.error}
-      autoCapitalize="none"
-      autoComplete="email"
-      textContentType="emailAddress"
-      keyboardType="email-address"
-    />
+      <TextInput
+        label="E-mail"
+        returnKeyType="next"
+        value={email.value}
+        onChangeText={text => setEmail({ value: text, error: '' })}
+        error={!!email.error}
+        errorText={email.error}
+        autoCapitalize="none"
+        autoComplete="email"
+        textContentType="emailAddress"
+        keyboardType="email-address"
+      />
 
-    <TextInput
-      label="Heslo"
-      returnKeyType="done"
-      value={password.value}
-      onChangeText={text => setPassword({ value: text, error: '' })}
-      error={!!password.error}
-      errorText={password.error}
-      autoComplete="current-password"
-      secureTextEntry
-    />
+      <TextInput
+        label="Heslo"
+        returnKeyType="done"
+        value={password.value}
+        onChangeText={text => setPassword({ value: text, error: '' })}
+        error={!!password.error}
+        errorText={password.error}
+        autoComplete="current-password"
+        secureTextEntry
+      />
 
-    <View style={styles.forgotPassword}>
-      <TouchableOpacity
-        onPress={() => navigation.push('ForgotPassword')}
-      >
-        <Text style={styles.link}>Zapomněli jste heslo?</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.forgotPassword}>
+        <TouchableOpacity
+          onPress={() => navigation.push('ForgotPassword')}
+        >
+          <Text style={styles.link}>Zapomněli jste heslo?</Text>
+        </TouchableOpacity>
+      </View>
 
-    <Button mode="contained" onPress={onLoginPressed}>
-      Přihlásit se
-    </Button>
+      <Button mode="contained" onPress={onLoginPressed}>
+        Přihlásit se
+      </Button>
 
-    <View style={styles.row}>
-      <Text>Nemáte účet? </Text>
-      <TouchableOpacity onPress={() => navigation.push('Register')}>
-        <Text style={styles.link}>Aktivujte si ho</Text>
-      </TouchableOpacity>
-    </View>
+      <View style={styles.row}>
+        <Text>Nemáte účet? </Text>
+        <TouchableOpacity onPress={() => navigation.push('Register')}>
+          <Text style={styles.link}>Aktivujte si ho</Text>
+        </TouchableOpacity>
+      </View>
 
-    <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={onDemoPressed}>
-      Přihlásit do demo verze
-    </Button>
+      <Button labelStyle={{ color: theme.colors.primary }} mode="outlined" onPress={onDemoPressed}>
+        Přihlásit do demo verze
+      </Button>
+    </ScrollView>
   </Background>;
 });
 

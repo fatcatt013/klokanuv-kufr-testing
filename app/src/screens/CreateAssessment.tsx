@@ -15,7 +15,7 @@ import { TextInput } from '../components/TextInput';
 import { RootStackParamList } from '../lib/navigation';
 import { useAssessmentOps } from '../actions';
 import { useRecoilValue } from 'recoil';
-import { assessmentTypeState, categoriesState, categoryTasksState, childrenState, classesState } from '../store';
+import { assessmentTypeState, categoriesState, categoryTasksState, childrenState, classChildrenState, classesState, subcategoriesState, tasksState } from '../store';
 
 type Props = StackScreenProps<RootStackParamList, 'CreateAssessment'>;
 
@@ -37,14 +37,15 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
   const [note, setNote] = React.useState('');
 
   const categories = useRecoilValue(categoriesState);
-  const tasks = useRecoilValue(categoryTasksState(categoryId));
+  const tasks = useRecoilValue(tasksState);
+  const subcategories = useRecoilValue(subcategoriesState);
   const classes = useRecoilValue(classesState);
-  const children = useRecoilValue(childrenState);
+  const children = useRecoilValue(classChildrenState(classId));
 
   const category = categories.find(x => x.id! === categoryId);
   const classroom = classes.find(x => x.id! === classId);
   const childList = children?.filter(x => childIds.includes(x.id!));
-  const taskList = tasks.flatMap(sub => sub.data.filter(x => taskIds.includes(x.id)));
+  const taskList = tasks.filter(x => taskIds.includes(x.id));
   const assessmentType = useRecoilValue(assessmentTypeState(taskList?.[0]?.assessment_type || -1))
 
   const childrenLabel = childList?.map(x => x.shortName).join('\n');
@@ -67,10 +68,9 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
       if (taskIds && taskIds.length > 0) {
         setTempTaskIds(taskIds);
         setTaskIds(taskIds);
-        const subcategory = tasks.flatMap(
-          sub => sub.data.find(x => x.id! === taskIds[0]) ? [sub] : []
-        )?.[0].id || -1;
-        setCategoryId(categories?.find(x => x.subcategories.includes(subcategory))?.id || -1)
+        const task = tasks.find(x => x.id! === taskIds[0]);
+        const subcategory = subcategories.find(x => x.id! === task?.subcategory);
+        setCategoryId(categories?.find(x => x.subcategories.includes(subcategory?.id!))?.id || -1)
       }
     }
   }, [isFocused]);
@@ -176,9 +176,21 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
 
       <CustomDialog visible={childOpen} onDismiss={() => setChildOpen(false)}>
         <ChildPicker classroom={classId} selected={tempChildIds} onSelect={setTempChildIds} />
-        <Button onPress={() => { setChildOpen(false); setChildIds(tempChildIds) }}>
-          Ok
-        </Button>
+
+        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+          <Button onPress={() => {
+            if (tempChildIds.length < children.length) {
+              setTempChildIds(children.map(x => x.id!));
+            } else {
+              setTempChildIds([]);
+            }
+          }}>
+            Vybrat všechny
+          </Button>
+          <Button onPress={() => { setChildOpen(false); setChildIds(tempChildIds) }}>
+            Ok
+          </Button>
+        </View>
       </CustomDialog>
 
     </Portal>

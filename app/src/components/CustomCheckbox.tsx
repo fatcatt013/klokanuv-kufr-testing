@@ -5,18 +5,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export const CustomCheckbox = React.memo(function CustomCheckbox(props: any) {
   const iconName = props.checked ? props.checkedIconName : props.uncheckedIconName;
-  const styles = StyleSheet.create({
-    label: {
-      fontSize: 16,
-    },
-  });
 
   function onPress() {
     props.onPress(!props.checked);
   }
 
   return (
-    <View style={{ justifyContent: 'center', marginBottom: 1, marginLeft: 5 }}>
+    <View style={{ justifyContent: 'flex-end', marginBottom: 1, marginLeft: 5 }}>
       <Icon.Button
         {...props}
         name={iconName}
@@ -24,18 +19,12 @@ export const CustomCheckbox = React.memo(function CustomCheckbox(props: any) {
         backgroundColor={props.backgroundColor}
         color={props.color}
         style={{ margin: 0, padding: 0 }}
-        iconStyle={[{ margin: 0, padding: 0, alignSelf: 'center' }, props.iconStyle, props.checked && props.checkedIconStyle]}
+        iconStyle={[{ margin: 0, padding: 0, alignSelf: 'center', marginRight: 0 }, props.iconStyle]}
         onPress={onPress}
         activeOpacity={props.activeOpacity}
         underlayColor={props.underlayColor}
         borderRadius={props.borderRadius}
-      >
-        <Text
-          style={[styles.label, props.labelStyle]}
-        >
-          {props.label}
-        </Text>
-      </Icon.Button>
+      />
     </View>
   );
 });
@@ -44,10 +33,7 @@ export const CustomCheckbox = React.memo(function CustomCheckbox(props: any) {
  * CheckBox.propTypes = {
  *   size: PropTypes.number,
  *   checked: PropTypes.bool,
- *   label: PropTypes.string,
- *   labelStyle: Text.propTypes.style,
  *   iconStyle: Text.propTypes.style,
- *   checkedIconStyle: Text.propTypes.style,
  *   color: PropTypes.string,
  *   backgroundColor: PropTypes.string,
  *   onPress: PropTypes.func,
@@ -61,9 +47,7 @@ export const CustomCheckbox = React.memo(function CustomCheckbox(props: any) {
 CustomCheckbox.defaultProps = {
   size: 18,
   checked: false,
-  labelStyle: {},
   iconStyle: {},
-  checkedIconStyle: {},
   color: '#006bcc',
   backgroundColor: 'rgba(0,0,0,0)',
   underlayColor: 'rgba(0,0,0,0)',
