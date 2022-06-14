@@ -120,7 +120,7 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
+class ChildAdmin(admin.ModelAdmin):
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
