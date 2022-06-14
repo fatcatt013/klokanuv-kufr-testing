@@ -9,8 +9,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from django.forms import Textarea, ValidationError
 from django.db import models as db_models
-
-# from django_object_actions import DjangoObjectActions
+from django_object_actions import DjangoObjectActions
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -120,7 +119,7 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
-class ChildAdmin(admin.ModelAdmin):
+class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }

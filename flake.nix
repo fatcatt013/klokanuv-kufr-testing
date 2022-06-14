@@ -13,6 +13,9 @@
       overrides = pkgs.poetry2nix.overrides.withDefaults (
         self: super: {
           uwsgi = {};
+          pyhanko = super.pyhanko.overridePythonAttrs (old: {
+            doCheck = false;
+          });
         }
       );
     };

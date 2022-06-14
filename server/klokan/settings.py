@@ -57,7 +57,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "invitations",
     "corsheaders",
-    # "django_object_actions",
+    "django_object_actions",
     # custom apps start here
     "record_sheet",
     "rest_framework",
