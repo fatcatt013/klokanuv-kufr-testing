@@ -126,7 +126,7 @@ export const CreateAssessmentScreen = React.memo(function CreateAssessmentScreen
     {assessmentType?.options ? (
       <Button
         mode="contained"
-        labelStyle={{ color: optionId > 0 ? "white" : undefined }}
+        labelStyle={{ color: optionId > 0 ? "white" : 'gray' }}
         style={{ marginTop: 5 }}
         disabled={optionId < 1}
         icon="plus"
