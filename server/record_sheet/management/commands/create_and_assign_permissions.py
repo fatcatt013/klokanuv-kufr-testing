@@ -118,6 +118,7 @@ class Command(BaseCommand):
             # "change_invoiceitem",
             # "delete_invoiceitem",
             "view_invoiceitem",
+            "view_invitation",
             "add_invitation",
             "change_invitation",
             "delete_invitation",
