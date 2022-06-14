@@ -3,7 +3,8 @@ from collections import defaultdict
 from django.conf import settings
 from django.contrib.auth.models import AnonymousUser
 from django.views.generic.detail import DetailView
-from django_xhtml2pdf.views import PdfMixin
+
+# from django_xhtml2pdf.views import PdfMixin
 from rest_framework import permissions, viewsets
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView
 
@@ -227,7 +228,7 @@ class InvoiceItemViewSet(viewsets.ModelViewSet):
         )
 
 
-class InvoicePdfView(PdfMixin, DetailView):
+class InvoicePdfView(DetailView):
     model = models.Invoice
     template_name = "invoice.html"
 
@@ -239,7 +240,7 @@ class InvoicePdfView(PdfMixin, DetailView):
         return context
 
 
-class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
+class ChildPdfView(PermissionRequiredMixin, DetailView):
     model = models.Child
     template_name = "child.html"
 
