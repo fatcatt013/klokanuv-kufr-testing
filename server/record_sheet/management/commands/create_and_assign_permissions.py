@@ -118,6 +118,9 @@ class Command(BaseCommand):
             # "change_invoiceitem",
             # "delete_invoiceitem",
             "view_invoiceitem",
+            "add_invitation",
+            "change_invitation",
+            "delete_invitation",
         ]
 
         for permission in headmaster_permissions:
