@@ -12,7 +12,6 @@
     <title>Faktura {{invoice.serial_number}}</title>
 </head>
 <body>
-    <img src="{% static "/kufr-logo.png" %}" alt="">
     <table style="white-space: nowrap; font-family: 'Poppins'">
         <tr style="font-size: 1.75em">
             <td colspan="3" ><b>FAKTURA - daňový doklad č.</b></td>
@@ -22,11 +21,10 @@
             <td colspan="7"><hr></td>
         </tr>
         <tr style="padding-top: 5px">
-            <td colspan="2"><!-- logo --></td>
+            <td colspan="2" rowspan="2"><img src="{% static "/kufr-logo.png" %}" width="180" alt=""></td>
             <td colspan="5" style="font-size: 14px"><b>{{parameters.luzanky_title}}</b></td>
         </tr>
         <tr style="padding-top: 5px">
-            <td colspan="2"></td>
             <td>{{parameters.luzanky_address_street}}</td>
             <td>{{parameters.luzanky_address_city_psc}}</td>
             <td> </td>
@@ -144,9 +142,33 @@
             <td colspan="3" style="text-align: right">Rozpis DPH uveden v měně CZK</td>
         </tr>
         <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
+        <tr></tr>
         <tr>
-            <td></td>
-            <td colspan="3" style="white-space: normal">{{parameters.luzanky_description}}</td>
+            <td colspan="7" style="white-space: normal">{{parameters.luzanky_description}}</td>
         </tr>
         <tr style="padding-top: 100%">
             <td colspan="7">Fakturu vystavil(a): {{parameters.invoice_issued_by}}</td>
