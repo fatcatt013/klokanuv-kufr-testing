@@ -4,6 +4,7 @@ from allauth.socialaccount.models import (
     SocialApp,
     SocialToken,
 )
+from django.apps import apps
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
@@ -11,19 +12,63 @@ from django.forms import Textarea, ValidationError
 from django.db import models as db_models
 from django_object_actions import DjangoObjectActions
 from django.shortcuts import render
-from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
-
-import sys
-
+from django.contrib.auth.signals import user_logged_in
+from django.utils.safestring import mark_safe
 from . import models, forms
+
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
 
+
+def logged_in_message(sender, user, request, **kwargs):
+    """
+    Add a welcome message when the user logs in
+    """
+    messages.info(
+        request,
+        mark_safe(
+            "Vítejte v administraci aplikace Klokanův Kufr. Dokumentaci najdete <a href='http://localhost:8888'>na tomto odkazu</a>"
+        ),
+    )
+
+
+user_logged_in.connect(logged_in_message)
+
+
+# credits to https://forum.djangoproject.com/t/reordering-list-of-models-in-django-admin/5300 for elegant solution
+class BasePriorityAdmin(admin.ModelAdmin):
+    # any new model that gets added will be at the end, unless this variable is changed in it's class
+    admin_priority = 99
+
+
+# credits to https://forum.djangoproject.com/t/reordering-list-of-models-in-django-admin/5300 for elegant solution
+def get_app_list(self, request):
+    app_dict = self._build_app_dict(request)
+    from django.contrib.admin.sites import site
+
+    for app_name in app_dict.keys():
+        app = app_dict[app_name]
+        model_priority = {
+            model["object_name"]: getattr(
+                site._registry[apps.get_model(app_name, model["object_name"])],
+                "admin_priority",
+                20,
+            )
+            for model in app["models"]
+        }
+        app["models"].sort(key=lambda x: model_priority[x["object_name"]])
+        yield app
+
+
+admin.AdminSite.get_app_list = get_app_list
+
+
 # replacing username with email
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
+    admin_priority = 3
     model = models.User
     list_display = ("email", "display_group", "is_superuser", "is_active")
     list_filter = ("email", "groups__name", "is_superuser", "is_active")
@@ -78,6 +123,8 @@ class CustomUserAdmin(UserAdmin):
 
 
 class ChildNoteAdmin(admin.ModelAdmin):
+    admin_priority = 7
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
@@ -94,8 +141,86 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 kwargs["queryset"] = models.Child.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+    # TODO: momentalne sa zobrazuju pre vsetky 3 urovne ako moznosti podla coho filtrovat uplne vsetky deti, ucitelia...
+    # treba to obmedzit na tie, ku ktorym ma user pristup
+    def get_list_filter(self, request):
+        if request.user.is_superuser:
+            list_filter = (
+                "child",
+                "note",
+                "created_at",
+                "updated_at",
+                "updated_by",
+                "created_by",
+            )
+            return list_filter
+
+        if request.user.groups.filter(name="Headmasters").exists():
+            list_filter = (
+                "child",
+                "note",
+                "created_at",
+                "updated_at",
+                "updated_by",
+                "created_by",
+            )
+            return list_filter
+
+        elif request.user.groups.filter(name="Teachers").exists():
+            list_filter = (
+                "child",
+                "note",
+                "created_at",
+                "updated_at",
+                "updated_by",
+                "created_by",
+            )
+            return list_filter
+
+    def get_list_display(self, request):
+        if request.user.is_superuser:
+            list_display = (
+                "child",
+                "note",
+                "created_at",
+                "updated_at",
+                "updated_by",
+                "created_by",
+            )
+            return list_display
+
+        if request.user.groups.filter(name="Headmasters").exists():
+            list_display = (
+                "child",
+                "note",
+                "created_at",
+                "updated_at",
+                "updated_by",
+                "created_by",
+            )
+            return list_display
+
+        elif request.user.groups.filter(name="Teachers").exists():
+            list_display = (
+                "child",
+                "note",
+                "created_at",
+                "updated_at",
+                "updated_by",
+                "created_by",
+            )
+            return list_display
+
+    search_fields = (
+        "child",
+        "note",
+    )
+    ordering = ("child",)
+
 
 class ClassroomNoteAdmin(admin.ModelAdmin):
+    admin_priority = 6
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
@@ -118,8 +243,36 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
                 kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+    def get_list_filter(self, request):
+        list_filter = (
+            "classroom",
+            "created_at",
+            "updated_at",
+            "updated_by",
+            "created_by",
+        )
+        return list_filter
+
+    def get_list_display(self, request):
+        list_display = (
+            "classroom",
+            "note",
+            "created_at",
+            "updated_at",
+            "updated_by",
+            "created_by",
+        )
+        return list_display
+
+    search_fields = (
+        "classroom",
+        "note",
+    )
+    ordering = ("classroom",)
+
 
 class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
+    admin_priority = 5
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
@@ -158,11 +311,11 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
 
             file_data = csv_file.read().decode("utf-8")
             csv_data = file_data.split("\n")
-            if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
+            if csv_data.pop(0) != "jméno,přijmení,datum narození,pohlaví,škola,třída":
                 messages.error(
                     request,
                     """Nesprávný formát CSV - první řádek musí obsahovat názvy sloupců: \
-                        jméno|přijmení|datum narození|pohlaví|škola|třída . Žádné nové záznamy se neuložili.""",
+                        jméno,přijmení,datum narození,pohlaví,škola,třída . Žádné nové záznamy se neuložili.""",
                 )
                 return HttpResponseRedirect(request.path_info)
 
@@ -176,10 +329,10 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     ending_empty_lines = False
 
             # count number of fields of first row, then make sure that each row has same no. of fields
-            reference_no_of_fields = len(csv_data[0].split("|"))
+            reference_no_of_fields = len(csv_data[0].split(","))
             children_to_add = []
             for x in csv_data:
-                fields = x.split("|")
+                fields = x.split(",")
                 if len(fields) != reference_no_of_fields:
                     messages.error(
                         request,
@@ -271,9 +424,30 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
 
 
 class ClassroomAdmin(admin.ModelAdmin):
+    admin_priority = 4
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 20})},
     }
+
+    def teachers_list(self, obj):
+        return ", ".join([item.email for item in obj.teachers.all()])
+
+    def get_list_filter(self, request):
+        if request.user.is_superuser:
+            list_filter = ("school", "teachers")
+            return list_filter
+        else:
+            return self.list_filter
+
+    def get_list_display(self, request):
+        if request.user.is_superuser:
+            list_display = ("label", "school", "teachers_list")
+            return list_display
+        else:
+            return self.list_display
+
+    search_fields = ("label",)
+    ordering = ("label",)
 
     # filter results - teachers & headmasters can only see notes of classes they belong to
     def get_queryset(self, request):
@@ -300,6 +474,8 @@ class ClassroomAdmin(admin.ModelAdmin):
 
 
 class SchoolAdmin(admin.ModelAdmin):
+    admin_priority = 1
+
     formfield_overrides = {
         db_models.CharField: {"widget": Textarea(attrs={"rows": 3, "cols": 40})},
     }
@@ -311,8 +487,20 @@ class SchoolAdmin(admin.ModelAdmin):
             return qs
         return qs.filter(users__id=request.user.id)
 
+    def get_list_filter(self, request):
+        list_filter = ("name", "address", "cin")
+        return list_filter
+
+    def get_list_display(self, request):
+        list_display = ("name", "address", "cin", "is_subscriber")
+        return list_display
+
+    search_fields = ("name", "address", "cin")
+    ordering = ("name",)
+
 
 class AssessmentAdmin(admin.ModelAdmin):
+    admin_priority = 8
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
         qs = super(AssessmentAdmin, self).get_queryset(request)
@@ -357,6 +545,8 @@ class InvoiceItemInline(admin.TabularInline):
 
 
 class InvoiceAdmin(admin.ModelAdmin):
+    admin_priority = 2
+
     change_form_template = "invoice_admin_export.html"
 
     fields = [
@@ -402,6 +592,7 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 
 class ParameterAdmin(admin.ModelAdmin):
+    admin_priority = 9
     list_display = ["name", "value"]
 
 

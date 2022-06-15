@@ -142,8 +142,8 @@ class User(AbstractUser):
         return self.email
 
     class Meta:
-        verbose_name_plural = "Uživatelé"
-        verbose_name = "Uživatel"
+        verbose_name_plural = "Učitelé"
+        verbose_name = "Učitel"
 
 
 class Classroom(models.Model):

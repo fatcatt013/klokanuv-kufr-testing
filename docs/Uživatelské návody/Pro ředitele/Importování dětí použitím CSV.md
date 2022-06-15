@@ -13,9 +13,9 @@ Toto je návod pro ředitele školky, jak hromadně importovat děti pomocí sou
 4. Otevře se nám dialogové okno, kde vybereme náš CSV soubor. Pozor, soubor musí být ve formátu ***.csv*** (na samotném jménu nezáleží, na koncovce ***.csv*** ano).
 Samotný soubor musí spĺnět následující podmínky:  
 a) První řádek je vždy tento textový řetězec:
-***jméno|přijmení|datum narození|pohlaví|škola|třída***  
+***jméno,přijmení,datum narození,pohlaví,škola,třída***  
 , přičemž údaje v něm slouží jako názvy sloupců.  
-b) Také si můžeme všimnout, že jsou odděleny oddělovači "|" (svislice). Toto platí také při oddělování samotných hodnot, a musí být zachováno v celem CSV souboru.  
+b) Také si můžeme všimnout, že jsou odděleny oddělovači "," (čárka). Toto platí také při oddělování samotných hodnot, a musí být zachováno v celem CSV souboru. To, že tomu tak skutečně je, můžeme ověřit tak, že otevřeme CSV soubor v jednoduchém textovém editoru, kde uvidíme (případně můžeme hromadně změnit), zda je naším oddělovačem skutečne čárka. Také nesmíme zapomenout, že žádné z našich hodnot ani názvů sloupců nesmí obsahovat čárku.  
 c) Jak vyplnit samotná data (což jsou 2. řádek a další) pro první dva sloupce v CSV je celkom zřejmé, vyplníme jméno a přijmení.  
 d) U sloupečku ***datum narození*** si musíme dávat pozor na to, aby datum byl ve formátu ***YYYY-MM-DD***, tedy například ***2018-02-20***  
 e) Do sloupečku ***pohlaví*** vkládáme pouze hodnoty ***M*** (male-muž) nebo ***F*** (female-žena)  
