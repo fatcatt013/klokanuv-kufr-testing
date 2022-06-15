@@ -1,3 +1,5 @@
+import sys
+
 from allauth.socialaccount.models import (
     EmailAddress,
     SocialAccount,
@@ -8,16 +10,18 @@ from django.apps import apps
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
-from django.forms import Textarea, ValidationError
-from django.db import models as db_models
-from django_object_actions import DjangoObjectActions
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
-from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
-from django.contrib.auth.signals import user_logged_in
+from django.core.exceptions import ObjectDoesNotExist
+from django.db import models as db_models
+from django.forms import Textarea, ValidationError
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.utils.safestring import mark_safe
-from . import models, forms
+from django.contrib.auth.signals import user_logged_in
+from django_object_actions import DjangoObjectActions
+from invitations.admin import Invitation
+from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
+
 
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
@@ -596,6 +600,38 @@ class ParameterAdmin(admin.ModelAdmin):
     list_display = ["name", "value"]
 
 
+class InvitationAdmin(DefaultInvitationAdmin):
+
+    list_display = ("email", "sent", "accepted", "school", "group")
+
+    def save_model(self, request, obj, form, change):
+        obj.inviter = request.user
+        obj.group = form.cleaned_data.get("group")
+        super().save_model(request, obj, form, change)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "school":
+            if request.user.is_superuser:
+                kwargs["queryset"] = models.School.objects.all()
+            else:
+                kwargs["queryset"] = models.School.objects.filter(
+                    id=request.user.school.id
+                )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        if not request.user.is_superuser:
+            form.base_fields["school"].initial = request.user.school
+        return form
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(inviter=request.user)
+
+
 admin.site.register(models.User, CustomUserAdmin)
 admin.site.register(models.School, SchoolAdmin)
 admin.site.register(models.Classroom, ClassroomAdmin)
@@ -612,3 +648,6 @@ admin.site.unregister(SocialAccount)
 admin.site.unregister(SocialApp)
 admin.site.unregister(EmailAddress)
 admin.site.unregister(Site)
+
+admin.site.unregister(Invitation)
+admin.site.register(Invitation, InvitationAdmin)
