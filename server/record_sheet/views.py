@@ -262,8 +262,24 @@ class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        notes = [
+            {
+                "note": note.note,
+                "date": note.created_at.strftime("%d. %m. %Y"),
+                "teacher": f"{note.created_by.first_name} {note.created_by.last_name}",
+            }
+            for note in self.object.notes.all()
+        ]
+        if len(notes) < 10:
+            notes.extend(
+                [{"note": " ", "date": " ", "teacher": " "}] * (10 - len(notes))
+            )
+        context["notes"] = notes
         context["teachers"] = ", ".join(
-            [f"{teacher.email}" for teacher in self.object.classroom.teachers.all()]
+            [
+                f"{teacher.first_name} {teacher.last_name}"
+                for teacher in self.object.classroom.teachers.all()
+            ]
         )
 
         categorized = defaultdict(lambda: defaultdict(dict))
