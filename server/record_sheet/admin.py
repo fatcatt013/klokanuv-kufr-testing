@@ -21,7 +21,7 @@ from django.contrib.auth.signals import user_logged_in
 from django_object_actions import DjangoObjectActions
 from invitations.admin import Invitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
-
+from . import forms, models
 
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
