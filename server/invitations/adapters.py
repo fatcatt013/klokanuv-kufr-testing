@@ -1,10 +1,10 @@
 from django.conf import settings
 from django.contrib import messages
-from django.core.mail import EmailMessage
-from django.core.mail import EmailMultiAlternatives
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.template import TemplateDoesNotExist
 from django.template.loader import render_to_string
 from django.utils.encoding import force_str
+from record_sheet import models
 
 from .app_settings import app_settings
 from .utils import import_attribute
@@ -61,6 +61,7 @@ class BaseInvitationsAdapter:
                 bodies["html"],
                 settings.DEFAULT_FROM_EMAIL,
                 [email],
+                reply_to=models.Parameter.objects.get(name="luzanky_email"),
             )
             msg.content_subtype = "html"  # Main content is now text/html
         return msg

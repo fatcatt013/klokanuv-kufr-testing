@@ -33,24 +33,22 @@
 
     <table style="border: 1px solid darkgray; padding: 6px 3px 2px 3px">
         <tr style="background-color: #9b9c9f; color: white">
+            <th colspan="5">Poznámka</th>
             <th>Datum</th>
             <th colspan="2">Pedagog</th>
-            <th colspan="5">Poznámka</th>
         </tr>
-        {% for note in child.notes.all %}
+        {% for note in notes %}
             {% if forloop.counter|divisibleby:2 %}
                 <tr style="padding-top: 4px; background-color: #f3f3f3">
-                    <td>{{note.created_at | date:"d. m. Y"}}</td>
-                    <td colspan="2">{{note.created_by.first_name}}
-                        {{note.created_by.last_name}}</td>
                     <td colspan="5">{{note.note}}</td>
+                    <td>{{note.date}}</td>
+                    <td colspan="2">{{note.teacher}}</td>
                 </tr>
             {% else %}
                 <tr style="padding-top: 4px">
-                    <td>{{note.created_at | date:"d. m. Y"}}</td>
-                    <td colspan="2">{{note.created_by.first_name}}
-                        {{note.created_by.last_name}}</td>
                     <td colspan="5">{{note.note}}</td>
+                    <td>{{note.date}}</td>
+                    <td colspan="2">{{note.teacher}}</td>
                 </tr>
             {% endif %}
         {% endfor %}

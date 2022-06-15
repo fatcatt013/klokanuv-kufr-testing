@@ -11,6 +11,9 @@ class Command(BaseCommand):
         models.Parameter.objects.create(name="luzanky_web", value="www.luzanky.cz")
         models.Parameter.objects.create(name="luzanky_tel", value="+420545211336")
         models.Parameter.objects.create(
+            name="luzanky_email", value="luzanky@luzanky.cz"
+        )
+        models.Parameter.objects.create(
             name="luzanky_address", value="Lidická 1880/50 6020 Brno"
         )
         models.Parameter.objects.create(
