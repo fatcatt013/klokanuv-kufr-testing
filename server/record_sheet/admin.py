@@ -10,6 +10,7 @@ from django.apps import apps
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django.contrib.auth.signals import user_logged_in
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models as db_models
@@ -17,12 +18,12 @@ from django.forms import Textarea, ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.safestring import mark_safe
-from django.contrib.auth.signals import user_logged_in
 from django_object_actions import DjangoObjectActions
-from invitations.admin import Invitation
+from invitations.admin import Invitation as DefaultInvitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
-from . import forms, models
+from invitations.models import Invitation
 
+from . import forms, models
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
 
@@ -119,6 +120,8 @@ class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
             ",".join([g.name for g in obj.groups.all()]) if obj.groups.count() else ""
         )
 
+    display_group.short_description = "pozice"
+
     def get_queryset(self, request):
         qs = super(CustomUserAdmin, self).get_queryset(request)
         if not request.user.is_superuser:
@@ -152,10 +155,10 @@ class ChildNoteAdmin(admin.ModelAdmin):
             list_filter = (
                 "child",
                 "note",
-                "created_at",
-                "updated_at",
-                "updated_by",
                 "created_by",
+                "created_at",
+                "updated_by",
+                "updated_at",
             )
             return list_filter
 
@@ -163,10 +166,10 @@ class ChildNoteAdmin(admin.ModelAdmin):
             list_filter = (
                 "child",
                 "note",
-                "created_at",
-                "updated_at",
-                "updated_by",
                 "created_by",
+                "created_at",
+                "updated_by",
+                "updated_at",
             )
             return list_filter
 
@@ -174,10 +177,10 @@ class ChildNoteAdmin(admin.ModelAdmin):
             list_filter = (
                 "child",
                 "note",
-                "created_at",
-                "updated_at",
-                "updated_by",
                 "created_by",
+                "created_at",
+                "updated_by",
+                "updated_at",
             )
             return list_filter
 
@@ -186,10 +189,10 @@ class ChildNoteAdmin(admin.ModelAdmin):
             list_display = (
                 "child",
                 "note",
-                "created_at",
-                "updated_at",
-                "updated_by",
                 "created_by",
+                "created_at",
+                "updated_by",
+                "updated_at",
             )
             return list_display
 
@@ -197,10 +200,10 @@ class ChildNoteAdmin(admin.ModelAdmin):
             list_display = (
                 "child",
                 "note",
-                "created_at",
-                "updated_at",
-                "updated_by",
                 "created_by",
+                "created_at",
+                "updated_by",
+                "updated_at",
             )
             return list_display
 
@@ -208,10 +211,10 @@ class ChildNoteAdmin(admin.ModelAdmin):
             list_display = (
                 "child",
                 "note",
-                "created_at",
-                "updated_at",
-                "updated_by",
                 "created_by",
+                "created_at",
+                "updated_by",
+                "updated_at",
             )
             return list_display
 
@@ -250,10 +253,10 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
     def get_list_filter(self, request):
         list_filter = (
             "classroom",
-            "created_at",
-            "updated_at",
-            "updated_by",
             "created_by",
+            "created_at",
+            "updated_by",
+            "updated_at",
         )
         return list_filter
 
@@ -261,10 +264,10 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
         list_display = (
             "classroom",
             "note",
-            "created_at",
-            "updated_at",
-            "updated_by",
             "created_by",
+            "created_at",
+            "updated_by",
+            "updated_at",
         )
         return list_display
 
@@ -436,6 +439,8 @@ class ClassroomAdmin(admin.ModelAdmin):
     def teachers_list(self, obj):
         return ", ".join([item.email for item in obj.teachers.all()])
 
+    teachers_list.short_description = "seznam učitelů"
+
     def get_list_filter(self, request):
         if request.user.is_superuser:
             list_filter = ("school", "teachers")
@@ -484,6 +489,15 @@ class SchoolAdmin(admin.ModelAdmin):
         db_models.CharField: {"widget": Textarea(attrs={"rows": 3, "cols": 40})},
     }
 
+    def save_model(self, request, obj, form, change):
+        if "is_subscriber" in form.changed_data and not obj.is_subscriber:
+            params = {
+                param.name: param.value for param in models.Parameter.objects.all()
+            }
+            models.Invoice.objects.create_invoice(obj, params)
+            obj.is_prepaid = True
+        super().save_model(request, obj, form, change)
+
     # filter results - teachers & headmasters can only see school they belong to
     def get_queryset(self, request):
         qs = super(SchoolAdmin, self).get_queryset(request)
@@ -505,6 +519,9 @@ class SchoolAdmin(admin.ModelAdmin):
 
 class AssessmentAdmin(admin.ModelAdmin):
     admin_priority = 8
+
+    list_display = ["task", "child", "option"]
+
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
         qs = super(AssessmentAdmin, self).get_queryset(request)
@@ -649,5 +666,5 @@ admin.site.unregister(SocialApp)
 admin.site.unregister(EmailAddress)
 admin.site.unregister(Site)
 
-admin.site.unregister(Invitation)
+admin.site.unregister(DefaultInvitation)
 admin.site.register(Invitation, InvitationAdmin)

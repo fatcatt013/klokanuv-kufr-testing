@@ -276,10 +276,7 @@ class ChildPdfView(PermissionRequiredMixin, PdfMixin, DetailView):
             )
         context["notes"] = notes
         context["teachers"] = ", ".join(
-            [
-                f"{teacher.first_name} {teacher.last_name}"
-                for teacher in self.object.classroom.teachers.all()
-            ]
+            [f"{teacher.email}" for teacher in self.object.classroom.teachers.all()]
         )
 
         categorized = defaultdict(lambda: defaultdict(dict))
