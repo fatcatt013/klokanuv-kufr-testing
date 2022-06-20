@@ -229,8 +229,8 @@ class Assessment(models.Model):
     assessed_by = models.ForeignKey(
         User, on_delete=models.PROTECT, verbose_name="Hodnotící"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Vytvořeno")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Aktualizováno")
 
     def __str__(self):
         return "%s | %s | %s" % (self.task, self.child, self.option)

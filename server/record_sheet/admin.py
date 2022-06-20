@@ -527,7 +527,17 @@ class SchoolAdmin(admin.ModelAdmin):
 class AssessmentAdmin(admin.ModelAdmin):
     admin_priority = 8
 
-    list_display = ["task", "child", "option"]
+    list_display = ["task", "child", "option", "created_at"]
+
+    list_filter = [
+        "task",
+        "child",
+        "option",
+        "created_at",
+        "assessed_by",
+        "created_at",
+        "updated_at",
+    ]
 
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
