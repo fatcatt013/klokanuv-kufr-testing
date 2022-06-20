@@ -530,13 +530,9 @@ class AssessmentAdmin(admin.ModelAdmin):
     list_display = ["task", "child", "option", "created_at"]
 
     list_filter = [
-        "child",
+        "child__classroom",
         "created_at",
-        "task",
-        "option",
-        "created_at",
-        "assessed_by",
-        "updated_at",
+        "task__subcategory__parent_category",
     ]
 
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
@@ -568,9 +564,6 @@ class AssessmentAdmin(admin.ModelAdmin):
         return False
 
     def has_add_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
         return False
 
 
