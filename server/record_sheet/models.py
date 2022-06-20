@@ -80,6 +80,7 @@ class School(models.Model):
     is_prepaid = models.BooleanField(
         default=False, verbose_name="Faktura vystavena dříve"
     )
+    is_in_demo = models.BooleanField(default=False, verbose_name="Pouze demo verze")
 
     def __str__(self):
         return self.name
@@ -181,6 +182,7 @@ class Child(models.Model):
     birthdate = models.DateField(verbose_name="Datum narození")
     classroom = models.ForeignKey(
         Classroom,
+        null=True,
         related_name="children",
         on_delete=models.CASCADE,
         verbose_name="Třída",
