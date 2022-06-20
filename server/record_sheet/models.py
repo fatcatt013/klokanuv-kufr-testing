@@ -183,6 +183,7 @@ class Child(models.Model):
     classroom = models.ForeignKey(
         Classroom,
         null=True,
+        blank=True,
         related_name="children",
         on_delete=models.CASCADE,
         verbose_name="Třída",
@@ -208,7 +209,11 @@ class Child(models.Model):
         verbose_name = "Dítě"
 
     def __str__(self):
-        return "%s %s, %s" % (self.first_name, self.last_name, self.classroom)
+        return "%s %s, %s" % (
+            self.first_name,
+            self.last_name,
+            self.classroom or "--------",
+        )
 
 
 class Assessment(models.Model):
