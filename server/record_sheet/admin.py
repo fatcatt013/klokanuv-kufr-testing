@@ -481,6 +481,13 @@ class ClassroomAdmin(admin.ModelAdmin):
                 )
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
+    def has_delete_permission(self, request, obj=None):
+
+        if obj and obj.children.exists():
+            return False
+
+        return super().has_delete_permission(request, obj)
+
 
 class SchoolAdmin(admin.ModelAdmin):
     admin_priority = 1
