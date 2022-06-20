@@ -530,12 +530,12 @@ class AssessmentAdmin(admin.ModelAdmin):
     list_display = ["task", "child", "option", "created_at"]
 
     list_filter = [
-        "task",
         "child",
+        "created_at",
+        "task",
         "option",
         "created_at",
         "assessed_by",
-        "created_at",
         "updated_at",
     ]
 
