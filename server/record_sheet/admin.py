@@ -22,6 +22,7 @@ from django_object_actions import DjangoObjectActions
 from invitations.admin import Invitation as DefaultInvitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
 from invitations.models import Invitation
+from django.utils import timezone
 
 from . import forms, models
 
@@ -585,7 +586,6 @@ class InvoiceAdmin(admin.ModelAdmin):
         "school",
         "note",
         "created_at",
-        "paid_at",
         "total_price",
         "is_paid",
     ]
@@ -608,6 +608,14 @@ class InvoiceAdmin(admin.ModelAdmin):
         "created_at",
         "total_price",
     ]
+
+    def save_model(self, request, obj, form, change):
+        if "is_paid" in form.changed_data:
+            if obj.is_paid:
+                obj.paid_at = timezone.now()
+            else:
+                obj.paid_at = None
+        super().save_model(request, obj, form, change)
 
     def get_queryset(self, request):
         qs = super().get_queryset(request)
