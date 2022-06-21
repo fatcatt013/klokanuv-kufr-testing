@@ -118,9 +118,8 @@ ROOT_URLCONF = "klokan.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # "DIRS": [os.path.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
-        "DIRS": [BASE_DIR / "templates"],  # todo
+        "DIRS": [BASE_DIR / "templates"],
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",

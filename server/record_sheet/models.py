@@ -1,6 +1,10 @@
+import time
+from datetime import timedelta
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class Category(models.Model):
@@ -69,10 +73,11 @@ class Task(models.Model):
 
 
 class School(models.Model):
-    name = models.CharField("name", max_length=100)
-    address = models.CharField("address", max_length=250, blank=True)
+    name = models.CharField(max_length=100, verbose_name="název")
+    address = models.CharField(max_length=250, blank=True, verbose_name="adresa")
     cin = models.IntegerField("IČO", null=True)
     is_subscriber = models.BooleanField(default=True, verbose_name="Odběratel")
+    is_in_demo = models.BooleanField(default=False, verbose_name="Pouze demo verze")
 
     def __str__(self):
         return self.name
@@ -119,7 +124,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     # email instead of username
     username = None
-    email = models.EmailField(("email address"), unique=True)
+    email = models.EmailField(unique=True, verbose_name="e-mailová adresa")
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
@@ -139,11 +144,13 @@ class User(AbstractUser):
     )
 
     def __str__(self):
+        if self.first_name and self.last_name:
+            return f"{self.first_name} {self.last_name}"
         return self.email
 
     class Meta:
-        verbose_name_plural = "Uživatelé"
-        verbose_name = "Uživatel"
+        verbose_name_plural = "Učitelé"
+        verbose_name = "Učitel"
 
 
 class Classroom(models.Model):
@@ -174,6 +181,8 @@ class Child(models.Model):
     birthdate = models.DateField(verbose_name="Datum narození")
     classroom = models.ForeignKey(
         Classroom,
+        null=True,
+        blank=True,
         related_name="children",
         on_delete=models.CASCADE,
         verbose_name="Třída",
@@ -199,7 +208,11 @@ class Child(models.Model):
         verbose_name = "Dítě"
 
     def __str__(self):
-        return "%s %s, %s" % (self.first_name, self.last_name, self.classroom)
+        return "%s %s, %s" % (
+            self.first_name,
+            self.last_name,
+            self.classroom or "--------",
+        )
 
 
 class Assessment(models.Model):
@@ -215,8 +228,8 @@ class Assessment(models.Model):
     assessed_by = models.ForeignKey(
         User, on_delete=models.PROTECT, verbose_name="Hodnotící"
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Vytvořeno")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Aktualizováno")
 
     def __str__(self):
         return "%s | %s | %s" % (self.task, self.child, self.option)
@@ -231,19 +244,21 @@ class ChildNote(models.Model):
         Child, related_name="notes", on_delete=models.CASCADE, verbose_name="Dítě"
     )
     note = models.TextField(verbose_name="Poznámka")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="vytvořeno")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="aktualizováno")
     updated_by = models.ForeignKey(
         User,
         related_name="child_note_updated_by",
         on_delete=models.PROTECT,
         editable=False,
+        verbose_name="aktualizoval(a)",
     )
     created_by = models.ForeignKey(
         User,
         related_name="child_note_created_by",
         on_delete=models.PROTECT,
         editable=False,
+        verbose_name="vytvořil(a)",
     )
 
     def __str__(self):
@@ -262,19 +277,21 @@ class ClassroomNote(models.Model):
         verbose_name="Třída",
     )
     note = models.TextField(verbose_name="Poznámka")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="vytvořeno")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="aktualizováno")
     updated_by = models.ForeignKey(
         User,
         related_name="clsrm_note_updated_by",
         on_delete=models.PROTECT,
         editable=False,
+        verbose_name="aktualizoval(a)",
     )
     created_by = models.ForeignKey(
         User,
         related_name="clsrm_note_created_by",
         on_delete=models.PROTECT,
         editable=False,
+        verbose_name="vytvořil(a)",
     )
 
     def __str__(self):
@@ -286,7 +303,49 @@ class ClassroomNote(models.Model):
 
 
 class InvoiceManager(models.Manager):
-    pass
+    def create_invoice(self, school, params):
+        """
+        Create and save a Invoice with given parameters.
+        """
+
+        invoice = school.invoices.create(
+            note=params["invoice_note"],
+            created_at=timezone.now(),
+            due_date=timezone.now() + timedelta(days=14),
+            serial_number=int(
+                params["invoice_number_prefix"]
+                + time.strftime("%y", time.localtime())
+                + str(Invoice.objects.count() + 1).zfill(4)
+            ),
+        )
+        vat_rate = float(params["vat_rate"])
+        unit_price_app = float(params["unit_price_app"])
+        item_app = invoice.items.create(
+            title="provoz aplikace",
+            amount=1,
+            vat_rate=vat_rate,
+            unit_price=unit_price_app,
+            total_vat=unit_price_app * vat_rate,
+            base_price=unit_price_app,
+            total_price=unit_price_app + unit_price_app * vat_rate,
+        )
+        num_children = school.children.count()
+        unit_price_children = float(params["unit_price_children"])
+        item_children = invoice.items.create(
+            title="evidované děti",
+            amount=num_children,
+            vat_rate=vat_rate,
+            unit_price=unit_price_children,
+            total_vat=unit_price_children * num_children * vat_rate,
+            base_price=unit_price_children * num_children,
+            total_price=unit_price_children * num_children
+            + unit_price_children * num_children * vat_rate,
+        )
+        invoice.base_price = item_app.base_price + item_children.base_price
+        invoice.total_vat = item_app.total_vat + item_children.total_vat
+        invoice.total_price = item_app.total_price + item_children.total_price
+        invoice.save()
+        return invoice
 
 
 class Invoice(models.Model):

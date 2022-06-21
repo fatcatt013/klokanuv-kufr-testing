@@ -6,28 +6,78 @@ from allauth.socialaccount.models import (
     SocialApp,
     SocialToken,
 )
+from django.apps import apps
 from django.contrib import admin, messages
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django.contrib.auth.signals import user_logged_in
 from django.contrib.sites.models import Site
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models as db_models
 from django.forms import Textarea, ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django_object_actions import DjangoObjectActions
-from invitations.admin import Invitation
+from invitations.admin import Invitation as DefaultInvitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
+from invitations.models import Invitation
 
 from . import forms, models
+from .filters import ClassroomListFilter
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
 
+
+def logged_in_message(sender, user, request, **kwargs):
+    """
+    Add a welcome message when the user logs in
+    """
+    messages.info(
+        request,
+        mark_safe(
+            "Vítejte v administraci aplikace Klokanův Kufr. Dokumentaci najdete <a href='http://localhost:8888'>na tomto odkazu</a>"
+        ),
+    )
+
+
+user_logged_in.connect(logged_in_message)
+
+
+# credits to https://forum.djangoproject.com/t/reordering-list-of-models-in-django-admin/5300 for elegant solution
+class BasePriorityAdmin(admin.ModelAdmin):
+    # any new model that gets added will be at the end, unless this variable is changed in it's class
+    admin_priority = 99
+
+
+# credits to https://forum.djangoproject.com/t/reordering-list-of-models-in-django-admin/5300 for elegant solution
+def get_app_list(self, request):
+    app_dict = self._build_app_dict(request)
+    from django.contrib.admin.sites import site
+
+    for app_name in app_dict.keys():
+        app = app_dict[app_name]
+        model_priority = {
+            model["object_name"]: getattr(
+                site._registry[apps.get_model(app_name, model["object_name"])],
+                "admin_priority",
+                20,
+            )
+            for model in app["models"]
+        }
+        app["models"].sort(key=lambda x: model_priority[x["object_name"]])
+        yield app
+
+
+admin.AdminSite.get_app_list = get_app_list
+
+
 # replacing username with email
-class CustomUserAdmin(UserAdmin):
+class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
+    admin_priority = 3
     model = models.User
-    list_display = ("email", "display_group", "is_superuser", "is_active")
+    list_display = ("email", "full_name", "display_group", "is_superuser", "is_active")
     list_filter = ("email", "groups__name", "is_superuser", "is_active")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -63,6 +113,13 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ("email",)
     ordering = ("email",)
 
+    def full_name(self, obj):
+        if obj.first_name and obj.last_name:
+            return f"{obj.first_name} {obj.last_name}"
+        return "-"
+
+    full_name.short_description = "Jméno a příjmení"
+
     # display group(s) when showing / editing / creating users
     def display_group(self, obj):
         """
@@ -72,6 +129,8 @@ class CustomUserAdmin(UserAdmin):
             ",".join([g.name for g in obj.groups.all()]) if obj.groups.count() else ""
         )
 
+    display_group.short_description = "pozice"
+
     def get_queryset(self, request):
         qs = super(CustomUserAdmin, self).get_queryset(request)
         if not request.user.is_superuser:
@@ -80,6 +139,8 @@ class CustomUserAdmin(UserAdmin):
 
 
 class ChildNoteAdmin(admin.ModelAdmin):
+    admin_priority = 7
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
@@ -96,8 +157,72 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 kwargs["queryset"] = models.Child.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+    def get_list_filter(self, request):
+        if request.user.is_superuser:
+            list_filter = (
+                "child",
+                "note",
+                "created_by",
+                "created_at",
+            )
+            return list_filter
+
+        if request.user.groups.filter(name="Headmasters").exists():
+            list_filter = (
+                "child",
+                "note",
+                "created_by",
+                "created_at",
+            )
+            return list_filter
+
+        elif request.user.groups.filter(name="Teachers").exists():
+            list_filter = (
+                "child",
+                "note",
+                "created_by",
+                "created_at",
+            )
+            return list_filter
+
+    def get_list_display(self, request):
+        if request.user.is_superuser:
+            list_display = (
+                "child",
+                "note",
+                "created_by",
+                "created_at",
+            )
+            return list_display
+
+        if request.user.groups.filter(name="Headmasters").exists():
+            list_display = (
+                "child",
+                "note",
+                "created_by",
+                "created_at",
+            )
+            return list_display
+
+        elif request.user.groups.filter(name="Teachers").exists():
+            list_display = (
+                "child",
+                "note",
+                "created_by",
+                "created_at",
+            )
+            return list_display
+
+    search_fields = (
+        "child",
+        "note",
+    )
+    ordering = ("child",)
+
 
 class ClassroomNoteAdmin(admin.ModelAdmin):
+    admin_priority = 6
+
     def save_model(self, request, obj, form, change):
         if not obj.id:
             obj.created_by = request.user
@@ -120,13 +245,60 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
                 kwargs["queryset"] = models.Classroom.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
+    def get_list_filter(self, request):
+        list_filter = (
+            "classroom",
+            "created_by",
+            "created_at",
+        )
+        return list_filter
+
+    def get_list_display(self, request):
+        list_display = (
+            "classroom",
+            "note",
+            "created_by",
+            "created_at",
+        )
+        return list_display
+
+    search_fields = (
+        "classroom",
+        "note",
+    )
+    ordering = ("classroom",)
+
 
 class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
+    admin_priority = 5
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 40})},
     }
 
     change_form_template = "child_admin_export.html"
+
+    list_display = [
+        "full_name",
+        "birthdate",
+        "classroom",
+        "school",
+        "gender",
+    ]
+
+    list_filter = [
+        ClassroomListFilter,
+        "birthdate",
+        "gender",
+    ]
+
+    search_fields = [
+        "birthdate",
+    ]
+
+    def full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+
+    full_name.short_description = "Jméno a příjmení"
 
     # filter results - teachers & headmasters can only see children if they belong to the same class
     def get_queryset(self, request):
@@ -160,11 +332,11 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
 
             file_data = csv_file.read().decode("utf-8")
             csv_data = file_data.split("\n")
-            if csv_data.pop(0) != "jméno|přijmení|datum narození|pohlaví|škola|třída":
+            if csv_data.pop(0) != "jméno,přijmení,datum narození,pohlaví,škola,třída":
                 messages.error(
                     request,
                     """Nesprávný formát CSV - první řádek musí obsahovat názvy sloupců: \
-                        jméno|přijmení|datum narození|pohlaví|škola|třída . Žádné nové záznamy se neuložili.""",
+                        jméno,přijmení,datum narození,pohlaví,škola,třída . Žádné nové záznamy se neuložili.""",
                 )
                 return HttpResponseRedirect(request.path_info)
 
@@ -178,10 +350,10 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
                     ending_empty_lines = False
 
             # count number of fields of first row, then make sure that each row has same no. of fields
-            reference_no_of_fields = len(csv_data[0].split("|"))
+            reference_no_of_fields = len(csv_data[0].split(","))
             children_to_add = []
             for x in csv_data:
-                fields = x.split("|")
+                fields = x.split(",")
                 if len(fields) != reference_no_of_fields:
                     messages.error(
                         request,
@@ -273,9 +445,32 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
 
 
 class ClassroomAdmin(admin.ModelAdmin):
+    admin_priority = 4
     formfield_overrides = {
         db_models.TextField: {"widget": Textarea(attrs={"rows": 1, "cols": 20})},
     }
+
+    def teachers_list(self, obj):
+        return ", ".join([item.__str__() for item in obj.teachers.all()])
+
+    teachers_list.short_description = "seznam učitelů"
+
+    def get_list_filter(self, request):
+        if request.user.is_superuser:
+            list_filter = ("school", "teachers")
+            return list_filter
+        else:
+            return self.list_filter
+
+    def get_list_display(self, request):
+        if request.user.is_superuser:
+            list_display = ("label", "school", "teachers_list")
+            return list_display
+        else:
+            return self.list_display
+
+    search_fields = ("label",)
+    ordering = ("label",)
 
     # filter results - teachers & headmasters can only see notes of classes they belong to
     def get_queryset(self, request):
@@ -300,11 +495,29 @@ class ClassroomAdmin(admin.ModelAdmin):
                 )
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
+    def has_delete_permission(self, request, obj=None):
+
+        if obj and obj.children.exists():
+            return False
+
+        return super().has_delete_permission(request, obj)
+
 
 class SchoolAdmin(admin.ModelAdmin):
+    admin_priority = 1
+
     formfield_overrides = {
         db_models.CharField: {"widget": Textarea(attrs={"rows": 3, "cols": 40})},
     }
+
+    def save_model(self, request, obj, form, change):
+        if "is_subscriber" in form.changed_data and not obj.is_subscriber:
+            params = {
+                param.name: param.value for param in models.Parameter.objects.all()
+            }
+            models.Invoice.objects.create_invoice(obj, params)
+            obj.is_prepaid = True
+        super().save_model(request, obj, form, change)
 
     # filter results - teachers & headmasters can only see school they belong to
     def get_queryset(self, request):
@@ -313,8 +526,33 @@ class SchoolAdmin(admin.ModelAdmin):
             return qs
         return qs.filter(users__id=request.user.id)
 
+    def get_list_filter(self, request):
+        list_filter = ("name", "address", "cin")
+        return list_filter
+
+    def get_list_display(self, request):
+        list_display = ("name", "address", "cin", "is_subscriber")
+        return list_display
+
+    search_fields = ("name", "address", "cin")
+    ordering = ("name",)
+
 
 class AssessmentAdmin(admin.ModelAdmin):
+    admin_priority = 8
+
+    list_display = ["task", "child", "option", "assessed_by", "created_at"]
+
+    list_filter = [
+        "child__classroom",
+        "created_at",
+        "task__subcategory__parent_category",
+    ]
+
+    search_fields = [
+        "task__subcategory__parent_category",
+    ]
+
     # filter results - teachers & headmasters can only see assessments of children from classes they belong to as well
     def get_queryset(self, request):
         qs = super(AssessmentAdmin, self).get_queryset(request)
@@ -346,9 +584,6 @@ class AssessmentAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
 
 class InvoiceItemInline(admin.TabularInline):
     model = models.InvoiceItem
@@ -359,6 +594,8 @@ class InvoiceItemInline(admin.TabularInline):
 
 
 class InvoiceAdmin(admin.ModelAdmin):
+    admin_priority = 2
+
     change_form_template = "invoice_admin_export.html"
 
     fields = [
@@ -366,12 +603,18 @@ class InvoiceAdmin(admin.ModelAdmin):
         "school",
         "note",
         "created_at",
-        "paid_at",
         "total_price",
         "is_paid",
     ]
     list_display = [
         "serial_number",
+        "school",
+        "created_at",
+        "paid_at",
+        "total_price",
+        "is_paid",
+    ]
+    list_filter = [
         "school",
         "created_at",
         "paid_at",
@@ -390,6 +633,14 @@ class InvoiceAdmin(admin.ModelAdmin):
         "total_price",
     ]
 
+    def save_model(self, request, obj, form, change):
+        if "is_paid" in form.changed_data:
+            if obj.is_paid:
+                obj.paid_at = timezone.now()
+            else:
+                obj.paid_at = None
+        super().save_model(request, obj, form, change)
+
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
@@ -404,12 +655,15 @@ class InvoiceAdmin(admin.ModelAdmin):
 
 
 class ParameterAdmin(admin.ModelAdmin):
+    admin_priority = 9
     list_display = ["name", "value"]
 
 
 class InvitationAdmin(DefaultInvitationAdmin):
 
     list_display = ("email", "sent", "accepted", "school", "group")
+    list_filter = list_display
+    search_fields = ("email", "school", "group")
 
     def save_model(self, request, obj, form, change):
         obj.inviter = request.user
@@ -456,5 +710,5 @@ admin.site.unregister(SocialApp)
 admin.site.unregister(EmailAddress)
 admin.site.unregister(Site)
 
-admin.site.unregister(Invitation)
+admin.site.unregister(DefaultInvitation)
 admin.site.register(Invitation, InvitationAdmin)
