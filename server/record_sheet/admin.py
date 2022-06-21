@@ -286,7 +286,6 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     search_fields = [
         "birthdate",
-        "classroom",
     ]
 
     # filter results - teachers & headmasters can only see children if they belong to the same class
@@ -539,10 +538,6 @@ class AssessmentAdmin(admin.ModelAdmin):
     ]
 
     search_fields = [
-        "child",
-        "task",
-        "assessed_by",
-        "task__subcategory",
         "task__subcategory__parent_category",
     ]
 
