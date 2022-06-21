@@ -17,12 +17,12 @@ from django.db import models as db_models
 from django.forms import Textarea, ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django_object_actions import DjangoObjectActions
 from invitations.admin import Invitation as DefaultInvitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
 from invitations.models import Invitation
-from django.utils import timezone
 
 from . import forms, models
 
@@ -149,8 +149,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 kwargs["queryset"] = models.Child.objects.all()
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
-    # TODO: momentalne sa zobrazuju pre vsetky 3 urovne ako moznosti podla coho filtrovat uplne vsetky deti, ucitelia...
-    # treba to obmedzit na tie, ku ktorym ma user pristup
     def get_list_filter(self, request):
         if request.user.is_superuser:
             list_filter = (
@@ -158,8 +156,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 "note",
                 "created_by",
                 "created_at",
-                "updated_by",
-                "updated_at",
             )
             return list_filter
 
@@ -169,8 +165,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 "note",
                 "created_by",
                 "created_at",
-                "updated_by",
-                "updated_at",
             )
             return list_filter
 
@@ -180,8 +174,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 "note",
                 "created_by",
                 "created_at",
-                "updated_by",
-                "updated_at",
             )
             return list_filter
 
@@ -192,8 +184,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 "note",
                 "created_by",
                 "created_at",
-                "updated_by",
-                "updated_at",
             )
             return list_display
 
@@ -203,8 +193,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 "note",
                 "created_by",
                 "created_at",
-                "updated_by",
-                "updated_at",
             )
             return list_display
 
@@ -214,8 +202,6 @@ class ChildNoteAdmin(admin.ModelAdmin):
                 "note",
                 "created_by",
                 "created_at",
-                "updated_by",
-                "updated_at",
             )
             return list_display
 
@@ -256,8 +242,6 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
             "classroom",
             "created_by",
             "created_at",
-            "updated_by",
-            "updated_at",
         )
         return list_filter
 
@@ -267,8 +251,6 @@ class ClassroomNoteAdmin(admin.ModelAdmin):
             "note",
             "created_by",
             "created_at",
-            "updated_by",
-            "updated_at",
         )
         return list_display
 
@@ -286,6 +268,25 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     }
 
     change_form_template = "child_admin_export.html"
+
+    list_display = [
+        "first_name",
+        "last_name",
+        "birthdate",
+        "classroom",
+        "gender",
+    ]
+
+    list_filter = [
+        "birthdate",
+        "classroom",
+        "gender",
+    ]
+
+    search_fields = [
+        "birthdate",
+        "classroom",
+    ]
 
     # filter results - teachers & headmasters can only see children if they belong to the same class
     def get_queryset(self, request):
@@ -528,11 +529,19 @@ class SchoolAdmin(admin.ModelAdmin):
 class AssessmentAdmin(admin.ModelAdmin):
     admin_priority = 8
 
-    list_display = ["task", "child", "option", "created_at"]
+    list_display = ["task", "child", "option", "assessed_by", "created_at"]
 
     list_filter = [
         "child__classroom",
         "created_at",
+        "task__subcategory__parent_category",
+    ]
+
+    search_fields = [
+        "child",
+        "task",
+        "assessed_by",
+        "task__subcategory",
         "task__subcategory__parent_category",
     ]
 
@@ -597,6 +606,13 @@ class InvoiceAdmin(admin.ModelAdmin):
         "total_price",
         "is_paid",
     ]
+    list_filter = [
+        "school",
+        "created_at",
+        "paid_at",
+        "total_price",
+        "is_paid",
+    ]
     inlines = [
         InvoiceItemInline,
     ]
@@ -638,6 +654,8 @@ class ParameterAdmin(admin.ModelAdmin):
 class InvitationAdmin(DefaultInvitationAdmin):
 
     list_display = ("email", "sent", "accepted", "school", "group")
+    list_filter = list_display
+    search_fields = ("email", "school", "group")
 
     def save_model(self, request, obj, form, change):
         obj.inviter = request.user
