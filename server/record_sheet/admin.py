@@ -23,7 +23,7 @@ from django_object_actions import DjangoObjectActions
 from invitations.admin import Invitation as DefaultInvitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
 from invitations.models import Invitation
-
+from .filters import ClassroomListFilter
 from . import forms, models
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
@@ -274,12 +274,13 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
         "last_name",
         "birthdate",
         "classroom",
+        "school",
         "gender",
     ]
 
     list_filter = [
+        ClassroomListFilter,
         "birthdate",
-        "classroom",
         "gender",
     ]
 
