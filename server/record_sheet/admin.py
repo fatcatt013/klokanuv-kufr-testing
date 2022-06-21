@@ -23,8 +23,9 @@ from django_object_actions import DjangoObjectActions
 from invitations.admin import Invitation as DefaultInvitation
 from invitations.admin import InvitationAdmin as DefaultInvitationAdmin
 from invitations.models import Invitation
-from .filters import ClassroomListFilter
+
 from . import forms, models
+from .filters import ClassroomListFilter
 
 admin.site.site_header = "Administrace aplikace Klokanův Kufr"
 
@@ -76,7 +77,7 @@ admin.AdminSite.get_app_list = get_app_list
 class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
     admin_priority = 3
     model = models.User
-    list_display = ("email", "display_group", "is_superuser", "is_active")
+    list_display = ("email", "full_name", "display_group", "is_superuser", "is_active")
     list_filter = ("email", "groups__name", "is_superuser", "is_active")
     fieldsets = (
         (None, {"fields": ("email", "password")}),
@@ -111,6 +112,13 @@ class CustomUserAdmin(UserAdmin, admin.ModelAdmin):
     )
     search_fields = ("email",)
     ordering = ("email",)
+
+    def full_name(self, obj):
+        if obj.first_name and obj.last_name:
+            return f"{obj.first_name} {obj.last_name}"
+        return "-"
+
+    full_name.short_description = "Jméno a příjmení"
 
     # display group(s) when showing / editing / creating users
     def display_group(self, obj):
@@ -270,8 +278,7 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     change_form_template = "child_admin_export.html"
 
     list_display = [
-        "first_name",
-        "last_name",
+        "full_name",
         "birthdate",
         "classroom",
         "school",
@@ -287,6 +294,11 @@ class ChildAdmin(DjangoObjectActions, admin.ModelAdmin):
     search_fields = [
         "birthdate",
     ]
+
+    def full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+
+    full_name.short_description = "Jméno a příjmení"
 
     # filter results - teachers & headmasters can only see children if they belong to the same class
     def get_queryset(self, request):
@@ -439,7 +451,7 @@ class ClassroomAdmin(admin.ModelAdmin):
     }
 
     def teachers_list(self, obj):
-        return ", ".join([item.email for item in obj.teachers.all()])
+        return ", ".join([item.__str__() for item in obj.teachers.all()])
 
     teachers_list.short_description = "seznam učitelů"
 
