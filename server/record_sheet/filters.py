@@ -27,7 +27,10 @@ class ClassroomListFilter(admin.SimpleListFilter):
         in the right sidebar.
         """
         list_of_classrooms = []
-        queryset = Classroom.objects.all().filter(teachers=request.user.id)
+        if request.user.is_superuser:
+            queryset = Classroom.objects.all()
+        else:
+            queryset = Classroom.objects.all().filter(teachers=request.user.id)
         for classroom in queryset:
             list_of_classrooms.append((str(classroom.id), classroom.label))
         return sorted(list_of_classrooms, key=lambda tp: tp[1])
