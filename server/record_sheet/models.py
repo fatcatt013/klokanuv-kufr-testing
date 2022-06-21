@@ -77,9 +77,6 @@ class School(models.Model):
     address = models.CharField(max_length=250, blank=True, verbose_name="adresa")
     cin = models.IntegerField("IČO", null=True)
     is_subscriber = models.BooleanField(default=True, verbose_name="Odběratel")
-    is_prepaid = models.BooleanField(
-        default=False, verbose_name="Faktura vystavena dříve"
-    )
     is_in_demo = models.BooleanField(default=False, verbose_name="Pouze demo verze")
 
     def __str__(self):

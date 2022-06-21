@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 from record_sheet import models
 
 
@@ -11,8 +12,7 @@ class Command(BaseCommand):
 
         for school in models.School.objects.filter(is_subscriber=True):
 
-            if school.is_prepaid:
-                school.is_prepaid = False
-                school.save()
-            else:
+            if not school.invoices.filter(
+                created_at__range=[timezone.now().replace(day=1), timezone.now()]
+            ).exists():
                 models.Invoice.objects.create_invoice(school, params)
